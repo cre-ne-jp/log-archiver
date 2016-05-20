@@ -1,7 +1,8 @@
 class ChannelsController < ApplicationController
-  def show
+  def index
   end
 
-  def index
+  def show
+    @channel = Channel.find_by(params[:id])
   end
 end
