@@ -1,0 +1,23 @@
+<h1>チャンネル登録情報</h1>
+<table>
+  <tr>
+    <th>チャンネルID</th>
+    <td><%= @channel[:id] %></td>
+  </tr>
+  <tr>
+    <th>IRC上でのチャンネル名</th>
+    <td><%= @channel[:original] %></td>
+  </tr>
+  <tr>
+    <th>チャンネル同一性識別名</th>
+    <td><%= @channel[:downcase] %></td>
+  </tr>
+  <tr>
+    <th>データベース登録名</th>
+    <td><%= @channel[:alphabet] %></td>
+  </tr>
+  <tr>
+    <th>ログ取得状況</th>
+    <td><%= @channel[:enable] ? '取得中' : '取得停止中' %></td>
+  </tr>
+</table>

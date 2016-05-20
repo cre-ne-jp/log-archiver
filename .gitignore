@@ -8,6 +8,9 @@
 /.bundle
 /vendor/bundle/
 
+# Ignore config file.
+/config/
+
 # Ignore all logfiles and tempfiles.
 /log/*
 !/log/.keep
