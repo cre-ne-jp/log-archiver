@@ -1,2 +1,21 @@
-<h1>Channels#index</h1>
-<p>Find me in app/views/channels/index.html.erb</p>
+<h1>チャンネル一覧</h1>
+<p>現在 <%= @channels.size %> チャンネルが登録されています。</p>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>IRC上でのチャンネル名</th>
+    <th>チャンネル同一性識別名</th>
+    <th>データベース登録名</th>
+    <th>ログ取得状況</th>
+  </tr>
+<% @channels.each do |channel| %>
+  <tr>
+    <td><%= channel.id %></td>
+    <td><%= channel.original %></td>
+    <td><%= channel.downcase %></td>
+    <td><%= channel.alphabet %></td>
+    <td><%= channel.enable ? '取得中' : '停止中' %></td>
+  </tr>
+<% end %>
+</table>
+
