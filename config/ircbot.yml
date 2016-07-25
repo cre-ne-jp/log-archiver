@@ -1,0 +1,24 @@
+default: &default
+  # IRC ボットの設定
+  IRCBot:
+    Host: irc.example.net
+    Port: 6667
+    Password: pa$$word
+    Encoding: UTF-8
+    Nick: archiver
+    User: archiver
+    RealName: LogArchiver
+    Channels:
+      - ''
+
+development:
+  <<: *default
+  Host: test.irc.server
+  Channels:
+    - '#irc_test'
+
+test:
+  <<: *default
+
+production:
+  <<: *default
