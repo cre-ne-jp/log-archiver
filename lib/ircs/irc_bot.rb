@@ -1,3 +1,5 @@
+# vim: fileencoding=utf-8
+
 require 'cinch'
 require 'lumberjack'
 require 'optparse'
