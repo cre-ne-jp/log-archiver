@@ -1,6 +1,6 @@
-default: &default
+default:
   # IRC ボットの設定
-  IRCBot:
+  IRCBot: &default
     Host: irc.example.net
     Port: 6667
     Password: pa$$word
@@ -12,14 +12,17 @@ default: &default
       - ''
 
 development:
-  <<: *default
   IRCBot:
-    Host: test.irc.server
+    <<: *default
+    Host: irc.kazagakure.net
+    Password: null
     Channels:
-      - '#irc_test'
+      - '#koi-chan'
 
 test:
-  <<: *default
+  IRCBot:
+    <<: *default
 
 production:
-  <<: *default
+  IRCBot:
+    <<: *default
