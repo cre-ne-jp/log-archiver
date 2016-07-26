@@ -15,7 +15,6 @@ module Ircs
     # @param [Array<String>] argv コマンドライン引数の配列
     # @return [void]
     def run(root_path, argv)
-      puts "Exec Ircs::Exec.run!"
       @root_path = root_path
 
       options = parse_options(argv)
@@ -70,7 +69,7 @@ module Ircs
         opt.summary_width = 24
   
         opt.separator('')
-        opt.separator('汎用ボット RGRB - IRC ボット')
+        opt.separator('IRC Log Archiver (IRC ボット)')
   
         opt.separator('')
         opt.separator('オプション:')
