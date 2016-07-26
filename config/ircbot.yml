@@ -13,9 +13,10 @@ default: &default
 
 development:
   <<: *default
-  Host: test.irc.server
-  Channels:
-    - '#irc_test'
+  IRCBot:
+    Host: test.irc.server
+    Channels:
+      - '#irc_test'
 
 test:
   <<: *default

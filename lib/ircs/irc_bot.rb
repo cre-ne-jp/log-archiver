@@ -30,6 +30,10 @@ module Ircs
       set_signal_handler(bot)
       bot.start
 
+      record_channels.each do |ch|
+        bot.join(ch)
+      end
+
       @logger.warn('ボットは終了しました')
     end
 
@@ -130,6 +134,14 @@ module Ircs
 
       Dir.glob("#{@root_path}/app/models/*.rb").each do |file|
         require file
+      end
+    end
+
+    # ログを保存するチャンネルを抽出する
+    # @return[Array]
+    def record_channels
+      Channel.where(enable: true).pluck(:downcase).map do |channel|
+        "##{channel}"
       end
     end
 
