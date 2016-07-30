@@ -7,10 +7,11 @@ require 'sysexits'
 require 'active_record'
 require 'pp'
 
+require_relative '../../config/version'
 require_relative './config'
 
-module Ircs
-  module Exec
+module LogArchiver
+  module Ircs
     extend self
 
     # プログラムを実行する
@@ -18,6 +19,7 @@ module Ircs
     # @return [void]
     def run(root_path, argv)
       @root_path = root_path
+pp Application::VERSION
 
       options = parse_options(argv)
       config_id = options[:config_id]

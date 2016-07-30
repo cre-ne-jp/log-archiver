@@ -2,4 +2,4 @@
 
 require_relative '../lib/ircs/irc_bot'
 
-Ircs::Exec.run(File.expand_path('../../', __FILE__), ARGV)
+LogArchiver::Ircs.run(File.expand_path('../../', __FILE__), ARGV)

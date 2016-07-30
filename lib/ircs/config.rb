@@ -2,7 +2,7 @@
 
 require 'yaml'
 
-module Ircs
+module LogArchiver
   # IRC ボットの設定を表すクラス
   class Config
     # IRC ボットの設定のハッシュ
