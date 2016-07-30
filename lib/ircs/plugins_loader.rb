@@ -7,7 +7,7 @@ module LogArchiver
     # プラグインおよびそのアダプターの require を担うクラス
     class PluginsLoader
       # プラグインのルートディレクトリ
-      PLUGINS_ROOT_PATH = 'plugin'
+      PLUGINS_ROOT_PATH = 'plugins'
   
       # 新しい PluginsLoader インスタンスを返す
       # @param [Array<String>] plugin_names プラグインの名前
@@ -28,9 +28,9 @@ module LogArchiver
           rescue LoadError
             next nil
           end
-  
-          if RGRB::Plugin.const_defined?(class_name)
-            RGRB::Plugin.const_get(class_name)
+
+          if LogArchiver::Plugin.const_defined?(class_name)
+            LogArchiver::Plugin.const_get(class_name)
           else
             nil
           end

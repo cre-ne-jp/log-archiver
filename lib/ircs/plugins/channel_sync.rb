@@ -1,11 +1,14 @@
 # vim: fileencoding=utf-8
 
 module LogArchiver
-  module Plugins
+  module Plugin
     # DB からチャンネル情報を読み出し、設定と実際の接続状態を比較する
     # 必要なチャンネルに JOIN し、不要なチャンネルから PART する
     class ChannelSync
       include Cinch::Plugin
+
+      set(plugin_name: 'ChannelSync')
+
       # ログ取得が有効なチャンネル
       attr_reader :enable_channels
       # ログ取得が無効なチャンネル
@@ -30,7 +33,7 @@ module LogArchiver
         [enable, disable]
       end
 
-      def initialize
+      def initialize(bot)
         @enable_channels = []
         @disable_channels = []
       end

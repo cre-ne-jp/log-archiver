@@ -27,17 +27,13 @@ module LogArchiver
 
       @logger = new_logger(log_level)
       config = load_config(config_id, options[:mode])
-      plugins = load_plugins(%w(ChannelSync))
+      plugins = load_plugins(%w(ChannelSync SaveLog))
       setting_database(config.database_config)
 
       bot = new_bot(config, plugins, log_level)
 
       set_signal_handler(bot)
       bot.start
-
-      record_channels.each do |ch|
-        bot.join(ch)
-      end
 
       @logger.warn('ボットは終了しました')
     end
