@@ -10,10 +10,13 @@ module LogArchiver
 
       set(plugin_name: 'SaveLog')
 
-      match(:catchall, method: :catchall)
+      listen_to(:join, method: :join)
 
-      def catchall(m)
-pp m
+      # チャンネルに誰かが JOIN したとき
+      def join(m)
+        if m.user.to_s != bot.nick
+          # #{m.user} がJOINしたときの処理 
+        end
       end
     end
   end

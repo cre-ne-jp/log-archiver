@@ -14,12 +14,13 @@ module LogArchiver
       # ログ取得が無効なチャンネル
       attr_reader :disable_channels
 
-      match(:connect, method: :kickstart)
+      listen_to(:connect, method: :kickstart)
       timer(60, method: :kickstart)
 
       # 一定間隔で実行する
       # @return [void]
-      def kickstart
+      def kickstart(m)
+pp m
         @enable_channels, @disable_channels = load_channel_setting
 
         compare_channels(@enable_channels, @disable_channels)
@@ -33,7 +34,11 @@ module LogArchiver
         [enable, disable]
       end
 
-      def initialize(bot)
+      def initialize(*args)
+        super
+pp config.load_channels
+#        @database = config[:plugin]
+#pp @database.load_channels
         @enable_channels = []
         @disable_channels = []
       end

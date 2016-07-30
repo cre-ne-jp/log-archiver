@@ -4,12 +4,12 @@ require 'cinch'
 require 'lumberjack'
 require 'optparse'
 require 'sysexits'
-require 'active_record'
 require 'pp'
 
 require_relative '../../config/version'
 require_relative './config'
 require_relative './plugins_loader'
+require_relative './database'
 
 module LogArchiver
   module Ircs
@@ -28,7 +28,6 @@ module LogArchiver
       @logger = new_logger(log_level)
       config = load_config(config_id, options[:mode])
       plugins = load_plugins(%w(ChannelSync SaveLog))
-      setting_database(config.database_config)
 
       bot = new_bot(config, plugins, log_level)
 
@@ -147,25 +146,6 @@ module LogArchiver
       )
     end
 
-    # データベース接続を確立し、定義を読み込む
-    # @param [Hash] データベース接続に必要な設定情報
-    # @return [void]
-    def setting_database(config)
-      ActiveRecord::Base.establish_connection(config)
-
-      Dir.glob("#{@root_path}/app/models/*.rb").each do |file|
-        require file
-      end
-    end
-
-    # ログを保存するチャンネルを抽出する
-    # @return[Array]
-    def record_channels
-      Channel.where(enable: true).pluck(:downcase).map do |channel|
-        "##{channel}"
-      end
-    end
-
     # 新しい IRC ボットのインスタンスを生成する
     # @param [Config] config 設定
     # @param [Array]  plugins プラグインのクラス
@@ -173,6 +153,7 @@ module LogArchiver
     # @return [Cinch::Bot]
     def new_bot(config, plugins, log_level)
       bot_config = config.irc_bot
+      database = Database.new(config.database_config, @root_path)
 
       bot = Cinch::Bot.new do
         configure do |c|
@@ -184,7 +165,9 @@ module LogArchiver
           c.user = bot_config['User']
           c.realname = bot_config['RealName']
           c.channels = bot_config['Channels'] || []
+
           c.plugins.plugins = plugins
+          c.plugins.options = database
         end
 
         loggers.level = log_level
