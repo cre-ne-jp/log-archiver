@@ -40,7 +40,7 @@ module LogArchiver
       # @return [void]
       def join(channel)
         bot.join(channel)
-puts("#{channel}にJOINしました")
+        @logger.warn("#{channel} に JOIN しました")
       end
     end
   end

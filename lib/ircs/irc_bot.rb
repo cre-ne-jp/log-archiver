@@ -156,7 +156,7 @@ module LogArchiver
       database = Database.new(config.database_config, @root_path)
       plugin_options = {}
       plugins.each do |p|
-        plugin_options[p] = database
+        plugin_options[p] = {database: database, logger: @logger}
       end
 
       bot = Cinch::Bot.new do
