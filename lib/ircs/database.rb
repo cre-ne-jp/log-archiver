@@ -1,7 +1,6 @@
 # vim: fileencoding=utf-8
 
 require 'active_record'
-require 'date'
 
 module LogArchiver
   module Ircs
@@ -39,12 +38,12 @@ module LogArchiver
       end
 
       # データベースに書き込む
+      # @param [Time] timestamp 受信日時
       # @param [String] sender 送信者の、送信時の NICK
       # @param [String] command IRC コマンド
       # @param [String] target 送信先のチャンネル
       # @param [String] body IRC コマンドの引数
-      def save(sender, command, target = nil, body = nil)
-        timestamp = DateTime.now
+      def save(timestamp, sender, command, target = nil, body = nil)
 pp [timestamp, sender, command, target, body]
       end
     end
