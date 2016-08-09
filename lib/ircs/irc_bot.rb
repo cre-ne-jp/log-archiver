@@ -154,6 +154,10 @@ module LogArchiver
     def new_bot(config, plugins, log_level)
       bot_config = config.irc_bot
       database = Database.new(config.database_config, @root_path)
+      plugin_options = {}
+      plugins.each do |p|
+        plugin_options[p] = database
+      end
 
       bot = Cinch::Bot.new do
         configure do |c|
@@ -167,7 +171,7 @@ module LogArchiver
           c.channels = bot_config['Channels'] || []
 
           c.plugins.plugins = plugins
-          c.plugins.options = database
+          c.plugins.options = plugin_options
         end
 
         loggers.level = log_level

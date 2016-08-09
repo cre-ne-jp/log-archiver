@@ -12,13 +12,19 @@ module LogArchiver
         Dir.glob("#{root_path}/app/models/*.rb").each do |file|
           require file
         end
-        load_channels
+#        load_channels
       end
 
       # ログを保存するチャンネルを抽出する
       # @return[Array]
-      def load_channels
+      def load_enable_channels
         Channel.where(enable: true).pluck(:downcase).map do |channel|
+          "##{channel}"
+        end
+      end
+
+      def load_disable_channels
+        Channel.where(enable: false).pluck(:downcase).mao do |channel|
           "##{channel}"
         end
       end

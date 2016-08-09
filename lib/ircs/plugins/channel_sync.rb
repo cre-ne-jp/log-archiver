@@ -3,44 +3,48 @@
 module LogArchiver
   module Plugin
     # DB からチャンネル情報を読み出し、設定と実際の接続状態を比較する
-    # 必要なチャンネルに JOIN し、不要なチャンネルから PART する
+    # 必要なチャンネルに JOIN する
     class ChannelSync
       include Cinch::Plugin
 
       set(plugin_name: 'ChannelSync')
 
-      # ログ取得が有効なチャンネル
-      attr_reader :enable_channels
-      # ログ取得が無効なチャンネル
-      attr_reader :disable_channels
-
-      listen_to(:connect, method: :kickstart)
+      listen_to(:connect, method: :connect)
       timer(60, method: :kickstart)
+
+      # 接続時に、必要なチャンネルに JOIN する
+      # @param [Cinch::Message] m
+      # @return [void]
+      def connect(m)
+        @database.load_enable_channels.each do |channel|
+          join(channel)
+        end
+      end
 
       # 一定間隔で実行する
       # @return [void]
-      def kickstart(m)
-pp m
-        @enable_channels, @disable_channels = load_channel_setting
-
-        compare_channels(@enable_channels, @disable_channels)
+      def kickstart
+        irc_entry = bot.channels.map do |channel|
+          channel.name.downcase
+        end
+        db_entry = @database.load_enable_channels
+        (db_entry - irc_entry).each do |channel|
+          join(channel)
+        end
       end
 
-      # データベースから現在のチャンネル設定を読み込む
-      # @return [Array<Array>]
-      # @option [Array] ログ取得が有効なチャンネル
-      # @option [Array] ログ取得が無効なチャンネル
-      def load_channel_setting
-        [enable, disable]
+      # チャンネルに JOIN する
+      # @param [String] channel JOIN する対象のチャンネル名
+      # @return [void]
+      def join(channel)
+        bot.join(channel)
+puts("#{channel}にJOINしました")
       end
 
       def initialize(*args)
         super
-pp config.load_channels
-#        @database = config[:plugin]
-#pp @database.load_channels
-        @enable_channels = []
-        @disable_channels = []
+
+        @database = config
       end
     end
   end
