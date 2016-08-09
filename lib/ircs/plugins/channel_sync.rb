@@ -1,10 +1,12 @@
 # vim: fileencoding=utf-8
 
+require_relative 'plugin_template'
+
 module LogArchiver
   module Plugin
     # DB からチャンネル情報を読み出し、設定と実際の接続状態を比較する
     # 必要なチャンネルに JOIN する
-    class ChannelSync
+    class ChannelSync < Template
       include Cinch::Plugin
 
       set(plugin_name: 'ChannelSync')
@@ -39,12 +41,6 @@ module LogArchiver
       def join(channel)
         bot.join(channel)
 puts("#{channel}にJOINしました")
-      end
-
-      def initialize(*args)
-        super
-
-        @database = config
       end
     end
   end
