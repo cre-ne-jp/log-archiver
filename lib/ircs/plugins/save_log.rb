@@ -12,11 +12,11 @@ module LogArchiver
 
       set(plugin_name: 'SaveLog')
 
-      listen_to(:join, method: :join)
-      listen_to(:part, method: :part)
-      listen_to(:quit, method: :quit)
-      listen_to(:kick, method: :kick)
-      listen_to(:nick, method: :nick)
+      #listen_to(:join, method: :join)
+      #listen_to(:part, method: :part)
+      #listen_to(:quit, method: :quit)
+      #listen_to(:kick, method: :kick)
+      #listen_to(:nick, method: :nick)
       listen_to(:topic, method: :messages)
       listen_to(:notice, method: :messages)
       listen_to(:privmsg, method: :messages)
@@ -72,7 +72,14 @@ module LogArchiver
         # チャンネル宛ではない(プライベの)場合は保存の対象外
         return if m.channel.nil?
 
-        @database.save(m.time, m.user.to_s, m.command, m.channel.name, m.message)
+        entry = {
+          time: m.time,
+          user: m.user.to_s,
+          command: m.command,
+          channel: m.channel.name,
+          message: m.message
+        }
+        pp entry
       end
 
       def save(m, channel = m.channel.name, nick = m.user.to_s, message = m.message)
