@@ -1,5 +1,6 @@
 # vim: fileencoding=utf-8
 
+require 'json'
 require_relative 'plugin_template'
 require 'pp'
 
@@ -14,6 +15,7 @@ module LogArchiver
       listen_to(:join, method: :join)
       listen_to(:part, method: :part)
       listen_to(:quit, method: :quit)
+      listen_to(:kick, method: :kick)
       listen_to(:nick, method: :nick)
       listen_to(:topic, method: :messages)
       listen_to(:notice, method: :messages)
@@ -42,6 +44,11 @@ module LogArchiver
       def quit(m)
         save(m, nil)
 #        @database.save(m.user.to_s, m.command, nil, m.message)
+      end
+
+      # KICK が使われたとき
+      def kick(m)
+        save(m, m.channel.name, m.user.to_s, {target: m.params[1], message: m.message}.to_json)
       end
 
       # NICK を変えたとき
