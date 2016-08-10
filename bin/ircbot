@@ -1,0 +1,5 @@
+#!/usr/bin/ruby
+
+require_relative '../lib/ircs/irc_bot'
+
+LogArchiver::Ircs.run(File.expand_path('../../', __FILE__), ARGV)

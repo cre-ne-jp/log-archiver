@@ -7,6 +7,7 @@
     <th>チャンネル同一性識別名</th>
     <th>データベース登録名</th>
     <th>ログ取得状況</th>
+    <th></th>
   </tr>
 <% @channels.each do |channel| %>
   <tr>
@@ -15,6 +16,7 @@
     <td><%= channel.downcase %></td>
     <td><%= channel.alphabet %></td>
     <td><%= channel.enable ? '取得中' : '停止中' %></td>
+    <td><%= link_to('詳細', channels_show_path(channel)) %></td>
   </tr>
 <% end %>
 </table>

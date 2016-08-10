@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 
 # IRC framework
 gem 'cinch'
+gem 'lumberjack'
+gem 'sysexits'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.6'
