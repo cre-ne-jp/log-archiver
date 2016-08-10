@@ -12,4 +12,10 @@ class Channel < ActiveRecord::Base
   def name_with_prefix
     "##{name}"
   end
+
+  # 小文字の接頭辞付きチャンネル名を返す
+  # @return [String]
+  def lowercase_name_with_prefix
+    name_with_prefix.downcase
+  end
 end

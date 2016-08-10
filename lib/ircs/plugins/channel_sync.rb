@@ -27,7 +27,7 @@ module LogArchiver
       # @return [void]
       def kickstart
         joinning = bot.channels.map { |channel| channel.name.downcase }
-        logging_enabled = ::Channel.logging_enabled.map { |channel| channel.name_with_prefix.downcase }
+        logging_enabled = ::Channel.logging_enabled.map(&:lowercase_name_with_prefix)
 
         (logging_enabled - joinning).each do |channel|
           join(channel)

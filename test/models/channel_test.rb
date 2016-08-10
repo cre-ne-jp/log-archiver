@@ -28,4 +28,9 @@ class ChannelTest < ActiveSupport::TestCase
   test 'name_with_prefix は接頭辞付きのチャンネル名を返す' do
     assert_equal('#irc_test', @channel.name_with_prefix)
   end
+
+  test 'lowercase_name_with_prefix は小文字の接頭辞付きチャンネル名を返す' do
+    channel = create(:channel_with_camel_case_name)
+    assert_equal('#camelcasechannel', channel.lowercase_name_with_prefix)
+  end
 end
