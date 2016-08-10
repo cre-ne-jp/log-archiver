@@ -10,7 +10,6 @@ module LogArchiver
       def initialize(*args)
         super
 
-        @database = config[:database]
         @logger = config[:logger]
       end
     end

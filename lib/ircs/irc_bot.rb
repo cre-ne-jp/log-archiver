@@ -9,7 +9,6 @@ require 'pp'
 require_relative '../../config/version'
 require_relative './config'
 require_relative './plugins_loader'
-require_relative './database'
 
 module LogArchiver
   module Ircs
@@ -46,20 +45,20 @@ module LogArchiver
         mode: 'development'
       }
       options = {}
-  
+
       OptionParser.new do |opt|
         opt.banner = "使用法: #{opt.program_name} [オプション]"
         opt.version = Application::VERSION
-  
+
         opt.summary_indent = ' ' * 2
         opt.summary_width = 24
-  
+
         opt.separator('')
         opt.separator('IRC Log Archiver (IRC ボット)')
-  
+
         opt.separator('')
         opt.separator('オプション:')
-  
+
         opt.on(
           '-c', '--config=CONFIG_ID',
           '設定 CONFIG_ID を読み込みます'
@@ -73,24 +72,24 @@ module LogArchiver
         ) do |mode|
           options[:mode] = mode
         end
-  
+
         opt.on(
           '-v', '--verbose',
           'ログを冗長にします'
         ) do
           options[:log_level] = :info
         end
-  
+
         opt.on(
           '--debug',
           'デバッグモード。ログを最も冗長にします。'
         ) do
           options[:log_level] = :debug
         end
-  
+
         opt.parse(argv)
       end
-  
+
       default_options.merge(options)
     end
 
@@ -153,10 +152,9 @@ module LogArchiver
     # @return [Cinch::Bot]
     def new_bot(config, plugins, log_level)
       bot_config = config.irc_bot
-      database = Database.new(config.database_config, @root_path)
       plugin_options = {}
       plugins.each do |p|
-        plugin_options[p] = {database: database, logger: @logger}
+        plugin_options[p] = { logger: @logger }
       end
 
       bot = Cinch::Bot.new do
