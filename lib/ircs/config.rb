@@ -37,15 +37,6 @@ module LogArchiver
       def load_yaml_file(config_id, root_path, mode)
         config_path = config_id_to_path(config_id, root_path)
         config_data = YAML.load_file(config_path)[mode]
-        config_path = config_id_to_path('database', root_path)
-        config_data['database'] = YAML.load_file(config_path)[mode]
-
-#        ids_to_include = config_data['Include'].dup || []
-#        ids_to_include.each do |id|
-#          child_config_path = config_id_to_path(id, root_path)
-#          child_config_data = YAML.load_file(child_config_path)
-#          config_data.merge!(child_config_data)
-#        end
 
         new(config_data)
       end
@@ -58,7 +49,6 @@ module LogArchiver
       @irc_bot = config_data['IRCBot']
       @plugins = config_data['Plugins'] || []
       @plugin_config = {}
-      @database_config = config_data['database']
 
       @plugins.each do |name|
         @plugin_config[name] = config_data[name]

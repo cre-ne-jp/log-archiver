@@ -5,9 +5,12 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+=begin
 channel = Channel.new
 channel.original = 'irc_test'
 channel.downcase = 'irc_test'
 channel.alphabet = 'irc_test'
 channel.enable = true
 channel.save
+=end

@@ -12,26 +12,29 @@ module LogArchiver
       set(plugin_name: 'ChannelSync')
 
       listen_to(:connect, method: :connect)
-      timer(60, method: :kickstart)
+      timer(1, method: :kickstart)
 
       # 接続時に、必要なチャンネルに JOIN する
       # @param [Cinch::Message] m
       # @return [void]
       def connect(m)
-        @database.load_enable_channels.each do |channel|
-          join(channel)
+        ::Channel.logging_enabled.each do |channel|
+          join(channel.name_with_prefix)
         end
       end
 
       # 一定間隔で実行する
       # @return [void]
       def kickstart
-        irc_entry = bot.channels.map do |channel|
-          channel.name.downcase
-        end
-        db_entry = @database.load_enable_channels
-        (db_entry - irc_entry).each do |channel|
+        joinning = bot.channels.map { |channel| channel.name.downcase }
+        logging_enabled = ::Channel.logging_enabled.map(&:lowercase_name_with_prefix)
+
+        (logging_enabled - joinning).each do |channel|
           join(channel)
+        end
+
+        (joinning - logging_enabled).each do |channel|
+          part(channel)
         end
       end
 
@@ -41,6 +44,14 @@ module LogArchiver
       def join(channel)
         bot.join(channel)
         @logger.warn("#{channel} に JOIN しました")
+      end
+
+      # チャンネルから PART する
+      # @param [String] channel PART する対象のチャンネル名
+      # @return [void]
+      def part(channel)
+        bot.part(channel)
+        @logger.warn("#{channel} から PART しました")
       end
     end
   end
