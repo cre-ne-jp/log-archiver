@@ -17,7 +17,7 @@ default: &default
 
 development:
   <<: *default
-  database: 'rgrb_test'
+  database: 'rgrb_dev'
   username: 'rgrb'
   password: 'akqahxth9yzABt0t'
 
