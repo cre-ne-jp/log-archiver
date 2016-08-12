@@ -28,7 +28,9 @@ module LogArchiver
         synchronize(:pp) do
           pp({
             time: m.time,
-            user: m.user.to_s,
+            nick: m.user.nick,
+            user: m.user.user,
+            mask: m.user.host,
             command: m.command,
             channel: m.channel.name,
             message: m.prefix
@@ -41,7 +43,9 @@ module LogArchiver
         synchronize(:pp) do
           pp({
             time: m.time,
-            user: m.user.to_s,
+            nick: m.user.nick,
+            user: m.user.user,
+            mask: m.user.host,
             command: m.command,
             channel: m.channel.name,
             message: m.message != m.channel.name ? m.message : nil
@@ -55,7 +59,9 @@ module LogArchiver
           channels.each do |channel|
             pp({
               time: m.time,
-              user: m.user.to_s,
+              nick: m.user.nick,
+              user: m.user.user,
+              mask: m.user.host,
               command: m.command,
               channel: channel.name,
               message: m.message
@@ -69,7 +75,9 @@ module LogArchiver
         synchronize(:pp) do
           pp({
             time: m.time,
-            user: m.user.to_s,
+            nick: m.user.nick,
+            user: m.user.user,
+            mask: m.user.host,
             command: m.command,
             channel: m.channel.name,
             message: {target: m.params[1], message: m.message}
@@ -83,10 +91,12 @@ module LogArchiver
         synchronize(:pp) do
           pp({
             time: m.time,
-            user: m.user.last_nick,
+            nick: m.user.last_nick,
+            user: m.user.user,
+            mask: m.user.host,
             command: m.command,
             channel: nil,
-            message: m.user
+            message: m.user.nick
           })
         end
       end
@@ -99,7 +109,9 @@ module LogArchiver
         synchronize(:pp) do
           pp({
             time: m.time,
-            user: m.user.to_s,
+            nick: m.user.nick,
+            user: m.user.user,
+            mask: m.user.host,
             command: m.command,
             channel: m.channel.name,
             message: m.message
