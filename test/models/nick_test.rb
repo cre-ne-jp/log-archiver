@@ -27,4 +27,8 @@ class NickTest < ActiveSupport::TestCase
     @nick.new_nick = 'rgrb3'
     assert_equal('rgrb3', @nick.message)
   end
+
+  test 'Tiarra のログ形式が正しい' do
+    assert_equal('12:35:01 rgrb -> rgrb2', @nick.to_tiarra_format)
+  end
 end

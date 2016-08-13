@@ -18,4 +18,9 @@ class KickTest < ActiveSupport::TestCase
     @kick.target = ' ' * 10
     refute(@kick.valid?)
   end
+
+  test 'Tiarra のログ形式が正しい' do
+    assert_equal('12:35:00 - rgrb by ocha from #irc_test (暴走したので KICK)',
+                 @kick.to_tiarra_format)
+  end
 end

@@ -18,4 +18,9 @@ class NoticeTest < ActiveSupport::TestCase
     @notice.message = ' ' * 10
     refute(@notice.valid?)
   end
+
+  test 'Tiarra のログ形式が正しい' do
+    assert_equal('12:35:04 (#irc_test:rgrb) 通知',
+                 @notice.to_tiarra_format)
+  end
 end

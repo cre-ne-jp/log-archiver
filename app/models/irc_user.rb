@@ -5,4 +5,11 @@ class IrcUser < ActiveRecord::Base
     presence: true,
     length: { maximum: 9 }
   validates :host, presence: true
+
+  # ニックネーム・ユーザー名・ホストを含むマスクを返す
+  # @param [String] nick ニックネーム
+  # @return [String]
+  def mask(nick)
+    "#{nick}!#{name}@#{host}"
+  end
 end
