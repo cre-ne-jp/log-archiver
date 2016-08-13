@@ -1,8 +1,5 @@
 Rails.application.routes.draw do
-  get 'channels/index'
-
-  get 'channels/show'
-  get 'channels/show/:id' => "channels#show"
+  resources :channels, only: %i(index show)
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

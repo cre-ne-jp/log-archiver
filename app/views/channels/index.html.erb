@@ -2,21 +2,17 @@
 <p>現在 <%= @channels.size %> チャンネルが登録されています。</p>
 <table>
   <tr>
-    <th>ID</th>
-    <th>IRC上でのチャンネル名</th>
-    <th>チャンネル同一性識別名</th>
-    <th>データベース登録名</th>
+    <th>#</th>
+    <th>チャンネル名</th>
+    <th>識別子</th>
     <th>ログ取得状況</th>
-    <th></th>
   </tr>
 <% @channels.each do |channel| %>
   <tr>
     <td><%= channel.id %></td>
-    <td><%= channel.original %></td>
-    <td><%= channel.downcase %></td>
-    <td><%= channel.alphabet %></td>
-    <td><%= channel.enable ? '取得中' : '停止中' %></td>
-    <td><%= link_to('詳細', channels_show_path(channel)) %></td>
+    <td><%= link_to(channel.name_with_prefix, channel) %></td>
+    <td><%= channel.identifier %></td>
+    <td><%= channel.logging_enabled ? '取得中' : '停止中' %></td>
   </tr>
 <% end %>
 </table>

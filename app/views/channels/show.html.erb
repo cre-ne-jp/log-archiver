@@ -1,23 +1,22 @@
 <h1>チャンネル登録情報</h1>
 <table>
   <tr>
-    <th>チャンネルID</th>
-    <td><%= @channel[:id] %></td>
+    <th>#</th>
+    <td><%= @channel.id %></td>
   </tr>
   <tr>
-    <th>IRC上でのチャンネル名</th>
-    <td><%= @channel[:original] %></td>
+    <th>チャンネル名</th>
+    <td><%= @channel.name_with_prefix %></td>
   </tr>
   <tr>
-    <th>チャンネル同一性識別名</th>
-    <td><%= @channel[:downcase] %></td>
-  </tr>
-  <tr>
-    <th>データベース登録名</th>
-    <td><%= @channel[:alphabet] %></td>
+    <th>識別子</th>
+    <td><%= @channel.identifier %></td>
   </tr>
   <tr>
     <th>ログ取得状況</th>
-    <td><%= @channel[:enable] ? '取得中' : '取得停止中' %></td>
+    <td><%= @channel.logging_enabled? ? '取得中' : '取得停止中' %></td>
   </tr>
 </table>
+
+<h1>ログ</h1>
+<pre><%= @messages.map(&:to_tiarra_format).join("\n") %></pre>

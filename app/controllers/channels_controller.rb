@@ -4,6 +4,7 @@ class ChannelsController < ApplicationController
   end
 
   def show
-    @channel = Channel.find_by(params[:id])
+    @channel = Channel.find(params[:id])
+    @messages = @channel.messages.order(:timestamp, :id)
   end
 end
