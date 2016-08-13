@@ -3,7 +3,7 @@ class IrcUser < ActiveRecord::Base
 
   validates :name,
     presence: true,
-    length: { maximum: 9 }
+    length: { maximum: 16 }
   validates :host, presence: true
 
   # ニックネーム・ユーザー名・ホストを含むマスクを返す

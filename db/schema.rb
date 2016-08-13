@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160813063427) do
+ActiveRecord::Schema.define(version: 20160813104510) do
 
   create_table "channels", force: :cascade do |t|
     t.string   "name",            limit: 255, default: "irc_test", null: false
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20160813063427) do
   end
 
   create_table "irc_users", force: :cascade do |t|
-    t.string   "name",       limit: 9,   default: "", null: false
+    t.string   "name",       limit: 16,  default: "", null: false
     t.string   "host",       limit: 255, default: "", null: false
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false

@@ -1,5 +1,13 @@
 class Channel < ActiveRecord::Base
   has_many :messages
+  has_many :joins
+  has_many :parts
+  has_many :quits
+  has_many :kicks
+  has_many :nicks
+  has_many :topics
+  has_many :privmsgs
+  has_many :notices
 
   validates(:name, presence: true)
   validates(:identifier, presence: true)

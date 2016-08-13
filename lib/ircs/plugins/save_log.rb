@@ -17,106 +17,148 @@ module LogArchiver
       listen_to(:part, method: :on_part)
       listen_to(:kick, method: :on_kick)
       listen_to(:nick, method: :on_nick)
-      listen_to(:topic, method: :on_message)
-      listen_to(:notice, method: :on_message)
-      listen_to(:privmsg, method: :on_message)
+      listen_to(:topic, method: :on_topic)
+      listen_to(:notice, method: :on_notice)
+      listen_to(:privmsg, method: :on_privmsg)
 
-      # チャンネルに(自分を含む)誰かが JOIN したとき
-      # USER / 接続元アドレスを以下の書式でメッセージ本文として扱う
-      # nick!user@address
+      # チャンネルに（自分を含む）誰かが JOIN したとき
+      # @param [Cinch::Message] m メッセージ
       def on_join(m)
-        synchronize(:pp) do
-          pp({
-            time: m.time,
-            nick: m.user.nick,
-            user: m.user.user,
-            mask: m.user.host,
-            command: m.command,
-            channel: m.channel.name,
-            message: m.prefix
-          })
+        record_message(m) do |channel, irc_user|
+          channel.joins.create!(irc_user: irc_user,
+                                timestamp: m.time,
+                                nick: m.user.nick)
         end
       end
 
       # チャンネルから(自分を含む)誰かが PART したとき
+      # @param [Cinch::Message] m メッセージ
       def on_part(m)
-        synchronize(:pp) do
-          pp({
-            time: m.time,
+        record_message(m) do |channel, irc_user|
+          channel.parts.create!(
+            irc_user: irc_user,
+            timestamp: m.time,
             nick: m.user.nick,
-            user: m.user.user,
-            mask: m.user.host,
-            command: m.command,
-            channel: m.channel.name,
             message: m.message != m.channel.name ? m.message : nil
-          })
+          )
         end
       end
 
-      # チャンネルから(自分を含む)誰かが QUIT したとき
-      def on_quit(m, channels)
-        synchronize(:pp) do
-          channels.each do |channel|
-            pp({
-              time: m.time,
-              nick: m.user.nick,
-              user: m.user.user,
-              mask: m.user.host,
-              command: m.command,
-              channel: channel.name,
-              message: m.message
-            })
-          end
+      # チャンネルから（自分を含む）誰かが QUIT したとき
+      # @param [Cinch::Message] m メッセージ
+      # @param [Array <Cinch::Channel>] cinch_channels 参加していたチャンネルの配列
+      def on_quit(m, cinch_channels)
+        record_message_to_channels(m, cinch_channels) do |channel, irc_user|
+          channel.quits.create(irc_user: irc_user,
+                               timestamp: m.time,
+                               nick: m.user.nick,
+                               message: m.message)
         end
       end
 
       # KICK が使われたとき
+      # @param [Cinch::Message] m メッセージ
       def on_kick(m)
-        synchronize(:pp) do
-          pp({
-            time: m.time,
-            nick: m.user.nick,
-            user: m.user.user,
-            mask: m.user.host,
-            command: m.command,
-            channel: m.channel.name,
-            message: {target: m.params[1], message: m.message}
-          })
+        record_message(m) do |channel, irc_user|
+          channel.kicks.create!(irc_user: irc_user,
+                                timestamp: m.time,
+                                nick: m.user.nick,
+                                target: m.params[1],
+                                message: m.message)
         end
       end
 
       # NICK を変えたとき
-      # 変更後の NICK をメッセージ本文として扱う
+      #
+      # 変更後の NICK をメッセージ本文として扱う。
+      # @param [Cinch::Message] m メッセージ
       def on_nick(m)
-        synchronize(:pp) do
-          pp({
-            time: m.time,
-            nick: m.user.last_nick,
-            user: m.user.user,
-            mask: m.user.host,
-            command: m.command,
-            channel: nil,
-            message: m.user.nick
-          })
+        user = m.user
+        record_message_to_channels(m, user.channels) do |channel, irc_user|
+          channel.nicks.create(irc_user: irc_user,
+                               timestamp: m.time,
+                               nick: user.last_nick,
+                               message: user.nick)
         end
       end
 
-      # TOPIC / NOTICE / PRIVMSG を受信したとき
-      def on_message(m)
-        # チャンネル宛ではない(プライベの)場合は保存の対象外
-        return if m.channel.nil?
-
-        synchronize(:pp) do
-          pp({
-            time: m.time,
-            nick: m.user.nick,
-            user: m.user.user,
-            mask: m.user.host,
-            command: m.command,
-            channel: m.channel.name,
-            message: m.message
-          })
+      # TOPIC を受信したとき
+      # @param [Cinch::Message] m メッセージ
+      def on_topic(m)
+        record_message(m) do |channel, irc_user|
+          channel.topics.create!(irc_user: irc_user,
+                                 timestamp: m.time,
+                                 nick: m.user.nick,
+                                 message: m.message)
         end
+      end
+
+      # NOTICE を受信したとき
+      # @param [Cinch::Message] m メッセージ
+      def on_notice(m)
+        record_message(m) do |channel, irc_user|
+          channel.notices.create!(irc_user: irc_user,
+                                  timestamp: m.time,
+                                  nick: m.user.nick,
+                                  message: m.message)
+        end
+      end
+
+      # PRIVMSG を受信したとき
+      # @param [Cinch::Message] m メッセージ
+      def on_privmsg(m)
+        record_message(m) do |channel, irc_user|
+          channel.privmsgs.create!(irc_user: irc_user,
+                                  timestamp: m.time,
+                                  nick: m.user.nick,
+                                  message: m.message)
+        end
+      end
+
+      private
+
+      # メッセージを記録する
+      # @param [Cinch::Message] message Cinch から渡された IRC メッセージ
+      # @yieldparam [::Channel] channel チャンネル
+      # @yieldparam [IrcUser] irc_user IRC ユーザー
+      def record_message(message)
+        return nil unless message.channel
+
+        ActiveRecord::Base.connection_pool.with_connection do
+          channel = Channel.find_by(name: message.channel.name[1..-1],
+                                    logging_enabled: true)
+          next nil unless channel
+
+          next nil unless user = message.user
+          irc_user = IrcUser.find_or_create_by!(name: user.user, host: user.host)
+
+          yield(channel, irc_user)
+        end
+      end
+
+      # 複数のチャンネルにメッセージを記録する
+      # @param [Cinch::Message] message Cinch から渡された IRC メッセージ
+      # @param [Array<Cinch::Channel>] cinch_channels Cinch から渡されたチャンネルリスト
+      # @yieldparam [::Channel] channel チャンネル
+      # @yieldparam [IrcUser] irc_user IRC ユーザー
+      def record_message_to_channels(message, cinch_channels)
+        channel_names_without_prefix =
+          cinch_channels.map { |channel| channel.name[1..-1] }
+
+        result = ActiveRecord::Base.connection_pool.with_connection do
+          irc_user = nil
+          next [] unless user = message.user
+          channels = ::Channel.where(name: channel_names_without_prefix,
+                                     logging_enabled: true)
+          channels.find_each.map do |channel|
+            irc_user ||= IrcUser.find_or_create_by!(name: user.user,
+                                                    host: user.host)
+
+            yield(channel, irc_user)
+          end
+        end
+
+        result.compact
       end
     end
   end
