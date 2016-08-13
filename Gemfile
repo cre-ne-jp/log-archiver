@@ -46,6 +46,9 @@ group :development, :test do
 
   gem 'factory_girl_rails'
   gem 'minitest-reporters'
+
+  gem 'guard'
+  gem 'guard-minitest'
 end
 
 group :development do
