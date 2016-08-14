@@ -1,19 +1,29 @@
-<h1>チャンネル一覧</h1>
-<p>現在 <%= @channels.size %> チャンネルが登録されています。</p>
-<table>
-  <tr>
-    <th>#</th>
-    <th>チャンネル名</th>
-    <th>識別子</th>
-    <th>ログ取得状況</th>
-  </tr>
-<% @channels.each do |channel| %>
-  <tr>
-    <td><%= channel.id %></td>
-    <td><%= link_to(channel.name_with_prefix, channel) %></td>
-    <td><%= channel.identifier %></td>
-    <td><%= channel.logging_enabled ? '取得中' : '停止中' %></td>
-  </tr>
-<% end %>
-</table>
-
+<% title('チャンネル一覧') %>
+<%= render('shared/navbar') %>
+<div class="container main-container">
+  <%= render('shared/flash') %>
+  <div class="row">
+    <h1>チャンネル一覧</h1>
+    <p>現在 <%= @channels.size %> チャンネルが登録されています。</p>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th class="num-col">#</th>
+          <th>チャンネル名</th>
+          <th>識別子</th>
+          <th>ログ取得状況</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @channels.each do |channel| %>
+          <tr>
+            <td class="num-col"><%= channel.id %></td>
+            <td><%= link_to(channel.name_with_prefix, channel) %></td>
+            <td><%= channel.identifier %></td>
+            <td><%= channel.logging_enabled ? '取得中' : '停止中' %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

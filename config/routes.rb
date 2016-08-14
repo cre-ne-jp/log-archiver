@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root 'channels#index'
   resources :channels, only: %i(index show)
 
   # The priority is based upon order of creation: first created -> highest priority.

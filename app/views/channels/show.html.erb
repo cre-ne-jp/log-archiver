@@ -1,22 +1,84 @@
-<h1>チャンネル登録情報</h1>
-<table>
-  <tr>
-    <th>#</th>
-    <td><%= @channel.id %></td>
-  </tr>
-  <tr>
-    <th>チャンネル名</th>
-    <td><%= @channel.name_with_prefix %></td>
-  </tr>
-  <tr>
-    <th>識別子</th>
-    <td><%= @channel.identifier %></td>
-  </tr>
-  <tr>
-    <th>ログ取得状況</th>
-    <td><%= @channel.logging_enabled? ? '取得中' : '取得停止中' %></td>
-  </tr>
-</table>
+<% title(@channel.name_with_prefix) %>
+<%= render('shared/navbar') %>
+<div class="container main-container">
+  <%= render('shared/flash') %>
+  <div class="row">
+    <h1>チャンネル登録情報</h1>
+    <table class="table">
+      <tr>
+        <th>#</th>
+        <td><%= @channel.id %></td>
+      </tr>
+      <tr>
+        <th>チャンネル名</th>
+        <td><%= @channel.name_with_prefix %></td>
+      </tr>
+      <tr>
+        <th>識別子</th>
+        <td><%= @channel.identifier %></td>
+      </tr>
+      <tr>
+        <th>ログ取得状況</th>
+        <td><%= @channel.logging_enabled? ? '取得中' : '取得停止中' %></td>
+      </tr>
+    </table>
 
-<h1>ログ</h1>
-<pre><%= @messages.map(&:to_tiarra_format).join("\n") %></pre>
+    <h1>ログ</h1>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th class="message-time">時刻</th>
+          <th>メッセージ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @messages.find_each do |m| %>
+          <tr>
+            <td class="message-time"><%= m.timestamp.strftime('%T') %></td>
+            <% case m %>
+            <% when Join %>
+              <td class="message-content">
+                <b class="nickname"><%= m.nick %></b>（<%= m.irc_user.mask(m.nick) %>）が <%= m.channel.name_with_prefix %> に参加しました。
+              </td>
+            <% when Part %>
+              <td class="message-content">
+                <b class="nickname"><%= m.nick %></b> が <%= m.channel.name_with_prefix %> から退出しました<% if m.message.blank? %>。<% else %>：<%= m.message %><% end %>
+              </td>
+            <% when Quit %>
+              <td class="message-content">
+                <b class="nickname"><%= m.nick %></b> のクライアントが終了しました<% if m.message.blank? %>。<% else %>：<%= m.message %><% end %>
+              </td>
+            <% when Nick %>
+              <td class="message-content">
+                <b class="nickname old-nickname"><%= m.nick %></b> &rarr; <b class="nickname new-nickname"><%= m.new_nick %></b>
+              </td>
+            <% when Kick %>
+              <td class="message-content">
+                <b class="nickname kick-by"><%= m.nick %></b> が <%= m.channel.name_with_prefix %> から <b class="nickname kick-target"><%= m.target %></b> を退出させました<% if m.message.blank? %>。<% else %>：<%= m.message %><% end %>
+              </td>
+            <% when Topic %>
+              <td class="message-content">
+                <b class="nickname"><%= m.nick %></b> が <%= m.channel.name_with_prefix %> のトピックを設定しました：<%= m.message %>
+              </td>
+            <% when Privmsg %>
+              <td class="message-content">
+                <dl class="message">
+                  <dt><b class="nickname message-privmsg"><%= m.nick %></b></dt>
+                  <dd><%= m.message %></dd>
+                </dl>
+              </td>
+            <% when Notice %>
+              <td class="message-content">
+                <dl class="message">
+                  <dt><b class="nickname"><%= m.nick %></b></dt>
+                  <dd><%= m.message %></dd>
+                </dl>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <pre><%= @messages.map(&:to_tiarra_format).join("\n") %></pre>
+  </div>
+</div>
