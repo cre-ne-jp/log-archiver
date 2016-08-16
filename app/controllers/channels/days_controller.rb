@@ -25,6 +25,6 @@ class Channels::DaysController < ApplicationController
     @messages = Message.
       where(channel: @channel,
             timestamp: @date...(@date.next_day)).
-      order(:timestamp)
+      order(:timestamp, :id)
   end
 end

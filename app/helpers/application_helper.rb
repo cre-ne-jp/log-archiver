@@ -12,4 +12,8 @@ module ApplicationHelper
       }
     }
   end
+
+  def message_or_period(m)
+    m.message.blank? ? '。' : "：#{m.message}"
+  end
 end

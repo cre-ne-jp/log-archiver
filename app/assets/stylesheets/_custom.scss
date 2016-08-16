@@ -27,10 +27,11 @@ h3 {
 
 .message-time {
   white-space: nowrap;
+  width: 1em;
 }
 
 .message-content {
-  width: 100%;
+  word-break: break-all;
 }
 
 dl.message {
