@@ -18,8 +18,8 @@ module LogArchiver
       # @param [Cinch::Message] m
       # @return [void]
       def connect(m)
-        ::Channel.logging_enabled.each do |channel|
-          join(channel.name_with_prefix)
+        ::Channel.logging_enabled_names_with_prefix.each do |channel|
+          join(channel)
         end
       end
 
@@ -27,7 +27,8 @@ module LogArchiver
       # @return [void]
       def kickstart
         joinning = bot.channels.map { |channel| channel.name.downcase }
-        logging_enabled = ::Channel.logging_enabled.map(&:lowercase_name_with_prefix)
+        logging_enabled =
+          ::Channel.logging_enabled_names_with_prefix(lowercase: true)
 
         (logging_enabled - joinning).each do |channel|
           join(channel)
