@@ -1,5 +1,6 @@
-#!/usr/bin/ruby
+#!/usr/bin/env ruby
 
+require_relative '../lib/rails_runner'
 require_relative '../lib/ircs/irc_bot'
 
 LogArchiver::Ircs.run(File.expand_path('../../', __FILE__), ARGV)
