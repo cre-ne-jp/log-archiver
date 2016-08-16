@@ -4,7 +4,14 @@ class ChannelsController < ApplicationController
   end
 
   def show
-    @channel = Channel.find(params[:id])
-    @messages = @channel.messages.order(:timestamp, :id)
+    @channel = Channel.find_by(identifier: params[:identifier])
+    unless @channel
+      raise ArgumentError, "Channel not found: #{params[:identifier]}"
+    end
+
+    @years = MessageDate.
+      uniq.
+      where(channel: @channel).
+      pluck('YEAR(date)')
   end
 end

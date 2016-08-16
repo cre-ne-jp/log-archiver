@@ -1,0 +1,16 @@
+<% year_month_str = '%d-%02d' % [@year, @month] %>
+<% title([@channel.name_with_prefix, year_month_str]) %>
+<%= render('shared/navbar') %>
+<div class="container main-container">
+  <%= render('shared/flash') %>
+  <div class="row">
+    <div class="col-xs-12">
+      <h1><%= @channel.name_with_prefix %> <%= year_month_str %></h1>
+      <ul>
+        <% @day_count.each do |date, count| %>
+          <li><%= link_to(date.strftime('%F'), channels_day_path(identifier: @channel.identifier, year: @year, month: '%02d' % @month, day: date.strftime('%d'))) %>（<%= count %> 発言）</li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -8,9 +8,12 @@ class Channel < ActiveRecord::Base
   has_many :topics
   has_many :privmsgs
   has_many :notices
+  has_many :message_dates
 
   validates(:name, presence: true)
-  validates(:identifier, presence: true)
+  validates(:identifier,
+            presence: true,
+            uniqueness: true)
 
   # ログ記録が有効なチャンネル
   scope :logging_enabled, -> { where(logging_enabled: true) }

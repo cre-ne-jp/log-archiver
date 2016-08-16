@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160813104510) do
+ActiveRecord::Schema.define(version: 20160816083847) do
 
   create_table "channels", force: :cascade do |t|
     t.string   "name",            limit: 255, default: "irc_test", null: false
@@ -21,12 +21,26 @@ ActiveRecord::Schema.define(version: 20160813104510) do
     t.datetime "updated_at",                                       null: false
   end
 
+  add_index "channels", ["identifier"], name: "index_channels_on_identifier", unique: true, using: :btree
+  add_index "channels", ["logging_enabled"], name: "index_channels_on_logging_enabled", using: :btree
+
   create_table "irc_users", force: :cascade do |t|
     t.string   "name",       limit: 16,  default: "", null: false
     t.string   "host",       limit: 255, default: "", null: false
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
   end
+
+  create_table "message_dates", force: :cascade do |t|
+    t.integer  "channel_id", limit: 4
+    t.date     "date"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "message_dates", ["channel_id", "date"], name: "index_message_dates_on_channel_id_and_date", using: :btree
+  add_index "message_dates", ["channel_id"], name: "index_message_dates_on_channel_id", using: :btree
+  add_index "message_dates", ["date"], name: "index_message_dates_on_date", using: :btree
 
   create_table "messages", force: :cascade do |t|
     t.integer  "channel_id",  limit: 4
@@ -41,11 +55,15 @@ ActiveRecord::Schema.define(version: 20160813104510) do
   end
 
   add_index "messages", ["channel_id"], name: "index_messages_on_channel_id", using: :btree
+  add_index "messages", ["id", "channel_id", "timestamp"], name: "index_messages_on_id_and_channel_id_and_timestamp", using: :btree
+  add_index "messages", ["id", "channel_id"], name: "index_messages_on_id_and_channel_id", using: :btree
+  add_index "messages", ["id", "timestamp"], name: "index_messages_on_id_and_timestamp", using: :btree
   add_index "messages", ["irc_user_id"], name: "index_messages_on_irc_user_id", using: :btree
   add_index "messages", ["nick"], name: "index_messages_on_nick", using: :btree
   add_index "messages", ["timestamp"], name: "index_messages_on_timestamp", using: :btree
   add_index "messages", ["type"], name: "index_messages_on_type", using: :btree
 
+  add_foreign_key "message_dates", "channels"
   add_foreign_key "messages", "channels"
   add_foreign_key "messages", "irc_users"
 end

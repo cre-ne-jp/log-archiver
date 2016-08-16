@@ -1,0 +1,12 @@
+<% date_str = @date.strftime('%F') %>
+<% title([@channel.name_with_prefix, date_str]) %>
+<%= render('shared/navbar') %>
+<div class="container main-container">
+  <%= render('shared/flash') %>
+  <div class="row">
+    <div class="col-xs-12 col-md-8">
+      <h1><%= @channel.name_with_prefix %> <%= date_str %></h1>
+      <%= render('shared/message_list', messages: @messages) %>
+    </div>
+  </div>
+</div>
