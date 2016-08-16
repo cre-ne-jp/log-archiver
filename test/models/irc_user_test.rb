@@ -9,12 +9,12 @@ class IrcUserTest < ActiveSupport::TestCase
     assert(@user.valid?)
   end
 
-  test 'name は 16 文字以下' do
-    @user.name = 'a' * 16
-    assert(@user.valid?, '16 文字は OK')
+  test 'name は 64 文字以下' do
+    @user.name = 'a' * 64
+    assert(@user.valid?, '64 文字は OK')
 
-    @user.name = 'a' * 17
-    refute(@user.valid?, '17 文字は NG')
+    @user.name = 'a' * 65
+    refute(@user.valid?, '65 文字は NG')
   end
 
   test 'マスクの形式が正しい' do
