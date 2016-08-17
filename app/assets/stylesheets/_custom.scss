@@ -46,6 +46,20 @@ b.nickname.message-privmsg {
     color: white;
 }
 
+aside {
+  font-size: $font-size-small;
+
+  h1 {
+    font-size: $font-size-h5;
+  }
+}
+
+.simple-calendar {
+  .calendar-heading, th, .day {
+    text-align: center;
+  }
+}
+
 .server-panel {
   .panel-title {
     font-size: $font-size-h3;
