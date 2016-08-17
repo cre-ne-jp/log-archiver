@@ -8,6 +8,7 @@ IRC ボットを常駐させることでチャットログをチャンネル単�
 * Linux または MacOSX  
   * 現在のところ Windows には未対応。
 * Ruby 2.1.0 以降
+* MySQL または MariaDB
 
 
 # インストール
@@ -62,7 +63,7 @@ cd /path/to/log-archiver
 bin/ircbot -c test # /path/to/log-archiver/config/test.yaml を使用する場合
 ```
 
-systemd による制御を行なう場合は [systemd](doc/system/systemd.md) を参照してください。
+systemd による制御を行なう場合は [systemd](doc/systemd.md) を参照してください。
 
 
 ## 出力部の起動
