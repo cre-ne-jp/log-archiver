@@ -5,11 +5,17 @@ class Channels::DaysController < ApplicationController
     @month = params[:month].to_i
 
     start_date = Date.new(@year, @month, 1)
-    @day_count = Message.
+    date_range = start_date...(start_date.next_month)
+    @dates = MessageDate.
+      where(channel: @channel,
+            date: date_range).
+      order(:date).
+      pluck(:date)
+    @speech_count = Message.
       uniq.
       where(channel: @channel,
             type: %w(Privmsg Notice),
-            timestamp: start_date...(start_date.next_month)).
+            timestamp: date_range).
       group('DATE(timestamp)').
       order(:timestamp).
       count

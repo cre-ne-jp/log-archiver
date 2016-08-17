@@ -14,8 +14,8 @@
 
       <h1><%= @channel.name_with_prefix %> <%= year_month_str %></h1>
       <ul>
-        <% @day_count.each do |date, count| %>
-          <li><%= link_to(date.strftime('%F'), channels_day_path(identifier: @channel.identifier, year: @year, month: '%02d' % @month, day: date.strftime('%d'))) %>（<%= count %> 発言）</li>
+        <% @dates.each do |date| %>
+          <li><%= link_to(date.strftime('%F'), channels_day_path(identifier: @channel.identifier, year: @year, month: '%02d' % @month, day: date.strftime('%d'))) %>（<%= @speech_count[date] || 0 %> 発言）</li>
         <% end %>
       </ul>
     </div>
