@@ -12,7 +12,7 @@ services:
   - mysql
 before_script:
   - cp config/database.yml.travis config/database.yml
-  - mysql -u root -e 'create database IF NOT EXISTS log-archiver_test;'
+  - mysql -u root -e 'create database IF NOT EXISTS logarchiver_test;'
 script:
   - bundle exec rake --trace db:create
   - bundle exec rake --trace db:migrate
