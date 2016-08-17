@@ -1,0 +1,18 @@
+[Unit]
+Description=LogArchiver IRC Bot - IRC Log Save and Viewer
+Documentation=https://github.com/cre-ne-jp/log-archiver
+After=network.target
+
+[Service]
+User=logarchiver
+Group=logarchiver
+Type=simple
+PIDFile=/home/logarchiver/log-archiver/tmp/ircbot.pid
+WorkingDirectory=/home/logarchiver/log-archiver
+ExecStart=/home/logarchiver/log-archiver/bin/ircbot -v
+#ExecReload=/usr/bin/kill -HUP $MAINPID
+ExecStop=/usr/bin/kill $MAINPID
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
