@@ -125,12 +125,14 @@ module LogArchiver
         return nil unless message.channel
 
         ActiveRecord::Base.connection_pool.with_connection do
-          channel = Channel.find_by(name: message.channel.name[1..-1],
+          channel = ::Channel.find_by(name: message.channel.name[1..-1],
                                     logging_enabled: true)
           next nil unless channel
 
           next nil unless user = message.user
           irc_user = IrcUser.find_or_create_by!(name: user.user, host: user.host)
+
+          MessageDate.find_or_create_by!(channel: channel, date: message.time.to_date)
 
           yield(channel, irc_user)
         end
@@ -150,9 +152,11 @@ module LogArchiver
           next [] unless user = message.user
           channels = ::Channel.where(name: channel_names_without_prefix,
                                      logging_enabled: true)
-          channels.find_each.map do |channel|
+          channels.each.map do |channel|
             irc_user ||= IrcUser.find_or_create_by!(name: user.user,
                                                     host: user.host)
+
+            MessageDate.find_or_create_by!(channel: channel, date: message.time.to_date)
 
             yield(channel, irc_user)
           end
