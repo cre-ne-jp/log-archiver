@@ -1,0 +1,31 @@
+sudo: false
+language: ruby
+cache: bundler
+bundler_args: "--deployment --without development"
+rvm:
+  - 2.1.10
+  - 2.2.3
+  - 2.2.5
+  - 2.3.0
+  - 2.3.1
+services:
+  - mysql
+before_script:
+  - cp config/database.yml.travis config/database.yml
+  - mysql -u root -e 'create database IF NOT EXISTS log-archiver_test;'
+script:
+  - bundle exec rake --trace db:create
+  - bundle exec rake --trace db:migrate
+  - bundle exec rake test
+notifications:
+  irc:
+    use_notice: true
+    channels: 
+      - 'irc.trpg.net#irc_test'
+    on_success: always
+    on_failure: always
+    template:
+      - '%{repository_slug} #%{build_number} %{branch} - %{commit} -> %{result}'
+      - '変更履歴: %{compare_url}'
+      - 'ステータス: %{build_url}'
+  email: false
