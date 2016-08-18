@@ -17,8 +17,8 @@ default: &default
 
 development:
   <<: *default
-  database: 'logarchiver_dev'
-  username: 'logarchiver'
+  database: 'log_archiver_dev'
+  username: 'log_archiver'
   password: ''
 
 # Warning: The database defined as "test" will be erased and
@@ -26,8 +26,8 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: 'logarchiver_test'
-  username: 'logarchiver'
+  database: 'log_archiver_test'
+  username: 'log_archiver'
   password: ''
 
 # As with config/secrets.yml, you never want to store sensitive information,
@@ -51,6 +51,6 @@ test:
 #
 production:
   <<: *default
-  database: logarchiver_production
-  username: logarchiver
+  database: log_archiver_production
+  username: log_archiver
   password: <%= ENV['LOG-ARCHIVER_DATABASE_PASSWORD'] %>
