@@ -37,10 +37,6 @@ CentOS 7 を最小限構成でセットアップしている場合、以下の�
 * zlib-devel
 * mariadb-devel
 
-```bash
-cd /path/to/log-archiver
-```
-
 
 ## 設定
 
