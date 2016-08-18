@@ -27,7 +27,6 @@ class Channels::DaysController < ApplicationController
     }
     @channel = target_channels.first
 
-
     @year = params[:year].to_i
     @month = params[:month].to_i
     @day = params[:day].to_i
@@ -40,6 +39,5 @@ class Channels::DaysController < ApplicationController
             timestamp: @date...(@date.next_day)).
       order(:timestamp, :id)
     @message_dates = MessageDate.where(channel: @channel)
-
   end
 end
