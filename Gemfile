@@ -27,9 +27,6 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
-# コンソールとして pry を使う
-gem 'pry-rails'
-
 # デザイン
 gem 'bootstrap-sass'
 gem 'font-awesome-rails'
@@ -67,4 +64,7 @@ group :development do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+
+  # コンソールとして pry を使う
+  gem 'pry-rails'
 end
