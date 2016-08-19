@@ -35,6 +35,7 @@ class Channels::DaysController < ApplicationController
     @calendar_start_date = params[:start_date]&.to_date || @date rescue @date
 
     @messages = Message.
+      includes(:channel, :irc_user).
       where(channel: @channel,
             timestamp: @date...(@date.next_day)).
       order(:timestamp, :id)
