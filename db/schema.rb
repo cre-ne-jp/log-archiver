@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160816112752) do
+ActiveRecord::Schema.define(version: 20160819011055) do
 
   create_table "channels", force: :cascade do |t|
     t.string   "name",            limit: 255, default: "",   null: false
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20160816112752) do
   add_index "channels", ["logging_enabled"], name: "index_channels_on_logging_enabled", using: :btree
 
   create_table "irc_users", force: :cascade do |t|
-    t.string   "name",       limit: 64,  default: "", null: false
+    t.string   "user",       limit: 64,  default: "", null: false
     t.string   "host",       limit: 255, default: "", null: false
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false

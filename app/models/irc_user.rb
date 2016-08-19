@@ -1,7 +1,7 @@
 class IrcUser < ActiveRecord::Base
   has_many :messages
 
-  validates :name,
+  validates :user,
     presence: true,
     length: { maximum: 64 }
   validates :host, presence: true
@@ -10,6 +10,6 @@ class IrcUser < ActiveRecord::Base
   # @param [String] nick ニックネーム
   # @return [String]
   def mask(nick)
-    "#{nick}!#{name}@#{host}"
+    "#{nick}!#{user}@#{host}"
   end
 end
