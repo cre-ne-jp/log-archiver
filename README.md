@@ -80,3 +80,4 @@ systemd による制御を行なう場合は [systemd](doc/systemd.md) を参照
 
 * 鯉（[@koi-chan](https://github.com/koi-chan)）
 * ocha（[@ochaochaocha3](https://github.com/ochaochaocha3)）
+* らぁ（[@raa0121](https://github.com/raa0121)）
