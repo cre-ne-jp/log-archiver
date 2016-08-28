@@ -1,0 +1,10 @@
+<% if target.errors.any? %>
+  <div id="error-explanation" class="alert alert-danger">
+    <p>以下のエラーがあります。</p>
+    <ul>
+      <% target.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

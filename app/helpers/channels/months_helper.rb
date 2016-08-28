@@ -1,0 +1,2 @@
+module Channels::MonthsHelper
+end

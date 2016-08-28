@@ -12,7 +12,7 @@ module LogArchiver
       set(plugin_name: 'ChannelSync')
 
       listen_to(:connect, method: :connect)
-      timer(1, method: :kickstart)
+      timer(10, method: :kickstart)
 
       # 接続時に、必要なチャンネルに JOIN する
       # @param [Cinch::Message] m

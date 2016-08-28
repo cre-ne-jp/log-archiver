@@ -4,7 +4,7 @@ FactoryGirl.define do
     identifier 'irc_test'
     logging_enabled true
 
-    initialize_with { Channel.find_or_create_by(name: name) }
+    initialize_with { Channel.find_or_create_by(identifier: identifier) }
 
     factory :channel_with_camel_case_name do
       name 'CamelCaseChannel'

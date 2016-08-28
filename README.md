@@ -1,17 +1,15 @@
 # Log Archiver
 
 [![Build Status](https://travis-ci.org/cre-ne-jp/log-archiver.svg?branch=master)](https://travis-ci.org/cre-ne-jp/log-archiver)
+[![Coverage Status](https://coveralls.io/repos/github/cre-ne-jp/log-archiver/badge.svg?branch=master)](https://coveralls.io/github/cre-ne-jp/log-archiver?branch=master)
 
 IRC ボットを常駐させることでチャットログをチャンネル単位で RDBMS に直接記録し、Rails アプリケーションにより記録されたログを整形・表示します。
 
-
 ## 動作環境
 
-* Linux または MacOSX  
-  * 現在のところ Windows には未対応。
-* Ruby 2.1.0 以降
+* Linux または OSX
+* Ruby 2.3.0 以降
 * MySQL または MariaDB
-
 
 # インストール
 
@@ -27,8 +25,7 @@ gem install bundler
 
 上記が完了したら、適当なディレクトリにファイルを設置し、以下を実行して必要な gem（ライブラリ）をインストールしてください。
 
-なお、gem をインストールするためには、システムにいくつかのライブラリと開発環境がインストールされている必要があります。  
-CentOS 7 を最小限構成でセットアップしている場合、以下の追加パッケージが必要です。
+なお、gem をインストールするためには、システムにいくつかのライブラリと開発環境がインストールされている必要があります。CentOS 7 を最小限構成でセットアップしている場合、以下の追加パッケージが必要です。
 
 * make
 * gcc
@@ -37,17 +34,11 @@ CentOS 7 を最小限構成でセットアップしている場合、以下の�
 * zlib-devel
 * mariadb-devel
 
-```bash
-cd /path/to/log-archiver
-```
-
-
 ## 設定
 
 * [IRC の接続設定](doc/irc.md)
 * [データベースの接続設定](doc/database.md)
 * [ウェブサーバの設定](doc/nginx.md)
-
 
 ## IRC ボットの起動
 
@@ -67,13 +58,11 @@ bin/ircbot -c test # /path/to/log-archiver/config/test.yaml を使用する場�
 
 systemd による制御を行なう場合は [systemd](doc/systemd.md) を参照してください。
 
-
 ## 出力部の起動
 
 出力部は Rails アプリケーションとして実装されています。
 
-単体で起動させることもできますが、[Apache]() や [nginx]() からのリバースプロキシ設定を行なうことをお勧めします。
-
+単体で起動させることもできますが、Apache や nginx からのリバースプロキシ設定を行なうことをお勧めします。
 
 ## 連絡先
 
@@ -91,3 +80,4 @@ systemd による制御を行なう場合は [systemd](doc/systemd.md) を参照
 
 * 鯉（[@koi-chan](https://github.com/koi-chan)）
 * ocha（[@ochaochaocha3](https://github.com/ochaochaocha3)）
+* らぁ（[@raa0121](https://github.com/raa0121)）

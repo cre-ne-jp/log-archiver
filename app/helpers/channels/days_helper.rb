@@ -1,0 +1,2 @@
+module Channels::DaysHelper
+end

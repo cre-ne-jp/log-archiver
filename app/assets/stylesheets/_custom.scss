@@ -1,0 +1,137 @@
+/* vim: :set expandtab ts=2 sts=2 sw=2: */
+body {
+  padding-top: 70px;
+}
+
+.page-header {
+  margin-top: $line-height-computed;
+}
+
+h1.title {
+  text-align: center;
+  font-weight: normal;
+}
+
+h2 {
+  padding-bottom: 0.25em;
+  border-bottom: 1px solid $page-header-border-color;
+}
+
+h3 {
+  margin-top: 12.5px;
+}
+
+.num-col {
+  text-align: right;
+}
+
+.message-time {
+  white-space: nowrap;
+  width: 1em;
+}
+
+.message-content {
+  word-break: break-all;
+}
+
+dl.message {
+  margin: 0;
+}
+
+b.nickname.message-privmsg {
+    position: relative;
+    padding: 0em 0.25em;
+    border-radius: 4px;
+    background-color: $gray-light;
+    color: white;
+}
+
+aside {
+  font-size: $font-size-small;
+
+  h1 {
+    font-size: $font-size-h5;
+  }
+}
+
+.simple-calendar {
+  .calendar-heading, th, .day {
+    text-align: center;
+  }
+}
+
+.server-panel {
+  .panel-title {
+    font-size: $font-size-h3;
+    text-align: center;
+  }
+
+  .progress {
+    height: $font-size-base;
+    margin-bottom: 0.5em;
+  }
+
+  h4 {
+    margin-bottom: 0.5em;
+    font-size: $font-size-base;
+  }
+}
+
+.ratio {
+  font-size: $font-size-small;
+  text-align: center;
+}
+
+strong.user-status-full {
+  color: $brand-danger;
+  font-weight: bold;
+}
+
+em.user-status-warning {
+  color: $brand-warning;
+  font-style: normal;
+}
+
+ul, ol {
+  padding-left: 2em;
+}
+
+.text-prohibited {
+  $prohibited-color: #a94442;
+  color: $prohibited-color;
+}
+
+.prohibited-conduct {
+  font-weight: bold;
+}
+
+.maintenance_id, .server_id {
+  text-align: right;
+}
+
+.maintenance_done {
+  text-align: center;
+}
+
+footer {
+  margin-top: 2em;
+  padding: 2em 0 4em;
+  background-color: $well-bg;
+  border-top: 1px solid $well-border;
+
+  @media (max-width: $screen-xs-max) {
+    text-align: center;
+  }
+}
+
+.list-unstyled.links {
+  li {
+    margin-bottom: ($line-height-computed / 2);
+  }
+}
+
+.copyright {
+  @media (min-width: $screen-sm-min) {
+    text-align: right;
+  }
+}

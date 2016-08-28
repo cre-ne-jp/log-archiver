@@ -1,23 +1,31 @@
-<h1>チャンネル一覧</h1>
-<p>現在 <%= @channels.size %> チャンネルが登録されています。</p>
-<table>
-  <tr>
-    <th>ID</th>
-    <th>IRC上でのチャンネル名</th>
-    <th>チャンネル同一性識別名</th>
-    <th>データベース登録名</th>
-    <th>ログ取得状況</th>
-    <th></th>
-  </tr>
-<% @channels.each do |channel| %>
-  <tr>
-    <td><%= channel.id %></td>
-    <td><%= channel.original %></td>
-    <td><%= channel.downcase %></td>
-    <td><%= channel.alphabet %></td>
-    <td><%= channel.enable ? '取得中' : '停止中' %></td>
-    <td><%= link_to('詳細', channels_show_path(channel)) %></td>
-  </tr>
-<% end %>
-</table>
-
+<% title('チャンネル一覧') %>
+<%= render('shared/navbar') %>
+<div class="container main-container">
+  <%= render('shared/flash') %>
+  <div class="row">
+    <div class="col-xs-12">
+      <h1>チャンネル一覧</h1>
+      <p>現在 <%= @channels.size %> チャンネルが登録されています。</p>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th class="num-col">#</th>
+            <th>チャンネル名</th>
+            <th>識別子</th>
+            <th>ログ取得状況</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @channels.each do |channel| %>
+            <tr>
+              <td class="num-col"><%= channel.id %></td>
+              <td><%= link_to(channel.name_with_prefix, channel_path(channel.identifier)) %></td>
+              <td><%= channel.identifier %></td>
+              <td><%= channel.logging_enabled ? '取得中' : '停止中' %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
