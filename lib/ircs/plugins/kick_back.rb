@@ -5,10 +5,10 @@ require_relative 'plugin_template'
 module LogArchiver
   module Plugin
     # KICK されたとき、ログ取得対象チャンネルだった場合 JOIN しなおす
-    class ChannelSync < Template
+    class KickBack < Template
       include Cinch::Plugin
 
-      set(plugin_name: 'ChannelSync')
+      set(plugin_name: 'KickBack')
 
       listen_to(:kick, method: :kick)
 
@@ -25,10 +25,11 @@ module LogArchiver
         logging_enabled =
           ::Channel.logging_enabled_names_with_prefix(lowercase: true)
 
-        if m.params[1].downcase == bot.nick.downcase
+        if m.params[1].downcase == bot.nick.downcase \
           && logging_enabled.include?(m.channel)
           bot.join(m.channel)
           @logger.warn("#{m.channel} から KICK されたため、JOIN し直しました")
+          sleep 1
           (JOIN_MESSAGE % m.channel.to_s).each_line do |line|
             m.target.send(line, true)
             @logger.warn("<#{m.channel}>: #{line}")
