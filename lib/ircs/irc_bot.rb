@@ -26,7 +26,7 @@ module LogArchiver
 
       @logger = new_logger(log_level)
       config = load_config(config_id, options[:mode])
-      plugins = load_plugins(%w(ChannelSync SaveLog))
+      plugins = load_plugins(%w(ChannelSync SaveLog KickBack))
 
       bot = new_bot(config, plugins, log_level)
 
@@ -68,7 +68,7 @@ module LogArchiver
 
         opt.on(
           '-m', '--mode=RAILS_ENV',
-          'データベース保存環境を指定します'
+          '環境を指定します'
         ) do |mode|
           options[:mode] = mode
         end

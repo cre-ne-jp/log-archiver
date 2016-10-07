@@ -14,9 +14,6 @@ module LogArchiver
     # プラグイン設定のハッシュ
     # @return [Hash]
     attr_reader :plugin_config
-    # データベース設定のハッシュ
-    # @return [Hash]
-    attr_reader :database_config
 
     class << self
       # 設定 ID から設定ファイルのパスに変換する
