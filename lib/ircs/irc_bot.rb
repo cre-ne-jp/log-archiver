@@ -68,7 +68,7 @@ module LogArchiver
 
         opt.on(
           '-m', '--mode=RAILS_ENV',
-          'データベース保存環境を指定します'
+          '環境を指定します'
         ) do |mode|
           options[:mode] = mode
         end
