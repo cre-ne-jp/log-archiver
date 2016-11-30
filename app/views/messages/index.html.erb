@@ -1,0 +1,25 @@
+<% title('全文検索テスト') %>
+<%= render('shared/navbar') %>
+<div class="container main-container">
+  <%= render('shared/flash') %>
+  <div class="row">
+    <div class="col-xs-12">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>日時</th>
+            <th>メッセージ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @messages.each do |m| %>
+            <tr>
+              <td><%= m.timestamp.strftime('%F %T') %></td>
+              <td><%= m.message %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

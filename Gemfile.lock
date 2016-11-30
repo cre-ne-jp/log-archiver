@@ -30,6 +30,8 @@ GEM
       activemodel (= 4.2.6)
       activesupport (= 4.2.6)
       arel (~> 6.0)
+    activerecord-import (0.16.2)
+      activerecord (>= 3.2)
     activerecord-mysql-awesome (0.0.9)
       activerecord (~> 4.0)
       activesupport (~> 4.0)
@@ -228,6 +230,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activerecord-import
   activerecord-mysql-awesome
   activerecord-mysql-comment
   bootstrap-sass
