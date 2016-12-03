@@ -7,6 +7,7 @@ services:
 sudo: required
 before_install:
   - curl --silent --location https://github.com/groonga/groonga/raw/master/data/travis/setup.sh | sh
+  - sudo apt-get install -y -V mysql-server-mroonga
 before_script:
   - cp config/database.yml.travis config/database.yml
   - mysql -u root -e 'SET GLOBAL innodb_file_format = Barracuda'
