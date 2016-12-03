@@ -32,20 +32,20 @@
           </td>
         <% when Topic %>
           <td class="message-content">
-            <b class="nickname"><%= m.nick %></b> が <b class="channel"><%= m.channel.name_with_prefix %></b> のトピックを設定しました：<%= m.message %>
+            <b class="nickname"><%= m.nick %></b> が <b class="channel"><%= m.channel.name_with_prefix %></b> のトピックを設定しました：<%= raw(linkify(m.message)) %>
           </td>
         <% when Privmsg %>
           <td class="message-content">
             <dl class="message">
               <dt><b class="nickname message-privmsg"><%= m.nick %></b></dt>
-              <dd><%= m.message %></dd>
+              <dd><%= raw(linkify(m.message)) %></dd>
             </dl>
           </td>
         <% when Notice %>
           <td class="message-content">
             <dl class="message">
               <dt><b class="nickname"><%= m.nick %></b></dt>
-              <dd><%= m.message %></dd>
+              <dd><%= raw(linkify(m.message)) %></dd>
             </dl>
           </td>
         <% end %>

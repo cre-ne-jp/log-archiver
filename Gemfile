@@ -48,7 +48,11 @@ gem 'meta-tags'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# カレンダー
 gem "simple_calendar", "~> 2.0"
+
+# 自動リンク
+gem 'rinku'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
