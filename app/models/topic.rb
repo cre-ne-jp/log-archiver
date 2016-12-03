@@ -1,4 +1,4 @@
-class Topic < Message
+class Topic < ConversationMessage
   # Tiarra のログ形式の文字列を返す
   # @return [String]
   def to_tiarra_format

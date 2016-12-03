@@ -11,7 +11,7 @@ class Channels::DaysController < ApplicationController
             date: date_range).
       order(:date).
       pluck(:date)
-    @speech_count = Message.
+    @speech_count = ConversationMessage.
       uniq.
       where(channel: @channel,
             type: %w(Privmsg Notice),
@@ -34,11 +34,22 @@ class Channels::DaysController < ApplicationController
 
     @calendar_start_date = params[:start_date]&.to_date || @date rescue @date
 
-    @messages = Message.
+    timestamp_range = @date...(@date.next_day)
+    messages1 = Message.
       includes(:channel, :irc_user).
-      where(channel: @channel,
-            timestamp: @date...(@date.next_day)).
+      where(channel: @channel, timestamp: timestamp_range).
       order(:timestamp, :id)
+    messages2 = ConversationMessage.
+      includes(:channel, :irc_user).
+      where(channel: @channel, timestamp: timestamp_range).
+      order(:timestamp, :id)
+
+    # タイムスタンプによるソート
+    # 安定ソートとなるようにカウンタを用意する
+    i = 0
+    @messages = (messages1 + messages2).
+      sort_by { |m| [m.timestamp, i += 1] }
+
     @message_dates = MessageDate.where(channel: @channel)
   end
 end
