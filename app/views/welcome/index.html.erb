@@ -1,0 +1,41 @@
+<%= render('shared/navbar') %>
+<div class="container main-container">
+  <%= render('shared/flash') %>
+  <div class="row">
+    <div class="col-xs-12">
+      <h1>irc.cre.jp ログアーカイブ</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h2 class="panel-title"><%= fa_icon('search', text: 'キーワードから探す') %></h2>
+        </div>
+        <div class="panel-body">
+          <form>
+            <div class="form-group">
+              <label for="search-keyword">キーワード</label>
+              <input class="form-control" id="search-keyword" name="search_keyword" />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h2 class="panel-title"><%= fa_icon('folder-open', text: 'チャンネルから探す') %></h2>
+        </div>
+        <div class="panel-body">
+          <ul class="list-unstyled">
+            <% @channels.each do |channel| %>
+              <li><%= link_to(channel.name_with_prefix, channel_path(channel.identifier)) %>（<%= link_to('今日', channels_day_path(identifier: channel.identifier, year: @today.year, month: '%02d' % @today.month, day: '%02d' % @today.day)) %> | <%= link_to('昨日', channels_day_path(identifier: channel.identifier, year: @yesterday.year, month: '%02d' % @yesterday.month, day: '%02d' % @yesterday.day)) %>）</li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  root 'channels#index'
+  root 'welcome#index'
+
   resources :channels, only: %i(index)
   get '/channels/:identifier', to: 'channels#show', as: 'channel'
 
