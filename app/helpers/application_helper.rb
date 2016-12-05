@@ -24,6 +24,23 @@ module ApplicationHelper
     Rinku.auto_link(h(s), :urls)
   end
 
+  # 月一覧ページのパスに必要なパラメータのハッシュを返す
+  def channels_months_path_params(channel, year)
+    {
+      identifier: channel.identifier,
+      year: year
+    }
+  end
+
+  # 日一覧ページのパスに必要なパラメータのハッシュを返す
+  def channels_days_path_params(channel, year, month)
+    {
+      identifier: channel.identifier,
+      year: year,
+      month: '%02d' % month
+    }
+  end
+
   # 1 日分のページのパスに必要なパラメータのハッシュを返す
   def channels_day_path_params(channel, date)
     {

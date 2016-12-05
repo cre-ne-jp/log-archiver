@@ -32,7 +32,7 @@
       <h1>ログ</h1>
       <ul>
         <% @years.each do |year| %>
-          <li><%= link_to("#{year}年", channels_months_path(identifier: @channel.identifier, year: year)) %></li>
+          <li><%= link_to("#{year}年", channels_months_path(channels_months_path_params(@channel, year))) %></li>
         <% end %>
       </ul>
     </div>

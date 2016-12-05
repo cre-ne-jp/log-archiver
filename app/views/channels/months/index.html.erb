@@ -13,7 +13,7 @@
       <h1><%= @channel.name_with_prefix %> <%= @year %>年</h1>
       <ul>
         <% @month_count.each do |month, count| %>
-          <li><%= link_to('%d-%02d' % [@year, month], channels_days_path(identifier: @channel.identifier, year: @year, month: '%02d' % month)) %> (<%= count %>)</li>
+          <li><%= link_to('%d-%02d' % [@year, month], channels_days_path(channels_days_path_params(@channel, @year, month))) %> (<%= count %>)</li>
         <% end %>
       </ul>
     </div>

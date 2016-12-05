@@ -8,8 +8,8 @@
     <ol class="breadcrumb">
       <li><%= link_to('チャンネル', channels_path) %></li>
       <li><%= link_to(@channel.name_with_prefix, channel_path(identifier: @channel.identifier)) %></li>
-      <li><%= link_to("#{@date.year}年", channels_months_path(identifier: @channel.identifier, year: @date.year)) %></li>
-      <li><%= link_to("#{@date.month}月", channels_days_path(identifier: @channel.identifier, year: @date.year, month: @date.strftime('%m'))) %></li>
+      <li><%= link_to("#{@date.year}年", channels_months_path(channels_months_path_params(@channel, @date.year))) %></li>
+      <li><%= link_to("#{@date.month}月", channels_days_path(channels_days_path_params(@channel, @date.year, @date.month))) %></li>
       <li class="active"><%= @date.day %>日</li>
     </ol>
   </div>
