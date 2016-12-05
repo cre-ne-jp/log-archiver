@@ -76,6 +76,5 @@ ActiveRecord::Schema.define(version: 20161203143601) do
   add_index "messages", ["timestamp"], name: "index_messages_on_timestamp", using: :btree
   add_index "messages", ["type"], name: "index_messages_on_type", using: :btree
 
-  add_foreign_key "conversation_messages", "channels"
-  add_foreign_key "conversation_messages", "irc_users"
+  add_foreign_key "conversation_messages", "irc_users", name: "irc_user_id"
 end
