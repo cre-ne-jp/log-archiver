@@ -1,10 +1,14 @@
 class MessagesController < ApplicationController
   def index
-    @messages = ConversationMessage.all
-
     query = params['query']
-    if query.present?
-      @messages = @messages.full_text_search(query)
-    end
+    @messages =
+      if query.present?
+        ConversationMessage.full_text_search(query)
+      else
+        ConversationMessage.all
+      end
+    @messages = @messages.
+      order(timestamp: :desc).
+      limit(1000)
   end
 end
