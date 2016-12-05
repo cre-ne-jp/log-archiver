@@ -16,24 +16,35 @@
 
   <div class="row">
     <article class="col-xs-12 col-md-8">
-      <h1><%= @channel.name_with_prefix %> <%= date_str %></h1>
+      <div class="page-header">
+        <h1><%= @channel.name_with_prefix %> <%= date_str %></h1>
+      </div>
       <%= render('shared/message_list', messages: @messages) %>
     </article>
     <aside class="col-xs-12 col-md-4">
-      <%= month_calendar(start_date: @calendar_start_date, attribute: :date, events: @message_dates) do |date, events| %>
-        <% if events.empty? %>
-          <%= date.day %>
-        <% else %>
-          <%= link_to(date.day, channels_day_path(identifier: @channel.identifier, year: date.year, month: '%02d' % date.month, day: '%02d' % date.day)) %>
-        <% end %>
-      <% end %>
-
-        <h1><%= @date.strftime('%Y-%m-%d') %> の他チャンネル</h1>
-        <ul>
-          <% @other_channels.each do |channel| %>
-            <li><%= link_to(channel.name_with_prefix, channels_day_path(identifier: channel.identifier, year: @date.year, month: '%02d' % @date.month, day: '%02d' % @date.day)) %></li>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <%= month_calendar(start_date: @calendar_start_date, attribute: :date, events: @message_dates) do |date, events| %>
+            <% if events.empty? %>
+              <%= date.day %>
+            <% else %>
+              <%= link_to(date.day, channels_day_path(identifier: @channel.identifier, year: date.year, month: '%02d' % date.month, day: '%02d' % date.day)) %>
+            <% end %>
           <% end %>
-        </ul>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h1 class="panel-title"><%= @date.strftime('%Y-%m-%d') %> の他チャンネル</h1>
+        </div>
+        <div class="panel-body">
+          <ul class="list-unstyled">
+            <% @other_channels.each do |channel| %>
+              <li><%= link_to(channel.name_with_prefix, channels_day_path(identifier: channel.identifier, year: @date.year, month: '%02d' % @date.month, day: '%02d' % @date.day)) %></li>
+            <% end %>
+          </ul>
+        </div>
     </aside>
   </div>
 </div>
