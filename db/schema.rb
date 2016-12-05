@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(version: 20161203143601) do
 
-  create_table "channels", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
+  create_table "channels", force: :cascade, options: "ENGINE=Mroonga DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
     t.string  "name",            limit: 255, default: "",   null: false
     t.string  "identifier",      limit: 255, default: "",   null: false
     t.boolean "logging_enabled",             default: true, null: false
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20161203143601) do
   add_index "channels", ["identifier"], name: "index_channels_on_identifier", using: :btree
   add_index "channels", ["logging_enabled"], name: "index_channels_on_logging_enabled", using: :btree
 
-  create_table "conversation_messages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
+  create_table "conversation_messages", force: :cascade, options: "ENGINE=Mroonga DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
     t.integer  "channel_id",  limit: 4
     t.integer  "irc_user_id", limit: 4
     t.datetime "timestamp",                              null: false
@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 20161203143601) do
   add_index "conversation_messages", ["timestamp"], name: "index_conversation_messages_on_timestamp", using: :btree
   add_index "conversation_messages", ["type"], name: "index_conversation_messages_on_type", using: :btree
 
-  create_table "irc_users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
+  create_table "irc_users", force: :cascade, options: "ENGINE=Mroonga DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
     t.string "user", limit: 64,  default: "", null: false
     t.string "host", limit: 255, default: "", null: false
   end
@@ -76,6 +76,5 @@ ActiveRecord::Schema.define(version: 20161203143601) do
   add_index "messages", ["timestamp"], name: "index_messages_on_timestamp", using: :btree
   add_index "messages", ["type"], name: "index_messages_on_type", using: :btree
 
-  add_foreign_key "conversation_messages", "channels"
-  add_foreign_key "conversation_messages", "irc_users"
+  add_foreign_key "conversation_messages", "irc_users", name: "irc_user_id"
 end

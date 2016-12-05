@@ -15,6 +15,8 @@ IRC ボットを常駐させることでチャットログをチャンネル単�
 
 [MySQL](https://www-jp.mysql.com/) もしくは [MariaDB](https://mariadb.org/) をインストールしていない場合はインストールしてください。
 
+全文検索機能を動作させるため、[Groonga](http://groonga.org/ja/) および [Mroonga](http://mroonga.org/ja/) のインストールが必要です。Mroonga 公式サイトより[インストール方法](http://mroonga.org/ja/docs/install.html)を参照してインストールを行ってください。
+
 [Ruby](http://www.ruby-lang.org/) をインストールしていない場合はインストールしてください。
 
 [Bundler](http://bundler.io/) をインストールしていない場合は以下を実行してください。
