@@ -34,7 +34,9 @@
               <%= render('shared/date_picker', id: :until) %>
             </div>
             <div class="row">
-              <div class="col-xs-6 col-xs-offset-3 col-md-4 col-md-offset-4"><%= button_tag(fa_icon('search', text: '検索'), type: 'submit', name: 'search', class: 'btn btn-primary btn-block') %></div>
+              <div class="col-xs-6 col-xs-offset-3 col-md-4 col-md-offset-4">
+                <p><%= button_tag(fa_icon('search', text: '検索'), type: 'submit', name: 'search', class: 'btn btn-primary btn-block') %></p>
+              </div>
             </div>
           </form>
         </div>
@@ -58,17 +60,14 @@
               <% @channels.each do |channel| %>
                 <tr>
                   <td class="channel-list-name"><%= link_to(channel.name_with_prefix, channel_path(channel.identifier)) %></td>
-
                   <td class="channel-list-date">
-                    <a href="<%= channels_day_path(channels_day_path_params(channel, @today)) %>">今日 <span class="badge"><%= @conversation_messages_count_today[channel.id] || 0 %></span></a> /
-                    <a href="<%= channels_day_path(channels_day_path_params(channel, @yesterday)) %>">昨日 <span class="badge"><%= @conversation_messages_count_yesterday[channel.id] || 0 %></a>
+                    <%= link_to('今日', channels_day_path(channels_day_path_params(channel, @today))) %> /
+                    <%= link_to('昨日', channels_day_path(channels_day_path_params(channel, @yesterday))) %>
                   </td>
                 </tr>
               <% end %>
             </tbody>
           </table>
-          <ul class="list-unstyled">
-          </ul>
         </div>
       </div>
     </div>
