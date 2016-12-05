@@ -23,7 +23,7 @@
               <td class="num-col"><%= channel.id %></td>
               <td><%= link_to(channel.name_with_prefix, channel_path(channel.identifier)) %></td>
               <td><%= channel.identifier %></td>
-              <td><%= channel.logging_enabled ? '取得中' : '停止中' %></td>
+              <td><%= channel.logging_enabled? ? '取得中' : '停止中' %></td>
             </tr>
           <% end %>
         </tbody>
