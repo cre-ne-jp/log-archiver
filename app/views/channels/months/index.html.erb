@@ -10,7 +10,9 @@
         <li class="active"><%= @year %>年</li>
       </ol>
 
-      <h1><%= @channel.name_with_prefix %> <%= @year %>年</h1>
+      <div class="page-header">
+        <h1><%= @channel.name_with_prefix %> <%= @year %>年</h1>
+      </div>
       <ul>
         <% @month_count.each do |month, count| %>
           <li><%= link_to('%d-%02d' % [@year, month], channels_days_path(channels_days_path_params(@channel, @year, month))) %> (<%= count %>)</li>
