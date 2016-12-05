@@ -3,7 +3,9 @@
   <%= render('shared/flash') %>
   <div class="row">
     <div class="col-xs-12">
-      <h1>irc.cre.jp ログアーカイブ</h1>
+      <div class="page-header">
+        <h1>irc.cre.jp ログアーカイブ</h1>
+      </div>
     </div>
   </div>
 
@@ -14,25 +16,58 @@
           <h2 class="panel-title"><%= fa_icon('search', text: 'キーワードから探す') %></h2>
         </div>
         <div class="panel-body">
-          <form>
+          <form class="search-form">
             <div class="form-group">
-              <label for="search-keyword">キーワード</label>
-              <input class="form-control" id="search-keyword" name="search_keyword" />
+              <%= label_tag(:keyword, 'キーワード') %>
+              <%= text_field_tag(:keyword, '', class: 'form-control', required: true) %>
+            </div>
+            <div class="form-group">
+              <%= label_tag(:channel_id, 'チャンネル') %>
+              <%= select_tag(:channel_id, options_for_select(@channel_data_for_select), class: 'form-control', required: true) %>
+            </div>
+            <div class="form-group">
+              <%= label_tag(:since, '開始日') %>
+              <%= render('shared/date_picker', id: :since) %>
+            </div>
+            <div class="form-group">
+              <%= label_tag(:until, '終了日') %>
+              <%= render('shared/date_picker', id: :until) %>
+            </div>
+            <div class="row">
+              <div class="col-xs-6 col-xs-offset-3 col-md-4 col-md-offset-4"><%= button_tag(fa_icon('search', text: '検索'), type: 'submit', name: 'search', class: 'btn btn-primary btn-block') %></div>
             </div>
           </form>
         </div>
       </div>
     </div>
+
     <div class="col-xs-12 col-sm-6">
       <div class="panel panel-default">
         <div class="panel-heading">
           <h2 class="panel-title"><%= fa_icon('folder-open', text: 'チャンネルから探す') %></h2>
         </div>
         <div class="panel-body">
+          <table class="table table-striped channel-list">
+            <thead>
+              <tr>
+                <th class="channel-list-name">チャンネル名</th>
+                <th class="channel-list-date">日付</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @channels.each do |channel| %>
+                <tr>
+                  <td class="channel-list-name"><%= link_to(channel.name_with_prefix, channel_path(channel.identifier)) %></td>
+
+                  <td class="channel-list-date">
+                    <a href="<%= channels_day_path(channels_day_path_params(channel, @today)) %>">今日 <span class="badge"><%= @conversation_messages_count_today[channel.id] || 0 %></span></a> /
+                    <a href="<%= channels_day_path(channels_day_path_params(channel, @yesterday)) %>">昨日 <span class="badge"><%= @conversation_messages_count_yesterday[channel.id] || 0 %></a>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
           <ul class="list-unstyled">
-            <% @channels.each do |channel| %>
-              <li><%= link_to(channel.name_with_prefix, channel_path(channel.identifier)) %>（<%= link_to('今日', channels_day_path(identifier: channel.identifier, year: @today.year, month: '%02d' % @today.month, day: '%02d' % @today.day)) %> | <%= link_to('昨日', channels_day_path(identifier: channel.identifier, year: @yesterday.year, month: '%02d' % @yesterday.month, day: '%02d' % @yesterday.day)) %>）</li>
-            <% end %>
           </ul>
         </div>
       </div>

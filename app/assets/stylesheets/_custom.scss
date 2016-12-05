@@ -5,6 +5,7 @@ body {
 
 .page-header {
   margin-top: $line-height-computed;
+  padding-bottom: 0.2em;
 }
 
 h1.title {
@@ -30,7 +31,15 @@ h3 {
   margin-top: 12.5px;
 }
 
+ul, ol {
+  padding-left: 2em;
+}
+
 .num-col {
+  text-align: right;
+}
+
+.channel-list-date {
   text-align: right;
 }
 
@@ -76,59 +85,6 @@ aside {
   .calendar-heading, th, .day {
     text-align: center;
   }
-}
-
-.server-panel {
-  .panel-title {
-    font-size: $font-size-h3;
-    text-align: center;
-  }
-
-  .progress {
-    height: $font-size-base;
-    margin-bottom: 0.5em;
-  }
-
-  h4 {
-    margin-bottom: 0.5em;
-    font-size: $font-size-base;
-  }
-}
-
-.ratio {
-  font-size: $font-size-small;
-  text-align: center;
-}
-
-strong.user-status-full {
-  color: $brand-danger;
-  font-weight: bold;
-}
-
-em.user-status-warning {
-  color: $brand-warning;
-  font-style: normal;
-}
-
-ul, ol {
-  padding-left: 2em;
-}
-
-.text-prohibited {
-  $prohibited-color: #a94442;
-  color: $prohibited-color;
-}
-
-.prohibited-conduct {
-  font-weight: bold;
-}
-
-.maintenance_id, .server_id {
-  text-align: right;
-}
-
-.maintenance_done {
-  text-align: center;
 }
 
 footer {

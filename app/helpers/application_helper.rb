@@ -23,4 +23,14 @@ module ApplicationHelper
   def linkify(s)
     Rinku.auto_link(h(s), :urls)
   end
+
+  # 1 日分のページのパスに必要なパラメータのハッシュを返す
+  def channels_day_path_params(channel, date)
+    {
+      identifier: channel.identifier,
+      year: date.year,
+      month: '%02d' % date.month,
+      day: '%02d' % date.day
+    }
+  end
 end
