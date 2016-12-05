@@ -16,14 +16,14 @@
           <h2 class="panel-title"><%= fa_icon('search', text: 'キーワードから探す') %></h2>
         </div>
         <div class="panel-body">
-          <form class="search-form">
+          <%= form_tag(messages_path, method: :get, class: 'search-form') do %>
             <div class="form-group">
               <%= label_tag(:keyword, 'キーワード') %>
               <%= text_field_tag(:keyword, '', class: 'form-control', required: true) %>
             </div>
             <div class="form-group">
-              <%= label_tag(:channel_id, 'チャンネル') %>
-              <%= select_tag(:channel_id, options_for_select(@channel_data_for_select), class: 'form-control', required: true) %>
+              <%= label_tag(:channel, 'チャンネル') %>
+              <%= select_tag(:channel, options_for_select(@channel_data_for_select), class: 'form-control', required: true) %>
             </div>
             <div class="form-group">
               <%= label_tag(:since, '開始日') %>
@@ -38,7 +38,7 @@
                 <p><%= button_tag(fa_icon('search', text: '検索'), type: 'submit', name: 'search', class: 'btn btn-primary btn-block') %></p>
               </div>
             </div>
-          </form>
+          <% end %>
         </div>
       </div>
     </div>

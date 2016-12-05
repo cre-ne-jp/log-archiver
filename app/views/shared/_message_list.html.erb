@@ -7,8 +7,9 @@
   </thead>
   <tbody>
     <% messages.each do |m| %>
-      <tr>
-        <td class="message-time"><%= m.timestamp.strftime('%T') %></td>
+      <% anchor = "#{m.type.downcase}-#{m.id}" %>
+      <tr id="<%= anchor %>">
+        <td class="message-time"><%= link_to(m.timestamp.strftime('%T'), channels_day_path(channels_day_path_params(m.channel, m.timestamp.to_date).merge({ anchor: anchor }))) %></td>
         <% case m %>
         <% when Join %>
           <td class="message-content">

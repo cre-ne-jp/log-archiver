@@ -1,25 +1,18 @@
-<% title('全文検索テスト') %>
+<% title_value = "検索結果：#{@keyword}（#{@channel.name_with_prefix}）" %>
+<% title(title_value) %>
 <%= render('shared/navbar') %>
 <div class="container main-container">
   <%= render('shared/flash') %>
   <div class="row">
     <div class="col-xs-12">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>日時</th>
-            <th>メッセージ</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @messages.each do |m| %>
-            <tr>
-              <td><%= m.timestamp.strftime('%F %T') %></td>
-              <td><%= m.message %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+      <div class="page-header">
+        <h1><%= title_value %></h1>
+      </div>
+      <p><b><%= @messages.length %></b> 件見つかりました。</p>
+      <% @message_groups.each do |date, messages| %>
+        <h2><%= link_to(date.strftime('%F'), channels_day_path(channels_day_path_params(@channel, date))) %></h2>
+        <%= render('shared/message_list', messages: messages) %>
+      <% end %>
     </div>
   </div>
 </div>
