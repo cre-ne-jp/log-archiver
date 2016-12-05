@@ -81,6 +81,11 @@ aside {
   }
 }
 
+.panel .simple-calendar .table,
+.panel .other-channel-list {
+  margin-bottom: 0;
+}
+
 .simple-calendar {
   .calendar-heading, th, .day {
     text-align: center;
