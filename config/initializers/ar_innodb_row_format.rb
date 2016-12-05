@@ -4,8 +4,18 @@
 ActiveSupport.on_load :active_record do
   module ActiveRecord::ConnectionAdapters
     class AbstractMysqlAdapter
+      ROW_FORMAT_DYNAMIC = 'ROW_FORMAT=DYNAMIC'.freeze
+
       def create_table_with_innodb_row_format(table_name, options = {})
-        table_options = options.merge(:options => 'ENGINE=InnoDB ROW_FORMAT=DYNAMIC')
+        old_options = options[:options]
+        new_options =
+          if old_options
+            "#{old_options} #{ROW_FORMAT_DYNAMIC}"
+          else
+            ROW_FORMAT_DYNAMIC
+          end
+
+        table_options = options.merge(options: new_options)
         create_table_without_innodb_row_format(table_name, table_options) do |td|
           yield td if block_given?
         end
