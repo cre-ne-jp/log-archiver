@@ -1,0 +1,9 @@
+ja:
+  activerecord: &activerecord
+    models:
+      message: メッセージ
+      conversation_message: メッセージ
+      channel: チャンネル
+  # ActiveModel の翻訳は ActiveRecord のものを流用する
+  activemodel:
+    <<: activerecord

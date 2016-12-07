@@ -1,3 +1,20 @@
+GIT
+  remote: git://github.com/amatsuda/kaminari.git
+  revision: 384eead564b8016da6a0054c73cec0a44ff63bf7
+  specs:
+    kaminari (1.0.0.alpha)
+      activesupport (>= 4.1.0)
+      kaminari-actionview
+      kaminari-activerecord
+      kaminari-core
+    kaminari-actionview (0.1.0)
+      actionview
+      kaminari-core
+    kaminari-activerecord (0.1.0)
+      activerecord
+      kaminari-core
+    kaminari-core (0.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -250,6 +267,7 @@ DEPENDENCIES
   guard-minitest
   jbuilder (~> 2.0)
   jquery-rails
+  kaminari!
   lumberjack
   meta-tags
   minitest-reporters

@@ -6,7 +6,9 @@ class MessagesController < ApplicationController
       raise ArgumentError, "Channel #{channel_identifier} was not found."
     end
 
-    @messages = ConversationMessage.includes(:channel)
+    page_int = params['page'].to_i
+    page = page_int < 1 ? 1 : page_int
+    @messages = ConversationMessage.includes(:channel).page(page)
 
     @keyword = params['keyword']
     if @keyword.present?
@@ -24,12 +26,13 @@ class MessagesController < ApplicationController
     end
 
     @messages = @messages.
+      select('DATE(timestamp) AS date', :type,
+             :id, :channel_id, :irc_user_id, :timestamp,
+             :nick, :message).
       where(channel: @channel).
-      order(:timestamp).
-      limit(1000).
-      to_a
+      order('date DESC', 'timestamp ASC')
     @message_groups = @messages.
-      group_by { |message| message.timestamp.to_date }.
+      group_by { |message| message.date }.
       sort_by { |date, _| date }.
       reverse
   end

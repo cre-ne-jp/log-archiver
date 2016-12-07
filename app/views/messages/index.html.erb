@@ -8,11 +8,12 @@
       <div class="page-header">
         <h1><%= title_value %></h1>
       </div>
-      <p><b><%= @messages.length %></b> 件見つかりました。</p>
+      <p><%= page_entries_info(@messages) %></p>
       <% @message_groups.each do |date, messages| %>
         <h2><%= link_to(date.strftime('%F'), channels_day_path(channels_day_path_params(@channel, date))) %></h2>
         <%= render('shared/message_list', messages: messages) %>
       <% end %>
+      <%= paginate(@messages, outer_window: 2) %>
     </div>
   </div>
 </div>

@@ -1,0 +1,17 @@
+ja:
+  views:
+    pagination:
+      first: "&laquo;"
+      last: "&raquo;"
+      previous: "&lsaquo;"
+      next: "&rsaquo;"
+      truncate: "..."
+  helpers:
+    page_entries_info:
+      one_page:
+        display_entries:
+          zero: "%{entry_name}は見つかりませんでした。"
+          one: "<b>1</b> 件の%{entry_name}を表示しています。"
+          other: "計 <b>%{count}</b> の%{entry_name}を表示しています。"
+      more_pages:
+        display_entries: "<b>%{total}</b> 件中 <b>%{first}&nbsp;-&nbsp;%{last}</b> 件の%{entry_name}を表示しています。"
