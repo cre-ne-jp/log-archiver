@@ -25,9 +25,12 @@ class MessagesController < ApplicationController
 
     @messages = @messages.
       where(channel: @channel).
-      order(timestamp: :desc).
+      order(:timestamp).
       limit(1000).
       to_a
-    @message_groups = @messages.group_by { |message| message.timestamp.to_date }
+    @message_groups = @messages.
+      group_by { |message| message.timestamp.to_date }.
+      sort_by { |date, _| date }.
+      reverse
   end
 end
