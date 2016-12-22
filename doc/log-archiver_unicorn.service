@@ -1,0 +1,21 @@
+[Unit]
+Description=LogArchiver Rack Server(Unicorn) - IRC Log Save and Viewer
+Documentation=https://github.com/cre-ne-jp/log-archiver
+After=network.target, mariadb.service
+
+[Service]
+User=log-archiver
+Group=log-archiver
+Environment=RAILS_ENV=production
+SyslogIdentifier=log-archiver-unicorn
+Type=simple
+PIDFile=/home/log-archiver/log-archiver/tmp/pids/unicorn.pid
+WorkingDirectory=/home/log-archiver/log-archiver
+Restart=always
+
+ExecStart=/usr/local/bin/bundle exec "unicorn_rails -c config/unicorn.rb -E production"
+ExecReload=/usr/bin/kill -USR2 $MAINPID
+ExecStop=/usr/bin/kill -QUIT $MAINPID
+
+[Install]
+WantedBy=multi-user.target
