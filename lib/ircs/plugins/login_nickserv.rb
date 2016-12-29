@@ -31,9 +31,9 @@ module LogArchiver
       def initialize(*)
         super
 
-        @nickserv = config[:nickserv]
-        @login_server = config[:login_server]
-        @myself = config[:myself]
+        @nickserv = config['NickServ']
+        @login_server = config['LoginServer']
+        @myself = config['Account']
       end
 
       # サーバ接続メッセージを検知し、NickServ サーバならログインする
@@ -57,13 +57,13 @@ module LogArchiver
 
       # NickServ にログインする
       # @return [void]
-      def login(m)
+      def login
         sleep 1
-        Cinch::UserList.find_ensured(
-          @nickserv[:user],
-          @nickserv[:nick],
-          @nickserv[:host]
-        ).send("IDENTIFY #{@myself[:nick]} #{@myself[:pass]}", true)
+        Cinch::UserList.new(@bot).find_ensured(
+          @nickserv['User'],
+          @nickserv['Nick'],
+          @nickserv['Host']
+        ).send("IDENTIFY #{@myself['Nick']} #{@myself['Pass']}", false)
       end
     end
   end

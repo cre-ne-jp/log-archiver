@@ -152,9 +152,10 @@ module LogArchiver
     # @return [Cinch::Bot]
     def new_bot(config, plugins, log_level)
       bot_config = config.irc_bot
-      plugin_options = config.plugins
+      plugin_options = {}
       plugins.each do |p|
-        plugin_options[p] = { logger: @logger }
+        plugin_options[p] = config.plugins[p.plugin_name] || {}
+        plugin_options[p][:logger] = @logger
       end
 
       bot = Cinch::Bot.new do
