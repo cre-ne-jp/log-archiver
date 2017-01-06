@@ -1,6 +1,6 @@
-default:
-  # IRC ボットの設定
-  IRCBot: &default
+# IRC ボットの設定
+development:
+  IRCBot:
     Host: irc.example.net
     Port: 6667
     Password: pa$$word
@@ -10,19 +10,17 @@ default:
     RealName: LogArchiver
     Channels:
       - ''
-
-development:
-  IRCBot:
-    <<: *default
-    Host: irc.kazagakure.net
-    Password: null
-    Channels:
-      - '#koi-chan'
+  Plugins:
+    LoginNickserv:
+      NickServ:
+        Nick: 'NickServ'
+        User: 'NickServ'
+        Host: 'services.cre.jp'
+      LoginServer: 'services.cre.jp'
+      Account:
+        Nick: 'YOUR NICK'
+        Pass: 'PA$$WORD'
 
 test:
-  IRCBot:
-    <<: *default
 
 production:
-  IRCBot:
-    <<: *default
