@@ -1,0 +1,61 @@
+# Rails のルートパス
+rails_root = File.expand_path('../../', __FILE__)
+
+
+# 環境変数 RAILS_ENV を取得する
+rails_env = ENV['RAILS_ENV'] || 'development'
+
+
+# Unicorn のワーカー数
+worker_processes 2
+
+
+# ワーキングディレクトリ
+working_directory rails_root
+
+
+# 接続タイムアウト
+timeout 30
+
+
+# ログファイルのパス
+stderr_path File.expand_path('../../log/unicorn_stderr.log', __FILE__)
+stdout_path File.expand_path('../../log/unicorn_stdout.log', __FILE__)
+
+
+# フロントエンドサーバとの接続設定
+#listen File.expand_path('../../tmp/sockets/unicorn.sock', __FILE__)
+listen 8081
+
+
+# pid ファイルのパス
+pid File.expand_path('../../tmp/pids/unicorn.pid', __FILE__)
+
+
+# 再起動時にダウンタイムを作るか
+preload_app true
+
+
+# nginx との連携に必要
+# USR2 シグナルを受けたときに古いプロセスを停止させる
+before_fork do |server, worker|
+  defined?(ActiveRecord::Base) and
+    ActiveRecord::Base.connection.disconnect!
+
+  old_pid = "#{server.config[:pid]}.oldbin"
+  if old_pid != server.pid
+    begin
+      sig = (worker.nr + 1) >= server.worker_processes ? :QUIT : :TTOU
+      Process.kill(sig, File.read(old_pid).to_i)
+    rescue Errno::ENOENT, Errno::ESRCH
+    end
+  end
+end
+
+after_fork do |server, worker|
+  defined?(ActiveRecord::Base) and ActiveRecord::Base.establish_connection
+end
+
+
+# ライブラリのパス
+ENV['BUNDLE_GEMFILE'] = rails_root + '/Gemfile'
