@@ -8,7 +8,9 @@ class MessagesController < ApplicationController
 
     page_int = params['page'].to_i
     page = page_int < 1 ? 1 : page_int
-    @messages = ConversationMessage.includes(:channel).page(page)
+    @messages = ConversationMessage.
+      includes(:channel).
+      page(page)
 
     @keyword = params['keyword']
     if @keyword.present?
@@ -30,10 +32,7 @@ class MessagesController < ApplicationController
              :id, :channel_id, :irc_user_id, :timestamp,
              :nick, :message).
       where(channel: @channel).
-      order('date DESC', 'timestamp ASC')
-    @message_groups = @messages.
-      group_by { |message| message.date }.
-      sort_by { |date, _| date }.
-      reverse
+      order(:timestamp)
+    @message_groups = @messages.group_by(&:date)
   end
 end
