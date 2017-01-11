@@ -78,7 +78,7 @@ systemd による制御を行なう場合は [systemd](doc/systemd.md) を参照
 制作
 ----
 
-&copy; 2016 [クリエイターズネットワーク](http://www.cre.ne.jp/)技術部
+&copy; 2017 [クリエイターズネットワーク](http://www.cre.ne.jp/)技術部
 
 * 鯉（[@koi-chan](https://github.com/koi-chan)）
 * ocha（[@ochaochaocha3](https://github.com/ochaochaocha3)）

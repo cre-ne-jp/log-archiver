@@ -8,17 +8,15 @@ module LogArchiver
     # IRC ボットの設定のハッシュ
     # @return [Hash]
     attr_reader :irc_bot
-    # プラグイン名の配列
-    # @return [Array<String>]
+    # プラグインの設定
+    # @return [Array<Hash>]
     attr_reader :plugins
-    # プラグイン設定のハッシュ
-    # @return [Hash]
-    attr_reader :plugin_config
 
     class << self
       # 設定 ID から設定ファイルのパスに変換する
       # @param [String] config_id 設定 ID
       # @param [String] root_path 設定ファイルのルートディレクトリのパス
+      # @return [String] 設定ファイルのパス
       def config_id_to_path(config_id, root_path)
         if config_id.include?('../')
           fail(ArgumentError, "#{config_id}: ディレクトリトラバーサルの疑い")
@@ -45,11 +43,6 @@ module LogArchiver
     def initialize(config_data)
       @irc_bot = config_data['IRCBot']
       @plugins = config_data['Plugins'] || []
-      @plugin_config = {}
-
-      @plugins.each do |name|
-        @plugin_config[name] = config_data[name]
-      end
     end
   end
 end

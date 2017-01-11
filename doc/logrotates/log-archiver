@@ -1,0 +1,14 @@
+/home/log-archiver/log-archiver/log/*.log {
+	weekly
+	rotate 4
+	missingok
+	notifempty
+	copytruncate
+	create 0664 log-archiver log-archiver
+
+	# unicorn master プロセスに、ログファイルの開き直しをさせる
+	lastaction
+		pid=/home/log-archiver/log-archiver/tmp/pids/unicorn.pid
+		test -s $pid && kill -USR1 "$(cat $pid)"
+	endscript
+}
