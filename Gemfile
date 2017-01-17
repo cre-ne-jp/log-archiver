@@ -47,7 +47,7 @@ gem "simple_calendar", "~> 2.0"
 
 # ruby2.4
 # https://github.com/rails/rails/issues/27450
-gem 'json', github: 'flori/json', branch: 'v1.8'
+#gem 'json', github: 'flori/json', branch: 'v1.8'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
