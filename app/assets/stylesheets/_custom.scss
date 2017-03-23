@@ -13,6 +13,10 @@ h1.title {
   font-weight: normal;
 }
 
+.tab-pane > .panel {
+  margin-top: 1em;
+}
+
 h2 {
   padding-bottom: 0.25em;
   border-bottom: 1px solid $page-header-border-color;
@@ -117,4 +121,11 @@ footer {
   @media (min-width: $screen-sm-min) {
     text-align: right;
   }
+}
+
+.welcome-by-channel legend {
+  margin-bottom: 0;
+  border-bottom: 0;
+  font-size: $font-size-small;
+  font-weight: bold;
 }

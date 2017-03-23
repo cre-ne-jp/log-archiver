@@ -17,3 +17,26 @@
 //= require moment/ja
 //= require bootstrap-datetimepicker
 //= require ./datetimepicker
+//= require log_archiver
+//= require_tree .
+
+/*global $, logArchiver */
+
+/**
+ * コントローラ名からオブジェクトを取得してフックを実行する。
+ * @see http://qiita.com/naoty_k/items/d490b456e0f385942be8
+ */
+$(function () {
+  'use strict';
+
+  var $body = $('body');
+  var controller = $body.data('controller').replace(/\//, '_');
+  var action = $body.data('action');
+  var activeController = logArchiver[controller];
+
+  if (activeController !== undefined) {
+    if ($.isFunction(activeController[action])) {
+      activeController[action]();
+    }
+  }
+});
