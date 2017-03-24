@@ -57,8 +57,8 @@ class MessageSearch
     {
       'keyword' => @keyword,
       'channel' => @channel,
-      'since' => @since && @since.xmlschema,
-      'until' => @until && @until.xmlschema
+      'since' => @since,
+      'until' => @until
     }
   end
 
