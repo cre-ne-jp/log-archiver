@@ -4,6 +4,15 @@ ja:
       message: メッセージ
       conversation_message: メッセージ
       channel: チャンネル
+    attributes:
   # ActiveModel の翻訳は ActiveRecord のものを流用する
   activemodel:
     <<: activerecord
+    models:
+      message_search: メッセージ検索
+    attributes:
+      message_search:
+        keyword: キーワード
+        channel: チャンネル
+        since: 開始日
+        until: 終了日
