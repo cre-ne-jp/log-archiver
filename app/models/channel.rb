@@ -35,6 +35,13 @@ class Channel < ActiveRecord::Base
     names.map(&modifier)
   end
 
+  # チャンネル名と識別子のペアの配列を返す
+  # @return [Array<Array<String, String>>]
+  def self.name_identifier_pairs
+    select(:name, :identifier).
+      map { |channel| [channel.name_with_prefix, channel.identifier] }
+  end
+
   # 接頭辞付きのチャンネル名を返す
   # @return [String]
   def name_with_prefix
