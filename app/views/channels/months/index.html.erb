@@ -15,7 +15,8 @@
       </div>
       <ul>
         <% @month_count.each do |month, count| %>
-          <li><%= link_to('%d-%02d' % [@year, month], channels_days_path(channels_days_path_params(@channel, @year, month))) %> (<%= count %>)</li>
+          <% browse_month = ChannelBrowse::Month.new(channel: @channel, year: @year, month: month) %>
+          <li><%= link_to('%d-%02d' % [@year, month], channels_days_path(browse_month.params_for_url)) %> (<%= count %>)</li>
         <% end %>
       </ul>
     </div>

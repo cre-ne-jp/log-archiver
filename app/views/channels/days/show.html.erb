@@ -5,11 +5,13 @@
   <%= render('shared/flash') %>
 
   <div class="row">
+    <% browse_year = ChannelBrowse::Year.new(channel: @channel, year: @date.year) %>
+    <% browse_month = ChannelBrowse::Month.new(channel: @channel, year: @date.year, month: @date.month) %>
     <ol class="breadcrumb">
       <li><%= link_to('チャンネル', channels_path) %></li>
       <li><%= link_to(@channel.name_with_prefix, @channel) %></li>
-      <li><%= link_to("#{@date.year}年", channels_months_path(channels_months_path_params(@channel, @date.year))) %></li>
-      <li><%= link_to("#{@date.month}月", channels_days_path(channels_days_path_params(@channel, @date.year, @date.month))) %></li>
+      <li><%= link_to("#{@date.year}年", channels_months_path(browse_year.params_for_url)) %></li>
+      <li><%= link_to("#{@date.month}月", channels_days_path(browse_month.params_for_url)) %></li>
       <li class="active"><%= @date.day %>日</li>
     </ol>
   </div>
@@ -28,7 +30,8 @@
             <% if events.empty? %>
               <%= date.day %>
             <% else %>
-              <%= link_to(date.day, channels_day_path(identifier: @channel.identifier, year: date.year, month: '%02d' % date.month, day: '%02d' % date.day)) %>
+              <% browse_other_day = ChannelBrowse::Day.new(channel: @channel, date: date) %>
+              <%= link_to(date.day, channels_day_path(browse_other_day.params_for_url)) %>
             <% end %>
           <% end %>
         </div>
@@ -41,7 +44,8 @@
         <div class="panel-body">
           <ul class="list-unstyled other-channel-list">
             <% @other_channels.each do |channel| %>
-              <li><%= link_to(channel.name_with_prefix, channels_day_path(identifier: channel.identifier, year: @date.year, month: '%02d' % @date.month, day: '%02d' % @date.day)) %></li>
+              <% browse_other = ChannelBrowse::Day.new(channel: channel, date: @date) %>
+              <li><%= link_to(channel.name_with_prefix, channels_day_path(browse_other.params_for_url)) %></li>
             <% end %>
           </ul>
         </div>

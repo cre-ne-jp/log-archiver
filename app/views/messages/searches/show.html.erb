@@ -10,7 +10,8 @@
       </div>
       <p><%= page_entries_info(@result.messages) %></p>
       <% @result.message_groups.each do |date, messages| %>
-        <h2><%= link_to(date.strftime('%F'), channels_day_path(channels_day_path_params(@result.channel, date))) %></h2>
+        <% browse_day = ChannelBrowse::Day.new(channel: @result.channel, date: date) %>
+        <h2><%= link_to(date.strftime('%F'), channels_day_path(browse_day.params_for_url)) %></h2>
         <%= render('shared/message_list', messages: messages) %>
       <% end %>
       <%= paginate(@result.messages, outer_window: 2) %>

@@ -32,7 +32,8 @@
       <h1>ログ</h1>
       <ul>
         <% @years.each do |year| %>
-          <li><%= link_to("#{year}年", channels_months_path(channels_months_path_params(@channel, year))) %></li>
+          <% browse_year = ChannelBrowse::Year.new(channel: @channel, year: year) %>
+          <li><%= link_to("#{year}年", channels_months_path(browse_year.params_for_url)) %></li>
         <% end %>
       </ul>
     </div>
