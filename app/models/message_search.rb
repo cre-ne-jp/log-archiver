@@ -1,5 +1,10 @@
+# メッセージのキーワード検索のモデル
 class MessageSearch
   include ActiveModel::Model
+  include ActiveModel::Validations::Callbacks
+
+  # メッセージ検索の結果
+  MessageSearchResult = Struct.new(:channel, :messages, :message_groups)
 
   # キーワード
   # @return [String]
@@ -20,12 +25,25 @@ class MessageSearch
   # @return [Date, nil]
   attr_accessor :until
 
+  # ページ番号
+  # @return [Integer]
+  attr_accessor :page
+
   validates(:keyword, presence: true)
   validates(:channel,
             presence: true,
             inclusion: { in: Channel.pluck(:identifier) })
+  validates(
+    :page,
+    numericality: {
+      only_integer: true,
+      greater_than_or_equal_to: 1
+    }
+  )
 
   validate :until_must_not_be_less_than_since_if_both_exist
+
+  before_validation :correct_page
 
   # 開始日を設定する
   #
@@ -48,6 +66,19 @@ class MessageSearch
       @until = value.to_date
     rescue
       @until = nil
+    end
+  end
+
+  # ページ番号を設定する
+  #
+  # 1以上でないときは1になる
+  # @param [#to_i] value ページ番号
+  def page=(value)
+    begin
+      value_i = value.to_i
+      @page = (value_i >= 1) ? value_i : 1
+    rescue
+      @page = 1
     end
   end
 
@@ -74,7 +105,51 @@ class MessageSearch
     hash
   end
 
+  # 検索結果を返す
+  # @return [MessageSearchResult] 検索結果
+  # @return [nil] 属性が正しくなかった場合
+  def result
+    return nil unless valid?
+
+    messages = ConversationMessage.all
+    messages = ConversationMessage.
+      includes(:channel).
+      page(@page)
+
+    if @since.present?
+      messages = messages.where('timestamp >= ?', @since)
+    end
+
+    if @until.present?
+      messages = messages.where('timestamp <= ?', @until)
+    end
+
+    channel = Channel.find_by(identifier: @channel)
+    messages = messages.
+      select('DATE(timestamp) AS date',
+             :type,
+             :id,
+             :channel_id,
+             :irc_user_id,
+             :timestamp,
+             :nick,
+             :message).
+      where(channel: channel).
+      full_text_search(keyword).
+      order(timestamp: :desc).
+      page(@page).
+      includes(:channel)
+    message_groups = messages.group_by(&:date)
+
+    MessageSearchResult.new(channel, messages, message_groups)
+  end
+
   private
+
+  # ページ番号を正しくする
+  def correct_page
+    @page = 1 if !@page || @page < 1
+  end
 
   # 開始日と終了日が共に指定されているときは、
   # 開始日が終了日より後になっていないことを確認する
