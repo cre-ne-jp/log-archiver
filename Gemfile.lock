@@ -105,6 +105,8 @@ GEM
     font-awesome-rails (4.6.3.1)
       railties (>= 3.2, < 5.1)
     formatador (0.2.5)
+    friendly_id (5.2.0)
+      activerecord (>= 4.0.0)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     guard (2.14.0)
@@ -268,6 +270,7 @@ DEPENDENCIES
   coveralls
   factory_girl_rails
   font-awesome-rails
+  friendly_id
   guard
   guard-minitest
   jbuilder (~> 2.0)

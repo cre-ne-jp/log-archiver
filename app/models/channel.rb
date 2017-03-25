@@ -1,4 +1,7 @@
 class Channel < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :identifier
+
   has_many :messages
   has_many :joins
   has_many :parts
@@ -11,9 +14,12 @@ class Channel < ActiveRecord::Base
   has_many :message_dates
 
   validates(:name, presence: true)
-  validates(:identifier,
-            presence: true,
-            uniqueness: true)
+  validates(
+    :identifier,
+    presence: true,
+    uniqueness: true,
+    format: { with: /\A[a-z][-_a-z0-9]*/ }
+  )
 
   # ログ記録が有効なチャンネル
   scope :logging_enabled, -> { where(logging_enabled: true) }

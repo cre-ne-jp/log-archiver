@@ -59,6 +59,9 @@ gem 'rinku'
 # ページネーション
 gem 'kaminari', github: 'amatsuda/kaminari'
 
+# URLで番号の代わりに分かりやすい識別子を使う
+gem 'friendly_id'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
