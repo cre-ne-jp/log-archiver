@@ -12,7 +12,9 @@ Rails.application.routes.draw do
     get ':identifier/:year', to: 'months#index', as: 'months', year: /[1-9][0-9]{3}/
   end
 
-  resources :messages, only: %i(index)
+  namespace :messages do
+    resource :search, only: %i(create show)
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -9,81 +9,90 @@
 
       <!-- Navタブ -->
       <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#by-channel" aria-controls="channel" role="tab" data-toggle="tab"><%= fa_icon('folder-open', text: 'チャンネル') %></a></li>
-        <li role="presentation"><a href="#by-keyword" aria-controls="by-keyword" role="tab" data-toggle="tab"><%= fa_icon('search', text: 'キーワード') %></a></li>
+        <li role="presentation" class="<%= (@invalid_model == :message_search) ? '' : 'active' %>"><a href="#browse" aria-controls="browse" role="tab" data-toggle="tab"><%= fa_icon('folder-open', text: 'チャンネル') %></a></li>
+        <li role="presentation" class="<%= (@invalid_model == :message_search) ? 'active' : '' %>"><a href="#search" aria-controls="search" role="tab" data-toggle="tab"><%= fa_icon('search', text: '検索') %></a></li>
       </ul>
 
       <!-- タブペーン -->
       <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="by-channel">
+        <div role="tabpanel" class="<%= (@invalid_model == :message_search) ? 'tab-pane' : 'tab-pane active' %>" id="browse">
           <div class="panel panel-default">
             <div class="panel-heading">
               <h2 class="panel-title">チャンネルから探す</h2>
             </div>
 
-            <%= form_tag('#', method: 'GET', class: 'panel-body') do %>
-              <div class="form-group">
-                <%= label_tag(:by_channel_channel, 'チャンネル') %>
-                <%= select_tag(:by_channel_channel, options_for_select(@channel_data_for_select), class: 'form-control', required: true) %>
-              </div>
-
-              <fieldset class="welcome-by-channel">
-                <legend>日付</legend>
+            <% channel_option_tags = Channel.name_identifier_pairs %>
+            <div class="panel-body">
+              <%= form_tag('#', method: 'GET') do %>
                 <div class="form-group">
-                  <label class="radio-inline">
-                    <%= radio_button_tag(:date_type, 'today', true, class: 'date-type-radio') %> 今日
-                  </label>
-                  <label class="radio-inline">
-                    <%= radio_button_tag(:date_type, 'yesterday', false, class: 'date-type-radio') %> 昨日
-                  </label>
-                  <label class="radio-inline">
-                    <%= radio_button_tag(:date_type, 'specify', false, class: 'date-type-radio') %> 指定
-                  </label>
+                  <%= label_tag(:by_channel_channel, 'チャンネル') %>
+                  <%= select_tag(:by_channel_channel, channel_option_tags, class: 'form-control', required: true) %>
                 </div>
 
-                <div class="form-group by-channel-date">
-                  <%= render('shared/date_picker', id: :by_channel_date) %>
-                </div>
-              </fieldset>
+                <fieldset class="welcome">
+                  <legend>日付</legend>
+                  <div class="form-group">
+                    <label class="radio-inline">
+                      <%= radio_button_tag(:date_type, 'today', true, class: 'date-type-radio') %> 今日
+                    </label>
+                    <label class="radio-inline">
+                      <%= radio_button_tag(:date_type, 'yesterday', false, class: 'date-type-radio') %> 昨日
+                    </label>
+                    <label class="radio-inline">
+                      <%= radio_button_tag(:date_type, 'specify', false, class: 'date-type-radio') %> 指定
+                    </label>
+                  </div>
 
-              <div class="form-group">
-                <%= button_tag(fa_icon('arrow-right', text: '閲覧'), type: 'submit', name: 'browse', class: 'btn btn-primary btn-block') %>
-              </div>
-            <% end %>
+                  <div class="form-group by-channel-date">
+                    <%= render('shared/date_picker', id: :by_channel_date) %>
+                  </div>
+                </fieldset>
+
+                <div class="form-group">
+                  <%= button_tag(fa_icon('arrow-right', text: '閲覧'), type: 'submit', name: 'browse', class: 'btn btn-primary btn-block') %>
+                </div>
+              <% end %>
+            </div>
           </div>
         </div>
 
-        <div role="tabpanel" class="tab-pane" id="by-keyword">
+        <div role="tabpanel" class="<%= (@invalid_model == :message_search) ? 'tab-pane active' : 'tab-pane' %>" id="search">
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h2 class="panel-title">キーワードから探す</h2>
+              <h2 class="panel-title">検索</h2>
             </div>
 
-            <%= form_tag('#', method: 'GET', class: 'panel-body') do %>
-              <div class="form-group">
-                <%= label_tag(:keyword, 'キーワード') %>
-                <%= search_field_tag(:keyword, nil, class: 'form-control', required: true) %>
-              </div>
+            <div class="panel-body">
+              <% if @invalid_model == :message_search %>
+                <%= render('shared/error_messages', target: @message_search) %>
+              <% end %>
 
-              <div class="form-group">
-                <%= label_tag(:by_keyword_channel, 'チャンネル') %>
-                <%= select_tag(:by_keyword_channel, options_for_select(@channel_data_for_select), class: 'form-control', required: true) %>
-              </div>
+              <%= form_for(@message_search, url: messages_search_path) do |f| %>
+                <div class="form-group">
+                  <%= f.label(:query) %>
+                  <%= f.search_field(:query, class: 'form-control', required: true) %>
+                </div>
 
-              <div class="form-group">
-                <%= label_tag(:since, '開始日') %>
-                <%= render('shared/date_picker', id: :since) %>
-              </div>
+                <div class="form-group">
+                  <%= f.label(:channel) %>
+                  <%= f.select(:channel, channel_option_tags, { prompt: true }, class: 'form-control', required: true) %>
+                </div>
 
-              <div class="form-group">
-                <%= label_tag(:until, '終了日') %>
-                <%= render('shared/date_picker', id: :until) %>
-              </div>
+                <div class="form-group">
+                  <%= f.label(:since) %>
+                  <%= render('shared/date_picker', form: f, id: :since) %>
+                </div>
 
-              <div class="form-group">
-                <%= button_tag(fa_icon('search', text: '検索'), type: 'submit', name: 'search', class: 'btn btn-primary btn-block') %>
-              </div>
-            <% end %>
+                <div class="form-group">
+                  <%= f.label(:until) %>
+                  <%= render('shared/date_picker', form: f, id: :until) %>
+                </div>
+
+                <div class="form-group">
+                  <%= f.button(fa_icon('search', text: '検索'), name: 'search', class: 'btn btn-primary btn-block') %>
+                </div>
+              <% end %>
+            </div>
           </div>
         </div>
       </div>

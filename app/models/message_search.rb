@@ -89,7 +89,8 @@ class MessageSearch
       'query' => @query,
       'channel' => @channel,
       'since' => @since,
-      'until' => @until
+      'until' => @until,
+      'page' => @page
     }
   end
 
@@ -98,11 +99,35 @@ class MessageSearch
   # @return [Hash] 指定したハッシュ
   def attributes=(hash)
     self.query = hash['query']
-    self.channel = hash['keyword']
+    self.channel = hash['channel']
     self.since = hash['since']
     self.until = hash['until']
+    self.page = hash['page']
 
     hash
+  end
+
+  # 結果ページ向けの属性のハッシュを返す
+  # @return [Hash]
+  def attributes_for_result_page
+    {
+      'q' => @query,
+      'channel' => @channel,
+      'since' => @since,
+      'until' => @until,
+      'page' => @page
+    }
+  end
+
+  # 結果ページのパラメータのハッシュを使って属性を設定する
+  # @param [Hash] hash 属性の設定に使うハッシュ
+  # @return [Hash] 指定したハッシュ
+  def set_attributes_from_result_page_params(params)
+    self.query = params['q']
+    self.channel = params['channel']
+    self.since = params['since']
+    self.until = params['until']
+    self.page = params['page']
   end
 
   # 検索結果を返す
