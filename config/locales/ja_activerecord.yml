@@ -16,3 +16,8 @@ ja:
         channel: チャンネル
         since: 開始日
         until: 終了日
+  enums:
+    channel_browse_date_type:
+      today: 今日
+      yesterday: 昨日
+      specify: 指定
