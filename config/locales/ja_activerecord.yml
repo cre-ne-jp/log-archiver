@@ -9,8 +9,12 @@ ja:
   activemodel:
     <<: activerecord
     models:
+      channel_browse: チャンネル閲覧
       message_search: メッセージ検索
     attributes:
+      channel_browse:
+        channel: チャンネル
+        date_type: 日付
       message_search:
         query: 検索文字列
         channel: チャンネル

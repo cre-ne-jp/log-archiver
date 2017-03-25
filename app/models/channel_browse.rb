@@ -32,6 +32,11 @@ class ChannelBrowse
             if: :is_date_type_specify?,
             presence: true)
 
+  def initialize(*)
+    self.date_type = :today
+    super
+  end
+
   # 日付を設定する
   #
   # Date型に変換できないときはnilになる。

@@ -1,6 +1,7 @@
 class Messages::SearchesController < ApplicationController
   def create
     @message_search = MessageSearch.new(params_for_create)
+    @channel_browse = ChannelBrowse.new
 
     if @message_search.valid?
       redirect_to(
@@ -15,6 +16,8 @@ class Messages::SearchesController < ApplicationController
   def show
     @message_search = MessageSearch.new
     @message_search.set_attributes_with_result_page_params(params_for_show)
+
+    @channel_browse = ChannelBrowse.new
 
     if @message_search.valid?
       @result = @message_search.result

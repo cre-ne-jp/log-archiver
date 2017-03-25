@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   resources :channels, only: %i(index show)
 
+  resource :browse, only: %i(create)
+
   namespace :channels do
     get ':identifier/:year/:month/:day', to: 'days#show', as: 'day',
       year: /[1-9][0-9]{3}/, month: /0[1-9]|1[0-2]/, day: /0[1-9]|[12][0-9]|3[01]/

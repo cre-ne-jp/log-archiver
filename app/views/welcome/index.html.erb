@@ -23,33 +23,37 @@
 
             <% channel_option_tags = Channel.name_identifier_pairs %>
             <div class="panel-body">
-              <%= form_tag('#', method: 'GET') do %>
+              <% if @invalid_model == :channel_browse %>
+                <%= render('shared/error_messages', target: @channel_browse) %>
+              <% end %>
+
+              <%= form_for(@channel_browse, url: browse_path) do |f| %>
                 <div class="form-group">
-                  <%= label_tag(:by_channel_channel, 'チャンネル') %>
-                  <%= select_tag(:by_channel_channel, channel_option_tags, class: 'form-control', required: true) %>
+                  <%= f.label(:channel) %>
+                  <%= f.select(:channel, channel_option_tags, { prompt: true }, class: 'form-control', required: true) %>
                 </div>
 
                 <fieldset class="welcome">
-                  <legend>日付</legend>
+                  <legend><%= t('activemodel.attributes.channel_browse.date_type') %></legend>
                   <div class="form-group">
                     <label class="radio-inline">
-                      <%= radio_button_tag(:date_type, 'today', true, class: 'date-type-radio') %> 今日
+                      <%= f.radio_button(:date_type, 'today', class: 'date-type-radio') %> 今日
                     </label>
                     <label class="radio-inline">
-                      <%= radio_button_tag(:date_type, 'yesterday', false, class: 'date-type-radio') %> 昨日
+                      <%= f.radio_button(:date_type, 'yesterday', class: 'date-type-radio') %> 昨日
                     </label>
                     <label class="radio-inline">
-                      <%= radio_button_tag(:date_type, 'specify', false, class: 'date-type-radio') %> 指定
+                      <%= f.radio_button(:date_type, 'specify', class: 'date-type-radio') %> 指定
                     </label>
                   </div>
 
                   <div class="form-group by-channel-date">
-                    <%= render('shared/date_picker', id: :by_channel_date) %>
+                    <%= render('shared/date_picker', form: f, id: :date) %>
                   </div>
                 </fieldset>
 
                 <div class="form-group">
-                  <%= button_tag(fa_icon('arrow-right', text: '閲覧'), type: 'submit', name: 'browse', class: 'btn btn-primary btn-block') %>
+                  <%= f.button(fa_icon('arrow-right', text: '閲覧'), type: 'submit', name: 'browse', class: 'btn btn-primary btn-block') %>
                 </div>
               <% end %>
             </div>
