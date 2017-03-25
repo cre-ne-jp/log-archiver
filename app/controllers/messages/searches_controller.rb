@@ -14,7 +14,7 @@ class Messages::SearchesController < ApplicationController
 
   def show
     @message_search = MessageSearch.new
-    @message_search.set_attributes_from_result_page_params(params_for_show)
+    @message_search.set_attributes_with_result_page_params(params_for_show)
 
     if @message_search.valid?
       @result = @message_search.result

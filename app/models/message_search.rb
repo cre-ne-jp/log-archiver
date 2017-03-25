@@ -122,7 +122,7 @@ class MessageSearch
   # 結果ページのパラメータのハッシュを使って属性を設定する
   # @param [Hash] hash 属性の設定に使うハッシュ
   # @return [Hash] 指定したハッシュ
-  def set_attributes_from_result_page_params(params)
+  def set_attributes_with_result_page_params(params)
     self.query = params['q']
     self.channel = params['channel']
     self.since = params['since']

@@ -81,7 +81,7 @@ class MessageSearchTest < ActiveSupport::TestCase
     assert_equal(@search.page, attributes.fetch('page'), 'page')
   end
 
-  test 'set_attributes_from_result_page_params によって属性が正しく設定される' do
+  test 'set_attributes_with_result_page_params によって属性が正しく設定される' do
     channel = create(:channel_with_camel_case_name)
     attributes = {
       'q' => 'test',
@@ -91,7 +91,7 @@ class MessageSearchTest < ActiveSupport::TestCase
       'page' => 12
     }
 
-    @search.set_attributes_from_result_page_params(attributes)
+    @search.set_attributes_with_result_page_params(attributes)
 
     assert_equal(attributes['q'], @search.query, 'query')
     assert_equal(attributes['channel'], @search.channel, 'channel')
