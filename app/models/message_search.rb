@@ -6,9 +6,9 @@ class MessageSearch
   # メッセージ検索の結果
   MessageSearchResult = Struct.new(:channel, :messages, :message_groups)
 
-  # キーワード
+  # 検索文字列
   # @return [String]
-  attr_accessor :keyword
+  attr_accessor :query
   # チャンネル識別子
   #
   # パラメータ名の都合で名前がchannelでも識別子を表すことに注意。
@@ -29,7 +29,7 @@ class MessageSearch
   # @return [Integer]
   attr_accessor :page
 
-  validates(:keyword, presence: true)
+  validates(:query, presence: true)
   validates(:channel,
             presence: true,
             inclusion: { in: Channel.pluck(:identifier) })
@@ -86,7 +86,7 @@ class MessageSearch
   # @return [Hash]
   def attributes
     {
-      'keyword' => @keyword,
+      'query' => @query,
       'channel' => @channel,
       'since' => @since,
       'until' => @until
@@ -97,7 +97,7 @@ class MessageSearch
   # @param [Hash] hash 属性の設定に使うハッシュ
   # @return [Hash] 指定したハッシュ
   def attributes=(hash)
-    self.keyword = hash['keyword']
+    self.query = hash['query']
     self.channel = hash['keyword']
     self.since = hash['since']
     self.until = hash['until']
@@ -135,7 +135,7 @@ class MessageSearch
              :nick,
              :message).
       where(channel: channel).
-      full_text_search(keyword).
+      full_text_search(@query).
       order(timestamp: :desc).
       page(@page).
       includes(:channel)

@@ -9,13 +9,13 @@ class MessageSearchTest < ActiveSupport::TestCase
     assert(@search.valid?)
   end
 
-  test 'keyword は必須' do
-    @search.keyword = nil
+  test 'query は必須' do
+    @search.query = nil
     refute(@search.valid?)
   end
 
-  test 'keyword は空白のみではならない' do
-    @search.keyword = ' ' * 10
+  test 'query は空白のみではならない' do
+    @search.query = ' ' * 10
     refute(@search.valid?)
   end
 
