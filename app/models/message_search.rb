@@ -30,9 +30,6 @@ class MessageSearch
   attr_accessor :page
 
   validates(:query, presence: true)
-  validates(:channel,
-            presence: true,
-            inclusion: { in: Channel.pluck(:identifier) })
   validates(
     :page,
     numericality: {

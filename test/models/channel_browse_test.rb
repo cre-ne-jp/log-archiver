@@ -14,11 +14,6 @@ class ChannelBrowseTest < ActiveSupport::TestCase
     refute(@browse.valid?)
   end
 
-  test 'channel がデータベースに存在しなければならない' do
-    @browse.channel = 'not_found'
-    refute(@browse.valid?)
-  end
-
   test 'date_type は必須' do
     @browse.date_type = nil
     refute(@browse.valid?)

@@ -19,16 +19,6 @@ class MessageSearchTest < ActiveSupport::TestCase
     refute(@search.valid?)
   end
 
-  test 'channel は必須' do
-    @search.channel = nil
-    refute(@search.valid?)
-  end
-
-  test 'channel がデータベースに存在しなければならない' do
-    @search.channel = 'not_found'
-    refute(@search.valid?)
-  end
-
   test 'since と until が共に存在する場合、until は since 以上' do
     @search.since = Date.new(2017, 1, 1)
 
