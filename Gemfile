@@ -9,6 +9,11 @@ gem 'sysexits'
 gem 'rails', '4.2.6'
 # Use mysql as the database for Active Record
 gem 'mysql2', '>= 0.3.13', '< 0.5'
+gem 'activerecord-mysql-awesome'
+gem 'activerecord-mysql-comment'
+
+gem 'activerecord-import'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -43,19 +48,39 @@ gem 'unicorn'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# カレンダー
 gem "simple_calendar", "~> 2.0"
+gem 'momentjs-rails', '~> 2.15'
+gem 'bootstrap3-datetimepicker-rails', '~> 4.17'
+
+# 自動リンク
+gem 'rinku'
+
+# ページネーション
+gem 'kaminari', github: 'amatsuda/kaminari'
+
+# URLで番号の代わりに分かりやすい識別子を使う
+gem 'friendly_id'
+
+# ActiveModelでenumを使う
+gem 'simple_enum'
+
+# コンソールとして pry を使う
+gem 'pry-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
 
-  gem 'factory_girl_rails'
   gem 'minitest-reporters'
 
   gem 'guard'
   gem 'guard-minitest'
 
   gem 'coveralls', require: false
+
+  # テスト時の対象オブジェクト作成
+  gem 'factory_girl_rails', require: false
 end
 
 group :development do
@@ -64,7 +89,4 @@ group :development do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
-
-  # コンソールとして pry を使う
-  gem 'pry-rails'
 end

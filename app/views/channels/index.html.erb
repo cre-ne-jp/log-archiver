@@ -4,7 +4,9 @@
   <%= render('shared/flash') %>
   <div class="row">
     <div class="col-xs-12">
-      <h1>チャンネル一覧</h1>
+      <div class="page-header">
+        <h1>チャンネル一覧</h1>
+      </div>
       <p>現在 <%= @channels.size %> チャンネルが登録されています。</p>
       <table class="table table-striped">
         <thead>
@@ -21,7 +23,7 @@
               <td class="num-col"><%= channel.id %></td>
               <td><%= link_to(channel.name_with_prefix, channel_path(channel.identifier)) %></td>
               <td><%= channel.identifier %></td>
-              <td><%= channel.logging_enabled ? '取得中' : '停止中' %></td>
+              <td><%= channel.logging_enabled? ? '取得中' : '停止中' %></td>
             </tr>
           <% end %>
         </tbody>

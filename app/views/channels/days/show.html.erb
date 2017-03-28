@@ -5,35 +5,50 @@
   <%= render('shared/flash') %>
 
   <div class="row">
+    <% browse_year = ChannelBrowse::Year.new(channel: @channel, year: @date.year) %>
+    <% browse_month = ChannelBrowse::Month.new(channel: @channel, year: @date.year, month: @date.month) %>
     <ol class="breadcrumb">
       <li><%= link_to('チャンネル', channels_path) %></li>
-      <li><%= link_to(@channel.name_with_prefix, channel_path(identifier: @channel.identifier)) %></li>
-      <li><%= link_to("#{@date.year}年", channels_months_path(identifier: @channel.identifier, year: @date.year)) %></li>
-      <li><%= link_to("#{@date.month}月", channels_months_path(identifier: @channel.identifier, year: @date.year, month: @date.strftime('%m'))) %></li>
+      <li><%= link_to(@channel.name_with_prefix, @channel) %></li>
+      <li><%= link_to("#{@date.year}年", channels_months_path(browse_year.params_for_url)) %></li>
+      <li><%= link_to("#{@date.month}月", channels_days_path(browse_month.params_for_url)) %></li>
       <li class="active"><%= @date.day %>日</li>
     </ol>
   </div>
 
   <div class="row">
     <article class="col-xs-12 col-md-8">
-      <h1><%= @channel.name_with_prefix %> <%= date_str %></h1>
+      <div class="page-header">
+        <h1><%= @channel.name_with_prefix %> <%= date_str %></h1>
+      </div>
       <%= render('shared/message_list', messages: @messages) %>
     </article>
     <aside class="col-xs-12 col-md-4">
-      <%= month_calendar(start_date: @calendar_start_date, attribute: :date, events: @message_dates) do |date, events| %>
-        <% if events.empty? %>
-          <%= date.day %>
-        <% else %>
-          <%= link_to(date.day, channels_day_path(identifier: @channel.identifier, year: date.year, month: '%02d' % date.month, day: '%02d' % date.day)) %>
-        <% end %>
-      <% end %>
-
-        <h1><%= @date.strftime('%Y-%m-%d') %> の他チャンネル</h1>
-        <ul>
-          <% @other_channels.each do |channel| %>
-            <li><%= link_to(channel.name_with_prefix, channels_day_path(identifier: channel.identifier, year: @date.year, month: '%02d' % @date.month, day: '%02d' % @date.day)) %></li>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <%= month_calendar(start_date: @calendar_start_date, attribute: :date, events: @message_dates) do |date, events| %>
+            <% if events.empty? %>
+              <%= date.day %>
+            <% else %>
+              <% browse_other_day = ChannelBrowse::Day.new(channel: @channel, date: date) %>
+              <%= link_to(date.day, channels_day_path(browse_other_day.params_for_url)) %>
+            <% end %>
           <% end %>
-        </ul>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h1 class="panel-title"><%= @date.strftime('%Y-%m-%d') %> の他チャンネル</h1>
+        </div>
+        <div class="panel-body">
+          <ul class="list-unstyled other-channel-list">
+            <% @other_channels.each do |channel| %>
+              <% browse_other = ChannelBrowse::Day.new(channel: channel, date: @date) %>
+              <li><%= link_to(channel.name_with_prefix, channels_day_path(browse_other.params_for_url)) %></li>
+            <% end %>
+          </ul>
+        </div>
     </aside>
   </div>
 </div>

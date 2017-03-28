@@ -4,7 +4,7 @@ class ChannelsController < ApplicationController
   end
 
   def show
-    @channel = Channel.find_by(identifier: params[:identifier])
+    @channel = Channel.friendly.find(params[:id])
     unless @channel
       raise ArgumentError, "Channel not found: #{params[:identifier]}"
     end

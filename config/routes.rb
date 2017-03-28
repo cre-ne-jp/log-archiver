@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
-  root 'channels#index'
-  resources :channels, only: %i(index)
-  get '/channels/:identifier', to: 'channels#show', as: 'channel'
+  root 'welcome#index'
+
+  resources :channels, only: %i(index show)
+
+  resource :browse, only: %i(create)
 
   namespace :channels do
     get ':identifier/:year/:month/:day', to: 'days#show', as: 'day',
@@ -9,6 +11,10 @@ Rails.application.routes.draw do
     get ':identifier/:year/:month', to: 'days#index', as: 'days',
       year: /[1-9][0-9]{3}/, month: /0[1-9]|1[0-2]/
     get ':identifier/:year', to: 'months#index', as: 'months', year: /[1-9][0-9]{3}/
+  end
+
+  namespace :messages do
+    resource :search, only: %i(create show)
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
