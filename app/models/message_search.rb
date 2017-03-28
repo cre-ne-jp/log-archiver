@@ -30,9 +30,6 @@ class MessageSearch
   attr_accessor :page
 
   validates(:query, presence: true)
-  validates(:channel,
-            presence: true,
-            inclusion: { in: Channel.pluck(:identifier) })
   validates(
     :page,
     numericality: {
@@ -141,6 +138,13 @@ class MessageSearch
       includes(:channel).
       page(@page)
 
+    channel = @channel.present? ?
+      Channel.find_by(identifier: @channel) : nil
+
+    if channel
+      messages = messages.where(channel: channel)
+    end
+
     if @since.present?
       messages = messages.where('timestamp >= ?', @since)
     end
@@ -149,7 +153,6 @@ class MessageSearch
       messages = messages.where('timestamp <= ?', @until)
     end
 
-    channel = Channel.find_by(identifier: @channel)
     messages = messages.
       select('DATE(timestamp) AS date',
              :type,
@@ -159,7 +162,6 @@ class MessageSearch
              :timestamp,
              :nick,
              :message).
-      where(channel: channel).
       full_text_search(@query).
       order(timestamp: :desc).
       page(@page).
