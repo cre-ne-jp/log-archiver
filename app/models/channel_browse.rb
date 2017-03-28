@@ -25,8 +25,7 @@ class ChannelBrowse
   attr_accessor :date
 
   validates(:channel,
-            presence: true,
-            inclusion: { in: Channel.pluck(:identifier) })
+            presence: true)
   validates(:date_type, presence: true)
   validates(:date,
             if: :is_date_type_specify?,

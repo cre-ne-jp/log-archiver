@@ -11,12 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161203143601) do
+ActiveRecord::Schema.define(version: 20170327111318) do
 
   create_table "channels", force: :cascade, options: "ENGINE=Mroonga DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
-    t.string  "name",            limit: 255, default: "",   null: false
-    t.string  "identifier",      limit: 255, default: "",   null: false
-    t.boolean "logging_enabled",             default: true, null: false
+    t.string   "name",            limit: 255, default: "",   null: false
+    t.string   "identifier",      limit: 255, default: "",   null: false
+    t.boolean  "logging_enabled",             default: true, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "channels", ["identifier"], name: "index_channels_on_identifier", using: :btree
@@ -44,13 +46,17 @@ ActiveRecord::Schema.define(version: 20161203143601) do
   add_index "conversation_messages", ["type"], name: "index_conversation_messages_on_type", using: :btree
 
   create_table "irc_users", force: :cascade, options: "ENGINE=Mroonga DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
-    t.string "user", limit: 64,  default: "", null: false
-    t.string "host", limit: 255, default: "", null: false
+    t.string   "user",       limit: 64,  default: "", null: false
+    t.string   "host",       limit: 255, default: "", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "message_dates", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
-    t.integer "channel_id", limit: 4
-    t.date    "date"
+    t.integer  "channel_id", limit: 4
+    t.date     "date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "message_dates", ["channel_id", "date"], name: "index_message_dates_on_channel_id_and_date", using: :btree
@@ -65,6 +71,8 @@ ActiveRecord::Schema.define(version: 20161203143601) do
     t.string   "nick",        limit: 64,    default: "", null: false
     t.text     "message",     limit: 65535
     t.string   "target",      limit: 64
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "messages", ["channel_id"], name: "index_messages_on_channel_id", using: :btree
