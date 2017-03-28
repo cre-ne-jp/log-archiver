@@ -30,12 +30,17 @@ class Messages::SearchesController < ApplicationController
   private
 
   def params_for_create
-    params.
+    result = params.
       require(:message_search).
-      permit(:query, :channel, :since, :until)
+      permit(:query, :since, :until, channels: [])
+
+    channels = result['channels']
+    channels.select!(&:present?) if channels
+
+    result
   end
 
   def params_for_show
-    params.permit(:q, :channel, :since, :until, :page)
+    params.permit(:q, :channels, :since, :until, :page)
   end
 end

@@ -78,8 +78,8 @@
                 </div>
 
                 <div class="form-group">
-                  <%= f.label(:channel) %>
-                  <%= f.select(:channel, channel_option_tags, { prompt: '未指定' }, class: 'form-control') %>
+                  <%= f.label(:channels) %>
+                  <%= f.select(:channels, channel_option_tags, {}, multiple: true, class: 'form-control') %>
                 </div>
 
                 <div class="form-group">
