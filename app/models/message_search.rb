@@ -4,16 +4,16 @@ class MessageSearch
   include ActiveModel::Validations::Callbacks
 
   # メッセージ検索の結果
-  MessageSearchResult = Struct.new(:channel, :messages, :message_groups)
+  MessageSearchResult = Struct.new(:channels, :messages, :message_groups)
 
   # 検索文字列
   # @return [String]
   attr_accessor :query
   # チャンネル識別子
   #
-  # パラメータ名の都合で名前がchannelでも識別子を表すことに注意。
+  # パラメータ名の都合で名前がchannelsでも識別子を表すことに注意。
   # @return [String]
-  attr_accessor :channel
+  attr_accessor :channels
   # 開始日
   #
   # 名称はGoogle検索に準拠している。
@@ -41,6 +41,11 @@ class MessageSearch
   validate :until_must_not_be_less_than_since_if_both_exist
 
   before_validation :correct_page
+
+  def initialize(*)
+    @channels = []
+    super
+  end
 
   # 開始日を設定する
   #
@@ -84,7 +89,7 @@ class MessageSearch
   def attributes
     {
       'query' => @query,
-      'channel' => @channel,
+      'channels' => @channels,
       'since' => @since,
       'until' => @until,
       'page' => @page
@@ -96,7 +101,7 @@ class MessageSearch
   # @return [Hash] 指定したハッシュ
   def attributes=(hash)
     self.query = hash['query']
-    self.channel = hash['channel']
+    self.channels = hash['channels']
     self.since = hash['since']
     self.until = hash['until']
     self.page = hash['page']
@@ -109,9 +114,9 @@ class MessageSearch
   def attributes_for_result_page
     {
       'q' => @query,
-      'channel' => @channel,
-      'since' => @since,
-      'until' => @until,
+      'channels' => @channels.join(' '),
+      'since' => @since&.strftime('%F'),
+      'until' => @until&.strftime('%F'),
       'page' => @page
     }
   end
@@ -121,7 +126,7 @@ class MessageSearch
   # @return [Hash] 指定したハッシュ
   def set_attributes_with_result_page_params(params)
     self.query = params['q']
-    self.channel = params['channel']
+    self.channels = params['channels'].split(' ')
     self.since = params['since']
     self.until = params['until']
     self.page = params['page']
@@ -134,9 +139,12 @@ class MessageSearch
     return nil unless valid?
 
     messages = ConversationMessage.all
-    messages = ConversationMessage.
-      includes(:channel).
-      page(@page)
+
+    channels = @channels.empty? ?
+      [] : Channel.where(identifier: @channels)
+    unless channels.empty?
+      messages = messages.where(channel: channels)
+    end
 
     if @since.present?
       messages = messages.where('timestamp >= ?', @since)
@@ -146,7 +154,6 @@ class MessageSearch
       messages = messages.where('timestamp <= ?', @until)
     end
 
-    channel = Channel.find_by(identifier: @channel)
     messages = messages.
       select('DATE(timestamp) AS date',
              :type,
@@ -156,14 +163,13 @@ class MessageSearch
              :timestamp,
              :nick,
              :message).
-      where(channel: channel).
       full_text_search(@query).
       order(timestamp: :desc).
       page(@page).
       includes(:channel)
     message_groups = messages.group_by(&:date)
 
-    MessageSearchResult.new(channel, messages, message_groups)
+    MessageSearchResult.new(channels, messages, message_groups)
   end
 
   private

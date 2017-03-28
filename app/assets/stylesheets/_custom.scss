@@ -51,6 +51,18 @@ ul, ol {
   text-align: right;
 }
 
+.search-conditions {
+  h2 {
+    margin: 0;
+    border: 0;
+    font-size: $font-size-h4;
+  }
+
+  ul {
+    margin-bottom: 0;
+  }
+}
+
 .message-list {
   table-layout: fixed;
   width: 100%;
@@ -71,7 +83,11 @@ td.message-time {
   }
 }
 
-.message-content {
+.message-channel {
+  width: 6em;
+}
+
+.message-channel, .message-content {
   word-break: break-word;
   overflow-wrap: break-word;
 }
