@@ -20,4 +20,8 @@ class IrcUserTest < ActiveSupport::TestCase
   test 'マスクの形式が正しい' do
     assert_equal('rgrb!rgrb_bot@irc.cre.jp', @user.mask('rgrb'))
   end
+
+  test 'ユーザー名とホストを含む文字列の形式が正しい' do
+    assert_equal('rgrb_bot@irc.cre.jp', @user.user_host)
+  end
 end
