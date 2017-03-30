@@ -11,8 +11,6 @@ module LogArchiver
     class SaveLog < Template
       include Cinch::Plugin
 
-      RECORD_MESSAGE = :record_message
-
       set(plugin_name: 'SaveLog')
 
       listen_to(:join, method: :on_join)
@@ -116,7 +114,6 @@ module LogArchiver
                                   message: m.message)
         end
       end
-
     end
   end
 end

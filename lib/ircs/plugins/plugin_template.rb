@@ -6,6 +6,8 @@ module LogArchiver
     class Template
       include Cinch::Plugin
 
+      RECORD_MESSAGE = :record_message
+
       # データベース接続インスタンスをクラス変数に格納する
       def initialize(*args)
         super
@@ -17,8 +19,30 @@ module LogArchiver
       # このメソッドを経由しないと、自分自身の発言が保存できない
       # @param [Cinch::Message] m
       # @param [String] message 送信するメッセージ
+      # @return [void]
       def send(m, message)
         m.target.send(message, true)
+        @logger.warn("<#{m.channel}>: #{message}")
+
+        synchronize(RECORD_MESSAGE) do
+          ActiveRecord::Base.connection_pool.with_connection do
+            channel = ::Channel.find_by(name: m.channel.name[1..-1],
+                                        logging_enabled: true)
+            next nil unless channel
+
+            next nil unless user = bot
+            irc_user = IrcUser.find_or_create_by!(user: user.user, host: user.host)
+
+            MessageDate.find_or_create_by!(channel: channel, date: m.time.to_date)
+
+            channel.notices.create!(
+              irc_user: irc_user,
+              timestamp: m.time,
+              nick: bot.nick,
+              message: message
+            )
+          end
+        end
       end
 
       private
