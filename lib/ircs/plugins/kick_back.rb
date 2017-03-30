@@ -31,8 +31,7 @@ module LogArchiver
           @logger.warn("#{m.channel} から KICK されたため、JOIN し直しました")
           sleep 1
           (JOIN_MESSAGE % m.channel.to_s).each_line do |line|
-            m.target.send(line, true)
-            @logger.warn("<#{m.channel}>: #{line}")
+            send(m, line)
           end
         end
       end
