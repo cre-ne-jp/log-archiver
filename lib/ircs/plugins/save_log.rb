@@ -131,4 +131,3 @@ class Cinch::IRC
     on_quit_original(msg, events)
   end
 end
-
