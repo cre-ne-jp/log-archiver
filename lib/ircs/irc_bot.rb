@@ -174,12 +174,6 @@ module LogArchiver
         end
 
         loggers.level = log_level
-
-        # バージョン情報を返すコマンド
-        # プラグイン Version で再実装
-        #on(:message, '.version') do |m|
-        #  m.target.send("IRC Log Archiver #{Application::VERSION}", true)
-        #end
       end
 
       @logger.warn('ボットが生成されました')
