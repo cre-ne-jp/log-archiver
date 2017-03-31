@@ -135,6 +135,12 @@ aside {
   }
 }
 
+textarea.text-on-homepage {
+  min-height: 5em;
+  height: 10em;
+  resize: vertical;
+}
+
 footer {
   margin-top: 2em;
   padding: 2em 0 4em;

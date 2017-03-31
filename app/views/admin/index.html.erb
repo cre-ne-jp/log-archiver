@@ -9,9 +9,10 @@
         <h1>管理</h1>
       </div>
 
-      <ul class="list-unstyled">
-        <li><%= link_to(fa_icon('user', text: '利用者'), users_path, class: 'btn btn-default btn-block') %></li>
-      </ul>
+      <div class="admin-menu">
+        <p><%= link_to(fa_icon('user', text: '利用者'), users_path, class: 'btn btn-default btn-block') %></p>
+        <p><%= link_to(fa_icon('cog', text: '設定'), settings_path, class: 'btn btn-default btn-block') %></p>
+      </div>
     </div>
   </div>
 </div>
