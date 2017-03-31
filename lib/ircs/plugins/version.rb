@@ -1,11 +1,11 @@
 # vim: fileencoding=utf-8
 
-require_relative 'plugin_template'
+require_relative 'base'
 
 module LogArchiver
   module Plugin
     # バージョンを返す
-    class Version < Template
+    class Version < Base
       include Cinch::Plugin
 
       set(plugin_name: 'Version')
@@ -14,7 +14,7 @@ module LogArchiver
       match(/version/, method: :version)
 
       def version(m)
-        m.target.send("IRC Log Archiver #{Application::VERSION}", true)
+        send_and_record(m, "IRC Log Archiver #{Application::VERSION}")
       end
     end
   end
