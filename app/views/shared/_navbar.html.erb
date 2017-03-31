@@ -14,7 +14,12 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul id="nav-links" class="nav navbar-nav navbar-right">
-        <li><%= link_to('チャンネル一覧', channels_path) %></li>
+        <li><%= link_to(fa_icon('folder-open', text: 'チャンネル一覧'), channels_path) %></li>
+        <% if current_user %>
+          <li><%= link_to(fa_icon('sign-out', text: 'ログアウト'), logout_path) %></li>
+        <% else %>
+          <li><%= link_to(fa_icon('sign-in', text: 'ログイン'), login_path) %></li>
+        <% end %>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
