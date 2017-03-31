@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170327111318) do
+ActiveRecord::Schema.define(version: 20170329121959) do
 
   create_table "channels", force: :cascade, options: "ENGINE=Mroonga DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
     t.string   "name",            limit: 255, default: "",   null: false
@@ -83,6 +83,13 @@ ActiveRecord::Schema.define(version: 20170327111318) do
   add_index "messages", ["nick"], name: "index_messages_on_nick", using: :btree
   add_index "messages", ["timestamp"], name: "index_messages_on_timestamp", using: :btree
   add_index "messages", ["type"], name: "index_messages_on_type", using: :btree
+
+  create_table "settings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
+    t.string   "site_title",       limit: 255,   default: "IRC ログアーカイブ", null: false
+    t.text     "text_on_homepage", limit: 65535,                         null: false
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
+  end
 
   add_foreign_key "conversation_messages", "irc_users", name: "irc_user_id"
 end
