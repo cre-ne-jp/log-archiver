@@ -5,7 +5,7 @@ require_relative 'plugin_template'
 module LogArchiver
   module Plugin
     # KICK されたとき、ログ取得対象チャンネルだった場合 JOIN しなおす
-    class KickBack < Template
+    class KickBack < Base
       include Cinch::Plugin
 
       set(plugin_name: 'KickBack')

@@ -3,7 +3,7 @@
 module LogArchiver
   module Plugin
     # プラグインのひな形
-    class Template
+    class Base
       include Cinch::Plugin
 
       RECORD_MESSAGE = :record_message

@@ -8,7 +8,7 @@ require 'pp'
 module LogArchiver
   module Plugin
     # DB にログを保存する
-    class SaveLog < Template
+    class SaveLog < Base
       include Cinch::Plugin
 
       set(plugin_name: 'SaveLog')

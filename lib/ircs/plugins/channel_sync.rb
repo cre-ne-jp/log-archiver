@@ -6,7 +6,7 @@ module LogArchiver
   module Plugin
     # DB からチャンネル情報を読み出し、設定と実際の接続状態を比較する
     # 必要なチャンネルに JOIN する
-    class ChannelSync < Template
+    class ChannelSync < Base
       include Cinch::Plugin
 
       set(plugin_name: 'ChannelSync')
