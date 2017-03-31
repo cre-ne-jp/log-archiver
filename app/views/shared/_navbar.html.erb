@@ -16,6 +16,7 @@
       <ul id="nav-links" class="nav navbar-nav navbar-right">
         <li><%= link_to(fa_icon('folder-open', text: 'チャンネル一覧'), channels_path) %></li>
         <% if current_user %>
+          <li><%= link_to(fa_icon('cog', text: '管理'), admin_path) %></li>
           <li><%= link_to(fa_icon('sign-out', text: 'ログアウト'), logout_path) %></li>
         <% else %>
           <li><%= link_to(fa_icon('sign-in', text: 'ログイン'), login_path) %></li>
