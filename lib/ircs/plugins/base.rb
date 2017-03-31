@@ -26,12 +26,13 @@ module LogArchiver
 
         synchronize(RECORD_MESSAGE) do
           ActiveRecord::Base.connection_pool.with_connection do
-            channel = ::Channel.find_by(name: m.channel.name[1..-1],
-                                        logging_enabled: true)
-            next nil unless channel
+            next nil unless channel =
+              ::Channel.find_by(
+                name: m.channel.name[1..-1],
+                logging_enabled: true
+              )
 
-            next nil unless user = bot
-            irc_user = IrcUser.find_or_create_by!(user: user.user, host: user.host)
+            irc_user = IrcUser.find_or_create_by!(user: bot.user, host: bot.host)
 
             MessageDate.find_or_create_by!(channel: channel, date: m.time.to_date)
 
