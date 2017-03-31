@@ -2,7 +2,7 @@
 
 require 'cinch'
 
-require_relative 'plugin_template'
+require_relative 'base'
 
 module LogArchiver
   module Plugin

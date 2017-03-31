@@ -2,7 +2,7 @@
 
 require 'cinch'
 require 'json'
-require_relative 'plugin_template'
+require_relative 'base'
 require 'pp'
 
 module LogArchiver
