@@ -4,7 +4,11 @@
   <div class="row">
     <div class="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
       <div class="page-header">
-        <h1>irc.cre.jp ログアーカイブ</h1>
+        <h1><%= @setting.site_title %></h1>
+      </div>
+
+      <div class="text-on-homepage">
+        <%= markdown(@setting.text_on_homepage) %>
       </div>
 
       <!-- Navタブ -->

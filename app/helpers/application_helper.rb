@@ -1,13 +1,16 @@
 module ApplicationHelper
   # 既定の meta タグの内容を返す
   def default_meta_tags
+    setting = Setting.get
+    site_title = setting.site_title
+
     {
-      site: 'IRC ログアーカイブ',
+      site: site_title,
       reverse: true,
       og: {
         url: request.url,
         title: :title,
-        site_name: 'IRC ログアーカイブ',
+        site_name: site_title,
         description: :description,
         locale: 'ja_JP'
       }
@@ -22,5 +25,24 @@ module ApplicationHelper
   # 自動でリンクを張る
   def linkify(s)
     Rinku.auto_link(h(s), :urls)
+  end
+
+  # Markdown ソースを HTML ソースに変換する
+  # @param [String] source Markdown ソース
+  # @return [String]
+  def markdown(source)
+    markdown = Redcarpet::Markdown.new(
+      Redcarpet::Render::HTML,
+      no_intra_emphasis: true,
+      tables: true,
+      fenced_code_blocks: true,
+      autolink: true,
+      disable_indented_code_blocks: true,
+      strikethrough: true,
+      underline: true,
+      highlight: true
+    )
+
+    markdown.render(source).html_safe
   end
 end

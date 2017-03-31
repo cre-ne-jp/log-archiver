@@ -53,6 +53,9 @@ gem "simple_calendar", "~> 2.0"
 gem 'momentjs-rails', '~> 2.15'
 gem 'bootstrap3-datetimepicker-rails', '~> 4.17'
 
+# Markdown パーサ
+gem 'redcarpet'
+
 # 自動リンク
 gem 'rinku'
 
