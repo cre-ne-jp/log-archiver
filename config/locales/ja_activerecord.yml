@@ -4,7 +4,12 @@ ja:
       message: メッセージ
       conversation_message: メッセージ
       channel: チャンネル
+      user: 利用者
     attributes:
+      user:
+        username: 利用者名
+        email: メールアドレス
+        password: パスワード
   # ActiveModel の翻訳は ActiveRecord のものを流用する
   activemodel:
     <<: activerecord
