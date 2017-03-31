@@ -1,6 +1,7 @@
-%w(irc_test irc_test2).each do |channel_name|
-  Channel.find_or_create_by(name: channel_name) do |channel|
-    channel.identifier = channel_name
-    channel.logging_enabled = true
-  end
+# 設定の初期値を設定する
+Settings.find_or_create_by(id: 1) do |settings|
+  # サイト名
+  settings.site_title = 'IRC ログアーカイブ'
+  # ホームページに表示する文章
+  settings.text_on_homepage = 'このサイトでは IRC ログを保管しています。'
 end
