@@ -20,7 +20,7 @@ module LogArchiver
       # @param [Cinch::Message] m
       # @param [String] message 送信するメッセージ
       # @return [void]
-      def send(m, message)
+      def send_and_record(m, message)
         m.target.send(message, true)
         @logger.warn("<#{m.channel}>: #{message}")
 
