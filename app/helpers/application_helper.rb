@@ -1,9 +1,12 @@
 module ApplicationHelper
+  # サイト名を返す
+  def site_title
+    @setting ||= Setting.get
+    @site_title ||= @setting.site_title
+  end
+
   # 既定の meta タグの内容を返す
   def default_meta_tags
-    setting = Setting.get
-    site_title = setting.site_title
-
     {
       site: site_title,
       reverse: true,
