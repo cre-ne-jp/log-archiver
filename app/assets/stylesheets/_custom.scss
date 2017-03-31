@@ -67,6 +67,14 @@ ul, ol {
   }
 }
 
+table.user-info {
+  border-bottom: 1px solid $table-border-color;
+
+  td {
+    text-align: right;
+  }
+}
+
 .message-list {
   table-layout: fixed;
   width: 100%;
