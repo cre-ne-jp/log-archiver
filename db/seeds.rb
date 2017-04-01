@@ -1,5 +1,5 @@
 # 設定の初期値を設定する
-Settings.find_or_create_by(id: 1) do |settings|
+Setting.find_or_create_by(id: 1) do |settings|
   # サイト名
   settings.site_title = 'IRC ログアーカイブ'
   # ホームページに表示する文章
