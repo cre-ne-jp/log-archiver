@@ -24,6 +24,8 @@ module LogArchiver
         m.target.send(message, true)
         @logger.warn("<#{m.channel}>: #{message}")
 
+        sleep 0.1
+
         synchronize(RECORD_MESSAGE) do
           ActiveRecord::Base.connection_pool.with_connection do
             next nil unless channel =
