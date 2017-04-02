@@ -4,7 +4,7 @@
   <%= render('shared/flash') %>
 
   <div class="row">
-    <nav class="col-xs-12 col-md-3 visible-md visible-lg admin">
+    <nav class="col-xs-12 col-sm-3 hidden-xs admin">
       <div class="panel panel-default">
         <div class="panel-heading">
           <h1 class="panel-title">管理</h1>
@@ -17,8 +17,8 @@
       </div>
     </nav>
 
-    <div class="col-xs-12 col-md-9">
-      <ol class="breadcrumb hidden-md hidden-lg">
+    <div class="col-xs-12 col-sm-9">
+      <ol class="breadcrumb visible-xs-block">
         <li><%= link_to('管理', admin_path) %></li>
         <li class="active">利用者</li>
       </ol>
