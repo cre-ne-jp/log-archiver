@@ -1,11 +1,24 @@
-<% title(['管理', '設定']) %>
+<% title('設定') %>
 <%= render('shared/navbar') %>
 <div class="container main-container">
   <%= render('shared/flash') %>
 
   <div class="row">
-    <div class="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
-      <ol class="breadcrumb">
+    <nav class="col-xs-12 col-md-3 visible-md visible-lg admin">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h1 class="panel-title">管理</h1>
+        </div>
+
+        <ul class="nav nav-pills nav-stacked">
+          <li role="presentation"><%= link_to(fa_icon('user', text: '利用者'), users_path) %></li>
+          <li role="presentation" class="active"><%= link_to(fa_icon('cog', text: '設定'), settings_path) %></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="col-xs-12 col-md-9">
+      <ol class="breadcrumb hidden-md hidden-lg">
         <li><%= link_to('管理', admin_path) %></li>
         <li class="active">設定</li>
       </ol>
