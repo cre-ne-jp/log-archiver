@@ -11,6 +11,7 @@ ja:
         username: 利用者名
         email: メールアドレス
         password: パスワード
+        password_confirmation: パスワードの確認
       setting:
         site_title: サイト名
         text_on_homepage: ホームページに表示する文章

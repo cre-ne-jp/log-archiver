@@ -4,11 +4,20 @@ class User < ActiveRecord::Base
 
   authenticates_with_sorcery!
 
-  validates(:username, uniqueness: true)
+  validates(
+    :username,
+    presence: true,
+    uniqueness: true,
+    length: { maximum: 255 }
+  )
 
   validates(
     :password,
-    length: { minimum: 4 },
+    presence: true,
+    length: {
+      minimum: 4,
+      maximum: 255
+    },
     confirmation: true,
     if: :should_validate_password?
   )

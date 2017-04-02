@@ -139,6 +139,12 @@ textarea.text-on-homepage {
   min-height: 5em;
   height: 10em;
   resize: vertical;
+  font-family: $font-family-monospace;
+}
+
+.help-block {
+  font-size: $font-size-small;
+  color: $gray-light;
 }
 
 footer {
