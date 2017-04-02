@@ -1,11 +1,11 @@
 # vim: fileencoding=utf-8
 
-require_relative 'plugin_template'
+require_relative 'base'
 
 module LogArchiver
   module Plugin
     # KICK されたとき、ログ取得対象チャンネルだった場合 JOIN しなおす
-    class KickBack < Template
+    class KickBack < Base
       include Cinch::Plugin
 
       set(plugin_name: 'KickBack')
@@ -31,8 +31,7 @@ module LogArchiver
           @logger.warn("#{m.channel} から KICK されたため、JOIN し直しました")
           sleep 1
           (JOIN_MESSAGE % m.channel.to_s).each_line do |line|
-            m.target.send(line, true)
-            @logger.warn("<#{m.channel}>: #{line}")
+            send_and_record(m, line)
           end
         end
       end
