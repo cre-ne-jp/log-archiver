@@ -5,3 +5,9 @@ Setting.find_or_create_by(id: 1) do |settings|
   # ホームページに表示する文章
   settings.text_on_homepage = 'このサイトでは IRC ログを保管しています。'
 end
+
+# 利用者の初期値を設定する
+User.find_or_create_by(username: 'root') do |user|
+  user.password = 'log_archiver'
+  user.password_confirmation = 'log_archiver'
+end

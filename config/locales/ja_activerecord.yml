@@ -4,7 +4,17 @@ ja:
       message: メッセージ
       conversation_message: メッセージ
       channel: チャンネル
+      user: 利用者
+      setting: 設定
     attributes:
+      user:
+        username: 利用者名
+        email: メールアドレス
+        password: パスワード
+        password_confirmation: パスワードの確認
+      setting:
+        site_title: サイト名
+        text_on_homepage: ホームページに表示する文章
   # ActiveModel の翻訳は ActiveRecord のものを流用する
   activemodel:
     <<: activerecord

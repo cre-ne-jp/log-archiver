@@ -1,0 +1,48 @@
+<% title('利用者') %>
+<%= render('shared/navbar') %>
+<div class="container main-container">
+  <%= render('shared/flash') %>
+
+  <div class="row">
+    <nav class="col-xs-12 col-sm-3 hidden-xs admin">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h1 class="panel-title">管理</h1>
+        </div>
+
+        <ul class="nav nav-pills nav-stacked">
+          <li role="presentation" class="active"><%= link_to(fa_icon('user', text: '利用者'), users_path) %></li>
+          <li role="presentation"><%= link_to(fa_icon('cog', text: '設定'), settings_path) %></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="col-xs-12 col-sm-9">
+      <ol class="breadcrumb visible-xs-block">
+        <li><%= link_to('管理', admin_path) %></li>
+        <li class="active">利用者</li>
+      </ol>
+
+      <div class="page-header">
+        <h1>利用者</h1>
+      </div>
+
+      <p><%= link_to('追加', new_user_path, class: 'btn btn-primary') %></p>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>利用者名</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @users.each do |user| %>
+            <tr>
+              <td><%= link_to(user.username, user) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

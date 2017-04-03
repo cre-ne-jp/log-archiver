@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170329121959) do
+ActiveRecord::Schema.define(version: 20170331075055) do
 
   create_table "channels", force: :cascade, options: "ENGINE=Mroonga DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
     t.string   "name",            limit: 255, default: "",   null: false
@@ -90,6 +90,17 @@ ActiveRecord::Schema.define(version: 20170329121959) do
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
   end
+
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
+    t.string   "username",         limit: 255, default: "", null: false
+    t.string   "email",            limit: 255, default: "", null: false
+    t.string   "crypted_password", limit: 255
+    t.string   "salt",             limit: 255
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
+  end
+
+  add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
   add_foreign_key "conversation_messages", "irc_users", name: "irc_user_id"
 end

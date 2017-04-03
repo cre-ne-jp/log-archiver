@@ -68,6 +68,9 @@ gem 'friendly_id'
 # ActiveModelでenumを使う
 gem 'simple_enum'
 
+# 認証
+gem 'sorcery'
+
 # コンソールとして pry を使う
 gem 'pry-rails'
 

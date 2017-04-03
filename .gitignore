@@ -9,7 +9,9 @@
 /vendor/bundle/
 
 # Ignore config file.
-/config/
+/config/database.yml
+/config/ircbot.yml
+/config/unicorn.rb
 
 # Ignore all logfiles and tempfiles.
 /log/*
