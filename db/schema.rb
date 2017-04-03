@@ -113,4 +113,5 @@ ActiveRecord::Schema.define(version: 20170403105703) do
   add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
   add_foreign_key "channel_last_speeches", "conversation_messages", name: "conversation_message_id"
+  add_foreign_key "conversation_messages", "irc_users", name: "irc_user_id"
 end

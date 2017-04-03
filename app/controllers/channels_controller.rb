@@ -1,6 +1,6 @@
 class ChannelsController < ApplicationController
   def index
-    @channels = Channel.all
+    @channels = Channel.for_channels_index
   end
 
   def show
@@ -13,5 +13,11 @@ class ChannelsController < ApplicationController
       uniq.
       where(channel: @channel).
       pluck('YEAR(date)')
+  end
+
+  private
+
+  def last_speech_timestamp(channel)
+    channel.last_speech&.timestamp || DateTime.new
   end
 end
