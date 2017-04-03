@@ -2,7 +2,11 @@ class Channel < ActiveRecord::Base
   extend FriendlyId
   friendly_id :identifier
 
+  # 発言以外のメッセージ
   has_many :messages
+  # 発言のメッセージ
+  has_many :conversation_messages
+
   has_many :joins
   has_many :parts
   has_many :quits
@@ -11,7 +15,14 @@ class Channel < ActiveRecord::Base
   has_many :topics
   has_many :privmsgs
   has_many :notices
+
+  # 発言のある日
   has_many :message_dates
+
+  # チャンネルと最終発言の関係
+  has_one :channel_last_speech
+  # 最終発言
+  has_one :last_speech, through: :channel_last_speech, source: :conversation_message
 
   validates(:name, presence: true)
   validates(
