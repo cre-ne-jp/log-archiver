@@ -28,22 +28,23 @@ module LogArchiver
 
         synchronize(RECORD_MESSAGE) do
           ActiveRecord::Base.connection_pool.with_connection do
-            next nil unless channel =
-              ::Channel.find_by(
-                name: m.channel.name[1..-1],
-                logging_enabled: true
-              )
-
-            irc_user = IrcUser.find_or_create_by!(user: bot.user, host: bot.host)
-
-            MessageDate.find_or_create_by!(channel: channel, date: m.time.to_date)
-
-            channel.notices.create!(
-              irc_user: irc_user,
-              timestamp: m.time,
-              nick: bot.nick,
-              message: message
+            channel = ::Channel.find_by(
+              name: m.channel.name[1..-1],
+              logging_enabled: true
             )
+            next nil unless channel
+
+            ActiveRecord::Base.transaction do
+              irc_user = IrcUser.find_or_create_by!(user: bot.user, host: bot.host)
+              notice = channel.notices.create!(
+                irc_user: irc_user,
+                timestamp: m.time,
+                nick: bot.nick,
+                message: message
+              )
+              update_last_speech!(channel, notice)
+              MessageDate.find_or_create_by!(channel: channel, date: m.time.to_date)
+            end
           end
         end
       end
@@ -65,11 +66,12 @@ module LogArchiver
             next nil unless channel
 
             next nil unless user = message.user
-            irc_user = IrcUser.find_or_create_by!(user: user.user, host: user.host)
 
-            MessageDate.find_or_create_by!(channel: channel, date: message.time.to_date)
-
-            yield(channel, irc_user)
+            ActiveRecord::Base.transaction do
+              irc_user = IrcUser.find_or_create_by!(user: user.user, host: user.host)
+              yield(channel, irc_user)
+              MessageDate.find_or_create_by!(channel: channel, date: message.time.to_date)
+            end
           end
         end
       end
@@ -91,15 +93,26 @@ module LogArchiver
             channels = ::Channel.where(name: channel_names_without_prefix,
                                        logging_enabled: true)
             channels.each.map do |channel|
-              irc_user ||= IrcUser.find_or_create_by!(user: user.user,
-                                                      host: user.host)
-
-              MessageDate.find_or_create_by!(channel: channel, date: message.time.to_date)
-
-              yield(channel, irc_user)
+              ActiveRecord::Base.transaction do
+                irc_user ||= IrcUser.find_or_create_by!(user: user.user,
+                                                        host: user.host)
+                yield(channel, irc_user)
+                MessageDate.find_or_create_by!(channel: channel, date: message.time.to_date)
+              end
             end
           end
         end
+      end
+
+      # チャンネルごとの最終発言を更新する
+      # @param [::Channel] チャンネル
+      # @param [::ConversationMessage] 発言のメッセージ
+      # @return [::ChannelLastSpeech]
+      def update_last_speech!(channel, message)
+        channel_last_speech =
+          ChannelLastSpeech.find_or_initialize_by(channel: channel)
+        channel_last_speech.conversation_message = message
+        channel_last_speech.save!
       end
     end
   end
