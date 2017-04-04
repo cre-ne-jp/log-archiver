@@ -9,6 +9,9 @@ class MessageSearch
   # 検索文字列
   # @return [String]
   attr_accessor :query
+  # ニックネーム
+  # @return [String]
+  attr_accessor :nick
   # チャンネル識別子
   #
   # パラメータ名の都合で名前がchannelsでも識別子を表すことに注意。
@@ -89,6 +92,7 @@ class MessageSearch
   def attributes
     {
       'query' => @query,
+      'nick' => @nick,
       'channels' => @channels,
       'since' => @since,
       'until' => @until,
@@ -101,6 +105,7 @@ class MessageSearch
   # @return [Hash] 指定したハッシュ
   def attributes=(hash)
     self.query = hash['query']
+    self.nick = hash['nick']
     self.channels = hash['channels']
     self.since = hash['since']
     self.until = hash['until']
@@ -114,6 +119,7 @@ class MessageSearch
   def attributes_for_result_page
     {
       'q' => @query,
+      'nick' => @nick,
       'channels' => @channels.join(' '),
       'since' => @since&.strftime('%F'),
       'until' => @until&.strftime('%F'),
@@ -126,6 +132,7 @@ class MessageSearch
   # @return [Hash] 指定したハッシュ
   def set_attributes_with_result_page_params(params)
     self.query = params['q']
+    self.nick = params['nick']
     self.channels = params['channels'].split(' ')
     self.since = params['since']
     self.until = params['until']
@@ -152,6 +159,10 @@ class MessageSearch
 
     if @until.present?
       messages = messages.where('timestamp <= ?', @until)
+    end
+
+    if @nick.present?
+      messages = messages.nick_search(@nick)
     end
 
     messages = messages.

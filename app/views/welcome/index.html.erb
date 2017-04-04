@@ -82,6 +82,11 @@
                 </div>
 
                 <div class="form-group">
+                  <%= f.label(:nick) %>
+                  <%= f.search_field(:nick, class: 'form-control') %>
+                </div>
+
+                <div class="form-group">
                   <%= f.label(:channels) %>
                   <%= f.select(:channels, channel_option_tags, {}, multiple: true, class: 'form-control') %>
                 </div>
