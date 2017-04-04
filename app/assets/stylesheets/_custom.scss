@@ -116,6 +116,14 @@ b.nickname.message-privmsg {
     color: white;
 }
 
+.channel-logging-enabled {
+  text-align: center;
+}
+
+td.channel-logging-enabled {
+  color: $brand-success;
+}
+
 aside {
   font-size: $font-size-small;
 

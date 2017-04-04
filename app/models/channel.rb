@@ -2,7 +2,11 @@ class Channel < ActiveRecord::Base
   extend FriendlyId
   friendly_id :identifier
 
+  # 発言以外のメッセージ
   has_many :messages
+  # 発言のメッセージ
+  has_many :conversation_messages
+
   has_many :joins
   has_many :parts
   has_many :quits
@@ -11,7 +15,14 @@ class Channel < ActiveRecord::Base
   has_many :topics
   has_many :privmsgs
   has_many :notices
+
+  # 発言のある日
   has_many :message_dates
+
+  # チャンネルと最終発言の関係
+  has_one :channel_last_speech
+  # 最終発言
+  has_one :last_speech, through: :channel_last_speech, source: :conversation_message
 
   validates(:name, presence: true)
   validates(
@@ -48,6 +59,23 @@ class Channel < ActiveRecord::Base
       map { |channel| [channel.name_with_prefix, channel.identifier] }
   end
 
+  # チャンネル一覧用の順序のチャンネル配列を返す
+  # @return [Array<Channel>]
+  def self.for_channels_index
+    all.
+      includes(:last_speech).
+      sort { |a, b|
+        a_timestamp = last_speech_timestamp(a)
+        b_timestamp = last_speech_timestamp(b)
+
+        if a_timestamp == b_timestamp
+          a.id <=> b.id
+        else
+          b_timestamp <=> a_timestamp
+        end
+      }
+  end
+
   # 接頭辞付きのチャンネル名を返す
   # @return [String]
   def name_with_prefix
@@ -58,5 +86,11 @@ class Channel < ActiveRecord::Base
   # @return [String]
   def lowercase_name_with_prefix
     name_with_prefix.downcase
+  end
+
+  private
+
+  def self.last_speech_timestamp(channel)
+    channel.last_speech&.timestamp || DateTime.new
   end
 end

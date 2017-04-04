@@ -10,5 +10,30 @@ FactoryGirl.define do
       name 'CamelCaseChannel'
       identifier 'camel_case_channel'
     end
+
+    factory :channel_100 do
+      name 'チャンネル 100'
+      identifier 'channel_100'
+    end
+
+    factory :channel_200 do
+      name 'チャンネル 200'
+      identifier 'channel_200'
+    end
+
+    factory :channel_300 do
+      name 'チャンネル 300'
+      identifier 'channel_300'
+    end
+
+    factory :channel_400 do
+      name 'チャンネル 400'
+      identifier 'channel_400'
+    end
+
+    factory :channel_500 do
+      name 'チャンネル 500'
+      identifier 'channel_500'
+    end
   end
 end

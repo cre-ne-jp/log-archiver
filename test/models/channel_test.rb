@@ -42,4 +42,19 @@ class ChannelTest < ActiveSupport::TestCase
     channel = create(:channel_with_camel_case_name)
     assert_equal('#camelcasechannel', channel.lowercase_name_with_prefix)
   end
+
+  test 'for_channels_index の順序が正しい' do
+    Channel.delete_all
+
+    [100, 200, 300, 400, 500].each do |id|
+      create("channel_#{id}".to_sym)
+    end
+
+    [100, 200, 400].each do |id|
+      create("channel_#{id}_last_speech".to_sym)
+    end
+
+    expected = [100, 400, 200, 300, 500].map { |id| "channel_#{id}" }
+    assert_equal(expected, Channel.for_channels_index.map(&:identifier))
+  end
 end
