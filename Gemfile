@@ -57,7 +57,8 @@ gem 'bootstrap3-datetimepicker-rails', '~> 4.17'
 gem 'redcarpet'
 
 # 自動リンク
-gem 'rinku'
+# スキーム付きのURLのみ有効にするために独自ブランチを使用する
+gem 'rinku', :git => 'https://github.com/cre-ne-jp/rinku.git', :branch => 'without-www'
 
 # ページネーション
 gem 'kaminari', github: 'amatsuda/kaminari'
