@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170403105703) do
+ActiveRecord::Schema.define(version: 20170403224903) do
 
   create_table "channel_last_speeches", force: :cascade, options: "ENGINE=Mroonga DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
     t.integer  "channel_id",              limit: 4
@@ -45,13 +45,15 @@ ActiveRecord::Schema.define(version: 20170403105703) do
     t.string   "type",        limit: 255
   end
 
+  add_index "conversation_messages", ["channel_id", "timestamp"], name: "index_conversation_messages_on_channel_id_and_timestamp", using: :btree
   add_index "conversation_messages", ["channel_id"], name: "index_conversation_messages_on_channel_id", using: :btree
   add_index "conversation_messages", ["id", "channel_id", "timestamp"], name: "index_conversation_messages_on_id_and_channel_id_and_timestamp", using: :btree
   add_index "conversation_messages", ["id", "channel_id"], name: "index_conversation_messages_on_id_and_channel_id", using: :btree
   add_index "conversation_messages", ["id", "timestamp"], name: "index_conversation_messages_on_id_and_timestamp", using: :btree
   add_index "conversation_messages", ["irc_user_id"], name: "index_conversation_messages_on_irc_user_id", using: :btree
   add_index "conversation_messages", ["message"], name: "index_conversation_messages_on_message", type: :fulltext
-  add_index "conversation_messages", ["nick"], name: "index_conversation_messages_on_nick", using: :btree
+  add_index "conversation_messages", ["nick", "message"], name: "index_conversation_messages_on_nick_and_message", type: :fulltext
+  add_index "conversation_messages", ["nick"], name: "index_conversation_messages_on_nick", type: :fulltext
   add_index "conversation_messages", ["timestamp"], name: "index_conversation_messages_on_timestamp", using: :btree
   add_index "conversation_messages", ["type"], name: "index_conversation_messages_on_type", using: :btree
 

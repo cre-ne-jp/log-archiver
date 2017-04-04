@@ -26,8 +26,11 @@ module ApplicationHelper
   end
 
   # 自動でリンクを張る
+  #
+  # スキーム付きの部分のみにリンクが張られるように
+  # 独自のオプションを渡す。
   def linkify(s)
-    Rinku.auto_link(h(s), :urls)
+    Rinku.auto_link(h(s), :urls_without_www)
   end
 
   # Markdown ソースを HTML ソースに変換する

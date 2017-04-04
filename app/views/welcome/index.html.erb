@@ -78,7 +78,13 @@
               <%= form_for(@message_search, url: messages_search_path) do |f| %>
                 <div class="form-group">
                   <%= f.label(:query) %>
-                  <%= f.search_field(:query, class: 'form-control', required: true) %>
+                  <%= f.search_field(:query, class: 'form-control') %>
+                </div>
+
+                <div class="form-group">
+                  <%= f.label(:nick) %>
+                  <%= f.search_field(:nick, class: 'form-control') %>
+                  <p class="help-block">検索文字列またはニックネームが必須です。</p>
                 </div>
 
                 <div class="form-group">

@@ -15,6 +15,13 @@ GIT
       kaminari-core
     kaminari-core (0.1.0)
 
+GIT
+  remote: https://github.com/cre-ne-jp/rinku.git
+  revision: 083f90785f2470c11387ee728da93f800c5932a9
+  branch: without-www
+  specs:
+    rinku (2.0.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -218,7 +225,6 @@ GEM
     rdoc (4.2.2)
       json (~> 1.4)
     redcarpet (3.4.0)
-    rinku (2.0.2)
     ruby-progressbar (1.8.1)
     ruby_dep (1.4.0)
     sass (3.4.22)
@@ -304,7 +310,7 @@ DEPENDENCIES
   pry-rails
   rails (= 4.2.6)
   redcarpet
-  rinku
+  rinku!
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   simple_calendar (~> 2.0)
