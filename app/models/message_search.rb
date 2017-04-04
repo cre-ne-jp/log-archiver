@@ -32,7 +32,7 @@ class MessageSearch
   # @return [Integer]
   attr_accessor :page
 
-  validates(:query, presence: true)
+  validates(:query_or_nick, presence: true)
   validates(
     :page,
     numericality: {
@@ -165,6 +165,10 @@ class MessageSearch
       messages = messages.nick_search(@nick)
     end
 
+    if @query.present?
+      messages = messages.full_text_search(@query)
+    end
+
     messages = messages.
       select('DATE(timestamp) AS date',
              :type,
@@ -174,7 +178,6 @@ class MessageSearch
              :timestamp,
              :nick,
              :message).
-      full_text_search(@query).
       order(timestamp: :desc).
       page(@page).
       includes(:channel)
@@ -188,6 +191,12 @@ class MessageSearch
   # ページ番号を正しくする
   def correct_page
     @page = 1 if !@page || @page < 1
+  end
+
+  # 検索文字列またはニックネームが存在するか
+  # @return [Boolean]
+  def query_or_nick
+    @query.presence || @nick.presence
   end
 
   # 開始日と終了日が共に指定されているときは、

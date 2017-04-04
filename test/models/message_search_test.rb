@@ -9,14 +9,24 @@ class MessageSearchTest < ActiveSupport::TestCase
     assert(@search.valid?)
   end
 
-  test 'query は必須' do
-    @search.query = nil
+  test 'query または nick は必須' do
+    @search.query = @search.nick = nil
     refute(@search.valid?)
   end
 
-  test 'query は空白のみではならない' do
-    @search.query = ' ' * 10
+  test 'query および nick が空白のみではならない' do
+    @search.query = @search.nick = ' ' * 10
     refute(@search.valid?)
+  end
+
+  test 'query のみは有効' do
+    @search.nick = ''
+    assert(@search.valid?)
+  end
+
+  test 'nick のみは有効' do
+    @search.query = ''
+    assert(@search.valid?)
   end
 
   test 'since と until が共に存在する場合、until は since 以上' do

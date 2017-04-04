@@ -28,6 +28,7 @@ ja:
       message_search:
         query: 検索文字列
         nick: ニックネーム
+        query_or_nick: 検索文字列またはニックネーム
         channels: チャンネル
         since: 開始日
         until: 終了日

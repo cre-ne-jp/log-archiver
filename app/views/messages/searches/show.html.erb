@@ -12,8 +12,10 @@
       <div class="search-conditions well">
         <h2>検索条件</h2>
         <ul>
-          <li>検索文字列：<%= @message_search.query %></li>
-          <% if @message_search.nick %>
+          <% if @message_search.query.present? %>
+            <li>検索文字列：<%= @message_search.query %></li>
+          <% end %>
+          <% if @message_search.nick.present? %>
             <li>ニックネーム：<%= @message_search.nick %></li>
           <% end %>
           <% unless @result.channels.empty? %>
