@@ -8,6 +8,10 @@ class ChannelsCreateTest < ActionDispatch::IntegrationTest
     Channel.delete_all
   end
 
+  teardown do
+    Channel.delete_all
+  end
+
   test 'ログインしていない場合、ログインページにリダイレクトされる' do
     logout_user
 
