@@ -31,6 +31,11 @@ Rails.application.routes.draw do
   get 'admin' => 'admin#index', as: :admin
 
   namespace :admin do
+    namespace :channels do
+      get ':id/update-last-speech' => 'last_speech_updates#show',
+        as: 'update_last_speech'
+    end
+
     get 'channels/:id' => 'channels#show', as: 'channel'
     get 'channels' => 'channels#index', as: 'channels'
   end

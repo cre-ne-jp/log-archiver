@@ -12,5 +12,7 @@ ja:
       updated_user: 利用者情報を更新しました。
       removed_user: 利用者を削除しました。
       updated_settings: 設定を更新しました。
+      updated_last_speech: 最終発言のキャッシュを更新しました。
+      failed_to_update_last_speech: 最終発言キャッシュの更新に失敗しました。
     login: ログイン
     save: 保存

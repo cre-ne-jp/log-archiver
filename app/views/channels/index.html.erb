@@ -8,25 +8,19 @@
         <h1>チャンネル</h1>
       </div>
       <p>現在 <%= @channels.size %> チャンネルが登録されています。</p>
-      <table class="table table-striped">
+      <table class="table table-striped channel-list">
         <thead>
           <tr>
             <th class="channel-name">チャンネル名</th>
             <th class="channel-last-speech">最終発言日時</th>
-            <th class="channel-logging-enabled">ログ取得中</th>
+            <th class="channel-logging-enabled">ログ記録中</th>
           </tr>
         </thead>
         <tbody>
           <% @channels.each do |channel| %>
             <tr>
               <td class="channel-name"><%= link_to(channel.name_with_prefix, channel) %></td>
-              <% if last_speech = channel.last_speech %>
-                <% anchor = last_speech.id %>
-                <% browse_day = ChannelBrowse::Day.new(channel: channel, date: last_speech.timestamp.to_date) %>
-                <td class="channel-last-speech"><%= link_to(last_speech.timestamp.strftime('%F %T'), channels_day_path(browse_day.params_for_url.merge({ anchor: anchor })), id: anchor) %></td>
-              <% else %>
-                <td class="channel-last-speech">発言なし</td>
-              <% end %>
+              <td class="channel-last-speech"><%= last_speech_timestamp_link(channel) %></td>
               <td class="channel-logging-enabled"><%= channel.logging_enabled? ? fa_icon('check') : '' %></td>
             </tr>
           <% end %>

@@ -88,6 +88,15 @@ class Channel < ActiveRecord::Base
     name_with_prefix.downcase
   end
 
+  # 現在の（キャッシュされていない）最終発言を求める
+  # @return [ConversationMessage]
+  def current_last_speech
+    conversation_messages.
+      order(timestamp: :desc).
+      limit(1).
+      first
+  end
+
   private
 
   def self.last_speech_timestamp(channel)

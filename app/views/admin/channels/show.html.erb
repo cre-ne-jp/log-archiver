@@ -20,21 +20,35 @@
       <table class="table table-striped channel-info">
         <tbody>
           <tr>
-            <th scope="row"><%= t('activerecord.attributes.channel.name') %></th>
-            <td><%= @channel.name_with_prefix %></td>
+            <th scope="row" class="channel-name">チャンネル名</th>
+            <td class="channel-name"><%= @channel.name_with_prefix %></td>
           </tr>
           <tr>
-            <th scope="row"><%= t('activerecord.attributes.channel.identifier') %></th>
-            <td><%= @channel.identifier %></td>
+            <th scope="row" class="channel-identifier">識別子</th>
+            <td class="channel-identifier"><%= @channel.identifier %></td>
           </tr>
           <tr>
-            <th scope="row"><%= t('activerecord.attributes.channel.logging_enabled') %></th>
+            <th scope="row" class="channel-logging-enabled">ログ記録中</th>
             <td class="channel-logging-enabled"><%= @channel.logging_enabled? ? fa_icon('check') : '' %></td>
           </tr>
         </tbody>
       </table>
 
       <p><%= link_to('編集', edit_channel_path(@channel), class: 'btn btn-primary') %></p>
+
+      <h2>最終発言キャッシュの更新</h2>
+      <table class="table table-striped channel-info">
+        <tbody>
+          <tr>
+            <th scope="row" class="channel-last-speech-timestamp">最終発言日時（キャッシュ）</th>
+            <td class="channel-last-speech-timestamp"><%= last_speech_timestamp_link(@channel) %></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>表示の高速化のため、最終発言の情報はキャッシュされます。このキャッシュは、IRC ボットによって発言が記録された際に更新されます。</p>
+      <p>キャッシュされた最終発言の情報が正しくない場合は、以下のボタンを押して更新してください。</p>
+      <p><%= link_to('最終発言のキャッシュを更新する', admin_channels_update_last_speech_path(@channel), class: 'btn btn-primary') %></p>
     </div>
   </div>
 </div>

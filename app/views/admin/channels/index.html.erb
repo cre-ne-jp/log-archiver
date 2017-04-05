@@ -18,19 +18,19 @@
 
       <p><%= link_to('追加', new_channel_path, class: 'btn btn-primary') %></p>
 
-      <table class="table table-striped">
+      <table class="table table-striped channel-list">
         <thead>
           <tr>
-            <th>チャンネル名</th>
-            <th>識別子</th>
+            <th class="channel-name">チャンネル名</th>
+            <th class="channel-identifier">識別子</th>
             <th class="channel-logging-enabled">ログ記録中</th>
           </tr>
         </thead>
         <tbody>
           <% @channels.each do |channel| %>
             <tr>
-              <td><%= link_to(channel.name_with_prefix, admin_channel_path(channel)) %></td>
-              <td><%= channel.identifier %></td>
+              <td class="channel-name"><%= link_to(channel.name_with_prefix, admin_channel_path(channel)) %></td>
+              <td class="channel-identifier"><%= channel.identifier %></td>
               <td class="channel-logging-enabled"><%= channel.logging_enabled? ? fa_icon('check') : '' %></td>
             </tr>
           <% end %>
