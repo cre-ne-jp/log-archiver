@@ -6,7 +6,13 @@ class UsersControllerTest < ActionController::TestCase
 
   setup do
     @setting = create(:setting)
+
+    User.delete_all
     @user = create(:user)
+  end
+
+  teardown do
+    User.delete_all
   end
 
   test 'index: ログインしている場合、表示される' do

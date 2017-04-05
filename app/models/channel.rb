@@ -24,12 +24,17 @@ class Channel < ActiveRecord::Base
   # 最終発言
   has_one :last_speech, through: :channel_last_speech, source: :conversation_message
 
-  validates(:name, presence: true)
+  validates(
+    :name,
+    presence: true,
+    uniqueness: true,
+    format: { with: /\A[^# ,:]+[^ ,:]*\z/ }
+  )
   validates(
     :identifier,
     presence: true,
     uniqueness: true,
-    format: { with: /\A[a-z][-_a-z0-9]*/ }
+    format: { with: /\A[a-z][-_a-z0-9]*\z/ }
   )
 
   # ログ記録が有効なチャンネル
