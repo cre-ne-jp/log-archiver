@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
+
   root 'welcome#index'
 
-  resources :channels, only: %i(index show)
+  resources :channels
 
   resource :browse, only: %i(create)
 
@@ -23,11 +24,16 @@ Rails.application.routes.draw do
   get 'login' => 'user_sessions#new', as: :login
   get 'logout' => 'user_sessions#destroy', as: :logout
 
-  get 'admin' => 'admin#index', as: :admin
-
   get 'settings' => 'settings#edit'
   put 'settings' => 'settings#update'
   patch 'settings' => 'settings#update'
+
+  get 'admin' => 'admin#index', as: :admin
+
+  namespace :admin do
+    get 'channels/:id' => 'channels#show', as: 'channel'
+    get 'channels' => 'channels#index', as: 'channels'
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

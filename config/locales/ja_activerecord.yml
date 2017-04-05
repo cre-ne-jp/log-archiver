@@ -7,6 +7,10 @@ ja:
       user: 利用者
       setting: 設定
     attributes:
+      channel:
+        name: チャンネル名
+        identifier: 識別子
+        logging_enabled: ログ記録
       user:
         username: 利用者名
         email: メールアドレス
