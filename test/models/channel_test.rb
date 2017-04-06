@@ -40,8 +40,8 @@ class ChannelTest < ActiveSupport::TestCase
   end
 
   test 'identifier の形式が合っていないものは無効' do
-    @channel.identifier = 'Write'
-    refute(@channel.valid?, '大文字があるものは無効')
+    @channel.identifier = 'もの書き'
+    refute(@channel.valid?, '許可されていない文字があるものは無効')
 
     @channel.identifier = '-write'
     refute(@channel.valid?, '先頭にハイフンがあるものは無効')
@@ -51,6 +51,16 @@ class ChannelTest < ActiveSupport::TestCase
 
     @channel.identifier = '0write'
     refute(@channel.valid?, '先頭に数字があるものは無効')
+  end
+
+  test 'identifier: 西生駒' do
+    @channel.identifier = 'nishiikoma'
+    assert(@channel.valid?)
+  end
+
+  test 'identifier: openTRPG' do
+    @channel.identifier = 'openTRPG'
+    assert(@channel.valid?)
   end
 
   test 'identifier はユニーク' do
