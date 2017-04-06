@@ -34,7 +34,7 @@ class Channel < ActiveRecord::Base
     :identifier,
     presence: true,
     uniqueness: true,
-    format: { with: /\A[a-z][-_a-z0-9]*\z/ }
+    format: { with: /\A[A-Za-z][-_A-Za-z0-9]*\z/ }
   )
 
   # ログ記録が有効なチャンネル
