@@ -2,7 +2,11 @@ Rails.application.routes.draw do
 
   root 'welcome#index'
 
-  resources :channels
+  resources :channels do
+    member do
+      patch :sort
+    end
+  end
 
   resource :browse, only: %i(create)
 
@@ -38,6 +42,8 @@ Rails.application.routes.draw do
 
     get 'channels/:id' => 'channels#show', as: 'channel'
     get 'channels' => 'channels#index', as: 'channels'
+
+    resource :channel_order, only: %i(show)
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

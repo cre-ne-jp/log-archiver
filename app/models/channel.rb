@@ -2,6 +2,9 @@ class Channel < ActiveRecord::Base
   extend FriendlyId
   friendly_id :identifier
 
+  include RankedModel
+  ranks :row_order
+
   # 発言以外のメッセージ
   has_many :messages
   # 発言のメッセージ
@@ -60,7 +63,7 @@ class Channel < ActiveRecord::Base
   # チャンネル名と識別子のペアの配列を返す
   # @return [Array<Array<String, String>>]
   def self.name_identifier_pairs
-    select(:name, :identifier).
+    rank(:row_order).
       map { |channel| [channel.name_with_prefix, channel.identifier] }
   end
 
@@ -73,11 +76,13 @@ class Channel < ActiveRecord::Base
         a_timestamp = last_speech_timestamp(a)
         b_timestamp = last_speech_timestamp(b)
 
-        if a_timestamp == b_timestamp
-          a.id <=> b.id
-        else
-          b_timestamp <=> a_timestamp
-        end
+        comp_timestamp = (b_timestamp <=> a_timestamp)
+        next comp_timestamp unless comp_timestamp.zero?
+
+        comp_row_order = (a.row_order <=> b.row_order)
+        next comp_row_order unless comp_row_order.zero?
+
+        a.id <=> b.id
       }
   end
 

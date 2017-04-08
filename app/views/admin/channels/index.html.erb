@@ -16,7 +16,10 @@
         <h1>チャンネル</h1>
       </div>
 
-      <p><%= link_to('追加', new_channel_path, class: 'btn btn-success') %></p>
+      <p>
+        <%= link_to('追加', new_channel_path, class: 'btn btn-success') %>
+        <%= link_to('並び替え', admin_channel_order_path, class: 'btn btn-default') %>
+      </p>
 
       <table class="table table-striped channel-list">
         <thead>

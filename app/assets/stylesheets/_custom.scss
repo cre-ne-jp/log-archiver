@@ -173,6 +173,10 @@ footer {
   }
 }
 
+.channels-sortable-item {
+  cursor: row-resize;
+}
+
 .copyright {
   @media (min-width: $screen-sm-min) {
     text-align: right;

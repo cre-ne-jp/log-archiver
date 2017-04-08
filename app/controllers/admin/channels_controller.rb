@@ -2,7 +2,7 @@ class Admin::ChannelsController < ApplicationController
   before_action(:require_login)
 
   def index
-    @channels = Channel.all
+    @channels = Channel.rank(:row_order)
   end
 
   def show

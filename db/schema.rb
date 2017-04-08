@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170403224903) do
+ActiveRecord::Schema.define(version: 20170408163604) do
 
   create_table "channel_last_speeches", force: :cascade, options: "ENGINE=Mroonga DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
     t.integer  "channel_id",              limit: 4
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20170403224903) do
     t.boolean  "logging_enabled",             default: true, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "row_order",       limit: 4
   end
 
   add_index "channels", ["identifier"], name: "index_channels_on_identifier", using: :btree
@@ -115,5 +116,4 @@ ActiveRecord::Schema.define(version: 20170403224903) do
   add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
   add_foreign_key "channel_last_speeches", "conversation_messages", name: "conversation_message_id"
-  add_foreign_key "conversation_messages", "irc_users", name: "irc_user_id"
 end
