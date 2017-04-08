@@ -6,6 +6,8 @@ rvm:
 services:
   - mysql
 sudo: required
+env:
+  - COVERALLS_PARALLEL=true
 before_install:
   - curl --silent --location https://github.com/groonga/groonga/raw/master/data/travis/setup.sh | sh
   - sudo apt-get install -y -V mysql-server-mroonga
