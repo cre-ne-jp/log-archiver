@@ -24,12 +24,17 @@ class Channel < ActiveRecord::Base
   # 最終発言
   has_one :last_speech, through: :channel_last_speech, source: :conversation_message
 
-  validates(:name, presence: true)
+  validates(
+    :name,
+    presence: true,
+    uniqueness: true,
+    format: { with: /\A[^# ,:]+[^ ,:]*\z/ }
+  )
   validates(
     :identifier,
     presence: true,
     uniqueness: true,
-    format: { with: /\A[a-z][-_a-z0-9]*/ }
+    format: { with: /\A[A-Za-z][-_A-Za-z0-9]*\z/ }
   )
 
   # ログ記録が有効なチャンネル
@@ -86,6 +91,15 @@ class Channel < ActiveRecord::Base
   # @return [String]
   def lowercase_name_with_prefix
     name_with_prefix.downcase
+  end
+
+  # 現在の（キャッシュされていない）最終発言を求める
+  # @return [ConversationMessage]
+  def current_last_speech
+    conversation_messages.
+      order(timestamp: :desc).
+      limit(1).
+      first
   end
 
   private

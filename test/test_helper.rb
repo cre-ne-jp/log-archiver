@@ -17,3 +17,15 @@ class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
   include FactoryGirl::Syntax::Methods
 end
+
+class ActionDispatch::IntegrationTest
+   def login_user(user)
+    post(user_sessions_path, username: user.username, password: 'pa$$word')
+    follow_redirect!
+   end
+
+   def logout_user
+     get(logout_path)
+     follow_redirect!
+   end
+end

@@ -15,6 +15,20 @@ class ChannelTest < ActiveSupport::TestCase
     refute(@channel.valid?)
   end
 
+  test 'name の形式が合っていないものは無効' do
+    @channel.name = '#もの書き'
+    refute(@channel.valid?, '先頭に "#" があるものは無効')
+
+    @channel.name = 'もの 書き'
+    refute(@channel.valid?, '空白があるものは無効')
+
+    @channel.name = 'もの,書き'
+    refute(@channel.valid?, '"," があるものは無効')
+
+    @channel.name = 'もの:書き'
+    refute(@channel.valid?, '":" があるものは無効')
+  end
+
   test 'identifier は必須' do
     @channel.identifier = ''
     refute(@channel.valid?)
@@ -23,6 +37,30 @@ class ChannelTest < ActiveSupport::TestCase
   test 'identifier は空白のみではならない' do
     @channel.identifier = ' ' * 10
     refute(@channel.valid?)
+  end
+
+  test 'identifier の形式が合っていないものは無効' do
+    @channel.identifier = 'もの書き'
+    refute(@channel.valid?, '許可されていない文字があるものは無効')
+
+    @channel.identifier = '-write'
+    refute(@channel.valid?, '先頭にハイフンがあるものは無効')
+
+    @channel.identifier = '_write'
+    refute(@channel.valid?, '先頭にアンダーラインがあるものは無効')
+
+    @channel.identifier = '0write'
+    refute(@channel.valid?, '先頭に数字があるものは無効')
+  end
+
+  test 'identifier: 西生駒' do
+    @channel.identifier = 'nishiikoma'
+    assert(@channel.valid?)
+  end
+
+  test 'identifier: openTRPG' do
+    @channel.identifier = 'openTRPG'
+    assert(@channel.valid?)
   end
 
   test 'identifier はユニーク' do
