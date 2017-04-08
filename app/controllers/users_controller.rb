@@ -14,7 +14,7 @@ class UsersController < ApplicationController
 
     if @user.save
       flash[:success] = t('views.flash.added_user')
-      redirect_to(users_path)
+      redirect_to(@user)
     else
       render(:new)
     end
@@ -36,7 +36,7 @@ class UsersController < ApplicationController
 
     if @user.update_attributes(user_params)
       flash[:success] = t('views.flash.updated_user')
-      redirect_to(users_path)
+      redirect_to(@user)
     else
       @user.username = old_username
       render(:edit)

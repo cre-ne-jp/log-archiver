@@ -69,9 +69,8 @@ class UsersControllerTest < ActionController::TestCase
   test 'create: 追加に成功する' do
     login_user(@user)
 
-    patch(
+    post(
       :create,
-      id: 'new_user',
       user: {
         username: 'new_user',
         password: '12345678',
@@ -79,16 +78,15 @@ class UsersControllerTest < ActionController::TestCase
       }
     )
 
-    assert_redirected_to(:users, '利用者一覧ページにリダイレクトされる')
+    assert_redirected_to(user_path(id: 'new_user'), '利用者ページにリダイレクトされる')
     refute_nil(flash[:success], 'successのflashが表示される')
   end
 
   test 'create: 無効な値の場合は追加に失敗する' do
     login_user(@user)
 
-    patch(
+    post(
       :create,
-      id: @user.friendly_id,
       user: {
         username: '',
         password: '12345678',
@@ -113,7 +111,7 @@ class UsersControllerTest < ActionController::TestCase
       }
     )
 
-    assert_redirected_to(:users, '利用者一覧ページにリダイレクトされる')
+    assert_redirected_to(user_path(id: 'new_user'), '利用者ページにリダイレクトされる')
     refute_nil(flash[:success], 'successのflashが表示される')
   end
 
