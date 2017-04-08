@@ -6,8 +6,6 @@ rvm:
 services:
   - mysql
 sudo: required
-env:
-  - COVERALLS_PARALLEL=true
 before_install:
   - curl --silent --location https://github.com/groonga/groonga/raw/master/data/travis/setup.sh | sh
   - sudo apt-get install -y -V mysql-server-mroonga
@@ -17,6 +15,8 @@ before_script:
   - mysql -u root -e 'SET GLOBAL innodb_file_per_table = 1'
   - mysql -u root -e 'SET GLOBAL innodb_large_prefix = 1'
   - mysql -e 'CREATE DATABASE IF NOT EXISTS log_archiver_test;'
+after_success:
+  - bundle exec codeclimate-test-reporter
 notifications:
   irc:
     use_notice: true

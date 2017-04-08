@@ -84,10 +84,14 @@ group :development, :test do
   gem 'guard'
   gem 'guard-minitest'
 
-  gem 'coveralls', require: false
-
   # テスト時の対象オブジェクト作成
   gem 'factory_girl_rails', require: false
+end
+
+group :test do
+  gem 'rake'
+  gem 'simplecov'
+  gem 'codeclimate-test-reporter', '~> 1.0.0'
 end
 
 group :development do
