@@ -2,8 +2,12 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 
-require 'coveralls'
-Coveralls.wear!
+require 'simplecov'
+# カバレッジ測定開始
+SimpleCov.start do
+  # ライブラリを無視する
+  add_filter('/vendor/')
+end
 
 require 'minitest/reporters'
 Minitest::Reporters.use!
