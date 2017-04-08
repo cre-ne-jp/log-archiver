@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/cre-ne-jp/log-archiver.svg?branch=master)](https://travis-ci.org/cre-ne-jp/log-archiver)
 [![Code Climate](https://codeclimate.com/github/cre-ne-jp/log-archiver/badges/gpa.svg)](https://codeclimate.com/github/cre-ne-jp/log-archiver)
+[![Test Coverage](https://codeclimate.com/github/cre-ne-jp/log-archiver/badges/coverage.svg)](https://codeclimate.com/github/cre-ne-jp/log-archiver/coverage)
 
 IRC ボットを常駐させることでチャットログをチャンネル単位で RDBMS に直接記録し、Rails アプリケーションにより記録されたログを整形・表示します。
 
