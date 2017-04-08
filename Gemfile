@@ -6,7 +6,7 @@ gem 'lumberjack'
 gem 'sysexits'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.6'
+gem 'rails', '~> 4.2.7'
 # Use mysql as the database for Active Record
 gem 'mysql2', '>= 0.3.13', '< 0.5'
 gem 'activerecord-mysql-awesome'
@@ -58,10 +58,10 @@ gem 'redcarpet'
 
 # 自動リンク
 # スキーム付きのURLのみ有効にするために独自ブランチを使用する
-gem 'rinku', :git => 'https://github.com/cre-ne-jp/rinku.git', :branch => 'without-www'
+gem 'rinku', git: 'https://github.com/cre-ne-jp/rinku.git', branch: 'without-www'
 
 # ページネーション
-gem 'kaminari', github: 'amatsuda/kaminari'
+gem 'kaminari'
 
 # URLで番号の代わりに分かりやすい識別子を使う
 gem 'friendly_id'
