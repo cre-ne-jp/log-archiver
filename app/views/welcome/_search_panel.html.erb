@@ -1,0 +1,45 @@
+<div role="tabpanel" class="<%= (@invalid_model == :message_search) ? 'tab-pane active' : 'tab-pane' %>" id="search">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">検索</h2>
+    </div>
+
+    <div class="panel-body">
+      <% if @invalid_model == :message_search %>
+        <%= render('shared/error_messages', target: @message_search) %>
+      <% end %>
+
+      <%= form_for(@message_search, url: messages_search_path) do |f| %>
+        <div class="form-group">
+          <%= f.label(:query) %>
+          <%= f.search_field(:query, class: 'form-control') %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label(:nick) %>
+          <%= f.search_field(:nick, class: 'form-control') %>
+          <p class="help-block">検索文字列またはニックネームが必須です。</p>
+        </div>
+
+        <div class="form-group">
+          <%= f.label(:channels) %>
+          <%= f.select(:channels, channel_option_tags, {}, multiple: true, class: 'form-control', size: 5) %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label(:since) %>
+          <%= render('shared/date_picker', form: f, id: :since) %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label(:until) %>
+          <%= render('shared/date_picker', form: f, id: :until) %>
+        </div>
+
+        <div class="form-group">
+          <%= f.button(fa_icon('search', text: '検索'), name: 'search', class: 'btn btn-success') %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

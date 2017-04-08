@@ -34,7 +34,7 @@
         </tbody>
       </table>
 
-      <p><%= link_to('編集', edit_channel_path(@channel), class: 'btn btn-primary') %></p>
+      <p><%= link_to('編集', edit_channel_path(@channel), class: 'btn btn-success') %></p>
 
       <h2>最終発言キャッシュの更新</h2>
       <table class="table table-striped channel-info">
@@ -48,7 +48,7 @@
 
       <p>表示の高速化のため、最終発言の情報はキャッシュされます。このキャッシュは、IRC ボットによって発言が記録された際に更新されます。</p>
       <p>キャッシュされた最終発言の情報が正しくない場合は、以下のボタンを押して更新してください。</p>
-      <p><%= link_to('最終発言のキャッシュを更新する', admin_channels_update_last_speech_path(@channel), class: 'btn btn-primary') %></p>
+      <p><%= link_to('最終発言のキャッシュを更新する', admin_channels_update_last_speech_path(@channel), class: 'btn btn-success') %></p>
     </div>
   </div>
 </div>

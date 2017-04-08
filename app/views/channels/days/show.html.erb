@@ -5,24 +5,25 @@
   <%= render('shared/flash') %>
 
   <div class="row">
-    <% browse_year = ChannelBrowse::Year.new(channel: @channel, year: @date.year) %>
-    <% browse_month = ChannelBrowse::Month.new(channel: @channel, year: @date.year, month: @date.month) %>
-    <ol class="breadcrumb">
-      <li><%= link_to('チャンネル', channels_path) %></li>
-      <li><%= link_to(@channel.name_with_prefix, @channel) %></li>
-      <li><%= link_to("#{@date.year}年", channels_months_path(browse_year.params_for_url)) %></li>
-      <li><%= link_to("#{@date.month}月", channels_days_path(browse_month.params_for_url)) %></li>
-      <li class="active"><%= @date.day %>日</li>
-    </ol>
-  </div>
+    <div class="col-xs-12 col-md-8">
+      <% browse_year = ChannelBrowse::Year.new(channel: @channel, year: @date.year) %>
+      <% browse_month = ChannelBrowse::Month.new(channel: @channel, year: @date.year, month: @date.month) %>
+      <ol class="breadcrumb">
+        <li><%= link_to('チャンネル', channels_path) %></li>
+        <li><%= link_to(@channel.name_with_prefix, @channel) %></li>
+        <li><%= link_to("#{@date.year}年", channels_months_path(browse_year.params_for_url)) %></li>
+        <li><%= link_to("#{@date.month}月", channels_days_path(browse_month.params_for_url)) %></li>
+        <li class="active"><%= @date.day %>日</li>
+      </ol>
 
-  <div class="row">
-    <article class="col-xs-12 col-md-8">
-      <div class="page-header">
-        <h1><%= @channel.name_with_prefix %> <%= date_str %></h1>
-      </div>
-      <%= render('shared/message_list', messages: @messages) %>
-    </article>
+      <article>
+        <div class="page-header">
+          <h1><%= @channel.name_with_prefix %> <%= date_str %></h1>
+        </div>
+        <%= render('shared/message_list', messages: @messages) %>
+      </article>
+    </div>
+
     <aside class="col-xs-12 col-md-4">
       <div class="panel panel-default">
         <div class="panel-body">
