@@ -30,3 +30,6 @@ notifications:
       - '変更履歴: %{compare_url}'
       - 'ステータス: %{build_url}'
   email: false
+addons:
+  code_climate:
+    repo_token: 74e589ede57e23f089cbbd2eee75be23a93b5ace7b5cfce58213cd3f21447147
