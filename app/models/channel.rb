@@ -1,5 +1,12 @@
 class Channel < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :identifier
+
+  # 発言以外のメッセージ
   has_many :messages
+  # 発言のメッセージ
+  has_many :conversation_messages
+
   has_many :joins
   has_many :parts
   has_many :quits
@@ -8,12 +15,27 @@ class Channel < ActiveRecord::Base
   has_many :topics
   has_many :privmsgs
   has_many :notices
+
+  # 発言のある日
   has_many :message_dates
 
-  validates(:name, presence: true)
-  validates(:identifier,
-            presence: true,
-            uniqueness: true)
+  # チャンネルと最終発言の関係
+  has_one :channel_last_speech
+  # 最終発言
+  has_one :last_speech, through: :channel_last_speech, source: :conversation_message
+
+  validates(
+    :name,
+    presence: true,
+    uniqueness: true,
+    format: { with: /\A[^# ,:]+[^ ,:]*\z/ }
+  )
+  validates(
+    :identifier,
+    presence: true,
+    uniqueness: true,
+    format: { with: /\A[A-Za-z][-_A-Za-z0-9]*\z/ }
+  )
 
   # ログ記録が有効なチャンネル
   scope :logging_enabled, -> { where(logging_enabled: true) }
@@ -35,6 +57,30 @@ class Channel < ActiveRecord::Base
     names.map(&modifier)
   end
 
+  # チャンネル名と識別子のペアの配列を返す
+  # @return [Array<Array<String, String>>]
+  def self.name_identifier_pairs
+    select(:name, :identifier).
+      map { |channel| [channel.name_with_prefix, channel.identifier] }
+  end
+
+  # チャンネル一覧用の順序のチャンネル配列を返す
+  # @return [Array<Channel>]
+  def self.for_channels_index
+    all.
+      includes(:last_speech).
+      sort { |a, b|
+        a_timestamp = last_speech_timestamp(a)
+        b_timestamp = last_speech_timestamp(b)
+
+        if a_timestamp == b_timestamp
+          a.id <=> b.id
+        else
+          b_timestamp <=> a_timestamp
+        end
+      }
+  end
+
   # 接頭辞付きのチャンネル名を返す
   # @return [String]
   def name_with_prefix
@@ -45,5 +91,20 @@ class Channel < ActiveRecord::Base
   # @return [String]
   def lowercase_name_with_prefix
     name_with_prefix.downcase
+  end
+
+  # 現在の（キャッシュされていない）最終発言を求める
+  # @return [ConversationMessage]
+  def current_last_speech
+    conversation_messages.
+      order(timestamp: :desc).
+      limit(1).
+      first
+  end
+
+  private
+
+  def self.last_speech_timestamp(channel)
+    channel.last_speech&.timestamp || DateTime.new
   end
 end

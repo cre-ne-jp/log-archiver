@@ -1,7 +1,8 @@
 # Log Archiver
 
 [![Build Status](https://travis-ci.org/cre-ne-jp/log-archiver.svg?branch=master)](https://travis-ci.org/cre-ne-jp/log-archiver)
-[![Coverage Status](https://coveralls.io/repos/github/cre-ne-jp/log-archiver/badge.svg?branch=master)](https://coveralls.io/github/cre-ne-jp/log-archiver?branch=master)
+[![Code Climate](https://codeclimate.com/github/cre-ne-jp/log-archiver/badges/gpa.svg)](https://codeclimate.com/github/cre-ne-jp/log-archiver)
+[![Test Coverage](https://codeclimate.com/github/cre-ne-jp/log-archiver/badges/coverage.svg)](https://codeclimate.com/github/cre-ne-jp/log-archiver/coverage)
 
 IRC ボットを常駐させることでチャットログをチャンネル単位で RDBMS に直接記録し、Rails アプリケーションにより記録されたログを整形・表示します。
 
@@ -14,6 +15,8 @@ IRC ボットを常駐させることでチャットログをチャンネル単�
 # インストール
 
 [MySQL](https://www-jp.mysql.com/) もしくは [MariaDB](https://mariadb.org/) をインストールしていない場合はインストールしてください。
+
+全文検索機能を動作させるため、[Groonga](http://groonga.org/ja/) および [Mroonga](http://mroonga.org/ja/) のインストールが必要です。Mroonga 公式サイトより[インストール方法](http://mroonga.org/ja/docs/install.html)を参照してインストールを行ってください。
 
 [Ruby](http://www.ruby-lang.org/) をインストールしていない場合はインストールしてください。
 
@@ -76,7 +79,7 @@ systemd による制御を行なう場合は [systemd](doc/systemd.md) を参照
 制作
 ----
 
-&copy; 2016 [クリエイターズネットワーク](http://www.cre.ne.jp/)技術部
+&copy; 2017 [クリエイターズネットワーク](http://www.cre.ne.jp/)技術部
 
 * 鯉（[@koi-chan](https://github.com/koi-chan)）
 * ocha（[@ochaochaocha3](https://github.com/ochaochaocha3)）

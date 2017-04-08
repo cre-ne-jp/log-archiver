@@ -1,0 +1,18 @@
+ja:
+  views:
+    flash:
+      login_first: ログインしてください。
+      login_successful: ログインに成功しました。
+      login_failed: ログインに失敗しました。
+      logged_out: ログアウトしました。
+      added_channel: チャンネルを追加しました。
+      updated_channel: チャンネル情報を更新しました。
+      removed_channel: チャンネルを削除しました。
+      added_user: 利用者を追加しました。
+      updated_user: 利用者情報を更新しました。
+      removed_user: 利用者を削除しました。
+      updated_settings: 設定を更新しました。
+      updated_last_speech: 最終発言のキャッシュを更新しました。
+      failed_to_update_last_speech: 最終発言キャッシュの更新に失敗しました。
+    login: ログイン
+    save: 保存

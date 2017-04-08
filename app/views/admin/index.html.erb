@@ -1,0 +1,19 @@
+<% title('管理') %>
+<%= render('shared/navbar') %>
+<div class="container main-container">
+  <%= render('shared/flash') %>
+
+  <div class="row">
+    <div class="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+      <div class="page-header">
+        <h1>管理</h1>
+      </div>
+
+      <div class="admin-menu">
+        <p><%= link_to(fa_icon('user', text: '利用者'), users_path, class: 'btn btn-default btn-block') %></p>
+        <p><%= link_to(fa_icon('cog', text: '設定'), settings_path, class: 'btn btn-default btn-block') %></p>
+        <p><%= link_to(fa_icon('folder-open', text: 'チャンネル'), admin_channels_path, class: 'btn btn-default btn-block') %></p>
+      </div>
+    </div>
+  </div>
+</div>

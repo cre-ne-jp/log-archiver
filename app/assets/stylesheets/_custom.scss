@@ -1,10 +1,15 @@
 /* vim: :set expandtab ts=2 sts=2 sw=2: */
 body {
-  padding-top: 70px;
+  margin-top: 70px;
 }
 
 .page-header {
   margin-top: $line-height-computed;
+  padding-bottom: 0.2em;
+}
+
+.text-on-homepage {
+  margin-bottom: 1em;
 }
 
 h1.title {
@@ -12,26 +17,91 @@ h1.title {
   font-weight: normal;
 }
 
+.tab-pane > .panel {
+  margin-top: 1em;
+}
+
 h2 {
   padding-bottom: 0.25em;
   border-bottom: 1px solid $page-header-border-color;
+}
+
+h2.panel-title {
+  padding-bottom: 0;
+  border-bottom: 0;
+
+  .fa {
+    color: $gray;
+  }
 }
 
 h3 {
   margin-top: 12.5px;
 }
 
+ul, ol {
+  padding-left: 2em;
+}
+
 .num-col {
   text-align: right;
 }
 
-.message-time {
-  white-space: nowrap;
-  width: 1em;
+.panel .channel-list {
+  margin-bottom: 0;
 }
 
-.message-content {
-  word-break: break-all;
+.channel-list-date {
+  text-align: right;
+}
+
+.search-conditions {
+  h2 {
+    margin: 0;
+    border: 0;
+    font-size: $font-size-h4;
+  }
+
+  ul {
+    margin-bottom: 0;
+  }
+}
+
+table.user-info, table.channel-info {
+  border-bottom: 1px solid $table-border-color;
+
+  td {
+    text-align: right;
+  }
+}
+
+.message-list {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.message-time {
+  width: 5em;
+}
+
+td.message-time {
+  white-space: nowrap;
+
+  // position: fixed のヘッダを使う際の位置調整
+  a {
+    display: block;
+    margin-top: -50px;
+    padding-top: 50px;
+  }
+}
+
+.message-channel {
+  width: 6em;
+}
+
+.message-channel, .message-content {
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 dl.message {
@@ -46,6 +116,16 @@ b.nickname.message-privmsg {
     color: white;
 }
 
+.channel-list {
+  .channel-logging-enabled {
+    text-align: center;
+  }
+}
+
+td.channel-logging-enabled {
+  color: $brand-success;
+}
+
 aside {
   font-size: $font-size-small;
 
@@ -54,63 +134,27 @@ aside {
   }
 }
 
+.panel .simple-calendar .table,
+.panel .other-channel-list {
+  margin-bottom: 0;
+}
+
 .simple-calendar {
   .calendar-heading, th, .day {
     text-align: center;
   }
 }
 
-.server-panel {
-  .panel-title {
-    font-size: $font-size-h3;
-    text-align: center;
-  }
-
-  .progress {
-    height: $font-size-base;
-    margin-bottom: 0.5em;
-  }
-
-  h4 {
-    margin-bottom: 0.5em;
-    font-size: $font-size-base;
-  }
+textarea.text-on-homepage {
+  min-height: 5em;
+  height: 10em;
+  resize: vertical;
+  font-family: $font-family-monospace;
 }
 
-.ratio {
+.help-block {
   font-size: $font-size-small;
-  text-align: center;
-}
-
-strong.user-status-full {
-  color: $brand-danger;
-  font-weight: bold;
-}
-
-em.user-status-warning {
-  color: $brand-warning;
-  font-style: normal;
-}
-
-ul, ol {
-  padding-left: 2em;
-}
-
-.text-prohibited {
-  $prohibited-color: #a94442;
-  color: $prohibited-color;
-}
-
-.prohibited-conduct {
-  font-weight: bold;
-}
-
-.maintenance_id, .server_id {
-  text-align: right;
-}
-
-.maintenance_done {
-  text-align: center;
+  color: $gray-light;
 }
 
 footer {
@@ -134,4 +178,11 @@ footer {
   @media (min-width: $screen-sm-min) {
     text-align: right;
   }
+}
+
+fieldset.welcome legend {
+  margin-bottom: 0;
+  border-bottom: 0;
+  font-size: $font-size-small;
+  font-weight: bold;
 }

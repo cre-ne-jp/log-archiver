@@ -12,4 +12,10 @@ class IrcUser < ActiveRecord::Base
   def mask(nick)
     "#{nick}!#{user}@#{host}"
   end
+
+  # ユーザー名とホストを含む文字列を返す
+  # @return [String]
+  def user_host
+    "#{user}@#{host}"
+  end
 end

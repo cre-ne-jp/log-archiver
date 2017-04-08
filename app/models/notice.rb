@@ -1,4 +1,4 @@
-class Notice < Message
+class Notice < ConversationMessage
   validates :message, presence: true
 
   # Tiarra のログ形式の文字列を返す

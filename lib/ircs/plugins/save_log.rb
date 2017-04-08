@@ -2,16 +2,14 @@
 
 require 'cinch'
 require 'json'
-require_relative 'plugin_template'
+require_relative 'base'
 require 'pp'
 
 module LogArchiver
   module Plugin
     # DB にログを保存する
-    class SaveLog < Template
+    class SaveLog < Base
       include Cinch::Plugin
-
-      RECORD_MESSAGE = :record_message
 
       set(plugin_name: 'SaveLog')
 
@@ -77,10 +75,10 @@ module LogArchiver
       def on_nick(m)
         user = m.user
         record_message_to_channels(m, user.channels) do |channel, irc_user|
-          channel.nicks.create(irc_user: irc_user,
-                               timestamp: m.time,
-                               nick: user.last_nick,
-                               message: user.nick)
+          channel.nicks.create!(irc_user: irc_user,
+                                timestamp: m.time,
+                                nick: user.last_nick,
+                                message: user.nick)
         end
       end
 
@@ -88,10 +86,11 @@ module LogArchiver
       # @param [Cinch::Message] m メッセージ
       def on_topic(m)
         record_message(m) do |channel, irc_user|
-          channel.topics.create!(irc_user: irc_user,
-                                 timestamp: m.time,
-                                 nick: m.user.nick,
-                                 message: m.message)
+          topic = channel.topics.create!(irc_user: irc_user,
+                                         timestamp: m.time,
+                                         nick: m.user.nick,
+                                         message: m.message)
+          update_last_speech!(channel, topic)
         end
       end
 
@@ -99,10 +98,11 @@ module LogArchiver
       # @param [Cinch::Message] m メッセージ
       def on_notice(m)
         record_message(m) do |channel, irc_user|
-          channel.notices.create!(irc_user: irc_user,
-                                  timestamp: m.time,
-                                  nick: m.user.nick,
-                                  message: m.message)
+          notice = channel.notices.create!(irc_user: irc_user,
+                                           timestamp: m.time,
+                                           nick: m.user.nick,
+                                           message: m.message)
+          update_last_speech!(channel, notice)
         end
       end
 
@@ -110,64 +110,11 @@ module LogArchiver
       # @param [Cinch::Message] m メッセージ
       def on_privmsg(m)
         record_message(m) do |channel, irc_user|
-          channel.privmsgs.create!(irc_user: irc_user,
-                                  timestamp: m.time,
-                                  nick: m.user.nick,
-                                  message: m.message)
-        end
-      end
-
-      private
-
-      # メッセージを記録する
-      # @param [Cinch::Message] message Cinch から渡された IRC メッセージ
-      # @yieldparam [::Channel] channel チャンネル
-      # @yieldparam [IrcUser] irc_user IRC ユーザー
-      # @return [void]
-      def record_message(message)
-        return nil unless message.channel
-
-        synchronize(RECORD_MESSAGE) do
-          ActiveRecord::Base.connection_pool.with_connection do
-            channel = ::Channel.find_by(name: message.channel.name[1..-1],
-                                        logging_enabled: true)
-            next nil unless channel
-
-            next nil unless user = message.user
-            irc_user = IrcUser.find_or_create_by!(user: user.user, host: user.host)
-
-            MessageDate.find_or_create_by!(channel: channel, date: message.time.to_date)
-
-            yield(channel, irc_user)
-          end
-        end
-      end
-
-      # 複数のチャンネルにメッセージを記録する
-      # @param [Cinch::Message] message Cinch から渡された IRC メッセージ
-      # @param [Array<Cinch::Channel>] cinch_channels Cinch から渡されたチャンネルリスト
-      # @yieldparam [::Channel] channel チャンネル
-      # @yieldparam [IrcUser] irc_user IRC ユーザー
-      # @return [void]
-      def record_message_to_channels(message, cinch_channels)
-        channel_names_without_prefix =
-          cinch_channels.map { |channel| channel.name[1..-1] }
-
-        ActiveRecord::Base.connection_pool.with_connection do
-          synchronize(RECORD_MESSAGE) do
-            irc_user = nil
-            next [] unless user = message.user
-            channels = ::Channel.where(name: channel_names_without_prefix,
-                                       logging_enabled: true)
-            channels.each.map do |channel|
-              irc_user ||= IrcUser.find_or_create_by!(user: user.user,
-                                                      host: user.host)
-
-              MessageDate.find_or_create_by!(channel: channel, date: message.time.to_date)
-
-              yield(channel, irc_user)
-            end
-          end
+          privmsg = channel.privmsgs.create!(irc_user: irc_user,
+                                             timestamp: m.time,
+                                             nick: m.user.nick,
+                                             message: m.message)
+          update_last_speech!(channel, privmsg)
         end
       end
     end

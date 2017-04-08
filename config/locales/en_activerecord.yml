@@ -1,0 +1,13 @@
+en:
+  activerecord: &activerecord
+    models:
+    attributes:
+  # ActiveModel の翻訳は ActiveRecord のものを流用する
+  activemodel:
+    <<: activerecord
+    models:
+    attributes:
+      channel_browse:
+        date_type: date
+      message_search:
+  enums:

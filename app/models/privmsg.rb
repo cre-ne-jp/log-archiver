@@ -1,4 +1,4 @@
-class Privmsg < Message
+class Privmsg < ConversationMessage
   validates :message, presence: true
 
   # Tiarra のログ形式の文字列を返す

@@ -15,6 +15,20 @@ class ChannelTest < ActiveSupport::TestCase
     refute(@channel.valid?)
   end
 
+  test 'name の形式が合っていないものは無効' do
+    @channel.name = '#もの書き'
+    refute(@channel.valid?, '先頭に "#" があるものは無効')
+
+    @channel.name = 'もの 書き'
+    refute(@channel.valid?, '空白があるものは無効')
+
+    @channel.name = 'もの,書き'
+    refute(@channel.valid?, '"," があるものは無効')
+
+    @channel.name = 'もの:書き'
+    refute(@channel.valid?, '":" があるものは無効')
+  end
+
   test 'identifier は必須' do
     @channel.identifier = ''
     refute(@channel.valid?)
@@ -23,6 +37,30 @@ class ChannelTest < ActiveSupport::TestCase
   test 'identifier は空白のみではならない' do
     @channel.identifier = ' ' * 10
     refute(@channel.valid?)
+  end
+
+  test 'identifier の形式が合っていないものは無効' do
+    @channel.identifier = 'もの書き'
+    refute(@channel.valid?, '許可されていない文字があるものは無効')
+
+    @channel.identifier = '-write'
+    refute(@channel.valid?, '先頭にハイフンがあるものは無効')
+
+    @channel.identifier = '_write'
+    refute(@channel.valid?, '先頭にアンダーラインがあるものは無効')
+
+    @channel.identifier = '0write'
+    refute(@channel.valid?, '先頭に数字があるものは無効')
+  end
+
+  test 'identifier: 西生駒' do
+    @channel.identifier = 'nishiikoma'
+    assert(@channel.valid?)
+  end
+
+  test 'identifier: openTRPG' do
+    @channel.identifier = 'openTRPG'
+    assert(@channel.valid?)
   end
 
   test 'identifier はユニーク' do
@@ -41,5 +79,20 @@ class ChannelTest < ActiveSupport::TestCase
   test 'lowercase_name_with_prefix は小文字の接頭辞付きチャンネル名を返す' do
     channel = create(:channel_with_camel_case_name)
     assert_equal('#camelcasechannel', channel.lowercase_name_with_prefix)
+  end
+
+  test 'for_channels_index の順序が正しい' do
+    Channel.delete_all
+
+    [100, 200, 300, 400, 500].each do |id|
+      create("channel_#{id}".to_sym)
+    end
+
+    [100, 200, 400].each do |id|
+      create("channel_#{id}_last_speech".to_sym)
+    end
+
+    expected = [100, 400, 200, 300, 500].map { |id| "channel_#{id}" }
+    assert_equal(expected, Channel.for_channels_index.map(&:identifier))
   end
 end

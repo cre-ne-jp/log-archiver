@@ -9,30 +9,14 @@
         <li class="active"><%= @channel.name_with_prefix %></li>
       </ol>
 
-      <h1>チャンネル登録情報</h1>
-      <table class="table">
-        <tr>
-          <th>#</th>
-          <td><%= @channel.id %></td>
-        </tr>
-        <tr>
-          <th>チャンネル名</th>
-          <td><%= @channel.name_with_prefix %></td>
-        </tr>
-        <tr>
-          <th>識別子</th>
-          <td><%= @channel.identifier %></td>
-        </tr>
-        <tr>
-          <th>ログ取得状況</th>
-          <td><%= @channel.logging_enabled? ? '取得中' : '取得停止中' %></td>
-        </tr>
-      </table>
+      <div class="page-header">
+        <h1><%= @channel.name_with_prefix %></h1>
+      </div>
 
-      <h1>ログ</h1>
       <ul>
         <% @years.each do |year| %>
-          <li><%= link_to("#{year}年", channels_months_path(identifier: @channel.identifier, year: year)) %></li>
+          <% browse_year = ChannelBrowse::Year.new(channel: @channel, year: year) %>
+          <li><%= link_to("#{year}年", channels_months_path(browse_year.params_for_url)) %></li>
         <% end %>
       </ul>
     </div>
