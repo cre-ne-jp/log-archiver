@@ -22,9 +22,11 @@ class Channels::DaysController < ApplicationController
   end
 
   def show
-    target_channels, @other_channels = Channel.all.partition { |channel|
-      channel.identifier == params[:identifier]
-    }
+    target_channels, @other_channels = Channel.
+      order_for_list.
+      partition { |channel|
+        channel.identifier == params[:identifier]
+      }
     @channel = target_channels.first
 
     @year = params[:year].to_i
@@ -32,7 +34,7 @@ class Channels::DaysController < ApplicationController
     @day = params[:day].to_i
     @date = Date.new(@year, @month, @day)
 
-    @calendar_start_date = params[:start_date]&.to_date || @date rescue @date
+    @calendar_start_date = (params[:start_date]&.to_date || @date) rescue @date
 
     timestamp_range = @date...(@date.next_day)
     messages1 = Message.
