@@ -6,7 +6,7 @@ gem 'lumberjack'
 gem 'sysexits'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.6'
+gem 'rails', '~> 4.2.7'
 # Use mysql as the database for Active Record
 gem 'mysql2', '>= 0.3.13', '< 0.5'
 gem 'activerecord-mysql-awesome'
@@ -58,10 +58,10 @@ gem 'redcarpet'
 
 # 自動リンク
 # スキーム付きのURLのみ有効にするために独自ブランチを使用する
-gem 'rinku', :git => 'https://github.com/cre-ne-jp/rinku.git', :branch => 'without-www'
+gem 'rinku', git: 'https://github.com/cre-ne-jp/rinku.git', branch: 'without-www'
 
 # ページネーション
-gem 'kaminari', github: 'amatsuda/kaminari'
+gem 'kaminari'
 
 # URLで番号の代わりに分かりやすい識別子を使う
 gem 'friendly_id'
@@ -74,6 +74,10 @@ gem 'sorcery'
 
 # コンソールとして pry を使う
 gem 'pry-rails'
+
+# ruby2.4
+# https://github.com/rails/rails/issues/27450
+#gem 'json', github: 'flori/json', branch: 'v1.8'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -92,6 +96,7 @@ group :test do
   gem 'rake'
   gem 'simplecov'
   gem 'codeclimate-test-reporter', '~> 1.0.0'
+  gem 'rubocop'
 end
 
 group :development do
