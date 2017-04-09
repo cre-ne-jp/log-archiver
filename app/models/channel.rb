@@ -45,6 +45,9 @@ class Channel < ActiveRecord::Base
   # ログ記録が無効なチャンネル
   scope :logging_disabled, -> { where(logging_enabled: false) }
 
+  # 一覧表示の順序で並び替える
+  scope :order_for_list, -> { rank(:row_order) }
+
   # ログ記録が有効なチャンネル名の配列を返す
   # @param [Boolean] lowercase 小文字に変換するかどうか
   # @return [Array<String>]
@@ -63,18 +66,21 @@ class Channel < ActiveRecord::Base
   # チャンネル名と識別子のペアの配列を返す
   # @return [Array<Array<String, String>>]
   def self.name_identifier_pairs
-    rank(:row_order).
+    order_for_list.
       map { |channel| [channel.name_with_prefix, channel.identifier] }
   end
 
   # チャンネル一覧用の順序のチャンネル配列を返す
   # @return [Array<Channel>]
   def self.for_channels_index
+    last_speech_timestamp =
+      ->(channel) { channel.last_speech&.timestamp || DateTime.new }
+
     all.
       includes(:last_speech).
       sort { |a, b|
-        a_timestamp = last_speech_timestamp(a)
-        b_timestamp = last_speech_timestamp(b)
+        a_timestamp = last_speech_timestamp[a]
+        b_timestamp = last_speech_timestamp[b]
 
         comp_timestamp = (b_timestamp <=> a_timestamp)
         next comp_timestamp unless comp_timestamp.zero?
@@ -105,11 +111,5 @@ class Channel < ActiveRecord::Base
       order(timestamp: :desc).
       limit(1).
       first
-  end
-
-  private
-
-  def self.last_speech_timestamp(channel)
-    channel.last_speech&.timestamp || DateTime.new
   end
 end

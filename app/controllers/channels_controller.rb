@@ -55,10 +55,6 @@ class ChannelsController < ApplicationController
 
   private
 
-  def last_speech_timestamp(channel)
-    channel.last_speech&.timestamp || DateTime.new
-  end
-
   def channel_params_for_create
     params.
       require(:channel).
