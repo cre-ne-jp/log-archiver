@@ -20,9 +20,9 @@
       <!-- タブペーン -->
       <% channel_option_tags = Channel.name_identifier_pairs %>
       <div class="tab-content">
-        <%= render('browse_panel', channel_option_tags: channel_option_tags) %>
+        <%= render('welcome/browse_panel', channel_option_tags: channel_option_tags) %>
 
-        <%= render('search_panel', channel_option_tags: channel_option_tags) %>
+        <%= render('welcome/search_panel', channel_option_tags: channel_option_tags) %>
       </div>
     </div>
   </div>
