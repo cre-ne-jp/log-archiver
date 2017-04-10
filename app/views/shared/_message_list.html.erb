@@ -7,53 +7,6 @@
     </tr>
   </thead>
   <tbody>
-    <% messages.each do |m| %>
-      <% anchor = m.id %>
-      <% browse_day = ChannelBrowse::Day.new(channel: m.channel, date: m.timestamp.to_date) %>
-      <tr class="message-type-<%= m.type.downcase %>">
-        <td class="message-time"><%= link_to(m.timestamp.strftime('%T'), channels_day_path(browse_day.params_for_url.merge({ anchor: anchor })), id: anchor) %></td>
-        <td class="message-channel"><%= link_to(m.channel.name_with_prefix, channels_path(m.channel)) %></td>
-        <% case m %>
-        <% when Join %>
-          <td class="message-content">
-            <b class="nickname"><%= m.nick %></b><%= m.irc_user ? " (#{m.irc_user.user_host})" : '' %> が <b class="channel"><%= m.channel.name_with_prefix %></b> に参加しました。
-          </td>
-        <% when Part %>
-          <td class="message-content">
-            <b class="nickname"><%= m.nick %></b> が <b class="channel"><%= m.channel.name_with_prefix %></b> から退出しました<%= message_or_period(m) %>
-          </td>
-        <% when Quit %>
-          <td class="message-content">
-            <b class="nickname"><%= m.nick %></b> が切断されました<%= message_or_period(m) %>
-          </td>
-        <% when Nick %>
-          <td class="message-content">
-            <b class="nickname old-nickname"><%= m.nick %></b> &rarr; <b class="nickname new-nickname"><%= m.new_nick %></b>
-          </td>
-        <% when Kick %>
-          <td class="message-content">
-            <b class="nickname kick-by"><%= m.nick %></b> が <b class="channel"><%= m.channel.name_with_prefix %></b> から <b class="nickname kick-target"><%= m.target %></b> を退出させました<%= message_or_period(m) %>
-          </td>
-        <% when Topic %>
-          <td class="message-content">
-            <b class="nickname"><%= m.nick %></b> が <b class="channel"><%= m.channel.name_with_prefix %></b> のトピックを設定しました：<%= raw(linkify(m.message)) %>
-          </td>
-        <% when Privmsg %>
-          <td class="message-content">
-            <dl class="message">
-              <dt><b class="nickname message-privmsg"><%= m.nick %></b></dt>
-              <dd><%= raw(linkify(m.message)) %></dd>
-            </dl>
-          </td>
-        <% when Notice %>
-          <td class="message-content">
-            <dl class="message">
-              <dt><b class="nickname"><%= m.nick %></b></dt>
-              <dd><%= raw(linkify(m.message)) %></dd>
-            </dl>
-          </td>
-        <% end %>
-      </tr>
-    <% end %>
+    <%= render(partial: 'shared/message', collection: messages, as: :m) %>
   </tbody>
 </table>

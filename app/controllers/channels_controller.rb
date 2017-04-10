@@ -1,5 +1,5 @@
 class ChannelsController < ApplicationController
-  before_action :require_login, only: %i(new create edit update)
+  before_action :require_login, only: %i(new create edit update sort)
 
   def index
     @channels = Channel.for_channels_index
@@ -47,11 +47,13 @@ class ChannelsController < ApplicationController
     end
   end
 
-  private
-
-  def last_speech_timestamp(channel)
-    channel.last_speech&.timestamp || DateTime.new
+  def sort
+    channel = Channel.friendly.find(params[:id])
+    channel.update(channel_params_for_sort)
+    head(:no_content)
   end
+
+  private
 
   def channel_params_for_create
     params.
@@ -63,5 +65,11 @@ class ChannelsController < ApplicationController
     params.
       require(:channel).
       permit(:identifier, :logging_enabled)
+  end
+
+  def channel_params_for_sort
+    params.
+      require(:channel).
+      permit(:row_order_position)
   end
 end

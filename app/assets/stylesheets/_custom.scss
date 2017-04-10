@@ -1,15 +1,25 @@
 /* vim: :set expandtab ts=2 sts=2 sw=2: */
 body {
-  margin-top: 70px;
+  padding-bottom: 60px;
 }
 
 .page-header {
   margin-top: $line-height-computed;
-  padding-bottom: 0.2em;
+  padding-bottom: 0.1em;
 }
 
 .text-on-homepage {
   margin-bottom: 1em;
+}
+
+.panel {
+  .nav-pills > li > a {
+    border-radius: 0;
+  }
+
+  .nav-pills > li:last-child > a {
+    border-radius: 0 0 $border-radius-small $border-radius-small;
+  }
 }
 
 h1.title {
@@ -68,8 +78,6 @@ ul, ol {
 }
 
 table.user-info, table.channel-info {
-  border-bottom: 1px solid $table-border-color;
-
   td {
     text-align: right;
   }
@@ -86,13 +94,6 @@ table.user-info, table.channel-info {
 
 td.message-time {
   white-space: nowrap;
-
-  // position: fixed のヘッダを使う際の位置調整
-  a {
-    display: block;
-    margin-top: -50px;
-    padding-top: 50px;
-  }
 }
 
 .message-channel {
@@ -112,7 +113,7 @@ b.nickname.message-privmsg {
     position: relative;
     padding: 0em 0.25em;
     border-radius: 4px;
-    background-color: $gray-light;
+    background-color: $gray;
     color: white;
 }
 
@@ -147,14 +148,12 @@ aside {
 
 textarea.text-on-homepage {
   min-height: 5em;
-  height: 10em;
   resize: vertical;
   font-family: $font-family-monospace;
 }
 
 .help-block {
   font-size: $font-size-small;
-  color: $gray-light;
 }
 
 footer {
@@ -172,6 +171,10 @@ footer {
   li {
     margin-bottom: ($line-height-computed / 2);
   }
+}
+
+.channels-sortable-item {
+  cursor: row-resize;
 }
 
 .copyright {

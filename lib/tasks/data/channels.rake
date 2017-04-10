@@ -45,5 +45,14 @@ namespace :data do
       end
 
     end
+
+    desc '順番を初期化する'
+    task :initialize_row_order => :environment do
+      Channel.transaction do
+        Channel.order(id: :desc).each do |channel|
+          channel.update_attribute(:row_order_position, 0)
+        end
+      end
+    end
   end
 end

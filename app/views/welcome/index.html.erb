@@ -18,97 +18,11 @@
       </ul>
 
       <!-- タブペーン -->
+      <% channel_option_tags = Channel.name_identifier_pairs %>
       <div class="tab-content">
-        <div role="tabpanel" class="<%= (@invalid_model == :message_search) ? 'tab-pane' : 'tab-pane active' %>" id="browse">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h2 class="panel-title">チャンネルから探す</h2>
-            </div>
+        <%= render('browse_panel', channel_option_tags: channel_option_tags) %>
 
-            <% channel_option_tags = Channel.name_identifier_pairs %>
-            <div class="panel-body">
-              <% if @invalid_model == :channel_browse %>
-                <%= render('shared/error_messages', target: @channel_browse) %>
-              <% end %>
-
-              <%= form_for(@channel_browse, url: browse_path) do |f| %>
-                <div class="form-group">
-                  <%= f.label(:channel) %>
-                  <%= f.select(:channel, channel_option_tags, { prompt: true }, class: 'form-control', required: true) %>
-                </div>
-
-                <fieldset class="welcome">
-                  <legend><%= t('activemodel.attributes.channel_browse.date_type') %></legend>
-                  <div class="form-group">
-                    <label class="radio-inline">
-                      <%= f.radio_button(:date_type, 'today', class: 'date-type-radio') %> 今日
-                    </label>
-                    <label class="radio-inline">
-                      <%= f.radio_button(:date_type, 'yesterday', class: 'date-type-radio') %> 昨日
-                    </label>
-                    <label class="radio-inline">
-                      <%= f.radio_button(:date_type, 'specify', class: 'date-type-radio') %> 指定
-                    </label>
-                  </div>
-
-                  <div class="form-group by-channel-date">
-                    <%= render('shared/date_picker', form: f, id: :date) %>
-                  </div>
-                </fieldset>
-
-                <div class="form-group">
-                  <%= f.button(fa_icon('arrow-right', text: '閲覧'), type: 'submit', name: 'browse', class: 'btn btn-primary') %>
-                </div>
-              <% end %>
-            </div>
-          </div>
-        </div>
-
-        <div role="tabpanel" class="<%= (@invalid_model == :message_search) ? 'tab-pane active' : 'tab-pane' %>" id="search">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h2 class="panel-title">検索</h2>
-            </div>
-
-            <div class="panel-body">
-              <% if @invalid_model == :message_search %>
-                <%= render('shared/error_messages', target: @message_search) %>
-              <% end %>
-
-              <%= form_for(@message_search, url: messages_search_path) do |f| %>
-                <div class="form-group">
-                  <%= f.label(:query) %>
-                  <%= f.search_field(:query, class: 'form-control') %>
-                </div>
-
-                <div class="form-group">
-                  <%= f.label(:nick) %>
-                  <%= f.search_field(:nick, class: 'form-control') %>
-                  <p class="help-block">検索文字列またはニックネームが必須です。</p>
-                </div>
-
-                <div class="form-group">
-                  <%= f.label(:channels) %>
-                  <%= f.select(:channels, channel_option_tags, {}, multiple: true, class: 'form-control') %>
-                </div>
-
-                <div class="form-group">
-                  <%= f.label(:since) %>
-                  <%= render('shared/date_picker', form: f, id: :since) %>
-                </div>
-
-                <div class="form-group">
-                  <%= f.label(:until) %>
-                  <%= render('shared/date_picker', form: f, id: :until) %>
-                </div>
-
-                <div class="form-group">
-                  <%= f.button(fa_icon('search', text: '検索'), name: 'search', class: 'btn btn-primary') %>
-                </div>
-              <% end %>
-            </div>
-          </div>
-        </div>
+        <%= render('search_panel', channel_option_tags: channel_option_tags) %>
       </div>
     </div>
   </div>

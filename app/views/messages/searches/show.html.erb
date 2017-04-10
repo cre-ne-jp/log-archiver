@@ -32,11 +32,7 @@
 
       <p><%= page_entries_info(@result.messages) %></p>
 
-      <% @result.message_groups.each do |date, messages| %>
-        <h2><%= date.strftime('%F') %></h2>
-
-        <%= render('shared/message_list', messages: messages) %>
-      <% end %>
+      <%= render(partial: 'message_group', collection: @result.message_groups.to_a) %>
 
       <%= paginate(@result.messages, outer_window: 2) %>
     </div>
