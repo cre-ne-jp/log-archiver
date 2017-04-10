@@ -20,7 +20,7 @@
         <div class="page-header">
           <h1><%= @channel.name_with_prefix %> <%= date_str %></h1>
         </div>
-        <%= render('shared/message_list', messages: @messages) %>
+        <%= render('shared/message_list', messages: @messages, show_channel: false) %>
       </article>
     </div>
 
