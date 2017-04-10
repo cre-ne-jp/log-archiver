@@ -20,7 +20,38 @@
         <div class="page-header">
           <h1><%= @channel.name_with_prefix %> <%= date_str %></h1>
         </div>
-        <%= render('shared/message_list', messages: @messages, show_channel: false) %>
+
+        <div class="well">
+          <table class="day-summary">
+            <tbody>
+              <tr>
+                <th scope="row">発言数</th>
+                <td><%= @conversation_messages.length %></td>
+              </tr>
+              <tr>
+                <th scope="row">表示</th>
+                <td>
+                  <form>
+                    <label class="checkbox-inline">
+                      <input type="checkbox" id="show-speeches" name="show-speeches" checked />
+                      発言
+                    </label>
+                    <label class="checkbox-inline">
+                      <input type="checkbox" id="show-nick" name="show-nick" checked />
+                      ニックネーム変更
+                    </label>
+                    <label class="checkbox-inline">
+                      <input type="checkbox" id="show-join-part" name="show-join-part" checked />
+                      参加・退出
+                    </label>
+                  </form>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <%= render('shared/message_list', messages: @whole_messages, show_channel: false) %>
       </article>
     </div>
 

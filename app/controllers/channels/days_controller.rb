@@ -37,19 +37,21 @@ class Channels::DaysController < ApplicationController
     @calendar_start_date = (params[:start_date]&.to_date || @date) rescue @date
 
     timestamp_range = @date...(@date.next_day)
-    messages1 = Message.
+    messages = Message.
       includes(:channel, :irc_user).
       where(channel: @channel, timestamp: timestamp_range).
-      order(:timestamp, :id)
-    messages2 = ConversationMessage.
+      order(:timestamp, :id).
+      to_a
+    @conversation_messages = ConversationMessage.
       includes(:channel, :irc_user).
       where(channel: @channel, timestamp: timestamp_range).
-      order(:timestamp, :id)
+      order(:timestamp, :id).
+      to_a
 
     # タイムスタンプによるソート
     # 安定ソートとなるようにカウンタを用意する
     i = 0
-    @messages = (messages1 + messages2).
+    @whole_messages = (messages + @conversation_messages).
       sort_by { |m| [m.timestamp, i += 1] }
 
     @message_dates = MessageDate.where(channel: @channel)

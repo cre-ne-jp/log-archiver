@@ -73,6 +73,15 @@ ul, ol {
   }
 }
 
+table.day-summary {
+  background-color: transparent;
+
+  th {
+    padding-right: 1em;
+    text-align: right;
+  }
+}
+
 table.user-info, table.channel-info {
   td {
     text-align: right;
@@ -86,6 +95,12 @@ table.user-info, table.channel-info {
 
 .message-time {
   width: 5em;
+}
+
+table {
+  .odd {
+    background-color: $table-bg-accent;
+  }
 }
 
 td.message-time {
