@@ -2,10 +2,10 @@ FactoryGirl.define do
   factory :message do
     channel
     irc_user
-    type ""
+    type 'Part'
     timestamp "2016-04-01 12:34:56"
-    nick "rgrb"
-    message nil
+    nick 'rgrb'
+    message 'Bye!'
     target nil
   end
 end

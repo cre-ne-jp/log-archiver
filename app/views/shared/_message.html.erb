@@ -1,4 +1,4 @@
-<% anchor = m.id %>
+<% anchor = m.fragment_id %>
 <% browse_day = ChannelBrowse::Day.new(channel: m.channel, date: m.timestamp.to_date) %>
 <tr class="message-type-<%= m.type.downcase %>">
   <td class="message-time"><%= link_to(m.timestamp.strftime('%T'), channels_day_path(browse_day.params_for_url.merge({ anchor: anchor })), id: anchor) %></td>

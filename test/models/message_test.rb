@@ -44,4 +44,8 @@ class MessageTest < ActiveSupport::TestCase
     @message.message = 'a' * 513
     refute(@message.valid?, '513 文字は NG')
   end
+
+  test 'fragment_id が正しい' do
+    assert_equal("m#{@message.id}", @message.fragment_id)
+  end
 end

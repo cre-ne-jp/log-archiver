@@ -54,7 +54,8 @@ module ApplicationHelper
 
   # チャンネルの最終発言日時へのリンクを返す
   def last_speech_timestamp_link(channel)
-    if last_speech = channel.last_speech
+    last_speech = channel.last_speech
+    if last_speech
       browse_day = ChannelBrowse::Day.new(
         channel: channel, date: last_speech.timestamp.to_date
       )
@@ -62,7 +63,7 @@ module ApplicationHelper
       link_to(
         last_speech.timestamp.strftime('%F %T'),
         channels_day_path(
-          browse_day.params_for_url.merge({ anchor: last_speech.id })
+          browse_day.params_for_url.merge({ anchor: last_speech.fragment_id })
         )
       )
     else

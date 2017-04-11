@@ -1,11 +1,11 @@
 FactoryGirl.define do
   factory :conversation_message do
-    channel nil
-    irc_user nil
+    channel
+    irc_user
     type 'Privmsg'
     timestamp "2016-11-29 00:42:49"
-    nick "MyString"
-    message "MyText"
+    nick 'rgrb'
+    message 'Hello world'
 
     # タイムスタンプは 100 -> 400 -> 200 の順に新しい
     factory :message_100 do
