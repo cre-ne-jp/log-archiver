@@ -3,6 +3,12 @@ require 'test_helper'
 class MessageSearchTest < ActiveSupport::TestCase
   setup do
     @search = build(:message_search)
+
+    ConversationMessage.delete_all
+  end
+
+  teardown do
+    ConversationMessage.delete_all
   end
 
   test '有効である' do
@@ -109,5 +115,93 @@ class MessageSearchTest < ActiveSupport::TestCase
     assert_equal(attributes['since'].to_date, @search.since, 'since')
     assert_equal(attributes['until'].to_date, @search.until, 'until')
     assert_equal(attributes['page'], @search.page, 'page')
+  end
+
+  def prepare_messages_for_search
+    @privmsg_rgrb_20140320012345 = create(:privmsg_rgrb_20140320012345)
+    @privmsg_role_20140320023456 = create(:privmsg_role_20140320023456)
+    @privmsg_toybox_20140320210954 = create(:privmsg_toybox_20140320210954)
+
+    @notice_toybox_20140320000000 = create(:notice_toybox_20140320000000)
+    @notice_toybox_20140321000000 = create(:notice_toybox_20140321000000)
+
+    @topic_toybox_20140320233223 = create(:topic_toybox_20140320233223)
+    @topic_toybox_20140321134507 = create(:topic_toybox_20140321134507)
+
+    assert(6, ConversationMessage.count)
+  end
+
+  test '検索文字列を指定した場合の検索結果が正しい' do
+    prepare_messages_for_search
+
+    @search.query = 'irc.cre.jp'
+    @search.nick = ''
+    @search.since = nil
+    @search.until = nil
+    @search.page = 1
+
+    result = @search.result
+    result_ids = result.messages.map(&:id)
+
+    assert_equal(4, result.messages.length)
+    assert_includes(result_ids, @privmsg_rgrb_20140320012345.id, 'RGRBのPRIVMSGが含まれる')
+    assert_includes(result_ids, @privmsg_toybox_20140320210954.id, 'ToyboxのPRIVMSGが含まれる')
+    assert_includes(result_ids, @topic_toybox_20140320233223.id, 'Toyboxの2014-03-20のTOPICが含まれる')
+    assert_includes(result_ids, @topic_toybox_20140321134507.id, 'Toyboxの2014-03-21のTOPICが含まれる')
+  end
+
+  test 'ニックネームを指定した場合の検索結果が正しい' do
+    prepare_messages_for_search
+
+    @search.query = ''
+    @search.nick = 'Toybox'
+    @search.since = nil
+    @search.until = nil
+    @search.page = 1
+
+    result = @search.result
+    result_ids = result.messages.map(&:id)
+
+    assert_equal(5, result.messages.length)
+    assert_includes(result_ids, @privmsg_toybox_20140320210954.id, 'ToyboxのPRIVMSGが含まれる')
+    assert_includes(result_ids, @notice_toybox_20140320000000.id, 'Toyboxの2014-03-20の時報のNOTICEが含まれる')
+    assert_includes(result_ids, @notice_toybox_20140321000000.id, 'Toyboxの2014-03-21の時報のNOTICEが含まれる')
+    assert_includes(result_ids, @topic_toybox_20140320233223.id, 'ToyboxのTOPICが含まれる')
+    assert_includes(result_ids, @topic_toybox_20140321134507.id, 'Toyboxの2014-03-21のTOPICが含まれる')
+  end
+
+  test '検索文字列とニックネームを指定した場合の検索結果が正しい' do
+    prepare_messages_for_search
+
+    @search.query = 'irc.cre.jp'
+    @search.nick = 'Toybox'
+    @search.since = nil
+    @search.until = nil
+    @search.page = 1
+
+    result = @search.result
+    result_ids = result.messages.map(&:id)
+
+    assert_equal(3, result.messages.length)
+    assert_includes(result_ids, @privmsg_toybox_20140320210954.id, 'ToyboxのPRIVMSGが含まれる')
+    assert_includes(result_ids, @topic_toybox_20140320233223.id, 'Toyboxの2014-03-20のTOPICが含まれる')
+    assert_includes(result_ids, @topic_toybox_20140321134507.id, 'Toyboxの2014-03-21のTOPICが含まれる')
+  end
+
+  test '検索文字列とニックネームと日付を指定した場合の検索結果が正しい' do
+    prepare_messages_for_search
+
+    @search.query = 'irc.cre.jp'
+    @search.nick = 'Toybox'
+    @search.since = '2014-03-20'
+    @search.until = '2014-03-20'
+    @search.page = 1
+
+    result = @search.result
+    result_ids = result.messages.map(&:id)
+
+    assert_equal(2, result.messages.length)
+    assert_includes(result_ids, @privmsg_toybox_20140320210954.id, 'ToyboxのPRIVMSGが含まれる')
+    assert_includes(result_ids, @topic_toybox_20140320233223.id, 'Toyboxの2014-03-20のTOPICが含まれる')
   end
 end
