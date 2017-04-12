@@ -3,12 +3,12 @@
   <%= render('shared/flash') %>
   <div class="row">
     <div class="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
-      <div class="page-header">
+      <div class="jumbotron">
         <h1><%= site_title %></h1>
-      </div>
 
-      <div class="text-on-homepage">
-        <%= markdown(@setting.text_on_homepage) %>
+        <div class="text-on-homepage">
+          <%= markdown(@setting.text_on_homepage) %>
+        </div>
       </div>
 
       <!-- Navタブ -->

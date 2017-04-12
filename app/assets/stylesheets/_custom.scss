@@ -39,10 +39,6 @@ h2 {
 h2.panel-title {
   padding-bottom: 0;
   border-bottom: 0;
-
-  .fa {
-    color: $gray;
-  }
 }
 
 h3 {
@@ -77,6 +73,16 @@ ul, ol {
   }
 }
 
+table.day-summary {
+  background-color: transparent;
+
+  th {
+    padding-right: 1em;
+    text-align: right;
+    white-space: nowrap;
+  }
+}
+
 table.user-info, table.channel-info {
   td {
     text-align: right;
@@ -90,6 +96,12 @@ table.user-info, table.channel-info {
 
 .message-time {
   width: 5em;
+}
+
+table {
+  .odd {
+    background-color: $table-bg-accent;
+  }
 }
 
 td.message-time {

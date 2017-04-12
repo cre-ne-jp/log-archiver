@@ -2,11 +2,13 @@
   <thead>
     <tr>
       <th class="message-time">時刻</th>
-      <th class="message-channel">チャンネル</th>
+      <% if show_channel %>
+        <th class="message-channel">チャンネル</th>
+      <% end %>
       <th>メッセージ</th>
     </tr>
   </thead>
   <tbody>
-    <%= render(partial: 'shared/message', collection: messages, as: :m) %>
+    <%= render(partial: 'shared/message', collection: messages, as: :m, locals: { show_channel: show_channel }) %>
   </tbody>
 </table>
