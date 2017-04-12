@@ -191,7 +191,7 @@ class MessageSearchTest < ActiveSupport::TestCase
   test '検索文字列とニックネームと日付を指定した場合の検索結果が正しい' do
     prepare_messages_for_search
 
-    @search.query = ''
+    @search.query = 'irc.cre.jp'
     @search.nick = 'Toybox'
     @search.since = '2014-03-20'
     @search.until = '2014-03-20'
