@@ -158,7 +158,7 @@ class MessageSearch
     end
 
     if @until.present?
-      messages = messages.where('timestamp <= ?', @until)
+      messages = messages.where('timestamp < ?', @until.next_day)
     end
 
     if @nick.present?
