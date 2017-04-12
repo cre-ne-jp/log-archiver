@@ -180,7 +180,8 @@ class MessageSearch
              :message).
       order(timestamp: :desc).
       page(@page).
-      includes(:channel)
+      includes(:channel).
+      to_a
     message_groups = messages.group_by(&:date)
 
     MessageSearchResult.new(channels, messages, message_groups)
