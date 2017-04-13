@@ -2,57 +2,62 @@
 <% title([@channel.name_with_prefix, date_str]) %>
 <%= render('shared/navbar') %>
 <div class="container main-container">
-  <%= render('shared/flash') %>
 
   <div class="row">
     <div class="col-xs-12 col-md-8">
-      <% browse_year = ChannelBrowse::Year.new(channel: @channel, year: @date.year) %>
-      <% browse_month = ChannelBrowse::Month.new(channel: @channel, year: @date.year, month: @date.month) %>
-      <ol class="breadcrumb">
-        <li><%= link_to('チャンネル', channels_path) %></li>
-        <li><%= link_to(@channel.name_with_prefix, @channel) %></li>
-        <li><%= link_to("#{@date.year}年", channels_months_path(browse_year.params_for_url)) %></li>
-        <li><%= link_to("#{@date.month}月", channels_days_path(browse_month.params_for_url)) %></li>
-        <li class="active"><%= @date.day %>日</li>
-      </ol>
+      <div class="main-panel">
+        <div class="panel-body">
+          <%= render('shared/flash') %>
 
-      <article>
-        <div class="page-header">
-          <h1><%= @channel.name_with_prefix %> <%= date_str %></h1>
+          <% browse_year = ChannelBrowse::Year.new(channel: @channel, year: @date.year) %>
+          <% browse_month = ChannelBrowse::Month.new(channel: @channel, year: @date.year, month: @date.month) %>
+          <ol class="breadcrumb">
+            <li><%= link_to('チャンネル', channels_path) %></li>
+            <li><%= link_to(@channel.name_with_prefix, @channel) %></li>
+            <li><%= link_to("#{@date.year}年", channels_months_path(browse_year.params_for_url)) %></li>
+            <li><%= link_to("#{@date.month}月", channels_days_path(browse_month.params_for_url)) %></li>
+            <li class="active"><%= @date.day %>日</li>
+          </ol>
+
+          <article>
+            <div class="page-header">
+              <h1><%= @channel.name_with_prefix %> <%= date_str %></h1>
+            </div>
+
+            <div class="well">
+              <table class="day-summary">
+                <tbody>
+                  <tr>
+                    <th scope="row">発言数</th>
+                    <td><%= @conversation_messages.length %></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">表示</th>
+                    <td>
+                      <form>
+                        <label class="checkbox-inline">
+                          <input type="checkbox" id="show-speeches" name="show-speeches" checked />
+                          発言
+                        </label>
+                        <label class="checkbox-inline">
+                          <input type="checkbox" id="show-nick" name="show-nick" checked />
+                          ニックネーム変更
+                        </label>
+                        <label class="checkbox-inline">
+                          <input type="checkbox" id="show-join-part" name="show-join-part" checked />
+                          参加・退出
+                        </label>
+                      </form>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <%= render('shared/message_list', messages: @whole_messages, show_channel: false) %>
+          </article>
         </div>
-
-        <div class="well">
-          <table class="day-summary">
-            <tbody>
-              <tr>
-                <th scope="row">発言数</th>
-                <td><%= @conversation_messages.length %></td>
-              </tr>
-              <tr>
-                <th scope="row">表示</th>
-                <td>
-                  <form>
-                    <label class="checkbox-inline">
-                      <input type="checkbox" id="show-speeches" name="show-speeches" checked />
-                      発言
-                    </label>
-                    <label class="checkbox-inline">
-                      <input type="checkbox" id="show-nick" name="show-nick" checked />
-                      ニックネーム変更
-                    </label>
-                    <label class="checkbox-inline">
-                      <input type="checkbox" id="show-join-part" name="show-join-part" checked />
-                      参加・退出
-                    </label>
-                  </form>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <%= render('shared/message_list', messages: @whole_messages, show_channel: false) %>
-      </article>
+      </div>
     </div>
 
     <aside class="col-xs-12 col-md-4">

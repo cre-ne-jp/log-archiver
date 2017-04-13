@@ -3,6 +3,15 @@ body {
   padding-bottom: 60px;
 }
 
+.main-panel {
+  @extend .panel;
+  @extend .panel-default;
+
+  .panel-body {
+    padding: $line-height-computed $padding-large-horizontal $padding-large-vertical;
+  }
+}
+
 .page-header {
   margin-top: $line-height-computed;
   padding-bottom: 0.1em;
@@ -27,8 +36,8 @@ h1.title {
   font-weight: normal;
 }
 
-.tab-pane > .panel {
-  margin-top: 1em;
+.tab-pane {
+  padding-top: $line-height-computed;
 }
 
 h2 {
@@ -51,6 +60,10 @@ ul, ol {
 
 .num-col {
   text-align: right;
+}
+
+.welcome-forms {
+  background-color: #fff;
 }
 
 .panel .channel-list {
