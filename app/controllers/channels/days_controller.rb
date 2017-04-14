@@ -34,6 +34,10 @@ class Channels::DaysController < ApplicationController
     @day = params[:day].to_i
     @date = Date.new(@year, @month, @day)
 
+    @browse_day = ChannelBrowse::Day.new(channel: @channel, date: @date)
+    @browse_year = ChannelBrowse::Year.new(channel: @channel, year: @date.year)
+    @browse_month = ChannelBrowse::Month.new(channel: @channel, year: @date.year, month: @date.month)
+
     @calendar_start_date = (params[:start_date]&.to_date || @date) rescue @date
 
     timestamp_range = @date...(@date.next_day)
@@ -48,12 +52,26 @@ class Channels::DaysController < ApplicationController
       order(:timestamp, :id).
       to_a
 
+    @list_style = (params[:style] == 'raw') ? :raw : :normal
+    whole_messages =
+      if @list_style == :raw
+        hour_separators = (0...24).map { |hour|
+          HourSeparator.new(@date, hour)
+        }
+
+        hour_separators + messages + @conversation_messages
+      else
+        messages + @conversation_messages
+      end
+
     # タイムスタンプによるソート
     # 安定ソートとなるようにカウンタを用意する
     i = 0
-    @whole_messages = (messages + @conversation_messages).
+    @sorted_messages = whole_messages.
       sort_by { |m| [m.timestamp, i += 1] }
 
     @message_dates = MessageDate.where(channel: @channel)
+
+    @day_link_params = (@list_style == :raw) ? { style: 'raw' } : {}
   end
 end

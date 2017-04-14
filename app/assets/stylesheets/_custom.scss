@@ -36,8 +36,8 @@ h1.title {
   font-weight: normal;
 }
 
-.tab-pane {
-  padding-top: $line-height-computed;
+.nav-tabs {
+  margin-bottom: 1em;
 }
 
 h2 {
@@ -140,6 +140,21 @@ b.nickname.message-privmsg {
     border-radius: 4px;
     background-color: $gray;
     color: white;
+}
+
+.raw-log {
+  text-overflow: scroll;
+  font-family: $font-family-monospace;
+
+  .hour-separator {
+    font-weight: bold;
+  }
+
+  .message-time {
+    a:link, a:visited {
+      color: $gray;
+    }
+  }
 }
 
 .channel-list {

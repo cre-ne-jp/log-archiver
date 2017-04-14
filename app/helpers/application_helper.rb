@@ -70,4 +70,10 @@ module ApplicationHelper
       '発言なし'
     end
   end
+
+  # タブがアクティブかどうかを示すクラス名を返す
+  # @return [String]
+  def nav_tab_class(cond)
+    cond ? 'active' : ''
+  end
 end
