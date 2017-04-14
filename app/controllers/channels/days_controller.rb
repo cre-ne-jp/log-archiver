@@ -35,6 +35,9 @@ class Channels::DaysController < ApplicationController
     @date = Date.new(@year, @month, @day)
 
     @browse_day = ChannelBrowse::Day.new(channel: @channel, date: @date)
+    @browse_prev_day = ChannelBrowse::Day.new(channel: @channel, date: @date.prev_day)
+    @browse_next_day = ChannelBrowse::Day.new(channel: @channel, date: @date.next_day)
+
     @browse_year = ChannelBrowse::Year.new(channel: @channel, year: @date.year)
     @browse_month = ChannelBrowse::Month.new(channel: @channel, year: @date.year, month: @date.month)
 
