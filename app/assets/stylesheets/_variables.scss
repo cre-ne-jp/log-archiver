@@ -14,15 +14,16 @@ $lime-50:                #F9FBE7;
 $yellow-50:              #FFFDE7;
 $blue-gray-600:          #546E7A;
 $blue-gray-800:          #37474F;
+$blue-gray-900:          #263238;
 $green-500:              #4CAF50;
 $green-600:              #43A047;
 
 $gray-base:              #000 !default;
-$gray-darker:            $blue-gray-800 !default; // #222
-$gray-dark:              darken(#7b8a8b, 20%) !default;   // #333
+$gray-darker:            $blue-gray-900 !default; // #222
+$gray-dark:              darken(#7b8a8b, 25%) !default;   // #333
 $gray:                   darken(#95a5a6, 5%) !default; // #555
-$gray-light:             lighten(#b4bcc2, 15%) !default;   // #999
-$gray-lighter:           darken(#ecf0f1, 1%) !default; // #eee
+$gray-light:             lighten(#b4bcc2, 10%) !default;   // #999
+$gray-lighter:           darken(#ecf0f1, 3%) !default; // #eee
 
 $brand-primary:         $blue-gray-600 !default;
 $brand-success:         $green-500 !default;
