@@ -27,7 +27,7 @@ $gray:                   darken(#95a5a6, 5%) !default; // #555
 $gray-light:             lighten(#b4bcc2, 10%) !default;   // #999
 $gray-lighter:           darken(#ecf0f1, 3%) !default; // #eee
 
-$brand-primary:         $blue-gray-600 !default;
+$brand-primary:         $blue-gray-700 !default;
 $brand-success:         $green-500 !default;
 $brand-info:            #3498DB !default;
 $brand-warning:         #F39C12 !default;
@@ -384,7 +384,7 @@ $navbar-default-border:            transparent !default;
 
 // Navbar links
 $navbar-default-link-color:                #fff !default;
-$navbar-default-link-hover-color:          lighten($brand-success, 20%) !default;
+$navbar-default-link-hover-color:          lighten($brand-success, 10%) !default;
 $navbar-default-link-hover-bg:             transparent !default;
 $navbar-default-link-active-color:         #fff !default;
 $navbar-default-link-active-bg:            darken($navbar-default-bg, 10%) !default;
