@@ -31,4 +31,25 @@ class HourSeparatorTest < ActiveSupport::TestCase
     assert_equal('090000', @separator1.fragment_id, '9時')
     assert_equal('150000', @separator2.fragment_id, '15時')
   end
+
+  test 'for_day_browse が正しい' do
+    expected = lambda { |date, max_hour|
+      (0..max_hour).map { |hour|
+        Time.zone.local(date.year, date.month, date.day, hour, 0, 0)
+      }
+    }
+
+    result =
+      ->(date) { HourSeparator.for_day_browse(date).map(&:timestamp) }
+
+    travel_to(Time.zone.local(2017, 4, 1, 3, 34, 56)) do
+      assert_equal(expected[@date2, 23],
+                   result[@date2],
+                   '過去の日は 0〜23 時分が返る')
+
+      assert_equal(expected[@date1, 3],
+                   result[@date1],
+                   '現在時刻より前のものだけ返る')
+    end
+  end
 end

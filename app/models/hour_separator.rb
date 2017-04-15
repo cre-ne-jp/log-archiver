@@ -19,4 +19,16 @@ class HourSeparator
   def fragment_id
     @timestamp.strftime('%H%M%S')
   end
+
+  # 1 日分のログで表示する分の区切りを返す
+  #
+  # 現在時刻より前のものだけ返す。
+  #
+  # @param [Date] date 日付
+  # @return [Array<HourSeparator>] 指定した日付の 1 時間ごとの区切りの配列
+  def self.for_day_browse(date)
+    (0...24).
+      map { |hour| new(date, hour) }.
+      select { |separator| separator.timestamp < Time.current }
+  end
 end
