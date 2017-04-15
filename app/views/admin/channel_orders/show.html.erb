@@ -1,29 +1,33 @@
 <% title('チャンネルの並び替え') %>
 <%= render('shared/navbar') %>
 <div class="container main-container">
-  <%= render('shared/flash') %>
-
   <div class="row">
     <%= render('shared/admin/nav_channels') %>
 
     <div class="col-xs-12 col-sm-9">
-      <ol class="breadcrumb">
-        <li><%= link_to('管理', admin_path) %></li>
-        <li><%= link_to('チャンネル', admin_channels_path) %></li>
-        <li class="active">並び替え</li>
-      </ol>
+      <div class="main-panel">
+        <div class="panel-body">
+          <%= render('shared/flash') %>
 
-      <div class="page-header">
-        <h1>チャンネルの並び替え</h1>
+          <ol class="breadcrumb">
+            <li><%= link_to('管理', admin_path) %></li>
+            <li><%= link_to('チャンネル', admin_channels_path) %></li>
+            <li class="active">並び替え</li>
+          </ol>
+
+          <div class="page-header">
+            <h1>チャンネルの並び替え</h1>
+          </div>
+
+          <p>以下の項目をドラッグ＆ドロップすると、チャンネルの表示順を変更することができます。</p>
+
+          <ul id="channels-sortable" class="list-group channels-sortable">
+            <% @channels.each do |channel| %>
+              <li class="list-group-item channels-sortable-item" data-sorturl="<%= sort_channel_path(channel) %>"><%= channel.name_with_prefix %></li>
+            <% end %>
+          </ul>
+        </div>
       </div>
-
-      <p>以下の項目をドラッグ＆ドロップすると、チャンネルの表示順を並び替えることができます。</p>
-
-      <ul id="channels-sortable" class="list-group channels-sortable">
-        <% @channels.each do |channel| %>
-          <li class="list-group-item channels-sortable-item" data-sorturl="<%= sort_channel_path(channel) %>"><%= channel.name_with_prefix %></li>
-        <% end %>
-      </ul>
     </div>
   </div>
 </div>

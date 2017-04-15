@@ -2,57 +2,89 @@
 <% title([@channel.name_with_prefix, date_str]) %>
 <%= render('shared/navbar') %>
 <div class="container main-container">
-  <%= render('shared/flash') %>
 
   <div class="row">
     <div class="col-xs-12 col-md-8">
-      <% browse_year = ChannelBrowse::Year.new(channel: @channel, year: @date.year) %>
-      <% browse_month = ChannelBrowse::Month.new(channel: @channel, year: @date.year, month: @date.month) %>
-      <ol class="breadcrumb">
-        <li><%= link_to('チャンネル', channels_path) %></li>
-        <li><%= link_to(@channel.name_with_prefix, @channel) %></li>
-        <li><%= link_to("#{@date.year}年", channels_months_path(browse_year.params_for_url)) %></li>
-        <li><%= link_to("#{@date.month}月", channels_days_path(browse_month.params_for_url)) %></li>
-        <li class="active"><%= @date.day %>日</li>
-      </ol>
+      <div class="main-panel">
+        <div class="panel-body">
+          <%= render('shared/flash') %>
 
-      <article>
-        <div class="page-header">
-          <h1><%= @channel.name_with_prefix %> <%= date_str %></h1>
+          <ol class="breadcrumb">
+            <li><%= link_to('チャンネル', channels_path) %></li>
+            <li><%= link_to(@channel.name_with_prefix, @channel) %></li>
+            <li><%= link_to("#{@date.year}年", channels_months_path(@browse_year.params_for_url)) %></li>
+            <li><%= link_to("#{@date.month}月", channels_days_path(@browse_month.params_for_url)) %></li>
+            <li class="active"><%= @date.day %>日</li>
+          </ol>
+
+          <article>
+            <div class="page-header">
+              <h1><%= @channel.name_with_prefix %> <%= date_str %></h1>
+            </div>
+
+            <div class="well">
+              <table class="day-summary">
+                <tbody>
+                  <tr>
+                    <th scope="row">発言数</th>
+                    <td><%= @conversation_messages.length %></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">表示</th>
+                    <td>
+                      <form>
+                        <label class="checkbox-inline">
+                          <input type="checkbox" id="show-speeches" name="show-speeches" checked />
+                          発言
+                        </label>
+                        <label class="checkbox-inline">
+                          <input type="checkbox" id="show-nick" name="show-nick" checked />
+                          ニックネーム変更
+                        </label>
+                        <label class="checkbox-inline">
+                          <input type="checkbox" id="show-join-part" name="show-join-part" />
+                          参加・退出
+                        </label>
+                      </form>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-6">
+                <p><%= link_to(fa_icon('chevron-left', text: '前日'), channels_day_path(@browse_prev_day.params_for_url.merge(@day_link_params)), class: 'btn btn-primary btn-sm') %></p>
+              </div>
+              <div class="col-xs-6">
+                <p class="text-right"><%= link_to(fa_icon('chevron-right', text: '翌日'), channels_day_path(@browse_next_day.params_for_url.merge(@day_link_params)), class: 'btn btn-primary btn-sm') %></p>
+              </div>
+            </div>
+
+            <ul class="nav nav-tabs">
+              <li role="presentation" class="<%= nav_tab_class(@list_style == :normal) %>"><%= link_to('通常表示', (@list_style == :normal) ? '#' : channels_day_path(@browse_day.params_for_url)) %></a></li>
+              <li role="presentation" class="<%= nav_tab_class(@list_style == :raw) %>"><%= link_to('生ログ', (@list_style == :raw) ? '#' : channels_day_path(@browse_day.params_for_url.merge(style: :raw))) %></a></li>
+            </ul>
+
+            <% if @list_style == :raw %>
+              <div class="raw-log">
+                <%= render(partial: 'raw_message', collection: @sorted_messages, as: :m) %>
+              </div>
+            <% else %>
+              <%= render('shared/message_list', messages: @sorted_messages, show_channel: false) %>
+            <% end %>
+
+            <div class="row">
+              <div class="col-xs-6">
+                <p><%= link_to(fa_icon('chevron-left', text: '前日'), channels_day_path(@browse_prev_day.params_for_url.merge(@day_link_params)), class: 'btn btn-primary btn-sm') %></p>
+              </div>
+              <div class="col-xs-6">
+                <p class="text-right"><%= link_to(fa_icon('chevron-right', text: '翌日'), channels_day_path(@browse_next_day.params_for_url.merge(@day_link_params)), class: 'btn btn-primary btn-sm') %></p>
+              </div>
+            </div>
+          </article>
         </div>
-
-        <div class="well">
-          <table class="day-summary">
-            <tbody>
-              <tr>
-                <th scope="row">発言数</th>
-                <td><%= @conversation_messages.length %></td>
-              </tr>
-              <tr>
-                <th scope="row">表示</th>
-                <td>
-                  <form>
-                    <label class="checkbox-inline">
-                      <input type="checkbox" id="show-speeches" name="show-speeches" checked />
-                      発言
-                    </label>
-                    <label class="checkbox-inline">
-                      <input type="checkbox" id="show-nick" name="show-nick" checked />
-                      ニックネーム変更
-                    </label>
-                    <label class="checkbox-inline">
-                      <input type="checkbox" id="show-join-part" name="show-join-part" checked />
-                      参加・退出
-                    </label>
-                  </form>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <%= render('shared/message_list', messages: @whole_messages, show_channel: false) %>
-      </article>
+      </div>
     </div>
 
     <aside class="col-xs-12 col-md-4">
@@ -63,7 +95,7 @@
               <%= date.day %>
             <% else %>
               <% browse_other_day = ChannelBrowse::Day.new(channel: @channel, date: date) %>
-              <%= link_to(date.day, channels_day_path(browse_other_day.params_for_url)) %>
+              <%= link_to(date.day, channels_day_path(browse_other_day.params_for_url.merge(@day_link_params))) %>
             <% end %>
           <% end %>
         </div>
@@ -77,7 +109,7 @@
           <ul class="list-unstyled other-channel-list">
             <% @other_channels.each do |channel| %>
               <% browse_other = ChannelBrowse::Day.new(channel: channel, date: @date) %>
-              <li><%= link_to(channel.name_with_prefix, channels_day_path(browse_other.params_for_url)) %></li>
+              <li><%= link_to(channel.name_with_prefix, channels_day_path(browse_other.params_for_url.merge(@day_link_params))) %></li>
             <% end %>
           </ul>
         </div>

@@ -2,39 +2,44 @@
 <% title(title_value) %>
 <%= render('shared/navbar') %>
 <div class="container main-container">
-  <%= render('shared/flash') %>
   <div class="row">
     <div class="col-xs-12">
-      <div class="page-header">
-        <h1>検索結果</h1>
+      <div class="main-panel">
+        <div class="panel-body">
+          <%= render('shared/flash') %>
+
+          <div class="page-header">
+            <h1>検索結果</h1>
+          </div>
+
+          <div class="search-conditions well">
+            <h2>検索条件</h2>
+            <ul>
+              <% if @message_search.query.present? %>
+                <li>検索文字列：<%= @message_search.query %></li>
+              <% end %>
+              <% if @message_search.nick.present? %>
+                <li>ニックネーム：<%= @message_search.nick %></li>
+              <% end %>
+              <% unless @result.channels.empty? %>
+                <li>チャンネル：<%= @result.channels.map(&:name_with_prefix).join(', ') %></li>
+              <% end %>
+              <% if @message_search.since.present? %>
+                <li>開始日：<%= @message_search.since.strftime('%F') %></li>
+              <% end %>
+              <% if @message_search.until.present? %>
+                <li>終了日：<%= @message_search.until.strftime('%F') %></li>
+              <% end %>
+            </ul>
+          </div>
+
+          <p><%= page_entries_info(@result.messages) %></p>
+
+          <%= render(partial: 'message_group', collection: @result.message_groups.to_a) %>
+
+          <%= paginate(@result.messages, outer_window: 2) %>
+        </div>
       </div>
-
-      <div class="search-conditions well">
-        <h2>検索条件</h2>
-        <ul>
-          <% if @message_search.query.present? %>
-            <li>検索文字列：<%= @message_search.query %></li>
-          <% end %>
-          <% if @message_search.nick.present? %>
-            <li>ニックネーム：<%= @message_search.nick %></li>
-          <% end %>
-          <% unless @result.channels.empty? %>
-            <li>チャンネル：<%= @result.channels.map(&:name_with_prefix).join(', ') %></li>
-          <% end %>
-          <% if @message_search.since.present? %>
-            <li>開始日：<%= @message_search.since.strftime('%F') %></li>
-          <% end %>
-          <% if @message_search.until.present? %>
-            <li>終了日：<%= @message_search.until.strftime('%F') %></li>
-          <% end %>
-        </ul>
-      </div>
-
-      <p><%= page_entries_info(@result.messages) %></p>
-
-      <%= render(partial: 'message_group', collection: @result.message_groups.to_a) %>
-
-      <%= paginate(@result.messages, outer_window: 2) %>
     </div>
   </div>
 </div>

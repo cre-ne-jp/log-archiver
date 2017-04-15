@@ -1,24 +1,29 @@
 <% title([@channel.name_with_prefix, "#{@year}年"]) %>
 <%= render('shared/navbar') %>
 <div class="container main-container">
-  <%= render('shared/flash') %>
   <div class="row">
     <div class="col-xs-12">
-      <ol class="breadcrumb">
-        <li><%= link_to('チャンネル', channels_path) %></li>
-        <li><%= link_to(@channel.name_with_prefix, @channel) %></li>
-        <li class="active"><%= @year %>年</li>
-      </ol>
+      <div class="main-panel">
+        <div class="panel-body">
+          <%= render('shared/flash') %>
 
-      <div class="page-header">
-        <h1><%= @channel.name_with_prefix %> <%= @year %>年</h1>
+          <ol class="breadcrumb">
+            <li><%= link_to('チャンネル', channels_path) %></li>
+            <li><%= link_to(@channel.name_with_prefix, @channel) %></li>
+            <li class="active"><%= @year %>年</li>
+          </ol>
+
+          <div class="page-header">
+            <h1><%= @channel.name_with_prefix %> <%= @year %>年</h1>
+          </div>
+          <ul>
+            <% @month_count.each do |month, count| %>
+              <% browse_month = ChannelBrowse::Month.new(channel: @channel, year: @year, month: month) %>
+              <li><%= link_to('%d-%02d' % [@year, month], channels_days_path(browse_month.params_for_url)) %> (<%= count %>)</li>
+            <% end %>
+          </ul>
+        </div>
       </div>
-      <ul>
-        <% @month_count.each do |month, count| %>
-          <% browse_month = ChannelBrowse::Month.new(channel: @channel, year: @year, month: month) %>
-          <li><%= link_to('%d-%02d' % [@year, month], channels_days_path(browse_month.params_for_url)) %> (<%= count %>)</li>
-        <% end %>
-      </ul>
     </div>
   </div>
 </div>

@@ -1,28 +1,33 @@
 <%= render('shared/navbar') %>
 <div class="container main-container">
-  <%= render('shared/flash') %>
   <div class="row">
-    <div class="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
-      <div class="jumbotron">
-        <h1><%= site_title %></h1>
+    <div class="col-xs-12 col-md-8 col-md-offset-2">
+      <div class="main-panel">
+        <div class="panel-body">
+          <%= render('shared/flash') %>
 
-        <div class="text-on-homepage">
-          <%= markdown(@setting.text_on_homepage) %>
+          <div class="jumbotron">
+            <h1><%= site_title %></h1>
+
+            <div class="text-on-homepage">
+              <%= markdown(@setting.text_on_homepage) %>
+            </div>
+          </div>
+
+          <!-- Navタブ -->
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="<%= (@invalid_model == :message_search) ? '' : 'active' %>"><a href="#browse" aria-controls="browse" role="tab" data-toggle="tab"><%= fa_icon('folder-open', text: 'チャンネル') %></a></li>
+            <li role="presentation" class="<%= (@invalid_model == :message_search) ? 'active' : '' %>"><a href="#search" aria-controls="search" role="tab" data-toggle="tab"><%= fa_icon('search', text: '検索') %></a></li>
+          </ul>
+
+          <!-- タブペーン -->
+          <% channel_option_tags = Channel.name_identifier_pairs %>
+          <div class="tab-content">
+            <%= render('welcome/browse_panel', channel_option_tags: channel_option_tags) %>
+
+            <%= render('welcome/search_panel', channel_option_tags: channel_option_tags) %>
+          </div>
         </div>
-      </div>
-
-      <!-- Navタブ -->
-      <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="<%= (@invalid_model == :message_search) ? '' : 'active' %>"><a href="#browse" aria-controls="browse" role="tab" data-toggle="tab"><%= fa_icon('folder-open', text: 'チャンネル') %></a></li>
-        <li role="presentation" class="<%= (@invalid_model == :message_search) ? 'active' : '' %>"><a href="#search" aria-controls="search" role="tab" data-toggle="tab"><%= fa_icon('search', text: '検索') %></a></li>
-      </ul>
-
-      <!-- タブペーン -->
-      <% channel_option_tags = Channel.name_identifier_pairs %>
-      <div class="tab-content">
-        <%= render('welcome/browse_panel', channel_option_tags: channel_option_tags) %>
-
-        <%= render('welcome/search_panel', channel_option_tags: channel_option_tags) %>
       </div>
     </div>
   </div>
