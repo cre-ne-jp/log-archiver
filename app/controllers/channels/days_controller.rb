@@ -55,11 +55,7 @@ class Channels::DaysController < ApplicationController
     @list_style = (params[:style] == 'raw') ? :raw : :normal
     whole_messages =
       if @list_style == :raw
-        hour_separators = (0...24).map { |hour|
-          HourSeparator.new(@date, hour)
-        }
-
-        hour_separators + messages + @conversation_messages
+        HourSeparator.for_day_browse(@date) + messages + @conversation_messages
       else
         messages + @conversation_messages
       end
