@@ -20,7 +20,7 @@
   MessageVisibilityController.prototype.addCategory = function (name, $content) {
     this.categories[name] = {
       visible: true,
-      content: $content,
+      content: $content
     };
 
     return this;
