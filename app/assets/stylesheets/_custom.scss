@@ -62,10 +62,6 @@ ul, ol {
   text-align: right;
 }
 
-.welcome-forms {
-  background-color: #fff;
-}
-
 .panel .channel-list {
   margin-bottom: 0;
 }
@@ -193,6 +189,24 @@ textarea.text-on-homepage {
   font-family: $font-family-monospace;
 }
 
+.channel-browse-form {
+  fieldset {
+    margin-bottom: 1em;
+    padding: $padding-base-vertical $padding-base-horizontal;
+    border: 1px solid $gray-light;
+    border-radius: $border-radius-small;
+  }
+
+  legend {
+    width: auto;
+    margin: 0 -3px;
+    padding: 0 3px;
+    background-color: #fff;
+    font-size: $font-size-base;
+    font-weight: bold;
+  }
+}
+
 .help-block {
   font-size: $font-size-small;
 }
@@ -222,11 +236,4 @@ footer {
   @media (min-width: $screen-sm-min) {
     text-align: right;
   }
-}
-
-fieldset.welcome legend {
-  margin-bottom: 0;
-  border-bottom: 0;
-  font-size: $font-size-small;
-  font-weight: bold;
 }
