@@ -110,6 +110,11 @@
 
       // 表示するメッセージがないことの通知の表示・非表示を更新する
       var updateNoMessageToShowVisibility = function () {
+        if (rawLog) {
+          $noMessageToShow.hide();
+          return;
+        }
+
         var isThereAnyVisibleMessage =
           visibilityController.isThereAnyVisibleMessage();
 
@@ -126,10 +131,6 @@
 
       // 全体の表示を更新する
       var updateViews = function () {
-        if (rawLog) {
-          return;
-        }
-
         updateNoMessageToShowVisibility();
 
         // 行の可視性に表全体の可視性が継承されるため
