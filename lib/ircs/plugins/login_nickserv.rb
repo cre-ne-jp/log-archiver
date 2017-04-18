@@ -1,6 +1,7 @@
 # vim: fileencoding=utf-8
 
 require 'cinch'
+require 'xmlrpc/client'
 
 require_relative 'base'
 
@@ -32,7 +33,10 @@ module LogArchiver
         super
 
         @nickserv = config['NickServ']
-        @login_server = config['LoginServer']
+        @login_server = {
+          irc: config['LoginServer'],
+          xmlrpc: config['XMLRPC'] || ''
+        }
         @myself = config['Account']
       end
 
@@ -41,7 +45,7 @@ module LogArchiver
       # @param [String] server サーバ
       # @return [void]
       def joined(m, server)
-        if m.server && server == @login_server
+        if m.server && server == @login_server[:irc]
           login
           @logger.warn("#{server} がリレーしたため、NickServ へのログインを試行しました")
         end
@@ -55,6 +59,8 @@ module LogArchiver
         @logger.warn("NickServ へのログインを試行しました")
       end
 
+      private
+
       # NickServ にログインする
       # @return [void]
       def login
@@ -64,6 +70,29 @@ module LogArchiver
           @nickserv['Nick'],
           @nickserv['Host']
         ).send("IDENTIFY #{@myself['Nick']} #{@myself['Pass']}", false)
+      end
+
+      # NickServ に自分自身がログインできているか確認する
+      # @return [Boolean]
+      def logined?
+        client = XMLRPC::Client.new2(@login_server[:xmlrpc])
+
+        begin
+          authcookie = client.call('atheme.login', @myself['Nick'], @myself['Pass'])
+          result = client.call('atheme.command', authcookie, @myself['Nick'], 'srv5.cre.ne.jp', 'nickserv', 'info', @myself['Nick'])
+          client.call('atheme.logout', authcookie, @myself['Nick'])
+        rescue => e
+          puts e
+          return nil
+        end
+
+        result.each_line do |line|
+          if(line[0..12] == 'Logins from: ')
+            logined_nick = line[13..-1].split
+          end
+        end
+
+        logined_nick.include?(@bot.nick)
       end
     end
   end

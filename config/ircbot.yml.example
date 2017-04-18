@@ -17,6 +17,7 @@ development:
         User: 'NickServ'
         Host: 'services.cre.jp'
       LoginServer: 'services.cre.jp'
+      XMLRPC: 'http://irc.example.com:6667/xmlrpc'
       Account:
         Nick: 'YOUR NICK'
         Pass: 'PA$$WORD'
