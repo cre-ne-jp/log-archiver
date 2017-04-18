@@ -74,6 +74,8 @@
               <%= render('shared/message_list', messages: @sorted_messages, show_channel: false) %>
             <% end %>
 
+            <div class="alert alert-info no-message-to-show">表示するメッセージがありません。</div>
+
             <div class="row">
               <div class="col-xs-6">
                 <p><%= link_to(fa_icon('chevron-left', text: '前日'), channels_day_path(@browse_prev_day.params_for_url.merge(@day_link_params)), class: 'btn btn-primary btn-sm') %></p>
