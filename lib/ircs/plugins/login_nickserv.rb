@@ -84,7 +84,7 @@ module LogArchiver
       end
 
       # NickServ に自分自身がログインできているか確認する
-      # @return [Boolean, nil]
+      # @return [Boolean]
       def logged_in?
         client = XMLRPC::Client.new2(@login_server[:xmlrpc])
 
