@@ -72,20 +72,20 @@ module LogArchiver
         @logger.warn("NickServ へのログインを試行しました")
 
         sleep 1
-        message = case(logined?)
-          when true
-            'NickServ にログインしました'
-          when false
-            'NickServ にログインできませんでした'
+        begin
+          if(logged_in?)
+            @logger.warn('NickServ にログインしました')
           else
-            'ログイン時にエラーが発生しました'
+            @logger.error('NickServ にログインできませんでした')
           end
-        @logger.warn(message)
+        rescue
+          @logger.error('ログイン時にエラーが発生しました')
+        end
       end
 
       # NickServ に自分自身がログインできているか確認する
-      # @return [Boolean/nil]
-      def logined?
+      # @return [Boolean, nil]
+      def logged_in?
         client = XMLRPC::Client.new2(@login_server[:xmlrpc])
 
         begin
@@ -95,16 +95,15 @@ module LogArchiver
         rescue => e
           @logger.warn('XMLRPC からデータ取得に失敗しました')
           @logger.warn("FaultCode: #{e.faultCode}, Message: #{e.faultString}")
-          return nil
+          raise e
         end
 
-        logined_nick = []
-        result.each_line do |line|
-          if(line[0..12] == 'Logins from: ')
-            logined_nick = line[13..-1].split
-          end
+        m = result.match(/^Logins from: (.+)$/)
+        if(m)
+          m[1].split.include?(@bot.nick)
+        else
+          false
         end
-        logined_nick.include?(@bot.nick)
       end
     end
   end
