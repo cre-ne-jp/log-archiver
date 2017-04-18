@@ -46,8 +46,8 @@ module LogArchiver
       # @return [void]
       def joined(m, server)
         if m.server && server == @login_server[:irc]
+          @logger.warn("#{server} がリレーしました")
           login
-          @logger.warn("#{server} がリレーしたため、NickServ へのログインを試行しました")
         end
       end
 
@@ -56,7 +56,6 @@ module LogArchiver
       # @return [void]
       def connected(m)
         login
-        @logger.warn("NickServ へのログインを試行しました")
       end
 
       private
@@ -70,10 +69,22 @@ module LogArchiver
           @nickserv['Nick'],
           @nickserv['Host']
         ).send("IDENTIFY #{@myself['Nick']} #{@myself['Pass']}", false)
+        @logger.warn("NickServ へのログインを試行しました")
+
+        sleep 1
+        message = case(logined?)
+          when true
+            'NickServ にログインしました'
+          when false
+            'NickServ にログインできませんでした'
+          else
+            'ログイン時にエラーが発生しました'
+          end
+        @logger.warn(message)
       end
 
       # NickServ に自分自身がログインできているか確認する
-      # @return [Boolean]
+      # @return [Boolean/nil]
       def logined?
         client = XMLRPC::Client.new2(@login_server[:xmlrpc])
 
@@ -82,16 +93,17 @@ module LogArchiver
           result = client.call('atheme.command', authcookie, @myself['Nick'], 'srv5.cre.ne.jp', 'nickserv', 'info', @myself['Nick'])
           client.call('atheme.logout', authcookie, @myself['Nick'])
         rescue => e
-          puts e
+          @logger.warn('XMLRPC からデータ取得に失敗しました')
+          @logger.warn("FaultCode: #{e.faultCode}, Message: #{e.faultString}")
           return nil
         end
 
+        logined_nick = []
         result.each_line do |line|
           if(line[0..12] == 'Logins from: ')
             logined_nick = line[13..-1].split
           end
         end
-
         logined_nick.include?(@bot.nick)
       end
     end
