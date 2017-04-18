@@ -57,7 +57,7 @@
                 <p><%= link_to(fa_icon('chevron-left', text: '前日'), channels_day_path(@browse_prev_day.params_for_url.merge(@day_link_params)), class: 'btn btn-primary btn-sm') %></p>
               </div>
               <div class="col-xs-6">
-                <p class="text-right"><%= link_to(fa_icon('chevron-right', text: '翌日'), channels_day_path(@browse_next_day.params_for_url.merge(@day_link_params)), class: 'btn btn-primary btn-sm') %></p>
+                <p class="text-right"><%= link_to(raw("翌日 #{fa_icon('chevron-right')}"), channels_day_path(@browse_next_day.params_for_url.merge(@day_link_params)), class: 'btn btn-primary btn-sm') %></p>
               </div>
             </div>
 
@@ -81,7 +81,7 @@
                 <p><%= link_to(fa_icon('chevron-left', text: '前日'), channels_day_path(@browse_prev_day.params_for_url.merge(@day_link_params)), class: 'btn btn-primary btn-sm') %></p>
               </div>
               <div class="col-xs-6">
-                <p class="text-right"><%= link_to(fa_icon('chevron-right', text: '翌日'), channels_day_path(@browse_next_day.params_for_url.merge(@day_link_params)), class: 'btn btn-primary btn-sm') %></p>
+                <p class="text-right"><%= link_to(raw("翌日 #{fa_icon('chevron-right')}"), channels_day_path(@browse_next_day.params_for_url.merge(@day_link_params)), class: 'btn btn-primary btn-sm') %></p>
               </div>
             </div>
           </article>
