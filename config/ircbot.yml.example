@@ -10,17 +10,24 @@ development:
     RealName: LogArchiver
     Channels:
       - ''
+  # IRC管理・運営サービス(Atheme-Services) の設定
+  AuthenticationServer:
+    # NickServ(Atheme-Services) の XMLRPC アドレス
+    XMLRPC: 'http://irc.example.com:6667/xmlrpc'
+    # ボット自身のアカウント情報
+    Account:
+      Nick: 'YOUR NICK'
+      Pass: 'PA$$WORD'
+  # プラグインの設定
   Plugins:
     LoginNickserv:
+      # NickServ の、IRCネットワーク内でのユーザー情報
       NickServ:
         Nick: 'NickServ'
         User: 'NickServ'
         Host: 'services.cre.jp'
+      # NickServ がリレーしているサーバアドレス
       LoginServer: 'services.cre.jp'
-      XMLRPC: 'http://irc.example.com:6667/xmlrpc'
-      Account:
-        Nick: 'YOUR NICK'
-        Pass: 'PA$$WORD'
 
 test:
 

@@ -156,6 +156,7 @@ module LogArchiver
       plugins.each do |p|
         plugin_options[p] = config.plugins[p.plugin_name] || {}
         plugin_options[p][:logger] = @logger
+        plugin_options[p][:authentication_server] = config.authentication_server || ''
       end
 
       bot = Cinch::Bot.new do

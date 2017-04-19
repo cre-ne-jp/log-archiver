@@ -1,5 +1,7 @@
 # vim: fileencoding=utf-8
 
+require 'cinch'
+
 module LogArchiver
   module Plugin
     # プラグインのひな形
@@ -13,6 +15,7 @@ module LogArchiver
         super
 
         @logger = config[:logger]
+        @authentication_server = config[:authentication_server]
       end
 
       # IRC へ発言し、データベースに保存する
