@@ -28,6 +28,10 @@ development:
         Host: 'services.cre.jp'
       # NickServ がリレーしているサーバアドレス
       LoginServer: 'services.cre.jp'
+    UserInterface:
+      # ログ公開URLのホスト名
+      # 末尾の / は要りません
+      URL: 'https://test.log.cre.ne.jp'
 
 test:
 
