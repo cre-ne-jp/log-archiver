@@ -95,4 +95,18 @@ class ChannelTest < ActiveSupport::TestCase
     expected = [100, 400, 200, 300, 500].map { |id| "channel_#{id}" }
     assert_equal(expected, Channel.for_channels_index.map(&:identifier))
   end
+
+  test 'from_cinch_message: 該当するチャンネルが返る' do
+    cinch_channel = Minitest::Mock.new.expect(:name, '#irc_test')
+    cinch_message = Minitest::Mock.new.expect(:channel, cinch_channel)
+
+    assert_equal(@channel, Channel.from_cinch_message(cinch_message))
+  end
+
+  test 'from_cinch_message: 登録されていないチャンネル名が指定された場合 nil が返る' do
+    cinch_channel = Minitest::Mock.new.expect(:name, '#not_registered')
+    cinch_message = Minitest::Mock.new.expect(:channel, cinch_channel)
+
+    assert_nil(Channel.from_cinch_message(cinch_message))
+  end
 end
