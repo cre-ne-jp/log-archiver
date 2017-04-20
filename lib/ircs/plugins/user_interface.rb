@@ -11,10 +11,12 @@ module LogArchiver
       include Cinch::Plugin
 
       set(plugin_name: 'UserInterface')
-      self.prefix = '.la-ui '
+      self.prefix = '.log '
 
+      # ログ公開URLを返す
       match(/url(?:$| (today|yesterday|list))/, method: :url)
       match(%r(url ((?:19|20)\d{2}[-/][01]\d[-/][0-3]\d)), method: :url)
+      # 記録しているかどうかの状態を返す
       match(/status/, method: :status)
 
       def initialize(*)
