@@ -1,6 +1,9 @@
 # チャンネルのある日付（年月日）の閲覧を表すクラス
 class ChannelBrowse::Day
   include ActiveModel::Model
+  include ActiveModel::Validations::Callbacks
+
+  extend SimpleEnum::Attribute
 
   # チャンネル
   # @return [Channel]
@@ -8,9 +11,21 @@ class ChannelBrowse::Day
   # 日付
   # @return [Date]
   attr_accessor :date
+  # 表示のスタイル
+  #
+  # * normal: 通常
+  # * raw: 生ログ
+  attr_accessor :style_cd
+  as_enum(:style, %i{normal raw}, prefix: :is_style)
 
   validates(:channel, presence: true)
   validates(:date, presence: true)
+  validates(:style, presence: true)
+
+  def initialize(*)
+    self.style = :normal
+    super
+  end
 
   # 日付を設定する
   #
@@ -30,11 +45,14 @@ class ChannelBrowse::Day
   def params_for_url
     return nil unless valid?
 
-    {
+    params = {
       identifier: @channel&.identifier,
       year: @date.year.to_s,
       month: '%02d' % @date.month,
       day: '%02d' % @date.day
     }
+    style_params = (style == :normal) ? {} : { style: style.to_s }
+
+    params.merge(style_params)
   end
 end
