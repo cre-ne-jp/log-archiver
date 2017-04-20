@@ -15,6 +15,7 @@ module LogArchiver
 
       match(/url(?:$| (today|yesterday|list))/, method: :url)
       match(%r(url ((?:19|20)\d{2}[-/][01]\d[-/][0-3]\d)), method: :url)
+      match(/status/, method: :status)
 
       def initialize(*)
         super
@@ -56,6 +57,23 @@ module LogArchiver
           end
 
         send_and_record(m, "#{result}/#{date.strftime('%Y/%m/%d')}")
+      end
+
+      # 現在のログ取得状況を返す
+      # @param [Cinch::Message] m
+      # @return [void]
+      def status(m)
+        header = "#{@header}<status>: #{m.channel} は"
+
+        if channel = ::Channel.find_by(name: m.channel.name[1..-1])
+          if channel.logging_enabled?
+            send_and_record(m, "#{header}ログを記録しています")
+          else
+            send_and_record(m, "#{header}ログの記録を停止しています")
+          end
+        else
+          send_and_record(m, "#{header}登録されていません")
+        end
       end
     end
   end
