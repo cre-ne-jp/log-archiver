@@ -22,7 +22,7 @@ module LogArchiver
         @setting = Setting.find(1)
         @header = "#{@setting.site_title}"
 
-pp        @config = config
+        @config = config
       end
 
       # ログ公開URLを発言する
