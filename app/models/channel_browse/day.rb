@@ -72,26 +72,28 @@ class ChannelBrowse::Day
   end
 
   # ログ閲覧ページのパスを返す
+  # @param [Hash] params 追加のパラメータ
   # @return [String] ログ閲覧ページのパス
   # @return [nil] 属性が無効な場合
-  def path
+  def path(params = {})
     return nil unless valid?
 
     Rails.application.routes.url_helpers.channels_day_path(
-      @channel, params_for_url
+      @channel, params_for_url.merge(params)
     )
   end
 
   # ログ閲覧ページの URL を返す
   # @param [String] host ホスト名。スキーム付きでもよい
+  # @param [Hash] params 追加のパラメータ
   # @return [String] ログ閲覧ページの URL
   # @return [nil] 属性が無効な場合
-  def url(host)
+  def url(host, params = {})
     return nil unless valid?
 
     Rails.application.routes.url_helpers.channels_day_url(
       @channel,
-      params_for_url.merge({ host: host })
+      params_for_url.merge(params).merge({ host: host })
     )
   end
 end

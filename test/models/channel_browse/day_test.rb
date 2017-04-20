@@ -80,6 +80,22 @@ class ChannelBrowse::DayTest < ActiveSupport::TestCase
     assert_equal('/channels/irc_test/2017/04/01?style=raw', @day.path)
   end
 
+  test 'path: フラグメント識別子を指定することができる' do
+    @day.style = :normal
+    @day.date = @now.to_date
+
+    assert_equal('/channels/irc_test/2017/04/01#12345',
+                 @day.path(anchor: '12345'))
+  end
+
+  test 'path: 生ログ閲覧ページでフラグメント識別子を指定することができる' do
+    @day.style = :raw
+    @day.date = @now.to_date
+
+    assert_equal('/channels/irc_test/2017/04/01?style=raw#12345',
+                 @day.path(anchor: '12345'))
+  end
+
   test 'url: ログ閲覧ページの URL が正しい（スキーム付き）' do
     @day.style = :normal
     @day.date = @now.to_date
@@ -102,5 +118,21 @@ class ChannelBrowse::DayTest < ActiveSupport::TestCase
 
     assert_equal('https://log.example.net/channels/irc_test/2017/04/01?style=raw',
                  @day.url('https://log.example.net'))
+  end
+
+  test 'url: フラグメント識別子を指定することができる' do
+    @day.style = :normal
+    @day.date = @now.to_date
+
+    assert_equal('https://log.example.net/channels/irc_test/2017/04/01#12345',
+                 @day.url('https://log.example.net', anchor: '12345'))
+  end
+
+  test 'url: 生ログ閲覧ページでフラグメント識別子を指定することができる' do
+    @day.style = :raw
+    @day.date = @now.to_date
+
+    assert_equal('https://log.example.net/channels/irc_test/2017/04/01?style=raw#12345',
+                 @day.url('https://log.example.net', anchor: '12345'))
   end
 end
