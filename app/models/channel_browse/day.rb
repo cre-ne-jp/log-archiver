@@ -62,7 +62,6 @@ class ChannelBrowse::Day
     return nil unless valid?
 
     params = {
-      identifier: @channel&.identifier,
       year: @date.year.to_s,
       month: '%02d' % @date.month,
       day: '%02d' % @date.day
@@ -70,5 +69,29 @@ class ChannelBrowse::Day
     style_params = (style == :normal) ? {} : { style: style.to_s }
 
     params.merge(style_params)
+  end
+
+  # ログ閲覧ページのパスを返す
+  # @return [String] ログ閲覧ページのパス
+  # @return [nil] 属性が無効な場合
+  def path
+    return nil unless valid?
+
+    Rails.application.routes.url_helpers.channels_day_path(
+      @channel, params_for_url
+    )
+  end
+
+  # ログ閲覧ページの URL を返す
+  # @param [String] host ホスト名。スキーム付きでもよい
+  # @return [String] ログ閲覧ページの URL
+  # @return [nil] 属性が無効な場合
+  def url(host)
+    return nil unless valid?
+
+    Rails.application.routes.url_helpers.channels_day_url(
+      @channel,
+      params_for_url.merge({ host: host })
+    )
   end
 end

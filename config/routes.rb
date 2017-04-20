@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   resource :browse, only: %i(create)
 
   namespace :channels do
-    get ':identifier/:year/:month/:day', to: 'days#show', as: 'day',
+    get ':id/:year/:month/:day', to: 'days#show', as: 'day',
       year: /[1-9][0-9]{3}/, month: /0[1-9]|1[0-2]/, day: /0[1-9]|[12][0-9]|3[01]/
     get ':identifier/:year/:month', to: 'days#index', as: 'days',
       year: /[1-9][0-9]{3}/, month: /0[1-9]|1[0-2]/

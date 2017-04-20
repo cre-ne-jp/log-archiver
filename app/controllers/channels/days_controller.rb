@@ -24,9 +24,7 @@ class Channels::DaysController < ApplicationController
   def show
     target_channels, @other_channels = Channel.
       order_for_list.
-      partition { |channel|
-        channel.identifier == params[:identifier]
-      }
+      partition { |channel| channel.identifier == params[:id] }
     @channel = target_channels.first
 
     @year = params[:year].to_i

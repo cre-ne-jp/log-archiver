@@ -26,11 +26,6 @@ class ChannelBrowse::DayTest < ActiveSupport::TestCase
     refute(@day.valid?)
   end
 
-  test 'params_for_url: identifier が正しい' do
-    params = @day.params_for_url
-    assert_equal(@day.channel.identifier, params.fetch(:identifier))
-  end
-
   test 'params_for_url: 日付が正しい' do
     params = @day.params_for_url
 
@@ -69,5 +64,43 @@ class ChannelBrowse::DayTest < ActiveSupport::TestCase
       assert_equal(@now.to_date.prev_day, browse_day.date, '日付が正しい')
       assert_equal(:raw, browse_day.style, '表示のスタイルが正しい')
     end
+  end
+
+  test 'path: ログ閲覧ページのパスが正しい' do
+    @day.style = :normal
+    @day.date = @now.to_date
+
+    assert_equal('/channels/irc_test/2017/04/01', @day.path)
+  end
+
+  test 'path: 生ログ閲覧ページのパスが正しい' do
+    @day.style = :raw
+    @day.date = @now.to_date
+
+    assert_equal('/channels/irc_test/2017/04/01?style=raw', @day.path)
+  end
+
+  test 'url: ログ閲覧ページの URL が正しい（スキーム付き）' do
+    @day.style = :normal
+    @day.date = @now.to_date
+
+    assert_equal('https://log.example.net/channels/irc_test/2017/04/01',
+                 @day.url('https://log.example.net'))
+  end
+
+  test 'url: ログ閲覧ページの URL が正しい（スキームなし）' do
+    @day.style = :normal
+    @day.date = @now.to_date
+
+    assert_equal('http://log.example.net/channels/irc_test/2017/04/01',
+                 @day.url('log.example.net'))
+  end
+
+  test 'url: 生ログ閲覧ページの URL が正しい' do
+    @day.style = :raw
+    @day.date = @now.to_date
+
+    assert_equal('https://log.example.net/channels/irc_test/2017/04/01?style=raw',
+                 @day.url('https://log.example.net'))
   end
 end
