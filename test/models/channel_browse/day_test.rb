@@ -2,7 +2,9 @@ require 'test_helper'
 
 class ChannelBrowse::DayTest < ActiveSupport::TestCase
   setup do
+    @channel = create(:channel)
     @day = build(:channel_browse_day)
+    @now = Time.zone.local(2017, 4, 1, 12, 34, 56)
   end
 
   test '有効である' do
@@ -47,5 +49,25 @@ class ChannelBrowse::DayTest < ActiveSupport::TestCase
 
     params = @day.params_for_url
     assert_equal('raw', params.fetch(:style))
+  end
+
+  test 'today で今日のログの閲覧が返る' do
+    travel_to(@now) do
+      browse_day = ChannelBrowse::Day.today(@channel, style: :raw)
+
+      assert_equal(@channel, browse_day.channel, 'チャンネルが正しい')
+      assert_equal(@now.to_date, browse_day.date, '日付が正しい')
+      assert_equal(:raw, browse_day.style, '表示のスタイルが正しい')
+    end
+  end
+
+  test 'yesterday で昨日のログの閲覧が返る' do
+    travel_to(@now) do
+      browse_day = ChannelBrowse::Day.yesterday(@channel, style: :raw)
+
+      assert_equal(@channel, browse_day.channel, 'チャンネルが正しい')
+      assert_equal(@now.to_date.prev_day, browse_day.date, '日付が正しい')
+      assert_equal(:raw, browse_day.style, '表示のスタイルが正しい')
+    end
   end
 end

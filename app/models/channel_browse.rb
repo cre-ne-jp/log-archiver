@@ -75,19 +75,15 @@ class ChannelBrowse
   def to_channel_browse_day
     return nil unless valid?
 
-    date_value =
-      case date_type
-      when :today
-        Time.now.to_date
-      when :yesterday
-        Time.now.to_date.prev_day
-      when :specify
-        @date
-      end
+    channel = Channel.friendly.find(@channel)
 
-    ChannelBrowse::Day.new(
-      channel: Channel.friendly.find(@channel),
-      date: date_value
-    )
+    case date_type
+    when :today
+      ChannelBrowse::Day.today(channel)
+    when :yesterday
+      ChannelBrowse::Day.yesterday(channel)
+    when :specify
+      ChannelBrowse::Day.new(channel: channel, date: @date)
+    end
   end
 end

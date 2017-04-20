@@ -27,6 +27,22 @@ class ChannelBrowse::Day
     super
   end
 
+  # 今日のログの閲覧を返す
+  # @param [Channel] channel チャンネル
+  # @param [Symbol] style 表示のスタイル
+  # @return [ChannelBrowse::Day]
+  def self.today(channel, style: :normal)
+    new(channel: channel, date: Time.current.to_date, style: style)
+  end
+
+  # 昨日のログの閲覧を返す
+  # @param [Channel] channel チャンネル
+  # @param [Symbol] style 表示のスタイル
+  # @return [ChannelBrowse::Day]
+  def self.yesterday(channel, style: :normal)
+    new(channel: channel, date: Time.current.to_date.prev_day, style: style)
+  end
+
   # 日付を設定する
   #
   # value を日付に変換できないときは nil になる。
