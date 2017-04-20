@@ -22,7 +22,7 @@
           <ul>
             <% @dates.each do |date| %>
               <% browse_day = ChannelBrowse::Day.new(channel: @channel, date: date) %>
-              <li><%= link_to(date.strftime('%F'), channels_day_path(browse_day.params_for_url)) %>（<%= @speech_count[date] || 0 %> 発言）</li>
+              <li><%= link_to(date.strftime('%F'), browse_day.path) %>（<%= @speech_count[date] || 0 %> 発言）</li>
             <% end %>
           </ul>
         </div>
