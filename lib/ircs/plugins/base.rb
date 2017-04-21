@@ -1,5 +1,8 @@
 # vim: fileencoding=utf-8
 
+require 'cinch'
+require_relative 'ircserv'
+
 module LogArchiver
   module Plugin
     # プラグインのひな形
@@ -13,6 +16,21 @@ module LogArchiver
         super
 
         @logger = config[:logger]
+        @authentication_server = config[:authentication_server]
+
+        begin
+          @ircserv = IrcServ.new(
+            config[:authentication_server]['XMLRPC'],
+            config[:authentication_server]['Account']['Nick'],
+            config[:authentication_server]['Account']['Pass']
+          )
+        rescue XMLRPC::FaultException => e
+          @logger.error('認証サーバにログインできませんでした')
+          @logger.error("Code: #{e.faultCode}, Message: #{e.faultString}")
+          @ircserv = nil
+        rescue => e
+          @ircserv = nil
+        end
       end
 
       # IRC へ発言し、データベースに保存する
