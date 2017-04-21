@@ -14,8 +14,9 @@ module LogArchiver
       # ログ公開URLを返す
       match('url', method: :url_list)
       match(/url list\b/, method: :url_list)
-      match(/url (today|yesterday)\b/, method: :url)
-      match(%r(url ((?:19|20)\d{2}[-/][01]\d[-/][0-3]\d)), method: :url)
+      match(/url today\b/, method: :url_today)
+      match(/url yesterday\b/, method: :url_yesterday)
+      match(%r(url ((?:19|20)\d{2}[-/][01]\d[-/][0-3]\d)), method: :url_date)
       # 記録しているかどうかの状態を返す
       match(/status/, method: :status)
 
@@ -30,6 +31,8 @@ module LogArchiver
       end
 
       # チャンネルのログ公開ページのURLを発言する
+      # @param [Cinch::Message] m
+      # @return [void]
       def url_list(m)
         header = "#{@header}<URL>: "
 
@@ -45,11 +48,10 @@ module LogArchiver
         send_and_record(m, "#{header}#{channel_url}")
       end
 
-      # ログ公開URLを発言する
+      # 今日のログのURLを発言する
       # @param [Cinch::Message] m
-      # @param [String] day 日付の指定
       # @return [void]
-      def url(m, day)
+      def url_today(m)
         header = "#{@header}<URL>: "
 
         channel = Channel.from_cinch_message(m)
@@ -57,23 +59,48 @@ module LogArchiver
           send_and_record(m, "#{header}#{m.channel} は登録されていません")
           return
         end
-        result = "#{header}#{@config['URL']}/channels/#{channel.identifier}"
 
-        date = case(day)
-          when 'today'
-            Date.today
-          when 'yesterday'
-            Date.today.prev_day
-          else
-            begin
-              Date.parse(day)
-            rescue ArgumentError => e
-              send_and_record(m, "#{header}日付指定が間違っています")
-              return
-            end
-          end
+        today = ChannelBrowse::Day.today(channel)
+        send_and_record(m, "#{header}#{today.url(@base_url)}")
+      end
 
-        send_and_record(m, "#{result}/#{date.strftime('%Y/%m/%d')}")
+      # 昨日のログのURLを発言する
+      # @param [Cinch::Message] m
+      # @return [void]
+      def url_yesterday(m)
+        header = "#{@header}<URL>: "
+
+        channel = Channel.from_cinch_message(m)
+        unless channel
+          send_and_record(m, "#{header}#{m.channel} は登録されていません")
+          return
+        end
+
+        yesterday = ChannelBrowse::Day.yesterday(channel)
+        send_and_record(m, "#{header}#{yesterday.url(@base_url)}")
+      end
+
+      # 指定された日のログ公開URLを発言する
+      # @param [Cinch::Message] m
+      # @param [String] date 日付の指定
+      # @return [void]
+      def url_date(m, date)
+        header = "#{@header}<URL>: "
+
+        channel = Channel.from_cinch_message(m)
+        unless channel
+          send_and_record(m, "#{header}#{m.channel} は登録されていません")
+          return
+        end
+
+        browse_day = ChannelBrowse::Day.new(channel: channel, date: date)
+
+        unless browse_day.valid?
+          send_and_record(m, "#{header}日付指定が間違っています")
+          return
+        end
+
+        send_and_record(m, "#{header}#{browse_day.url(@base_url)}")
       end
 
       # 現在のログ取得状況を返す
