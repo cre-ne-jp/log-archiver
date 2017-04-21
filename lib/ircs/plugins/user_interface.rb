@@ -35,7 +35,7 @@ module LogArchiver
 
         channel = Channel.from_cinch_message(m)
         unless channel
-          send_and_record(m, "#{header}#{m.channel} は登録されていません")
+          send_and_record_channel_not_registered(m, 'URL')
           return
         end
 
@@ -53,7 +53,7 @@ module LogArchiver
 
         channel = Channel.from_cinch_message(m)
         unless channel
-          send_and_record(m, "#{header}#{m.channel} は登録されていません")
+          send_and_record_channel_not_registered(m, 'URL')
           return
         end
 
@@ -69,7 +69,7 @@ module LogArchiver
 
         channel = Channel.from_cinch_message(m)
         unless channel
-          send_and_record(m, "#{header}#{m.channel} は登録されていません")
+          send_and_record_channel_not_registered(m, 'URL')
           return
         end
 
@@ -86,7 +86,7 @@ module LogArchiver
 
         channel = Channel.from_cinch_message(m)
         unless channel
-          send_and_record(m, "#{header}#{m.channel} は登録されていません")
+          send_and_record_channel_not_registered(m, 'URL')
           return
         end
 
@@ -104,18 +104,21 @@ module LogArchiver
       # @param [Cinch::Message] m
       # @return [void]
       def status(m)
-        header = "#{ui_header('status')}#{m.channel} は"
-
         channel = Channel.from_cinch_message(m)
-        if channel
-          if channel.logging_enabled?
-            send_and_record(m, "#{header}ログを記録しています")
-          else
-            send_and_record(m, "#{header}ログの記録を停止しています")
-          end
-        else
-          send_and_record(m, "#{header}登録されていません")
+        unless channel
+          send_and_record_channel_not_registered(m, 'status')
+          return
         end
+
+        header = "#{ui_header('status')}#{m.channel} は"
+        message =
+          if channel.logging_enabled?
+            "#{header}ログを記録しています"
+          else
+            "#{header}ログの記録を停止しています"
+          end
+
+        send_and_record(m, message)
       end
 
       private
@@ -128,6 +131,15 @@ module LogArchiver
         setting = Setting.first
 
         "#{setting.site_title}<#{subcommand}>: "
+      end
+
+      # チャンネルが登録されていないことを発言・記録する
+      # @param [Cinch::Message] m 受信したメッセージ
+      # @param [String] subcommand
+      # @return [void]
+      def send_and_record_channel_not_registered(m, subcommand)
+        header = ui_header(subcommand)
+        send_and_record(m, "#{header}#{m.channel} は登録されていません")
       end
     end
   end
