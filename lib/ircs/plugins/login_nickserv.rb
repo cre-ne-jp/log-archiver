@@ -1,6 +1,5 @@
 # vim: fileencoding=utf-8
 
-require 'cinch'
 require 'xmlrpc/client'
 
 require_relative 'base'
@@ -35,9 +34,9 @@ module LogArchiver
         @nickserv = config['NickServ']
         @login_server = {
           irc: config['LoginServer'],
-          xmlrpc: config['XMLRPC'] || ''
+          xmlrpc: @authentication_server['XMLRPC']
         }
-        @myself = config['Account']
+        @myself = @authentication_server['Account']
       end
 
       # サーバ接続メッセージを検知し、NickServ サーバならログインする

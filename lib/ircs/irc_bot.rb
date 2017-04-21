@@ -26,7 +26,7 @@ module LogArchiver
 
       @logger = new_logger(log_level)
       config = load_config(config_id, options[:mode])
-      plugins = load_plugins(%w(ChannelSync SaveLog KickBack LoginNickserv Version))
+      plugins = load_plugins(%w(ChannelSync SaveLog KickBack LoginNickserv Version UserInterface))
 
       bot = new_bot(config, plugins, log_level)
 
@@ -156,6 +156,7 @@ module LogArchiver
       plugins.each do |p|
         plugin_options[p] = config.plugins[p.plugin_name] || {}
         plugin_options[p][:logger] = @logger
+        plugin_options[p][:authentication_server] = config.authentication_server || ''
       end
 
       bot = Cinch::Bot.new do
