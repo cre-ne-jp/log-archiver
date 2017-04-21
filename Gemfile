@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 gem 'cinch'
 gem 'lumberjack'
 gem 'sysexits'
+gem 'xmlrpc'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 4.2.7'
@@ -78,10 +79,6 @@ gem 'ranked-model'
 
 # コンソールとして pry を使う
 gem 'pry-rails'
-
-# ruby2.4
-# https://github.com/rails/rails/issues/27450
-#gem 'json', github: 'flori/json', branch: 'v1.8'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
