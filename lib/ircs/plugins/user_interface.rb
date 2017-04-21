@@ -49,32 +49,18 @@ module LogArchiver
       # @param [Cinch::Message] m
       # @return [void]
       def url_today(m)
-        header = ui_header('URL')
-
-        channel = Channel.from_cinch_message(m)
-        unless channel
-          send_and_record_channel_not_registered(m, 'URL')
-          return
+        send_and_record_day_url(m) do |channel|
+          ChannelBrowse::Day.today(channel)
         end
-
-        today = ChannelBrowse::Day.today(channel)
-        send_and_record(m, "#{header}#{today.url(@base_url)}")
       end
 
       # 昨日のログのURLを発言する
       # @param [Cinch::Message] m
       # @return [void]
       def url_yesterday(m)
-        header = ui_header('URL')
-
-        channel = Channel.from_cinch_message(m)
-        unless channel
-          send_and_record_channel_not_registered(m, 'URL')
-          return
+        send_and_record_day_url(m) do |channel|
+          ChannelBrowse::Day.yesterday(channel)
         end
-
-        yesterday = ChannelBrowse::Day.yesterday(channel)
-        send_and_record(m, "#{header}#{yesterday.url(@base_url)}")
       end
 
       # 指定された日のログ公開URLを発言する
@@ -82,22 +68,9 @@ module LogArchiver
       # @param [String] date 日付の指定
       # @return [void]
       def url_date(m, date)
-        header = ui_header('URL')
-
-        channel = Channel.from_cinch_message(m)
-        unless channel
-          send_and_record_channel_not_registered(m, 'URL')
-          return
+        send_and_record_day_url(m) do |channel|
+          ChannelBrowse::Day.new(channel: channel, date: date)
         end
-
-        browse_day = ChannelBrowse::Day.new(channel: channel, date: date)
-
-        unless browse_day.valid?
-          send_and_record(m, "#{header}日付指定が間違っています")
-          return
-        end
-
-        send_and_record(m, "#{header}#{browse_day.url(@base_url)}")
       end
 
       # 現在のログ取得状況を返す
@@ -140,6 +113,36 @@ module LogArchiver
       def send_and_record_channel_not_registered(m, subcommand)
         header = ui_header(subcommand)
         send_and_record(m, "#{header}#{m.channel} は登録されていません")
+      end
+
+      # 1日分のログのURLを発言・記録する
+      # @param [Cinch::Message] m 受信したメッセージ
+      # @yieldparam channel [::Channel] チャンネル
+      # @yieldreturn [ChannelBrowse::Day] 1日分の閲覧
+      # @return [void]
+      #
+      # 1日分の閲覧を表す ChannelBrowse::Day インスタンスを返すブロックを
+      # 渡して使う。ブロックにはチャンネルが渡される。ブロックで指定するのは
+      # チャンネルが登録されていることの確認を先に行えるようにするため。
+      #
+      # 1日分の閲覧の属性が無効な場合は、日付指定に誤りがあることを
+      # 発言・記録する。
+      def send_and_record_day_url(m, &block)
+        channel = Channel.from_cinch_message(m)
+        unless channel
+          send_and_record_channel_not_registered(m, 'URL')
+          return
+        end
+
+        header = ui_header('URL')
+        browse_day = block[channel]
+
+        unless browse_day.valid?
+          send_and_record(m, "#{header}日付指定が間違っています")
+          return
+        end
+
+        send_and_record(m, "#{header}#{browse_day.url(@base_url)}")
       end
     end
   end
