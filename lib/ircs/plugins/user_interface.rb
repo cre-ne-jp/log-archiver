@@ -35,7 +35,8 @@ module LogArchiver
       def url(m, day)
         header = "#{@header}<URL>: "
 
-        unless channel = ::Channel.find_by(name: m.channel.name[1..-1])
+        channel = Channel.from_cinch_message(m)
+        unless channel
           send_and_record(m, "#{header}#{m.channel} は登録されていません")
           return
         end
@@ -67,7 +68,8 @@ module LogArchiver
       def status(m)
         header = "#{@header}<status>: #{m.channel} は"
 
-        if channel = ::Channel.find_by(name: m.channel.name[1..-1])
+        channel = Channel.from_cinch_message(m)
+        if channel
           if channel.logging_enabled?
             send_and_record(m, "#{header}ログを記録しています")
           else
