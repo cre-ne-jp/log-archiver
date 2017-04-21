@@ -23,9 +23,6 @@ module LogArchiver
       def initialize(*)
         super
 
-        @setting = Setting.find(1)
-        @header = "#{@setting.site_title}"
-
         @config = config
         @base_url = config['URL']
       end
@@ -34,7 +31,7 @@ module LogArchiver
       # @param [Cinch::Message] m
       # @return [void]
       def url_list(m)
-        header = "#{@header}<URL>: "
+        header = ui_header('URL')
 
         channel = Channel.from_cinch_message(m)
         unless channel
@@ -52,7 +49,7 @@ module LogArchiver
       # @param [Cinch::Message] m
       # @return [void]
       def url_today(m)
-        header = "#{@header}<URL>: "
+        header = ui_header('URL')
 
         channel = Channel.from_cinch_message(m)
         unless channel
@@ -68,7 +65,7 @@ module LogArchiver
       # @param [Cinch::Message] m
       # @return [void]
       def url_yesterday(m)
-        header = "#{@header}<URL>: "
+        header = ui_header('URL')
 
         channel = Channel.from_cinch_message(m)
         unless channel
@@ -85,7 +82,7 @@ module LogArchiver
       # @param [String] date 日付の指定
       # @return [void]
       def url_date(m, date)
-        header = "#{@header}<URL>: "
+        header = ui_header('URL')
 
         channel = Channel.from_cinch_message(m)
         unless channel
@@ -107,7 +104,7 @@ module LogArchiver
       # @param [Cinch::Message] m
       # @return [void]
       def status(m)
-        header = "#{@header}<status>: #{m.channel} は"
+        header = "#{ui_header('status')}#{m.channel} は"
 
         channel = Channel.from_cinch_message(m)
         if channel
@@ -119,6 +116,18 @@ module LogArchiver
         else
           send_and_record(m, "#{header}登録されていません")
         end
+      end
+
+      private
+
+      # 共通のヘッダ文字列を返す
+      # @param [String] subcommand サブコマンド
+      # @return [String]
+      def ui_header(subcommand)
+        # 設定は管理画面から変更される可能性があるので毎回読み込む
+        setting = Setting.first
+
+        "#{setting.site_title}<#{subcommand}>: "
       end
     end
   end
