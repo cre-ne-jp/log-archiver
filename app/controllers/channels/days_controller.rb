@@ -4,6 +4,12 @@ class Channels::DaysController < ApplicationController
     @year = params[:year].to_i
     @month = params[:month].to_i
 
+    browse_month = ChannelBrowse::Month.new(channel: @channel,
+                                            year: @year,
+                                            month: @month)
+    @browse_prev_month = browse_month.prev_month
+    @browse_next_month = browse_month.next_month
+
     start_date = Date.new(@year, @month, 1)
     date_range = start_date...(start_date.next_month)
     @dates = MessageDate.

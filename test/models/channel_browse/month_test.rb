@@ -80,4 +80,64 @@ class ChannelBrowse::MonthTest < ActiveSupport::TestCase
     assert_equal('https://log.example.net/channels/irc_test/2017/02#12345',
                  @month.url('https://log.example.net', anchor: '12345'))
   end
+
+  def prepare_message_dates
+    MessageDate.delete_all
+
+    @message_date_20160816 = create(:message_date)
+    @message_date_20161231 = create(:message_date_20161231)
+    @message_date_20170401 = create(:message_date_20170401)
+  end
+
+  test 'prev_month: メッセージが記録されている前の月の閲覧を返す' do
+    prepare_message_dates
+
+    date = @message_date_20161231.date
+    @month.year = date.year
+    @month.month = date.month
+
+    prev_date = @message_date_20160816.date
+    prev_month = @month.prev_month
+
+    assert_equal(@month.channel, prev_month.channel, 'チャンネルが正しい')
+    assert_equal(prev_date.year, prev_month.year, '年が正しい')
+    assert_equal(prev_date.month, prev_month.month, '月が正しい')
+    assert(prev_month.valid?)
+  end
+
+  test 'prev_month: メッセージが記録されている最初の月だった場合nilを返す' do
+    prepare_message_dates
+
+    date = @message_date_20160816.date
+    @month.year = date.year
+    @month.month = date.month
+
+    assert_nil(@month.prev_month)
+  end
+
+  test 'next_month: メッセージが記録されている次の月の閲覧を返す' do
+    prepare_message_dates
+
+    date = @message_date_20161231.date
+    @month.year = date.year
+    @month.month = date.month
+
+    next_date = @message_date_20170401.date
+    next_month = @month.next_month
+
+    assert_equal(@month.channel, next_month.channel, 'チャンネルが正しい')
+    assert_equal(next_date.year, next_month.year, '年が正しい')
+    assert_equal(next_date.month, next_month.month, '月が正しい')
+    assert(next_month.valid?)
+  end
+
+  test 'next_month: メッセージが記録されている最後の月だった場合nilを返す' do
+    prepare_message_dates
+
+    date = @message_date_20170401.date
+    @month.year = date.year
+    @month.month = date.month
+
+    assert_nil(@month.next_month)
+  end
 end

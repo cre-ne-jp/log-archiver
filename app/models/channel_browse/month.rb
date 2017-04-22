@@ -67,4 +67,41 @@ class ChannelBrowse::Month
       params_for_url.merge(params).merge({ host: host })
     )
   end
+
+  # メッセージが記録されている前の月の閲覧を返す
+  # @return [ChannelBrowse::Month] メッセージが記録されている前の月の閲覧
+  # @return [nil] 属性が無効、またはメッセージが記録されている最初の月だった場合
+  def prev_month
+    return nil unless valid?
+
+    prev_message_date = MessageDate.
+      where(channel: @channel).
+      where('date < ?', Date.new(@year, @month, 1)).
+      order(date: :desc).
+      first
+
+    return nil unless prev_message_date
+
+    date = prev_message_date.date
+    self.class.new(channel: @channel, year: date.year, month: date.month)
+  end
+
+
+  # メッセージが記録されている次の月の閲覧を返す
+  # @return [ChannelBrowse::Month] メッセージが記録されている次の月の閲覧
+  # @return [nil] 属性が無効、またはメッセージが記録されている最後の月だった場合
+  def next_month
+    return nil unless valid?
+
+    next_message_date = MessageDate.
+      where(channel: @channel).
+      where('date >= ?', Date.new(@year, @month, 1).next_month).
+      order(:date).
+      first
+
+    return nil unless next_message_date
+
+    date = next_message_date.date
+    self.class.new(channel: @channel, year: date.year, month: date.month)
+  end
 end
