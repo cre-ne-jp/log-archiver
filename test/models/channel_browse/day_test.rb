@@ -135,4 +135,56 @@ class ChannelBrowse::DayTest < ActiveSupport::TestCase
     assert_equal('https://log.example.net/channels/irc_test/2017/04/01?style=raw#12345',
                  @day.url('https://log.example.net', anchor: '12345'))
   end
+
+  def prepare_message_dates
+    MessageDate.delete_all
+
+    @message_date_20160816 = create(:message_date)
+    @message_date_20161231 = create(:message_date_20161231)
+    @message_date_20170401 = create(:message_date_20170401)
+  end
+
+  test 'prev_day: メッセージが記録されている前の日の閲覧を返す' do
+    prepare_message_dates
+
+    @day.date = @message_date_20161231.date
+    @day.style = :raw
+
+    prev_day = @day.prev_day
+
+    assert_equal(@channel, prev_day.channel, 'チャンネルが正しい')
+    assert_equal(@message_date_20160816.date, prev_day.date, '日付が正しい')
+    assert_equal(:raw, prev_day.style, '表示のスタイルが正しい')
+    assert(prev_day.valid?)
+  end
+
+  test 'prev_day: メッセージが記録されている最初の日だった場合nilを返す' do
+    prepare_message_dates
+
+    @day.date = @message_date_20160816.date
+
+    assert_nil(@day.prev_day)
+  end
+
+  test 'next_day: メッセージが記録されている次の日の閲覧を返す' do
+    prepare_message_dates
+
+    @day.date = @message_date_20161231.date
+    @day.style = :raw
+
+    next_day = @day.next_day
+
+    assert_equal(@channel, next_day.channel, 'チャンネルが正しい')
+    assert_equal(@message_date_20170401.date, next_day.date, '日付が正しい')
+    assert_equal(:raw, next_day.style, '表示のスタイルが正しい')
+    assert(next_day.valid?)
+  end
+
+  test 'next_day: メッセージが記録されている最後の日だった場合nilを返す' do
+    prepare_message_dates
+
+    @day.date = @message_date_20170401.date
+
+    assert_nil(@day.next_day)
+  end
 end
