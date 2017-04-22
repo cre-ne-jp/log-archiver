@@ -25,8 +25,33 @@ class ChannelBrowse::Year
     return nil unless valid?
 
     {
-      identifier: @channel&.identifier,
       year: @year.to_s
     }
+  end
+
+  # 年のページのパスを返す
+  # @param [Hash] params 追加のパラメータ
+  # @return [String] 年のページのパス
+  # @return [nil] 属性が無効な場合
+  def path(params = {})
+    return nil unless valid?
+
+    Rails.application.routes.url_helpers.channels_months_path(
+      @channel, params_for_url.merge(params)
+    )
+  end
+
+  # 年のページの URL を返す
+  # @param [String] host ホスト名。スキーム付きでもよい
+  # @param [Hash] params 追加のパラメータ
+  # @return [String] 年のページの URL
+  # @return [nil] 属性が無効な場合
+  def url(host, params = {})
+    return nil unless valid?
+
+    Rails.application.routes.url_helpers.channels_months_url(
+      @channel,
+      params_for_url.merge(params).merge({ host: host })
+    )
   end
 end

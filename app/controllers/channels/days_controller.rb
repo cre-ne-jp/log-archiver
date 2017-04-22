@@ -4,6 +4,9 @@ class Channels::DaysController < ApplicationController
     @year = params[:year].to_i
     @month = params[:month].to_i
 
+    @browse_year = ChannelBrowse::Year.new(channel: @channel,
+                                           year: @year)
+
     browse_month = ChannelBrowse::Month.new(channel: @channel,
                                             year: @year,
                                             month: @month)

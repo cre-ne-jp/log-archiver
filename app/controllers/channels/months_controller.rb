@@ -1,6 +1,6 @@
 class Channels::MonthsController < ApplicationController
   def index
-    @channel = Channel.find_by(identifier: params[:identifier])
+    @channel = Channel.friendly.find(params[:id])
     @year = params[:year].to_i
 
     start_date = Date.new(@year, 1, 1)
