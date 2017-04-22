@@ -1,6 +1,6 @@
 class Channels::DaysController < ApplicationController
   def index
-    @channel = Channel.find_by(identifier: params[:identifier])
+    @channel = Channel.friendly.find(params[:id])
     @year = params[:year].to_i
     @month = params[:month].to_i
 

@@ -37,9 +37,34 @@ class ChannelBrowse::Month
     return nil unless valid?
 
     {
-      identifier: @channel&.identifier,
       year: @year.to_s,
       month: '%02d' % @month,
     }
+  end
+
+  # 月のページのパスを返す
+  # @param [Hash] params 追加のパラメータ
+  # @return [String] ログ閲覧ページのパス
+  # @return [nil] 属性が無効な場合
+  def path(params = {})
+    return nil unless valid?
+
+    Rails.application.routes.url_helpers.channels_days_path(
+      @channel, params_for_url.merge(params)
+    )
+  end
+
+  # 月のページの URL を返す
+  # @param [String] host ホスト名。スキーム付きでもよい
+  # @param [Hash] params 追加のパラメータ
+  # @return [String] ログ閲覧ページの URL
+  # @return [nil] 属性が無効な場合
+  def url(host, params = {})
+    return nil unless valid?
+
+    Rails.application.routes.url_helpers.channels_days_url(
+      @channel,
+      params_for_url.merge(params).merge({ host: host })
+    )
   end
 end

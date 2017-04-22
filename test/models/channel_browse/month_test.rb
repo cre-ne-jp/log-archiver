@@ -53,8 +53,31 @@ class ChannelBrowse::MonthTest < ActiveSupport::TestCase
   test 'params_for_url の結果が正しい' do
     params = @month.params_for_url
 
-    assert_equal(@month.channel.identifier, params.fetch(:identifier), 'identifier')
     assert_equal(@month.year.to_s, params.fetch(:year), 'year')
     assert_equal('%02d' % @month.month, params.fetch(:month), 'month')
+  end
+
+  test 'path: 月のページのパスが正しい' do
+    assert_equal('/channels/irc_test/2017/02', @month.path)
+  end
+
+  test 'path: フラグメント識別子を指定することができる' do
+    assert_equal('/channels/irc_test/2017/02#12345',
+                 @month.path(anchor: '12345'))
+  end
+
+  test 'url: 月のページの URL が正しい（スキーム付き）' do
+    assert_equal('https://log.example.net/channels/irc_test/2017/02',
+                 @month.url('https://log.example.net'))
+  end
+
+  test 'url: 月のページの URL が正しい（スキームなし）' do
+    assert_equal('http://log.example.net/channels/irc_test/2017/02',
+                 @month.url('log.example.net'))
+  end
+
+  test 'url: フラグメント識別子を指定することができる' do
+    assert_equal('https://log.example.net/channels/irc_test/2017/02#12345',
+                 @month.url('https://log.example.net', anchor: '12345'))
   end
 end
