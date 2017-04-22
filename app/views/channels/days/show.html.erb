@@ -54,19 +54,19 @@
 
             <div class="row">
               <div class="col-xs-6">
-                <p><%= link_to(fa_icon('chevron-left', text: '前日'), @browse_prev_day.path, class: 'btn btn-primary btn-sm') %></p>
+                <%= render('prev_day') %>
               </div>
               <div class="col-xs-6">
-                <p class="text-right"><%= link_to(raw("翌日 #{fa_icon('chevron-right')}"), @browse_next_day.path, class: 'btn btn-primary btn-sm') %></p>
+                <%= render('next_day') %>
               </div>
             </div>
 
             <ul class="nav nav-tabs">
-              <li role="presentation" class="<%= nav_tab_class(@list_style == :normal) %>"><%= link_to('通常表示', (@list_style == :normal) ? '#' : @browse_day.path) %></a></li>
-              <li role="presentation" class="<%= nav_tab_class(@list_style == :raw) %>"><%= link_to('生ログ', (@list_style == :raw) ? '#' : @browse_day.path) %></a></li>
+              <li role="presentation" class="<%= nav_tab_class(@browse_day.is_style_normal?) %>"><%= link_to('通常表示', @browse_day.is_style_normal? ? '#' : @browse_day_normal.path) %></a></li>
+              <li role="presentation" class="<%= nav_tab_class(@browse_day.is_style_raw?) %>"><%= link_to('生ログ', @browse_day.is_style_raw? ? '#' : @browse_day_raw.path) %></a></li>
             </ul>
 
-            <% if @list_style == :raw %>
+            <% if @browse_day.is_style_raw? %>
               <div class="raw-log">
                 <%= render(partial: 'raw_message', collection: @sorted_messages, as: :m) %>
               </div>
@@ -78,10 +78,10 @@
 
             <div class="row">
               <div class="col-xs-6">
-                <p><%= link_to(fa_icon('chevron-left', text: '前日'), @browse_prev_day.path, class: 'btn btn-primary btn-sm') %></p>
+                <%= render('prev_day') %>
               </div>
               <div class="col-xs-6">
-                <p class="text-right"><%= link_to(raw("翌日 #{fa_icon('chevron-right')}"), @browse_next_day.path, class: 'btn btn-primary btn-sm') %></p>
+                <%= render('next_day') %>
               </div>
             </div>
           </article>
