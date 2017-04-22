@@ -60,12 +60,8 @@ module ApplicationHelper
         channel: channel, date: last_speech.timestamp.to_date
       )
 
-      link_to(
-        last_speech.timestamp.strftime('%F %T'),
-        channels_day_path(
-          browse_day.params_for_url.merge({ anchor: last_speech.fragment_id })
-        )
-      )
+      link_to(last_speech.timestamp.strftime('%F %T'),
+              browse_day.path(anchor: last_speech.fragment_id))
     else
       '発言なし'
     end

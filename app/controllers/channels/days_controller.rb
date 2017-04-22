@@ -24,19 +24,13 @@ class Channels::DaysController < ApplicationController
   def show
     target_channels, @other_channels = Channel.
       order_for_list.
-      partition { |channel|
-        channel.identifier == params[:identifier]
-      }
+      partition { |channel| channel.identifier == params[:id] }
     @channel = target_channels.first
 
     @year = params[:year].to_i
     @month = params[:month].to_i
     @day = params[:day].to_i
     @date = Date.new(@year, @month, @day)
-
-    @browse_day = ChannelBrowse::Day.new(channel: @channel, date: @date)
-    @browse_prev_day = ChannelBrowse::Day.new(channel: @channel, date: @date.prev_day)
-    @browse_next_day = ChannelBrowse::Day.new(channel: @channel, date: @date.next_day)
 
     @browse_year = ChannelBrowse::Year.new(channel: @channel, year: @date.year)
     @browse_month = ChannelBrowse::Month.new(channel: @channel, year: @date.year, month: @date.month)
@@ -56,6 +50,17 @@ class Channels::DaysController < ApplicationController
       to_a
 
     @list_style = (params[:style] == 'raw') ? :raw : :normal
+
+    @browse_day = ChannelBrowse::Day.new(
+      channel: @channel, date: @date, style: @list_style
+    )
+    @browse_prev_day = ChannelBrowse::Day.new(
+      channel: @channel, date: @date.prev_day, style: @list_style
+    )
+    @browse_next_day = ChannelBrowse::Day.new(
+      channel: @channel, date: @date.next_day, style: @list_style
+    )
+
     whole_messages =
       if @list_style == :raw
         HourSeparator.for_day_browse(@date) + messages + @conversation_messages
@@ -66,11 +71,8 @@ class Channels::DaysController < ApplicationController
     # タイムスタンプによるソート
     # 安定ソートとなるようにカウンタを用意する
     i = 0
-    @sorted_messages = whole_messages.
-      sort_by { |m| [m.timestamp, i += 1] }
+    @sorted_messages = whole_messages.sort_by { |m| [m.timestamp, i += 1] }
 
     @message_dates = MessageDate.where(channel: @channel)
-
-    @day_link_params = (@list_style == :raw) ? { style: 'raw' } : {}
   end
 end
