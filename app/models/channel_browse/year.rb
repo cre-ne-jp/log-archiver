@@ -54,4 +54,41 @@ class ChannelBrowse::Year
       params_for_url.merge(params).merge({ host: host })
     )
   end
+
+  # メッセージが記録されている前の年の閲覧を返す
+  # @return [ChannelBrowse::Year] メッセージが記録されている前の年の閲覧
+  # @return [nil] 属性が無効、またはメッセージが記録されている最初の年だった場合
+  def prev_year
+    return nil unless valid?
+
+    prev_message_date = MessageDate.
+      where(channel: @channel).
+      where('date < ?', Date.new(@year, 1, 1)).
+      order(date: :desc).
+      first
+
+    return nil unless prev_message_date
+
+    date = prev_message_date.date
+    self.class.new(channel: @channel, year: date.year)
+  end
+
+
+  # メッセージが記録されている次の年の閲覧を返す
+  # @return [ChannelBrowse::Year] メッセージが記録されている次の年の閲覧
+  # @return [nil] 属性が無効、またはメッセージが記録されている最後の年だった場合
+  def next_year
+    return nil unless valid?
+
+    next_message_date = MessageDate.
+      where(channel: @channel).
+      where('date >= ?', Date.new(@year, 1, 1).next_year).
+      order(:date).
+      first
+
+    return nil unless next_message_date
+
+    date = next_message_date.date
+    self.class.new(channel: @channel, year: date.year)
+  end
 end

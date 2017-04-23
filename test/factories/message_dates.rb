@@ -7,6 +7,10 @@ FactoryGirl.define do
       MessageDate.find_or_create_by(channel: channel, date: date)
     }
 
+    factory :message_date_20150123 do
+      date '2015-01-23'
+    end
+
     factory :message_date_20161231 do
       date '2016-12-31'
     end

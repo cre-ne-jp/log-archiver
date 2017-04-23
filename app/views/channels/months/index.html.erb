@@ -16,12 +16,29 @@
           <div class="page-header">
             <h1><%= @channel.name_with_prefix %> <%= @year %>年</h1>
           </div>
+
           <ul>
             <% @month_count.each do |month, count| %>
               <% browse_month = ChannelBrowse::Month.new(channel: @channel, year: @year, month: month) %>
               <li><%= link_to('%d-%02d' % [@year, month], browse_month.path) %> (<%= count %>)</li>
             <% end %>
           </ul>
+
+          <% if @browse_prev_year || @browse_next_year %>
+            <div class="row">
+              <div class="col-xs-6">
+                <% if @browse_prev_year %>
+                  <p><%= link_to(fa_icon('chevron-left', text: '前の年'), @browse_prev_year.path, class: 'btn btn-primary btn-sm') %></p>
+                <% end %>
+              </div>
+
+              <div class="col-xs-6">
+                <% if @browse_next_year %>
+                  <p class="text-right"><%= link_to(raw("次の年 #{fa_icon('chevron-right')}"), @browse_next_year.path, class: 'btn btn-primary btn-sm') %></p>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>

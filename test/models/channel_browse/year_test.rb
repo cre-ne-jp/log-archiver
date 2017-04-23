@@ -53,4 +53,58 @@ class ChannelBrowse::YearTest < ActiveSupport::TestCase
     assert_equal('https://log.example.net/channels/irc_test/2017#12345',
                  @year.url('https://log.example.net', anchor: '12345'))
   end
+
+  def prepare_message_dates
+    MessageDate.delete_all
+
+    @message_date_20150123 = create(:message_date_20150123)
+    @message_date_20161231 = create(:message_date_20161231)
+    @message_date_20170401 = create(:message_date_20170401)
+  end
+
+  test 'prev_year: メッセージが記録されている前の年の閲覧を返す' do
+    prepare_message_dates
+
+    date = @message_date_20161231.date
+    @year.year = date.year
+
+    prev_date = @message_date_20150123.date
+    prev_year = @year.prev_year
+
+    assert_equal(@year.channel, prev_year.channel, 'チャンネルが正しい')
+    assert_equal(prev_date.year, prev_year.year, '年が正しい')
+    assert(prev_year.valid?)
+  end
+
+  test 'prev_year: メッセージが記録されている最初の年だった場合nilを返す' do
+    prepare_message_dates
+
+    date = @message_date_20150123.date
+    @year.year = date.year
+
+    assert_nil(@year.prev_year)
+  end
+
+  test 'next_year: メッセージが記録されている次の年の閲覧を返す' do
+    prepare_message_dates
+
+    date = @message_date_20161231.date
+    @year.year = date.year
+
+    next_date = @message_date_20170401.date
+    next_year = @year.next_year
+
+    assert_equal(@year.channel, next_year.channel, 'チャンネルが正しい')
+    assert_equal(next_date.year, next_year.year, '年が正しい')
+    assert(next_year.valid?)
+  end
+
+  test 'next_year: メッセージが記録されている最後の年だった場合nilを返す' do
+    prepare_message_dates
+
+    date = @message_date_20170401.date
+    @year.year = date.year
+
+    assert_nil(@year.next_year)
+  end
 end
