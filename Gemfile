@@ -77,6 +77,9 @@ gem 'sorcery'
 # 並び替え
 gem 'ranked-model'
 
+# グラフ描画
+gem 'chart-js-rails'
+
 # コンソールとして pry を使う
 gem 'pry-rails'
 

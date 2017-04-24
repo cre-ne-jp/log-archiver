@@ -19,6 +19,7 @@
 //= require moment/ja
 //= require bootstrap-datetimepicker
 //= require ./datetimepicker
+//= require Chart
 //= require log_archiver
 //= require_tree .
 
