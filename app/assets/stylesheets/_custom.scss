@@ -17,6 +17,10 @@ body {
   padding-bottom: 0.1em;
 }
 
+.jumbotron {
+  background-image: image-url('dice2.png');
+}
+
 .text-on-homepage {
   margin-bottom: 1em;
 }
@@ -38,6 +42,20 @@ h1.title {
 
 .nav-tabs {
   margin-bottom: 1em;
+
+  > li {
+    > a {
+      border-top: 3px solid transparent;
+    }
+
+    &.active > a {
+      &,
+      &:hover,
+      &:focus {
+        border-top: 3px solid $brand-danger;
+      }
+    }
+  }
 }
 
 h2 {

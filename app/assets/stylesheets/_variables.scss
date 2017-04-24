@@ -19,6 +19,7 @@ $blue-gray-900:          #263238;
 $green-400:              #66BB6A;
 $green-500:              #4CAF50;
 $green-600:              #43A047;
+$deep-orange-700:        #E64A19;
 
 $gray-base:              #000 !default;
 $gray-darker:            $blue-gray-900 !default; // #222
@@ -27,11 +28,13 @@ $gray:                   darken(#95a5a6, 5%) !default; // #555
 $gray-light:             lighten(#b4bcc2, 10%) !default;   // #999
 $gray-lighter:           darken(#ecf0f1, 3%) !default; // #eee
 
+$sky-blue-light:          lighten(#E4ECEF, 2%);
+
 $brand-primary:         $blue-gray-700 !default;
 $brand-success:         $green-500 !default;
 $brand-info:            #3498DB !default;
 $brand-warning:         #F39C12 !default;
-$brand-danger:          #E74C3C !default;
+$brand-danger:          $deep-orange-700 !default;
 
 
 //== Scaffolding
@@ -500,10 +503,10 @@ $pager-disabled-color:                 #fff !default;
 
 $jumbotron-padding:              20px !default;
 $jumbotron-color:                $gray-darker !default;
-$jumbotron-bg:                   $gray-lighter !default;
+$jumbotron-bg:                   $sky-blue-light !default;
 $jumbotron-heading-color:        inherit !default;
 $jumbotron-font-size:            ceil(($font-size-base * 1.1)) !default;
-$jumbotron-heading-font-size:    ceil(($font-size-base * 2.2)) !default;
+$jumbotron-heading-font-size:    ceil(($font-size-base * 2.25)) !default;
 
 
 //== Form states and alerts
