@@ -55,6 +55,47 @@ class ChannelBrowse::Day
     end
   end
 
+  # メッセージが記録されている前の日の閲覧を返す
+  # @return [ChannelBrowse::Day] メッセージが記録されている前の日の閲覧
+  # @return [nil] 属性が無効、またはメッセージが記録されている最初の日だった場合
+  def prev_day
+    return nil unless valid?
+
+    prev_message_date = MessageDate.
+      where(channel: @channel).
+      where('date < ?', date).
+      order(date: :desc).
+      first
+
+    return nil unless prev_message_date
+
+    browse_day = self.dup
+    browse_day.date = prev_message_date.date
+
+    browse_day
+  end
+
+
+  # メッセージが記録されている次の日の閲覧を返す
+  # @return [ChannelBrowse::Day] メッセージが記録されている次の日の閲覧
+  # @return [nil] 属性が無効、またはメッセージが記録されている最後の日だった場合
+  def next_day
+    return nil unless valid?
+
+    next_message_date = MessageDate.
+      where(channel: @channel).
+      where('date > ?', date).
+      order(:date).
+      first
+
+    return nil unless next_message_date
+
+    browse_day = self.dup
+    browse_day.date = next_message_date.date
+
+    browse_day
+  end
+
   # URLを求める際に使うパラメータのハッシュを返す
   # @return [Hash] URLを求める際に使うパラメータのハッシュ
   # @return [nil] 属性が無効な場合

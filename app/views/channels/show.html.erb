@@ -19,7 +19,7 @@
           <ul>
             <% @years.each do |year| %>
               <% browse_year = ChannelBrowse::Year.new(channel: @channel, year: year) %>
-              <li><%= link_to("#{year}年", channels_months_path(browse_year.params_for_url)) %></li>
+              <li><%= link_to("#{year}年", browse_year.path) %></li>
             <% end %>
           </ul>
         </div>
