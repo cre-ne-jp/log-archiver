@@ -7,9 +7,7 @@ class ChannelsController < ApplicationController
 
   def show
     @channel = Channel.friendly.find(params[:id])
-    unless @channel
-      raise ArgumentError, "Channel not found: #{params[:identifier]}"
-    end
+    @channels = Channel.order_for_list
 
     @years = MessageDate.
       uniq.
