@@ -3,6 +3,16 @@ class MessageDate < ActiveRecord::Base
   validates :channel, presence: true
   validates :date, presence: true
 
+  # 指定したチャンネルのメッセージが存在する年の配列を返す
+  # @param [Channel] channel チャンネル
+  # @return [Array<Integer>]
+  def self.years(channel)
+    where(channel: channel).
+      uniq.
+      order(:date).
+      pluck('YEAR(date)')
+  end
+
   # 指定したチャンネルのメッセージが存在する年月の配列を返す
   # @param [Channel] channel チャンネル
   # @return [Array<Array<Integer, Integer>>]

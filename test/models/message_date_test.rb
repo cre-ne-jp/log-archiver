@@ -29,6 +29,15 @@ class MessageDateTest < ActiveSupport::TestCase
     @message_date_20170402 = create(:message_date_20170402)
   end
 
+  test 'years で指定したチャンネルのメッセージが存在する年の配列が返る' do
+    prepare_message_dates
+
+    channel = @message_date.channel
+    years = MessageDate.years(channel)
+
+    assert_equal([2015, 2016, 2017], years)
+  end
+
   test 'year_month_list で指定したチャンネルのメッセージが存在する年月の配列が返る' do
     prepare_message_dates
 
