@@ -1,6 +1,10 @@
 class Channels::DaysController < ApplicationController
   def index
-    @channel = Channel.friendly.find(params[:id])
+    target_channels, @other_channels = Channel.
+      order_for_list.
+      partition { |channel| channel.identifier == params[:id] }
+    @channel = target_channels.first
+
     @year = params[:year].to_i
     @month = params[:month].to_i
 
@@ -27,6 +31,13 @@ class Channels::DaysController < ApplicationController
       group('DATE(timestamp)').
       order(:timestamp).
       count
+
+    year_month_list = MessageDate.year_month_list(@channel)
+    @years = year_month_list.
+      map { |year, _| year }.
+      uniq
+    @year_months_in_the_year =
+      year_month_list.select { |year, _| year == @year }
   end
 
   def show

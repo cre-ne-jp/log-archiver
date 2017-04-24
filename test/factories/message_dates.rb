@@ -18,5 +18,9 @@ FactoryGirl.define do
     factory :message_date_20170401 do
       date '2017-04-01'
     end
+
+    factory :message_date_20170402 do
+      date '2017-04-02'
+    end
   end
 end

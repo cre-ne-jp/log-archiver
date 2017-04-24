@@ -18,4 +18,29 @@ class MessageDateTest < ActiveSupport::TestCase
     @message_date.date = nil
     refute(@message_date.valid?)
   end
+
+  def prepare_message_dates
+    MessageDate.delete_all
+
+    @message_date_20150123 = create(:message_date_20150123)
+    @message_date_20160816 = create(:message_date)
+    @message_date_20161231 = create(:message_date_20161231)
+    @message_date_20170401 = create(:message_date_20170401)
+    @message_date_20170402 = create(:message_date_20170402)
+  end
+
+  test 'year_month_list で指定したチャンネルのメッセージが存在する年月の配列が返る' do
+    prepare_message_dates
+
+    channel = @message_date.channel
+    year_month_list = MessageDate.year_month_list(channel)
+
+    expected = [
+      [2015, 1],
+      [2016, 8],
+      [2016, 12],
+      [2017, 4]
+    ]
+    assert_equal(expected, year_month_list)
+  end
 end
