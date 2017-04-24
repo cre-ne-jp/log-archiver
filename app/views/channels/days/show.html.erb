@@ -54,16 +54,16 @@
 
             <div class="row">
               <div class="col-xs-6">
-                <p><%= link_to(fa_icon('chevron-left', text: '前日'), channels_day_path(@browse_prev_day.params_for_url.merge(@day_link_params)), class: 'btn btn-primary btn-sm') %></p>
+                <p><%= link_to(fa_icon('chevron-left', text: '前日'), @browse_prev_day.path, class: 'btn btn-primary btn-sm') %></p>
               </div>
               <div class="col-xs-6">
-                <p class="text-right"><%= link_to(fa_icon('chevron-right', text: '翌日'), channels_day_path(@browse_next_day.params_for_url.merge(@day_link_params)), class: 'btn btn-primary btn-sm') %></p>
+                <p class="text-right"><%= link_to(fa_icon('chevron-right', text: '翌日'), @browse_next_day.path, class: 'btn btn-primary btn-sm') %></p>
               </div>
             </div>
 
             <ul class="nav nav-tabs">
-              <li role="presentation" class="<%= nav_tab_class(@list_style == :normal) %>"><%= link_to('通常表示', (@list_style == :normal) ? '#' : channels_day_path(@browse_day.params_for_url)) %></a></li>
-              <li role="presentation" class="<%= nav_tab_class(@list_style == :raw) %>"><%= link_to('生ログ', (@list_style == :raw) ? '#' : channels_day_path(@browse_day.params_for_url.merge(style: :raw))) %></a></li>
+              <li role="presentation" class="<%= nav_tab_class(@list_style == :normal) %>"><%= link_to('通常表示', (@list_style == :normal) ? '#' : @browse_day.path) %></a></li>
+              <li role="presentation" class="<%= nav_tab_class(@list_style == :raw) %>"><%= link_to('生ログ', (@list_style == :raw) ? '#' : @browse_day.path) %></a></li>
             </ul>
 
             <% if @list_style == :raw %>
@@ -78,10 +78,10 @@
 
             <div class="row">
               <div class="col-xs-6">
-                <p><%= link_to(fa_icon('chevron-left', text: '前日'), channels_day_path(@browse_prev_day.params_for_url.merge(@day_link_params)), class: 'btn btn-primary btn-sm') %></p>
+                <p><%= link_to(fa_icon('chevron-left', text: '前日'), @browse_prev_day.path, class: 'btn btn-primary btn-sm') %></p>
               </div>
               <div class="col-xs-6">
-                <p class="text-right"><%= link_to(fa_icon('chevron-right', text: '翌日'), channels_day_path(@browse_next_day.params_for_url.merge(@day_link_params)), class: 'btn btn-primary btn-sm') %></p>
+                <p class="text-right"><%= link_to(fa_icon('chevron-right', text: '翌日'), @browse_next_day.path, class: 'btn btn-primary btn-sm') %></p>
               </div>
             </div>
           </article>
@@ -97,7 +97,7 @@
               <%= date.day %>
             <% else %>
               <% browse_other_day = ChannelBrowse::Day.new(channel: @channel, date: date) %>
-              <%= link_to(date.day, channels_day_path(browse_other_day.params_for_url.merge(@day_link_params))) %>
+              <%= link_to(date.day, browse_other_day.path) %>
             <% end %>
           <% end %>
         </div>
@@ -110,8 +110,8 @@
         <div class="panel-body">
           <ul class="list-unstyled other-channel-list">
             <% @other_channels.each do |channel| %>
-              <% browse_other = ChannelBrowse::Day.new(channel: channel, date: @date) %>
-              <li><%= link_to(channel.name_with_prefix, channels_day_path(browse_other.params_for_url.merge(@day_link_params))) %></li>
+              <% browse_other_channel = ChannelBrowse::Day.new(channel: channel, date: @date) %>
+              <li><%= link_to(channel.name_with_prefix, browse_other_channel.path) %></li>
             <% end %>
           </ul>
         </div>

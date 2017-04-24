@@ -5,7 +5,7 @@ class BrowsesController < ApplicationController
 
     if @channel_browse.valid?
       browse_day = @channel_browse.to_channel_browse_day
-      redirect_to(channels_day_path(browse_day.params_for_url))
+      redirect_to(browse_day.path)
     else
       @invalid_model = :channel_browse
       render 'welcome/index'

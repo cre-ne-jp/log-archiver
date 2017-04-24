@@ -92,6 +92,13 @@ class Channel < ActiveRecord::Base
       }
   end
 
+  # Cinch::Message から該当するチャンネルを検索する
+  # @param [Cinch::Message] m IRC メッセージ
+  # @return [Channel, nil]
+  def self.from_cinch_message(m)
+    find_by(name: m.channel.name[1..-1])
+  end
+
   # 接頭辞付きのチャンネル名を返す
   # @return [String]
   def name_with_prefix
