@@ -1,0 +1,5 @@
+<p>
+  <% if @browse_prev_day %>
+    <%= link_to(fa_icon('chevron-left', text: '前の日'), @browse_prev_day.path, class: 'btn btn-primary btn-sm') %>
+  <% end %>
+</p>

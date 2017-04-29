@@ -1,0 +1,5 @@
+<p class="text-right">
+  <% if @browse_next_day %>
+    <%= link_to(raw("次の日 #{fa_icon('chevron-right')}"), @browse_next_day.path, class: 'btn btn-primary btn-sm') %>
+  <% end %>
+</p>

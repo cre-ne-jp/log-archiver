@@ -1,8 +1,16 @@
 class Channels::DaysController < ApplicationController
   def index
-    @channel = Channel.find_by(identifier: params[:identifier])
+    @channel = Channel.friendly.find(params[:id])
     @year = params[:year].to_i
     @month = params[:month].to_i
+
+    @browse_year = ChannelBrowse::Year.new(channel: @channel, year: @year)
+
+    browse_month = ChannelBrowse::Month.new(channel: @channel,
+                                            year: @year,
+                                            month: @month)
+    @browse_prev_month = browse_month.prev_month
+    @browse_next_month = browse_month.next_month
 
     start_date = Date.new(@year, @month, 1)
     date_range = start_date...(start_date.next_month)
@@ -49,20 +57,20 @@ class Channels::DaysController < ApplicationController
       order(:timestamp, :id).
       to_a
 
-    @list_style = (params[:style] == 'raw') ? :raw : :normal
+    @browse_day_normal = ChannelBrowse::Day.new(
+      channel: @channel, date: @date, style: :normal
+    )
+    @browse_day_raw = ChannelBrowse::Day.new(
+      channel: @channel, date: @date, style: :raw
+    )
 
-    @browse_day = ChannelBrowse::Day.new(
-      channel: @channel, date: @date, style: @list_style
-    )
-    @browse_prev_day = ChannelBrowse::Day.new(
-      channel: @channel, date: @date.prev_day, style: @list_style
-    )
-    @browse_next_day = ChannelBrowse::Day.new(
-      channel: @channel, date: @date.next_day, style: @list_style
-    )
+    @browse_day =
+      (params[:style] == 'raw') ? @browse_day_raw : @browse_day_normal
+    @browse_prev_day = @browse_day.prev_day
+    @browse_next_day = @browse_day.next_day
 
     whole_messages =
-      if @list_style == :raw
+      if @browse_day.is_style_raw?
         HourSeparator.for_day_browse(@date) + messages + @conversation_messages
       else
         messages + @conversation_messages
