@@ -3,7 +3,7 @@
 <%= render('shared/navbar') %>
 <div class="container main-container">
   <div class="row">
-    <div class="col-xs-12">
+    <div class="col-xs-12 col-md-8">
       <div class="main-panel">
         <div class="panel-body">
           <%= render('shared/flash') %>
@@ -15,16 +15,18 @@
             <li class="active"><%= @month %>月</li>
           </ol>
 
-          <div class="page-header">
-            <h1><%= @channel.name_with_prefix %> <%= year_month_str %></h1>
-          </div>
+          <article>
+            <div class="page-header">
+              <h1><%= @channel.name_with_prefix %> <%= year_month_str %></h1>
+            </div>
 
-          <ul>
-            <% @dates.each do |date| %>
-              <% browse_day = ChannelBrowse::Day.new(channel: @channel, date: date) %>
-              <li><%= link_to(date.strftime('%F'), browse_day.path) %>（<%= @speech_count[date] || 0 %> 発言）</li>
-            <% end %>
-          </ul>
+            <ul>
+              <% @dates.each do |date| %>
+                <% browse_day = ChannelBrowse::Day.new(channel: @channel, date: date) %>
+                <li><%= link_to(date.strftime('%F'), browse_day.path) %>（<%= @speech_count[date] || 0 %> 発言）</li>
+              <% end %>
+            </ul>
+          </article>
 
           <% if @browse_prev_month || @browse_next_month %>
             <div class="row">
@@ -44,5 +46,54 @@
         </div>
       </div>
     </div>
+
+    <aside class="col-xs-12 col-md-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h1 class="panel-title"><%= @channel.name_with_prefix %></h1>
+        </div>
+
+        <div class="panel-body">
+          <ul class="list-unstyled year-month-list">
+            <% @years.each do |year| %>
+              <% browse_year = ChannelBrowse::Year.new(channel: @channel, year: year) %>
+
+              <% if year == @year %>
+                <li>
+                  <%= link_to(year, browse_year.path) %>
+                  <ul class="list-unstyled month-list-in-the-year">
+                    <% @year_months_in_the_year.each do |_, month| %>
+                      <% year_month_str_month_list = '%d-%02d' % [@year, month] %>
+                      <% if month == @month %>
+                        <li><strong><%= year_month_str_month_list %></strong></li>
+                      <% else %>
+                        <% browse_month = ChannelBrowse::Month.new(channel: @channel, year: @year, month: month) %>
+                        <li><%= link_to(year_month_str_month_list, browse_month.path) %></li>
+                      <% end %>
+                    <% end %>
+                  </ul>
+                </li>
+              <% else %>
+                <li><%= link_to(year, browse_year.path) %></li>
+              <% end %>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h1 class="panel-title"><%= year_month_str %> の他チャンネル</h1>
+        </div>
+        <div class="panel-body">
+          <ul class="list-unstyled other-channel-list">
+            <% @other_channels.each do |channel| %>
+              <% browse_other_channel = ChannelBrowse::Month.new(channel: channel, year: @year, month: @month) %>
+              <li><%= link_to(channel.name_with_prefix, browse_other_channel.path) %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </aside>
   </div>
 </div>

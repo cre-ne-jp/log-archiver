@@ -172,9 +172,18 @@ aside {
   }
 }
 
-.panel .simple-calendar .table,
-.panel .other-channel-list {
-  margin-bottom: 0;
+.panel {
+  .simple-calendar .table,
+  .channel-list,
+  .other-channel-list,
+  .year-list,
+  .year-month-list {
+    margin-bottom: 0;
+  }
+
+  .month-list-in-the-year > li {
+    margin-left: 1em;
+  }
 }
 
 .simple-calendar {
