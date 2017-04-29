@@ -67,6 +67,10 @@ systemd による制御を行なう場合は [systemd](doc/systemd.md) を参照
 
 単体で起動させることもできますが、Apache や nginx からのリバースプロキシ設定を行なうことをお勧めします。
 
+## 素材
+
+閲覧システムのホームページの背景に「[everyday icons](http://everydayicons.jp/)」（[イナムラシンヤ氏](http://shinyainamura.com/)制作）の素材を利用しています。
+
 ## 連絡先
 
 ご意見・ご要望・バグ報告等は、[irc.cre.jp 系 IRC サーバ群](http://www.cre.ne.jp/services/irc)の IRC チャンネル「#cre」や、[GitHub リポジトリ](https://github.com/cre-ne-jp/log-archiver)上の「[Issues](https://github.com/cre-ne-jp/log-archiver/issues)」・「[Pull Requests](https://github.com/cre-ne-jp/log-archiver/pulls)」にて承っております。お気軽にお寄せください。
