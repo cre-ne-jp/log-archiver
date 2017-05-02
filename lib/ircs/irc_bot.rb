@@ -26,7 +26,7 @@ module LogArchiver
 
       @logger = new_logger(log_level)
       config = load_config(config_id, options[:mode])
-      plugins = load_plugins(%w(ChannelSync SaveLog KickBack LoginNickserv Version UserInterface))
+      plugins = load_plugins(%w(ChannelSync SaveLog KickBack LoginNickserv Version UserInterface Part))
 
       bot = new_bot(config, plugins, log_level)
 
