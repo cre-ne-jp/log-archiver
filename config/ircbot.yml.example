@@ -32,6 +32,19 @@ development:
       # ログ公開URLのホスト名
       # 末尾の / は要りません
       URL: 'https://test.log.cre.ne.jp'
+    Part:
+      # 退出時のメッセージ
+      # （IRCプロトコルにおける）PART コマンドの引数として使われます。
+      PartMessage: ''
+      # コマンドを適用しないチャンネルでコマンドが発言されたときのメッセージ
+      LockedMessage: ''
+      # ログを取得中のチャンネルでコマンドが発言されたときのメッセージ
+      # 取得中のチャンネルでは PartLock に指定されているチャンネルと同様に
+      # コマンドを適用しません。
+      LoggingMessage: ''
+      # 退出コマンドを無条件で使えなくするチャンネル
+      PartLock:
+        - '#irc_test'
 
 test:
 
