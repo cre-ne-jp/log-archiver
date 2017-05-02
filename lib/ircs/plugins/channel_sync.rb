@@ -14,6 +14,13 @@ module LogArchiver
       listen_to(:connect, method: :connect)
       timer(10, method: :kickstart)
 
+      def initialize(*args)
+        super
+
+        config_data = config[:plugin] || {}
+        @part_enable = config_data['PartEnable'] || false
+      end
+
       # 接続時に、必要なチャンネルに JOIN する
       # @param [Cinch::Message] m
       # @return [void]
@@ -34,8 +41,10 @@ module LogArchiver
           join(channel)
         end
 
-        (joinning - logging_enabled).each do |channel|
-          part(channel)
+        if @part_enable
+          (joinning - logging_enabled).each do |channel|
+            part(channel)
+          end
         end
       end
 

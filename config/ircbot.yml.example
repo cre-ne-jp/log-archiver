@@ -20,6 +20,9 @@ development:
       Pass: 'PA$$WORD'
   # プラグインの設定
   Plugins:
+    ChannelSync:
+      # ログ記録が無効なチャンネルから自動的に退出するか
+      PartEnable: off
     LoginNickserv:
       # NickServ の、IRCネットワーク内でのユーザー情報
       NickServ:
