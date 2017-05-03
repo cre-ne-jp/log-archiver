@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
   namespace :channels do
     get ':id/today', to: 'today#show', as: 'today'
+    get ':id/yesterday', to: 'yesterday#show', as: 'yesterday'
     get ':id/:year/:month/:day', to: 'days#show', as: 'day',
       year: /[1-9][0-9]{3}/, month: /0[1-9]|1[0-2]/, day: /0[1-9]|[12][0-9]|3[01]/
     get ':id/:year/:month', to: 'days#index', as: 'days',
