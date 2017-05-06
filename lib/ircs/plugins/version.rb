@@ -13,8 +13,14 @@ module LogArchiver
 
       match(/version/, method: :version)
 
+      def initialize(*)
+        super
+
+        @version =  "IRC Log Archiver #{Application::VERSION} (#{`git show -s --format=%H`.chomp})"
+      end
+
       def version(m)
-        send_and_record(m, "IRC Log Archiver #{Application::VERSION}")
+        send_and_record(m, @version)
       end
     end
   end
