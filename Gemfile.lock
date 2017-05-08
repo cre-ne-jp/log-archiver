@@ -67,6 +67,8 @@ GEM
       momentjs-rails (>= 2.8.1)
     builder (3.2.3)
     byebug (9.0.6)
+    chart-js-rails (0.1.2)
+      railties (> 3.1)
     cinch (2.3.3)
     codeclimate-test-reporter (1.0.8)
       simplecov (<= 0.13)
@@ -294,6 +296,7 @@ DEPENDENCIES
   bootstrap-sass
   bootstrap3-datetimepicker-rails (~> 4.17)
   byebug
+  chart-js-rails
   cinch
   codeclimate-test-reporter (~> 1.0.0)
   coffee-rails (~> 4.1.0)
