@@ -78,6 +78,24 @@
       // 参加・退出の表示・非表示のチェックボックス
       var $showJoinPart = $('#show-join-part');
 
+      // 通常表示タブ
+      var $messageListStyleNormalTab = $('#message-list-style-normal-tab');
+      // 生ログタブ
+      var $messageListStyleRawTab = $('#message-list-style-raw-tab');
+
+      // メッセージ表示スタイルのタブをクリックしたときのハンドラを設定する
+      var setMessageListStyleTabClickHandlers = function () {
+        if (rawLog) {
+          $messageListStyleNormalTab.click(function () {
+            logArchiver.messageListStyle.setNormal();
+          });
+        } else {
+          $messageListStyleRawTab.click(function () {
+            logArchiver.messageListStyle.setRaw();
+          });
+        }
+      };
+
       // メッセージ一覧の表
       var $messageList = $('.message-list');
 
@@ -146,6 +164,8 @@
           updateViews();
         };
       };
+
+      setMessageListStyleTabClickHandlers();
 
       visibilityController
         .addCategory('speeches', $speeches)
