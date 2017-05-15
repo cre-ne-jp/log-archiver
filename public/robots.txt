@@ -1,5 +1,7 @@
 # See http://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
-#
-# To ban all spiders from the entire site uncomment the next two lines:
-# User-agent: *
-# Disallow: /
+
+User-agent: *
+
+# 今日・昨日は内容が常に変動するので許可しない
+Disallow: /channels/*/today
+Disallow: /channels/*/yesterday
