@@ -22,6 +22,7 @@
 //= require ./datetimepicker
 //= require Chart
 //= require log_archiver
+//= require message_list_style
 //= require_tree .
 
 /*global $, logArchiver */
