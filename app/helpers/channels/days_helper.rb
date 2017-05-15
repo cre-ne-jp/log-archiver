@@ -12,11 +12,6 @@ module Channels::DaysHelper
   # @param [Object] cookies Cookies
   # @return [Symbol]
   def message_list_style(cookies)
-    return @message_list_style if @message_list_style
-
-    style = (cookies[:message_list_style] == 'raw') ? :raw : :normal
-    @message_list_style = style
-
-    style
+    (cookies[:message_list_style] == 'raw') ? :raw : :normal
   end
 end
