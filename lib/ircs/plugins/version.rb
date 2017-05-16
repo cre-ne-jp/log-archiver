@@ -16,7 +16,13 @@ module LogArchiver
       def initialize(*)
         super
 
-        @version =  "IRC Log Archiver #{Application::VERSION} (#{`git show -s --format=%H`.chomp})"
+        commit_id = `git show -s --format=%H`.chomp rescue ''
+        @version =
+          if commit_id.empty?
+            "IRC Log Archiver #{Application::VERSION}"
+          else
+            "IRC Log Archiver #{Application::VERSION} (#{`git show -s --format=%H`.chomp})"
+          end
       end
 
       def version(m)
