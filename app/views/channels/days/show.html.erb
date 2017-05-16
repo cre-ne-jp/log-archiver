@@ -75,7 +75,7 @@
                 <%= render(partial: 'raw_message', collection: @sorted_messages, as: :m) %>
               </div>
             <% else %>
-              <%= render('shared/message_list', messages: @sorted_messages, show_channel: false) %>
+              <%= render('shared/message_list', messages: @sorted_messages, show_channel: false, style: :normal) %>
             <% end %>
 
             <div class="alert alert-info no-message-to-show">表示するメッセージがありません。</div>
