@@ -48,7 +48,14 @@ module LogArchiver
 
       OptionParser.new do |opt|
         opt.banner = "使用法: #{opt.program_name} [オプション]"
-        opt.version = Application::VERSION
+
+        commit_id = `git show -s --format=%H`.chomp rescue ''
+        opt.version =
+          if commit_id.empty?
+            Application::VERSION
+          else
+            "#{Application::VERSION} (#{`git show -s --format=%H`.chomp})"
+          end
 
         opt.summary_indent = ' ' * 2
         opt.summary_width = 24
