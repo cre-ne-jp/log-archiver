@@ -102,7 +102,8 @@
             <% if events.empty? %>
               <%= date.day %>
             <% else %>
-              <% browse_other_day = ChannelBrowse::Day.new(channel: @channel, date: date, style: message_list_style(cookies)) %>
+              <% browse_other_day = @browse_day.dup %>
+              <% browse_other_day.date = date %>
               <%= link_to(date.day, browse_other_day.path) %>
             <% end %>
           <% end %>
@@ -116,7 +117,8 @@
         <div class="panel-body">
           <ul class="list-unstyled other-channel-list">
             <% @other_channels.each do |channel| %>
-              <% browse_other_channel = ChannelBrowse::Day.new(channel: channel, date: @date, style: message_list_style(cookies)) %>
+              <% browse_other_channel = @browse_day.dup %>
+              <% browse_other_channel.channel = channel %>
               <li><%= link_to(channel.name_with_prefix, browse_other_channel.path) %></li>
             <% end %>
           </ul>
