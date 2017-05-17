@@ -192,6 +192,7 @@
       var $ctx = $('#speeches-chart');
 
       if ($ctx.length <= 0) {
+        // グラフが存在しなければ何もしない
         return;
       }
 
@@ -254,14 +255,21 @@
         }
       });
 
+      // 棒グラフの棒をクリックしたときの処理
       $ctx.click(function (evt) {
         var activePoints = speechesChart.getElementsAtEvent(evt);
         var clicked;
+        var dayPath;
         var href;
 
         if (activePoints.length > 0) {
           clicked = activePoints[0];
-          href = document.location.pathname + '/' + dates[clicked._index].slice(8);
+
+          // YYYY-mm-ddの9文字目から→dd
+          dayPath = document.location.pathname + '/' + dates[clicked._index].slice(8);
+
+          href = logArchiver.messageListStyle.get() === 'raw' ?
+            (dayPath + '/?style=raw') : dayPath;
           document.location.href = href;
         }
       });
