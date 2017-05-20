@@ -9,6 +9,12 @@ class ChannelsController < ApplicationController
     @channel = Channel.friendly.find(params[:id])
     @channels = Channel.order_for_list
 
+    @latest_topic = Topic.
+      where(channel: @channel).
+      order(timestamp: :desc).
+      limit(1).
+      first
+
     @years = MessageDate.
       uniq.
       where(channel: @channel).

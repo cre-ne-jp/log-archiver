@@ -17,6 +17,16 @@
               <h1><%= @channel.name_with_prefix %></h1>
             </div>
 
+            <% if @latest_topic %>
+              <div class="current-topic well">
+                <h2>トピック</h2>
+                <p><%= raw(linkify(@latest_topic.message)) %></p>
+                <% browse_topic_day = ChannelBrowse::Day.new(channel: @channel, date: @latest_topic.timestamp.to_date) %>
+                <p class="topic-by"><small>[<%= link_to("#{@latest_topic.timestamp.strftime('%F %T') } に #{@latest_topic.nick} が設定", browse_topic_day.path(anchor: @latest_topic.fragment_id)) %></small>]</p>
+              </div>
+            <% end %>
+
+            <h2>年別のログ</h2>
             <ul>
               <% @years.each do |year| %>
                 <% browse_year = ChannelBrowse::Year.new(channel: @channel, year: year) %>

@@ -88,13 +88,27 @@ ul, ol {
   text-align: right;
 }
 
-.search-conditions {
+.current-topic, .search-conditions {
   h2 {
     margin: 0;
     border: 0;
     font-size: $font-size-h4;
   }
+}
 
+.current-topic {
+  h2 {
+    margin-bottom: 0.25em;
+  }
+
+  .topic-by {
+    margin-bottom: 0;
+    text-align: right;
+    color: $gray;
+  }
+}
+
+.search-conditions {
   ul {
     margin-bottom: 0;
   }
