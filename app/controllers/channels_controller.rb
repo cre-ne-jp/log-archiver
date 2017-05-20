@@ -9,6 +9,18 @@ class ChannelsController < ApplicationController
     @channel = Channel.friendly.find(params[:id])
     @channels = Channel.order_for_list
 
+    @browse_today = ChannelBrowse::Day.today(@channel)
+    today_range = (@browse_today.date)...(@browse_today.date.next_day)
+    @todays_speeches_count = ConversationMessage.
+      where(timestamp: today_range).
+      count
+
+    @browse_yesterday = ChannelBrowse::Day.yesterday(@channel)
+    yesterday_range = (@browse_yesterday.date)...(@browse_yesterday.date.next_day)
+    @yesterdays_speeches_count = ConversationMessage.
+      where(timestamp: yesterday_range).
+      count
+
     @latest_topic = Topic.
       where(channel: @channel).
       order(timestamp: :desc).

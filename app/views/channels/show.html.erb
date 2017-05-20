@@ -26,6 +26,11 @@
               </div>
             <% end %>
 
+            <p>
+              <%= link_to("今日のログ（#{@todays_speeches_count} 発言）", @browse_today.path, class: 'btn btn-sm btn-success') %>
+              <%= link_to("昨日のログ（#{@yesterdays_speeches_count} 発言）", @browse_yesterday.path, class: 'btn btn-sm btn-default') %>
+            </p>
+
             <% unless @latest_speeches.empty? %>
               <h2>最新の発言</h2>
               <%= render('shared/message_with_datetime_list', messages: @latest_speeches, show_channel: false) %>
