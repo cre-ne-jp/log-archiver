@@ -114,6 +114,29 @@ ul, ol {
   }
 }
 
+.channel-today-yesterday-buttons {
+  // @media 内で @extend は使えないので、やむを得ずbootstrapからコピー
+
+  @media (max-width: $screen-xs-max) {
+    .btn-responsible {
+      display: block;
+      width: 100%;
+    }
+
+    // Vertically space out multiple block buttons
+    .btn-responsible + .btn-responsible {
+      margin-top: 10px;
+    }
+  }
+
+  @media (min-width: $screen-sm-min) {
+    .btn-responsible {
+      // line-height: ensure proper height of button next to small input
+      @include button-size($padding-small-vertical, $padding-small-horizontal, $font-size-small, $line-height-small, $btn-border-radius-small);
+    }
+  }
+}
+
 table.day-summary {
   background-color: transparent;
 

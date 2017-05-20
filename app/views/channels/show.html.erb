@@ -26,9 +26,9 @@
               </div>
             <% end %>
 
-            <p>
-              <%= link_to("今日のログ（#{@todays_speeches_count} 発言）", @browse_today.path, class: 'btn btn-sm btn-success') %>
-              <%= link_to("昨日のログ（#{@yesterdays_speeches_count} 発言）", @browse_yesterday.path, class: 'btn btn-sm btn-default') %>
+            <p class="channel-today-yesterday-buttons">
+              <%= link_to("今日のログ（#{@todays_speeches_count} 発言）", @browse_today.path, class: 'btn btn-responsible btn-success') %>
+              <%= link_to("昨日のログ（#{@yesterdays_speeches_count} 発言）", @browse_yesterday.path, class: 'btn btn-responsible btn-default') %>
             </p>
 
             <% unless @latest_speeches.empty? %>
