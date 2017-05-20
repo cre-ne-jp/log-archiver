@@ -15,6 +15,12 @@ class ChannelsController < ApplicationController
       limit(1).
       first
 
+    @latest_speeches = ConversationMessage.
+      where(channel: @channel).
+      order(timestamp: :desc).
+      limit(3).
+      reverse
+
     @years = MessageDate.
       uniq.
       where(channel: @channel).

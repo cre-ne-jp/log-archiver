@@ -26,6 +26,11 @@
               </div>
             <% end %>
 
+            <% unless @latest_speeches.empty? %>
+              <h2>最新の発言</h2>
+              <%= render('shared/message_with_datetime_list', messages: @latest_speeches, show_channel: false) %>
+            <% end %>
+
             <h2>年別のログ</h2>
             <ul>
               <% @years.each do |year| %>

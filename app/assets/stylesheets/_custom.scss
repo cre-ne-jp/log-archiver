@@ -139,6 +139,10 @@ table.user-info, table.channel-info {
   width: 5em;
 }
 
+.message-datetime {
+  width: 6.5em;
+}
+
 table {
   .odd {
     background-color: $table-bg-accent;
