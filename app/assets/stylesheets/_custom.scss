@@ -110,6 +110,22 @@ table.day-summary {
   }
 }
 
+.message-visibility {
+  th {
+    vertical-align: top;
+  }
+
+  @media (max-width: $screen-xs-max) {
+    .radio-inline, .checkbox-inline {
+      display: block;
+    }
+
+    .radio-inline + .radio-inline, .checkbox-inline + .checkbox-inline {
+      margin-left: 0;
+    }
+  }
+}
+
 table.user-info, table.channel-info {
   td {
     text-align: right;
