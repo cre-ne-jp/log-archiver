@@ -5,6 +5,7 @@ class BrowsesController < ApplicationController
 
     if @channel_browse.valid?
       browse_day = @channel_browse.to_channel_browse_day
+      browse_day.style = self.class.helpers.message_list_style(cookies)
       redirect_to(browse_day.path)
     else
       @invalid_model = :channel_browse

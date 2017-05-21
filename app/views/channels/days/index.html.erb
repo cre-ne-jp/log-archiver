@@ -22,7 +22,7 @@
 
             <ul id="date-list" class="date-list">
               <% @dates.each do |date| %>
-                <% browse_day = ChannelBrowse::Day.new(channel: @channel, date: date) %>
+                <% browse_day = ChannelBrowse::Day.new(channel: @channel, date: date, style: message_list_style(cookies)) %>
                 <% num_of_speeches = @speech_count[date] || 0 %>
                 <li data-date="<%= date.strftime('%F') %>" data-day="<%= date.day %>" data-num-of-speeches="<%= num_of_speeches %>"><%= link_to(date.strftime('%F'), browse_day.path) %>（<%= num_of_speeches %> 発言）</li>
               <% end %>

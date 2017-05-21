@@ -57,7 +57,9 @@ module ApplicationHelper
     last_speech = channel.last_speech
     if last_speech
       browse_day = ChannelBrowse::Day.new(
-        channel: channel, date: last_speech.timestamp.to_date
+        channel: channel,
+        date: last_speech.timestamp.to_date,
+        style: message_list_style(cookies)
       )
 
       link_to(last_speech.timestamp.strftime('%F %T'),

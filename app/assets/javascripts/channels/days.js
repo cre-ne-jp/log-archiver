@@ -78,6 +78,24 @@
       // 参加・退出の表示・非表示のチェックボックス
       var $showJoinPart = $('#show-join-part');
 
+      // 通常表示タブ
+      var $messageListStyleNormalTab = $('#message-list-style-normal-tab');
+      // 生ログタブ
+      var $messageListStyleRawTab = $('#message-list-style-raw-tab');
+
+      // メッセージ表示スタイルのタブをクリックしたときのハンドラを設定する
+      var setMessageListStyleTabClickHandlers = function () {
+        if (rawLog) {
+          $messageListStyleNormalTab.click(function () {
+            logArchiver.messageListStyle.setNormal();
+          });
+        } else {
+          $messageListStyleRawTab.click(function () {
+            logArchiver.messageListStyle.setRaw();
+          });
+        }
+      };
+
       // メッセージ一覧の表
       var $messageList = $('.message-list');
 
@@ -147,6 +165,8 @@
         };
       };
 
+      setMessageListStyleTabClickHandlers();
+
       visibilityController
         .addCategory('speeches', $speeches)
         .addCategory('nicks', $nicks)
@@ -172,6 +192,7 @@
       var $ctx = $('#speeches-chart');
 
       if ($ctx.length <= 0) {
+        // グラフが存在しなければ何もしない
         return;
       }
 
@@ -234,14 +255,21 @@
         }
       });
 
+      // 棒グラフの棒をクリックしたときの処理
       $ctx.click(function (evt) {
         var activePoints = speechesChart.getElementsAtEvent(evt);
         var clicked;
+        var dayPath;
         var href;
 
         if (activePoints.length > 0) {
           clicked = activePoints[0];
-          href = document.location.pathname + '/' + dates[clicked._index].slice(8);
+
+          // YYYY-mm-ddの9文字目から→dd
+          dayPath = document.location.pathname + '/' + dates[clicked._index].slice(8);
+
+          href = logArchiver.messageListStyle.get() === 'raw' ?
+            (dayPath + '/?style=raw') : dayPath;
           document.location.href = href;
         }
       });

@@ -15,12 +15,14 @@
 //= require jquery-ui/widgets/sortable
 //= require jquery-ui/effects/effect-highlight
 //= require bootstrap-sprockets
+//= require js.cookie
 //= require moment
 //= require moment/ja
 //= require bootstrap-datetimepicker
 //= require ./datetimepicker
 //= require Chart
 //= require log_archiver
+//= require message_list_style
 //= require_tree .
 
 /*global $, logArchiver */

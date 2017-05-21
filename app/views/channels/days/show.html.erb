@@ -66,8 +66,8 @@
             <% end %>
 
             <ul class="nav nav-tabs">
-              <li role="presentation" class="<%= nav_tab_class(@browse_day.is_style_normal?) %>"><%= link_to('通常表示', @browse_day.is_style_normal? ? '#' : @browse_day_normal.path) %></a></li>
-              <li role="presentation" class="<%= nav_tab_class(@browse_day.is_style_raw?) %>"><%= link_to('生ログ', @browse_day.is_style_raw? ? '#' : @browse_day_raw.path) %></a></li>
+              <li role="presentation" id="message-list-style-normal-tab" class="<%= nav_tab_class(@browse_day.is_style_normal?) %>"><%= link_to('通常表示', @browse_day.is_style_normal? ? '#' : @browse_day_normal.path) %></a></li>
+              <li role="presentation" id="message-list-style-raw-tab" class="<%= nav_tab_class(@browse_day.is_style_raw?) %>"><%= link_to('生ログ', @browse_day.is_style_raw? ? '#' : @browse_day_raw.path) %></a></li>
             </ul>
 
             <% if @browse_day.is_style_raw? %>
@@ -75,7 +75,7 @@
                 <%= render(partial: 'raw_message', collection: @sorted_messages, as: :m) %>
               </div>
             <% else %>
-              <%= render('shared/message_list', messages: @sorted_messages, show_channel: false) %>
+              <%= render('shared/message_list', messages: @sorted_messages, show_channel: false, style: :normal) %>
             <% end %>
 
             <div class="alert alert-info no-message-to-show">表示するメッセージがありません。</div>
@@ -102,7 +102,8 @@
             <% if events.empty? %>
               <%= date.day %>
             <% else %>
-              <% browse_other_day = ChannelBrowse::Day.new(channel: @channel, date: date) %>
+              <% browse_other_day = @browse_day.dup %>
+              <% browse_other_day.date = date %>
               <%= link_to(date.day, browse_other_day.path) %>
             <% end %>
           <% end %>
@@ -116,7 +117,8 @@
         <div class="panel-body">
           <ul class="list-unstyled other-channel-list">
             <% @other_channels.each do |channel| %>
-              <% browse_other_channel = ChannelBrowse::Day.new(channel: channel, date: @date) %>
+              <% browse_other_channel = @browse_day.dup %>
+              <% browse_other_channel.channel = channel %>
               <li><%= link_to(channel.name_with_prefix, browse_other_channel.path) %></li>
             <% end %>
           </ul>
