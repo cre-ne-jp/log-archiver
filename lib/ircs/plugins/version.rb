@@ -16,7 +16,7 @@ module LogArchiver
       def initialize(*)
         super
 
-        @version = Application.version_and_commit_id
+        @version = "IRC Log Archiver #{Application.version_and_commit_id}"
       end
 
       def version(m)
