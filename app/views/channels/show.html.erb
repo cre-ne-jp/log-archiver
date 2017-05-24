@@ -17,6 +17,26 @@
               <h1><%= @channel.name_with_prefix %></h1>
             </div>
 
+            <% if @latest_topic %>
+              <div class="current-topic well">
+                <h2>トピック</h2>
+                <p><%= raw(linkify(@latest_topic.message)) %></p>
+                <% browse_topic_day = ChannelBrowse::Day.new(channel: @channel, date: @latest_topic.timestamp.to_date) %>
+                <p class="topic-by"><small>[<%= link_to("#{@latest_topic.timestamp.strftime('%F %T') } に #{@latest_topic.nick} が設定", browse_topic_day.path(anchor: @latest_topic.fragment_id)) %></small>]</p>
+              </div>
+            <% end %>
+
+            <p class="channel-today-yesterday-buttons">
+              <%= link_to("今日のログ（#{@todays_speeches_count} 発言）", @browse_today.path, class: 'btn btn-responsible btn-success') %>
+              <%= link_to("昨日のログ（#{@yesterdays_speeches_count} 発言）", @browse_yesterday.path, class: 'btn btn-responsible btn-default') %>
+            </p>
+
+            <% unless @latest_speeches.empty? %>
+              <h2>最新の発言</h2>
+              <%= render('shared/message_with_datetime_list', messages: @latest_speeches, show_channel: false) %>
+            <% end %>
+
+            <h2>年別のログ</h2>
             <ul>
               <% @years.each do |year| %>
                 <% browse_year = ChannelBrowse::Year.new(channel: @channel, year: year) %>

@@ -88,15 +88,52 @@ ul, ol {
   text-align: right;
 }
 
-.search-conditions {
+.current-topic, .search-conditions {
   h2 {
     margin: 0;
     border: 0;
     font-size: $font-size-h4;
   }
+}
 
+.current-topic {
+  h2 {
+    margin-bottom: 0.25em;
+  }
+
+  .topic-by {
+    margin-bottom: 0;
+    text-align: right;
+    color: $gray;
+  }
+}
+
+.search-conditions {
   ul {
     margin-bottom: 0;
+  }
+}
+
+.channel-today-yesterday-buttons {
+  // @media 内で @extend は使えないので、やむを得ずbootstrapからコピー
+
+  @media (max-width: $screen-xs-max) {
+    .btn-responsible {
+      display: block;
+      width: 100%;
+    }
+
+    // Vertically space out multiple block buttons
+    .btn-responsible + .btn-responsible {
+      margin-top: 10px;
+    }
+  }
+
+  @media (min-width: $screen-sm-min) {
+    .btn-responsible {
+      // line-height: ensure proper height of button next to small input
+      @include button-size($padding-small-vertical, $padding-small-horizontal, $font-size-small, $line-height-small, $btn-border-radius-small);
+    }
   }
 }
 
@@ -139,6 +176,10 @@ table.user-info, table.channel-info {
 
 .message-time {
   width: 5em;
+}
+
+.message-datetime {
+  width: 6.5em;
 }
 
 table {
