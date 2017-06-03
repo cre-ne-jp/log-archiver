@@ -1,34 +1,24 @@
-## GitLab
-##
-## Modified from nginx http version
-## Lines starting with two hashes (##) are comments with information.
-## Lines starting with one hash (#) are configuration parameters that can be uncommented.
-##
-###################################
-##         configuration         ##
-###################################
-##
+# vim: filetype=nginx
 
 upstream log-archiver {
   #server unix:/home/log-archiver/log-archiver/tmp/sockets/unicorn.sock fail_timeout=0;
   server 127.0.0.1:8081;
 }
 
-map $http_upgrade $connection_upgrade_log-archiver_ssl {
+map $http_upgrade $connection_upgrade_log-archiver {
     default upgrade;
     ''      close;
 }
 
 ## Redirects all HTTP traffic to the HTTPS host
 server {
-  ## Either remove "default_server" from the listen line below,
-  ## or delete the /etc/nginx/sites-enabled/default file. This will cause log-archiver
-  ## to be served if you visit any address that your server responds to, eg.
-  ## the ip address of the server (http://x.x.x.x/)
-  listen 0.0.0.0:80;
-  listen [::]:80 ipv6only=on default_server;
-  server_name YOUR_SERVER_FQDN; ## Replace this with something like log-archiver.example.com
-  server_tokens off; ## Don't show the nginx version number, a security best practice
+  listen 80;
+  listen [::]:80 ipv6only=on;
+  server_name YOUR_SERVER_FQDN;
+
+  ## Don't show the nginx version number, a security best practice
+  server_tokens off;
+
   return 301 https://$http_host$request_uri;
   access_log  /var/log/nginx/log-archiver_access.log;
   error_log   /var/log/nginx/log-archiver_error.log;
@@ -36,10 +26,12 @@ server {
 
 ## HTTPS host
 server {
-  listen 0.0.0.0:443 ssl;
-  listen [::]:443 ipv6only=on ssl default_server;
-  server_name YOUR_SERVER_FQDN; ## Replace this with something like log-archiver.example.com
-  server_tokens off; ## Don't show the nginx version number, a security best practice
+  listen 443 ssl;
+  listen [::]:443 ipv6only=on ssl http2;
+  server_name YOUR_SERVER_FQDN;
+
+  ## Don't show the nginx version number, a security best practice
+  server_tokens off;
 
   ## Strong SSL Security
   ## https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html & https://cipherli.st/
