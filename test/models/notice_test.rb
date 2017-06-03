@@ -11,12 +11,15 @@ class NoticeTest < ActiveSupport::TestCase
 
   test 'message は必須' do
     @notice.message = nil
-    refute(@notice.valid?)
+    refute(@notice.valid?, 'nilは無効')
+
+    @notice.message = ''
+    refute(@notice.valid?, '空文字列は無効')
   end
 
-  test 'message は空白のみではならない' do
-    @notice.message = ' ' * 10
-    refute(@notice.valid?)
+  test 'message は空白のみでもよい' do
+    @notice.message = ' 　' * 10
+    assert(@notice.valid?)
   end
 
   test 'Tiarra のログ形式が正しい' do
