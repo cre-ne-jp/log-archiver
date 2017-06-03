@@ -19,6 +19,8 @@ module LogArchiver
       match(%r(url ((?:19|20)\d{2}[-/][01]\d[-/][0-3]\d)), method: :url_date)
       # 記録しているかどうかの状態を返す
       match(/status/, method: :status)
+      # サイト名と説明を返す
+      match(/site desc/, method: :site_description)
 
       def initialize(*)
         super
@@ -92,6 +94,14 @@ module LogArchiver
           end
 
         send_and_record(m, message)
+      end
+
+      # サイト説明を返す
+      # @param [Cinch::Message] m
+      # @return [void]
+      def site_desc(m)
+        header = ui_header('desc')
+        send_and_record(m, header + Setting.first.text_on_homepage)
       end
 
       private
