@@ -1,5 +1,5 @@
 class Notice < ConversationMessage
-  validates :message, presence: true
+  validates :message, length: { minimum: 1 }
 
   # Tiarra のログ形式の文字列を返す
   # @return [String]

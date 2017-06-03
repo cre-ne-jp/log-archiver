@@ -11,12 +11,15 @@ class PrivmsgTest < ActiveSupport::TestCase
 
   test 'message は必須' do
     @privmsg.message = nil
-    refute(@privmsg.valid?)
+    refute(@privmsg.valid?, 'nilは無効')
+
+    @privmsg.message = ''
+    refute(@privmsg.valid?, '空文字列は無効')
   end
 
-  test 'message は空白のみではならない' do
-    @privmsg.message = ' ' * 10
-    refute(@privmsg.valid?)
+  test 'message は空白のみでもよい' do
+    @privmsg.message = ' 　' * 10
+    assert(@privmsg.valid?)
   end
 
   test 'Tiarra のログ形式が正しい' do
