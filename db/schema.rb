@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170408163604) do
+ActiveRecord::Schema.define(version: 20170617130524) do
 
   create_table "channel_last_speeches", force: :cascade, options: "ENGINE=Mroonga DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
     t.integer  "channel_id",              limit: 4
@@ -37,13 +37,13 @@ ActiveRecord::Schema.define(version: 20170408163604) do
 
   create_table "conversation_messages", force: :cascade, options: "ENGINE=Mroonga DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
     t.integer  "channel_id",  limit: 4
-    t.integer  "irc_user_id", limit: 4
     t.datetime "timestamp",                              null: false
     t.string   "nick",        limit: 64,    default: "", null: false
     t.text     "message",     limit: 65535
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
     t.string   "type",        limit: 255
+    t.integer  "irc_user_id", limit: 4,     default: 0,  null: false
   end
 
   add_index "conversation_messages", ["channel_id", "timestamp"], name: "index_conversation_messages_on_channel_id_and_timestamp", using: :btree
