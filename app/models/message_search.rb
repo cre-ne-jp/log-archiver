@@ -133,7 +133,7 @@ class MessageSearch
   def set_attributes_with_result_page_params(params)
     self.query = params['q']
     self.nick = params['nick']
-    self.channels = params['channels'].split(' ')
+    self.channels = params['channels']&.split(' ') || []
     self.since = params['since']
     self.until = params['until']
     self.page = params['page']
