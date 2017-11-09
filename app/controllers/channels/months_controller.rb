@@ -1,4 +1,6 @@
 class Channels::MonthsController < ApplicationController
+  include NavLinkSettable
+
   def index
     target_channels, @other_channels = Channel.
       order_for_list.
@@ -10,6 +12,9 @@ class Channels::MonthsController < ApplicationController
     browse_year = ChannelBrowse::Year.new(channel: @channel, year: @year)
     @browse_prev_year = browse_year.prev_year
     @browse_next_year = browse_year.next_year
+
+    set_prev_link!(@browse_prev_year)
+    set_next_link!(@browse_next_year)
 
     start_date = Date.new(@year, 1, 1)
     @month_count = MessageDate.

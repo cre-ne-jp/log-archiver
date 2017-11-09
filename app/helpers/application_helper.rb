@@ -6,6 +6,7 @@ module ApplicationHelper
   end
 
   # 既定の meta タグの内容を返す
+  # @return [Hash]
   def default_meta_tags
     {
       site: site_title,
