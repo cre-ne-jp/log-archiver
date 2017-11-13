@@ -3,29 +3,44 @@ module NavLinkSettable
   extend ActiveSupport::Concern
 
   # 前のページへのリンクのメタ情報を設定する
-  # @param [#path] browse_prev 前のページの閲覧
+  # @param [String, #path] href 前のページ
+  # @return [void]
   #
-  # browse_prev が偽の場合は何もしない。
-  def set_prev_link!(browse_prev)
-    set_nav_link!(:prev, browse_prev)
+  # href が偽の場合は何もしない。
+  def set_prev_link!(href)
+    set_nav_link!(:prev, href)
   end
 
   # 次のページへのリンクのメタ情報を設定する
-  # @param [#path] browse_next 次のページの閲覧
+  # @param [String, #path] href 次のページ
+  # @return [void]
   #
-  # browse_next が偽の場合は何もしない。
-  def set_next_link!(browse_next)
-    set_nav_link!(:next, browse_next)
+  # href が偽の場合は何もしない。
+  def set_next_link!(href)
+    set_nav_link!(:next, href)
   end
 
   private
 
   # リンクのメタ情報を設定する
   # @param [Symbol] type リンクの種類
-  # @param [#path] browse ページの閲覧
+  # @param [String, #path] href リンク先
+  # @return [void]
   #
-  # browse 偽の場合は何もしない。
-  def set_nav_link!(type, browse)
-    set_meta_tags(type => browse.path) if browse
+  # href が偽の場合は何もしない。
+  def set_nav_link!(type, href)
+    return unless href
+
+    path =
+      case href
+      when String
+        href
+      when ->x { x.respond_to?(:path) }
+        href.path
+      else
+        raise ArgumentError, "could not linkify: #{href}"
+      end
+
+    set_meta_tags(type => path)
   end
 end

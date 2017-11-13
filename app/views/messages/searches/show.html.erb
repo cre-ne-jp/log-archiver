@@ -33,11 +33,11 @@
             </ul>
           </div>
 
-          <p><%= page_entries_info(@result.messages) %></p>
+          <p><%= page_entries_info(@messages) %></p>
 
           <%= render(partial: 'message_group', collection: @result.message_groups.to_a) %>
 
-          <%= paginate(@result.messages, outer_window: 2) %>
+          <%= paginate(@messages, outer_window: 2) %>
         </div>
       </div>
     </div>
