@@ -26,3 +26,4 @@ sudo rm -rf /var/{lib,log}/mysql
 
 # Mroongaをインストールする
 sudo apt-get install -y -V mysql-server-mroonga
+sudo apt-get install -y -V libmysqlclient-dev
