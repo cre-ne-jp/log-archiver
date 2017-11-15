@@ -3,7 +3,7 @@
 <tr class="message message-type-<%= m.type.downcase %>">
   <td class="message-time"><%= link_to(m.timestamp.strftime('%T'), browse_day.path(anchor: anchor), id: anchor) %></td>
   <% if show_channel %>
-    <td class="message-channel"><%= link_to(m.channel.name_with_prefix, channels_path(m.channel)) %></td>
+    <td class="message-channel"><%= link_to(m.channel.name_with_prefix, m.channel) %></td>
   <% end %>
   <% case m %>
   <% when Join %>
