@@ -1,10 +1,12 @@
 language: ruby
 cache: bundler
 rvm:
-  - 2.3.3
+  # テストで使用するRubyのバージョンを指定する
+  # 最新版とそのひとつ前のバージョンで試す
   - 2.3.4
-  - 2.4.0
+  - 2.3.5
   - 2.4.1
+  - 2.4.2
 services:
   - mysql
 sudo: required
@@ -12,8 +14,7 @@ env:
   global:
     - TZ=Asia/Tokyo
 before_install:
-  - curl --silent --location https://github.com/groonga/groonga/raw/master/data/travis/setup.sh | sh
-  - sudo apt-get install -y -V mysql-server-mroonga
+  - ./install-mroonga-on-travis-ci.sh
 before_script:
   - cp config/database.yml.travis config/database.yml
   - mysql -u root -e 'SET GLOBAL innodb_file_format = Barracuda'
