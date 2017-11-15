@@ -1,4 +1,6 @@
 class Channels::DaysController < ApplicationController
+  include NavLinkSettable
+
   def index
     target_channels, @other_channels = Channel.
       order_for_list.
@@ -15,6 +17,9 @@ class Channels::DaysController < ApplicationController
                                             month: @month)
     @browse_prev_month = browse_month.prev_month
     @browse_next_month = browse_month.next_month
+
+    set_prev_link!(@browse_prev_month)
+    set_next_link!(@browse_next_month)
 
     start_date = Date.new(@year, @month, 1)
     date_range = start_date...(start_date.next_month)
@@ -79,6 +84,9 @@ class Channels::DaysController < ApplicationController
       (params[:style] == 'raw') ? @browse_day_raw : @browse_day_normal
     @browse_prev_day = @browse_day.prev_day
     @browse_next_day = @browse_day.next_day
+
+    set_prev_link!(@browse_prev_day)
+    set_next_link!(@browse_next_day)
 
     whole_messages =
       if @browse_day.is_style_raw?
