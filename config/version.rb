@@ -3,7 +3,7 @@
 module LogArchiver
   class Application
     # Log Archiverのバージョン
-    VERSION = '0.2.0'
+    VERSION = '0.3.0'
 
     # バージョンとコミットIDを表す文字列を返す
     # @return [String]
