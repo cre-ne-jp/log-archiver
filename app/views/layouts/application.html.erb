@@ -16,6 +16,7 @@
     <![endif]-->
   </head>
   <body data-controller="<%= controller.controller_path %>" data-action="<%= controller.action_name %>">
+    <%= render('shared/navbar') %>
 <%= yield %>
   </body>
 </html>
