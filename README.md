@@ -69,7 +69,7 @@ systemd による制御を行なう場合は [systemd](doc/systemd.md) を参照
 
 ## 素材
 
-閲覧システムのホームページの背景に「[everyday icons](http://everydayicons.jp/)」（[イナムラシンヤ氏](http://shinyainamura.com/)制作）の素材を利用しています。
+閲覧システムのホームページの背景に「[The Die](https://www.flickr.com/photos/n0rfin/8029041600/)」（[Zane Mattingly氏](https://www.flickr.com/photos/n0rfin/)制作；[CC BY-NC-SA 2.0](https://creativecommons.org/licenses/by-nc-sa/2.0/deed.ja)）を利用しています。
 
 ## 連絡先
 
@@ -78,7 +78,8 @@ systemd による制御を行なう場合は [systemd](doc/systemd.md) を参照
 ライセンス
 ----------
 
-[MIT License](LICENSE)（[日本語](LICENSE.ja)）
+* [MIT License](LICENSE)（[日本語](LICENSE.ja)）
+* 閲覧システムホームページの背景用として加工された画像（[public/images/the-die-1024-dark.jpg](public/images/the-die-1024-dark.jpg)）については、上記ライセンスを継承した[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja)とします。
 
 制作
 ----
