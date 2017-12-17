@@ -18,7 +18,14 @@ body {
 }
 
 .jumbotron {
-  background-image: image-url('dice2.png');
+  background: black image-url('the-die-1024-dark.jpg') center center no-repeat;
+  color: white;
+  text-shadow: 2px 2px 2px black;
+  box-shadow: 0 0 20px black inset;
+
+  a:link, a:visited {
+    color: lighten($link-color, 10%);
+  }
 }
 
 .text-on-homepage {
