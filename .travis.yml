@@ -16,6 +16,8 @@ env:
     - TZ=Asia/Tokyo
 before_install:
   - ./install-mroonga-on-travis-ci.sh
+  # https://github.com/travis-ci/travis-ci/issues/8978#issuecomment-354036443
+  - gem update --system
 before_script:
   - cp config/database.yml.travis config/database.yml
   - mysql -u root -e 'SET GLOBAL innodb_file_format = Barracuda'
