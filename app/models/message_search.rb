@@ -108,7 +108,7 @@ class MessageSearch
 
   # 指定したハッシュを使って属性を設定する
   # @param [Hash] hash 属性の設定に使うハッシュ
-  # @return [Hash] 指定したハッシュ
+  # @return [void]
   def attributes=(hash)
     self.query = hash['query']
     self.nick = hash['nick']
@@ -116,8 +116,6 @@ class MessageSearch
     self.since = hash['since']
     self.until = hash['until']
     self.page = hash['page']
-
-    hash
   end
 
   # 結果ページ向けの属性のハッシュを返す
