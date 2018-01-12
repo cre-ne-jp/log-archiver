@@ -18,19 +18,25 @@ class MessageSearch
   # @return [String]
   attr_accessor :channels
   # 開始日
+  # @return [Date, nil]
   #
   # 名称はGoogle検索に準拠している。
-  # @return [Date, nil]
-  attr_accessor :since
+  #
+  # セッターでは、Date型に変換できないときはnilになる。
+  attr_reader :since
   # 終了日
+  # @return [Date, nil]
   #
   # 名称はGoogle検索に準拠している。
-  # @return [Date, nil]
-  attr_accessor :until
+  #
+  # セッターでは、Date型に変換できないときはnilになる。
+  attr_reader :until
 
   # ページ番号
   # @return [Integer]
-  attr_accessor :page
+  #
+  # セッターでは、1以上でないときは1になる。
+  attr_reader :page
 
   validates(:query_or_nick, presence: true)
   validates(
