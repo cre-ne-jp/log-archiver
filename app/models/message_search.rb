@@ -143,51 +143,31 @@ class MessageSearch
     self.page = params['page']
   end
 
+  # 検索結果で必要な列
+  MESSAGE_COLUMNS =
+    %i(type id channel_id irc_user_id timestamp nick message).freeze
+
   # 検索結果を返す
   # @return [MessageSearchResult] 検索結果
   # @return [nil] 属性が正しくなかった場合
   def result
     return nil unless valid?
 
-    messages = ConversationMessage.all
-
     channels = @channels.empty? ?
       [] : Channel.where(identifier: @channels)
-    unless channels.empty?
-      messages = messages.where(channel: channels)
-    end
 
-    if @since.present?
-      messages = messages.where('timestamp >= ?', @since)
-    end
-
-    if @until.present?
-      messages = messages.where('timestamp < ?', @until.next_day)
-    end
-
-    if @nick.present?
-      messages = messages.nick_search(@nick)
-    end
-
-    if @query.present?
-      messages = messages.full_text_search(@query)
-    end
-
-    messages = messages.
-      select('DATE(timestamp) AS date',
-             :type,
-             :id,
-             :channel_id,
-             :irc_user_id,
-             :timestamp,
-             :nick,
-             :message).
+    messages = ConversationMessage.
+      filter_by_channels(channels).
+      filter_by_since(@since).
+      filter_by_until(@until).
+      filter_by_nick(@nick).
+      full_text_search(@query).
+      select('DATE(timestamp) AS date', *MESSAGE_COLUMNS).
       order(timestamp: :desc).
       page(@page).
       includes(:channel)
-    message_groups = messages.group_by(&:date)
 
-    MessageSearchResult.new(channels, messages, message_groups)
+    MessageSearchResult.new(channels, messages, messages.group_by(&:date))
   end
 
   private
