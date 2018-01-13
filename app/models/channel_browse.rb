@@ -19,10 +19,12 @@ class ChannelBrowse
   # * specify: 日付指定
   as_enum(:date_type, %i{today yesterday specify}, prefix: :is_date_type)
   # 日付
+  # @return [Date, nil]
   #
   # date_type が :specify のときは必須。
-  # @return [Date, nil]
-  attr_accessor :date
+  #
+  # セッターでは、Date型に変換できないときはnilになる。
+  attr_reader :date
 
   validates(:channel,
             presence: true)
