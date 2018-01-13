@@ -19,10 +19,12 @@ class ChannelBrowse
   # * specify: 日付指定
   as_enum(:date_type, %i{today yesterday specify}, prefix: :is_date_type)
   # 日付
+  # @return [Date, nil]
   #
   # date_type が :specify のときは必須。
-  # @return [Date, nil]
-  attr_accessor :date
+  #
+  # セッターでは、Date型に変換できないときはnilになる。
+  attr_reader :date
 
   validates(:channel,
             presence: true)
@@ -60,13 +62,11 @@ class ChannelBrowse
 
   # 指定したハッシュを使って属性を設定する
   # @param [Hash] hash 属性の設定に使うハッシュ
-  # @return [Hash] 指定したハッシュ
+  # @return [void]
   def attributes=(hash)
     self.channel = hash['channel']
     self.date_type = hash['date_type']
     self.date = hash['date']
-
-    hash
   end
 
   # ChannelBrowse::Day オブジェクトに変換する
