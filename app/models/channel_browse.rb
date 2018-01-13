@@ -62,13 +62,11 @@ class ChannelBrowse
 
   # 指定したハッシュを使って属性を設定する
   # @param [Hash] hash 属性の設定に使うハッシュ
-  # @return [Hash] 指定したハッシュ
+  # @return [void]
   def attributes=(hash)
     self.channel = hash['channel']
     self.date_type = hash['date_type']
     self.date = hash['date']
-
-    hash
   end
 
   # ChannelBrowse::Day オブジェクトに変換する
