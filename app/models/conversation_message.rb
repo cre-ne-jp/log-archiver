@@ -9,13 +9,53 @@ class ConversationMessage < ActiveRecord::Base
     length: { maximum: 64 }
   validates :message, length: { maximum: 512 }
 
-  scope :nick_search, ->(nick) {
-    where('MATCH(nick) AGAINST(? IN BOOLEAN MODE)', "*D+ #{nick}")
-  }
+  # チャンネルで絞り込む
+  scope(
+    :filter_by_channels,
+    ->channels { channels.empty? ? all : where(channel: channels) }
+  )
 
-  scope :full_text_search, ->(query) {
-    where('MATCH(message) AGAINST(? IN BOOLEAN MODE)', "*D+ #{query}")
-  }
+  # 開始日で絞り込む
+  scope(
+    :filter_by_since,
+    ->since { since.present? ? where('timestamp >= ?', since) : all }
+  )
+
+  # 終了日で絞り込む
+  scope(
+    :filter_by_until,
+    lambda { |until_date|
+      if until_date.present?
+        where('timestamp < ?', until_date.next_day)
+      else
+        all
+      end
+    }
+  )
+
+  # ニックネームで絞り込む
+  scope(
+    :filter_by_nick,
+    lambda { |nick|
+      if nick.present?
+        where('MATCH(nick) AGAINST(? IN BOOLEAN MODE)', "*D+ #{nick}")
+      else
+        all
+      end
+    }
+  )
+
+  # 全文検索
+  scope(
+    :full_text_search,
+    lambda { |query|
+      if query.present?
+        where('MATCH(message) AGAINST(? IN BOOLEAN MODE)', "*D+ #{query}")
+      else
+        all
+      end
+    }
+  )
 
   # URLのフラグメント識別子を返す
   # @return [String]
