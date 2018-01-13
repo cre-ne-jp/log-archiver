@@ -36,7 +36,6 @@ $brand-info:            #3498DB !default;
 $brand-warning:         #F39C12 !default;
 $brand-danger:          $deep-orange-700 !default;
 
-
 //== Scaffolding
 //
 //## Settings for some of the most global styles.
@@ -507,6 +506,10 @@ $jumbotron-bg:                   $sky-blue-light !default;
 $jumbotron-heading-color:        inherit !default;
 $jumbotron-font-size:            ceil(($font-size-base * 1.1)) !default;
 $jumbotron-heading-font-size:    ceil(($font-size-base * 2.25)) !default;
+
+// cre追加分
+$jumbotron-link-color           : lighten($brand-warning, 10%);
+$jumbotron-bg-license-text-color: rgba(255, 255, 255, 0.4);
 
 
 //== Form states and alerts

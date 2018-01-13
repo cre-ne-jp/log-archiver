@@ -1,4 +1,3 @@
-<%= render('shared/navbar') %>
 <div class="container main-container">
   <div class="row">
     <div class="col-xs-12 col-md-8 col-md-offset-2">
@@ -12,6 +11,8 @@
             <div class="text-on-homepage">
               <%= markdown(@setting.text_on_homepage) %>
             </div>
+
+            <p class="jumbotron-bg-license"><small><%= link_to(fa_icon('creative-commons'), 'https://creativecommons.org/licenses/by-nc-sa/2.0/deed.ja', title: 'CC BY-NC-SA 2.0') %> &quot;<%= link_to('The Die', 'https://www.flickr.com/photos/n0rfin/8029041600/') %>&quot; by <%= link_to('Zane Mattingly', 'https://www.flickr.com/photos/n0rfin/') %></p>
           </div>
 
           <!-- Navタブ -->
