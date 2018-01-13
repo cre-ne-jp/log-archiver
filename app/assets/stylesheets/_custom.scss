@@ -23,6 +23,10 @@ body {
   text-shadow: 2px 2px 2px black;
   box-shadow: 0 0 20px black inset;
 
+  a:link, a:visited {
+    color: $jumbotron-link-color;
+  }
+
   .jumbotron-bg-license {
     margin-bottom: 0;
     text-align: right;
@@ -38,10 +42,6 @@ body {
 
 .text-on-homepage {
   margin-bottom: 1em;
-
-  a:link, a:visited {
-    color: lighten($link-color, 10%);
-  }
 }
 
 .panel {
