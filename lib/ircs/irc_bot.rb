@@ -30,6 +30,7 @@ module LogArchiver
 
       bot = new_bot(config, plugins, log_level)
 
+      @quit_message = config.irc_bot['QuitMessage']
       set_signal_handler(bot)
       bot.start
 
@@ -200,7 +201,7 @@ module LogArchiver
       %i(SIGINT SIGTERM).each do |signal|
         Signal.trap(signal) do
           Thread.new(signal) do |sig|
-            bot.quit("Caught #{sig}")
+            bot.quit(@quit_message.empty? ? "Caught #{sig}" : @quit_message)
           end
         end
       end
