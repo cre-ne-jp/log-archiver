@@ -92,6 +92,9 @@ group :development, :test do
   gem 'guard'
   gem 'guard-minitest'
 
+  # @see https://railsguides.jp/upgrading_ruby_on_rails.html#%E3%81%84%E3%81%8F%E3%81%A4%E3%81%8B%E3%81%AE%E3%83%98%E3%83%AB%E3%83%91%E3%83%BC%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%82%92-rails-controller-testing-%E3%81%AB%E6%8A%BD%E5%87%BA
+  gem 'rails-controller-testing'
+
   # テスト時の対象オブジェクト作成
   gem 'factory_girl_rails', require: false
 end
