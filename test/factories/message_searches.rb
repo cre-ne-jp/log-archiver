@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :message_search do
     query 'test'
     nick 'someone'

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :channel_browse do
     channel { create(:channel).identifier }
     date_type :specify
