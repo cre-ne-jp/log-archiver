@@ -35,7 +35,7 @@ class UsersControllerTest < ActionController::TestCase
   test 'show: ログインしていない場合、ログインページにリダイレクトされる' do
     logout_user
 
-    get(:show, id: @user.friendly_id)
+    get(:show, params: {id: @user.friendly_id})
 
     assert_redirected_to(:login, 'ログインページにリダイレクトされる')
     refute_nil(flash[:warning], 'warningのflashが表示される')
@@ -44,7 +44,7 @@ class UsersControllerTest < ActionController::TestCase
   test 'show: ログインしている場合、表示される' do
     login_user(@user)
 
-    get(:show, id: @user.friendly_id)
+    get(:show, params: {id: @user.friendly_id})
 
     assert_response(:success)
   end
@@ -52,7 +52,7 @@ class UsersControllerTest < ActionController::TestCase
   test 'edit: ログインしていない場合、ログインページにリダイレクトされる' do
     logout_user
 
-    get(:edit, id: @user.friendly_id)
+    get(:edit, params: {id: @user.friendly_id})
 
     assert_redirected_to(:login, 'ログインページにリダイレクトされる')
     refute_nil(flash[:warning], 'warningのflashが表示される')
@@ -61,7 +61,7 @@ class UsersControllerTest < ActionController::TestCase
   test 'edit: ログインしている場合、表示される' do
     login_user(@user)
 
-    get(:edit, id: @user.friendly_id)
+    get(:edit, params: {id: @user.friendly_id})
 
     assert_response(:success)
   end
@@ -71,10 +71,12 @@ class UsersControllerTest < ActionController::TestCase
 
     post(
       :create,
-      user: {
-        username: 'new_user',
-        password: '12345678',
-        password_confirmation: '12345678'
+      params: {
+        user: {
+          username: 'new_user',
+          password: '12345678',
+          password_confirmation: '12345678'
+        }
       }
     )
 
@@ -87,10 +89,12 @@ class UsersControllerTest < ActionController::TestCase
 
     post(
       :create,
-      user: {
-        username: '',
-        password: '12345678',
-        password_confirmation: '1234567'
+      params: {
+        user: {
+          username: '',
+          password: '12345678',
+          password_confirmation: '1234567'
+        }
       }
     )
 
@@ -101,13 +105,16 @@ class UsersControllerTest < ActionController::TestCase
   test 'update: 更新に成功する' do
     login_user(@user)
 
-    patch(
+    process(
       :update,
-      id: @user.friendly_id,
-      user: {
-        username: 'new_user',
-        password: '12345678',
-        password_confirmation: '12345678'
+      method: :patch,
+      params: {
+        id: @user.friendly_id,
+        user: {
+          username: 'new_user',
+          password: '12345678',
+          password_confirmation: '12345678'
+        }
       }
     )
 
@@ -118,13 +125,16 @@ class UsersControllerTest < ActionController::TestCase
   test 'update: 無効な値の場合は更新に失敗する' do
     login_user(@user)
 
-    patch(
+    process(
       :update,
-      id: @user.friendly_id,
-      user: {
-        username: '',
-        password: '12345678',
-        password_confirmation: '1234567'
+      method: :patch,
+      params: {
+        id: @user.friendly_id,
+        user: {
+          username: '',
+          password: '12345678',
+          password_confirmation: '1234567'
+        }
       }
     )
 
