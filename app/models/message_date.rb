@@ -8,7 +8,7 @@ class MessageDate < ApplicationRecord
   # @return [Array<Integer>]
   def self.years(channel)
     where(channel: channel).
-      uniq.
+      distinct.
       order(:date).
       pluck('YEAR(date)')
   end
@@ -18,7 +18,7 @@ class MessageDate < ApplicationRecord
   # @return [Array<Array<Integer, Integer>>]
   def self.year_month_list(channel)
     where(channel: channel).
-      uniq.
+      distinct.
       order(:date).
       pluck('YEAR(date), MONTH(date)')
   end

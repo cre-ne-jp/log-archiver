@@ -34,7 +34,7 @@ class ChannelsController < ApplicationController
       reverse
 
     @years = MessageDate.
-      uniq.
+      distinct.
       where(channel: @channel).
       pluck('YEAR(date)')
   end
