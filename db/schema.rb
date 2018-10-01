@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 20170617130524) do
 
-  create_table "channel_last_speeches", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
+  create_table "channel_last_speeches", force: :cascade, options: "ENGINE=Mroonga DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
     t.integer  "channel_id"
     t.integer  "conversation_message_id"
     t.datetime "created_at",              null: false
@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 20170617130524) do
     t.index ["conversation_message_id"], name: "index_channel_last_speeches_on_conversation_message_id", using: :btree
   end
 
-  create_table "channels", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
+  create_table "channels", force: :cascade, options: "ENGINE=Mroonga DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
     t.string   "name",            default: "",   null: false
     t.string   "identifier",      default: "",   null: false
     t.boolean  "logging_enabled", default: true, null: false
@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 20170617130524) do
     t.index ["logging_enabled"], name: "index_channels_on_logging_enabled", using: :btree
   end
 
-  create_table "conversation_messages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
+  create_table "conversation_messages", force: :cascade, options: "ENGINE=Mroonga DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
     t.integer  "channel_id"
     t.datetime "timestamp",                              null: false
     t.string   "nick",        limit: 64,    default: "", null: false
@@ -54,7 +54,7 @@ ActiveRecord::Schema.define(version: 20170617130524) do
     t.index ["type"], name: "index_conversation_messages_on_type", using: :btree
   end
 
-  create_table "irc_users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
+  create_table "irc_users", force: :cascade, options: "ENGINE=Mroonga DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
     t.string   "user",       limit: 64, default: "", null: false
     t.string   "host",                  default: "", null: false
     t.datetime "created_at"
