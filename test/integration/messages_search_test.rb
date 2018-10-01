@@ -15,7 +15,9 @@ class MessagesSearchTest < ActionDispatch::IntegrationTest
   test '検索結果が正しく表示される' do
     get(
       messages_search_path,
-      q: 'メッセージ'
+      params: {
+        q: 'メッセージ'
+      }
     )
     assert_response(:success)
 
