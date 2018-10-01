@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :join do
     channel
     irc_user

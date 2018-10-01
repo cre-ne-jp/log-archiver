@@ -93,7 +93,7 @@ group :development, :test do
   gem 'guard-minitest'
 
   # テスト時の対象オブジェクト作成
-  gem 'factory_girl_rails', require: false
+  gem 'factory_bot_rails', require: false
 end
 
 group :test do
