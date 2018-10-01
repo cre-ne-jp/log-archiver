@@ -1,5 +1,5 @@
 # チャンネルごとの最終発言のモデル
-class ChannelLastSpeech < ActiveRecord::Base
+class ChannelLastSpeech < ApplicationRecord
   belongs_to :channel
   belongs_to :conversation_message
 

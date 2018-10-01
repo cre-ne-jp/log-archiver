@@ -1,4 +1,4 @@
-class MessageDate < ActiveRecord::Base
+class MessageDate < ApplicationRecord
   belongs_to :channel
   validates :channel, presence: true
   validates :date, presence: true

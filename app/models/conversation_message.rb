@@ -1,4 +1,4 @@
-class ConversationMessage < ActiveRecord::Base
+class ConversationMessage < ApplicationRecord
   belongs_to :channel
   belongs_to :irc_user
 
