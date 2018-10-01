@@ -1,4 +1,4 @@
-class AddTimestampColumns < ActiveRecord::Migration
+class AddTimestampColumns < ActiveRecord::Migration[4.2]
   def change
     target_tables = %i(channels irc_users message_dates messages)
     target_tables.each do |table_name|

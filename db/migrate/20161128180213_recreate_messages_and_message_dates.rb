@@ -1,4 +1,4 @@
-class RecreateMessagesAndMessageDates < ActiveRecord::Migration
+class RecreateMessagesAndMessageDates < ActiveRecord::Migration[4.2]
   def change
     create_table "message_dates" do |t|
       t.references  "channel"

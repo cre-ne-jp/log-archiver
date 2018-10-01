@@ -1,4 +1,4 @@
-class AddIndicesToConversationMessages < ActiveRecord::Migration
+class AddIndicesToConversationMessages < ActiveRecord::Migration[4.2]
   def change
     remove_index :conversation_messages, column: :nick
 

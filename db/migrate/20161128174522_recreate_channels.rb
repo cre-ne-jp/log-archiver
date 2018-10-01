@@ -1,4 +1,4 @@
-class RecreateChannels < ActiveRecord::Migration
+class RecreateChannels < ActiveRecord::Migration[4.2]
   def change
     drop_table :messages
     drop_table :message_dates
