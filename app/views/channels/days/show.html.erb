@@ -65,8 +65,8 @@
             <% end %>
 
             <ul class="nav nav-tabs">
-              <li role="presentation" id="message-list-style-normal-tab" class="<%= nav_tab_class(@browse_day.is_style_normal?) %>"><%= link_to('通常表示', @browse_day.is_style_normal? ? '#' : @browse_day_normal.path) %></a></li>
-              <li role="presentation" id="message-list-style-raw-tab" class="<%= nav_tab_class(@browse_day.is_style_raw?) %>"><%= link_to('生ログ', @browse_day.is_style_raw? ? '#' : @browse_day_raw.path) %></a></li>
+              <li role="presentation" id="message-list-style-normal-tab" class="<%= nav_tab_class(@browse_day.is_style_normal?) %>"><%= link_to('通常表示', @browse_day.is_style_normal? ? '#' : @browse_day_normal.path) %></li>
+              <li role="presentation" id="message-list-style-raw-tab" class="<%= nav_tab_class(@browse_day.is_style_raw?) %>"><%= link_to('生ログ', @browse_day.is_style_raw? ? '#' : @browse_day_raw.path) %>/li>
             </ul>
 
             <% if @browse_day.is_style_raw? %>
@@ -122,6 +122,7 @@
             <% end %>
           </ul>
         </div>
+      </div>
     </aside>
   </div>
 </div>
