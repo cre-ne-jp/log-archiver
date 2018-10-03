@@ -26,6 +26,8 @@ before_script:
   - mysql -u root -e 'SET GLOBAL innodb_file_per_table = 1'
   - mysql -u root -e 'SET GLOBAL innodb_large_prefix = 1'
   - mysql -e 'CREATE DATABASE IF NOT EXISTS log_archiver_test;'
+  - bundle exec bin/rails db:setup
+script: bundle exec bin/rails test
 after_success:
   - bundle exec codeclimate-test-reporter
 notifications:
