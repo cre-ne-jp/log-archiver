@@ -130,6 +130,10 @@ LoginNickserv:
   LoginServer: 'services.cre.jp'
 ```
 
+IRC ネットワークで利用されている NickServ サービスを設定します。
+
+NickServ はボットのようなインターフェイスを持っているため、どのようなボットか、ニックネーム・ユーザー名・接続元ホスト名と、NickServ が接続している IRC ネットワーク内のサーバ名を指定します。
+
 ### UserInterface
 
 ```
