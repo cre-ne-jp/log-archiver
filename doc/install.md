@@ -69,7 +69,7 @@ vi config/database.yml
 最後に、テーブルを作成します。
 
 ```bash
-bundle exec rake db:migrate RAILS_ENV=production
+bundle exec rake db:setup RAILS_ENV=production
 ```
 
 ## unicorn の設定
