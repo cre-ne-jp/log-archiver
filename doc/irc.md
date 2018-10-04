@@ -89,8 +89,8 @@ Atheme-Services の API のアドレスを指定します。
 
 NickServ のアカウントを指定します。
 
-LogArchiver には IRC に接続して自動的にアカウントを作成する機能はありません。
-予め LogArchiver に名乗らせるニックネームで IRC サーバに接続し、アカウントを作成しておく必要があります。
+log-archiver には IRC に接続して自動的にアカウントを作成する機能はありません。
+予め log-archiver に名乗らせるニックネームで IRC サーバに接続し、アカウントを作成しておく必要があります。
 
 ## Plugins
 

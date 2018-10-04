@@ -96,6 +96,7 @@ vi config/ircbot.yml
 末尾にある `production:` と書かれた行を削除します。
 
 他の各項目について、ご利用の環境に合わせて設定を書き換えてください。
+設定項目について詳しくは [irc.md](./irc.md) をご覧ください。
 
 log-archiver の IRC ボットは、NickServ にログインして動作する必要があります。予め他のクライアントで IRC サーバに接続し、log-archiver 用のアカウントを作成しておいてください。
 
