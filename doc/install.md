@@ -28,6 +28,23 @@ cd log-archiver
 bundle install --deployment --path vendor/bundle
 ```
 
+## log-archiver の設定
+
+ログインセッションを安全に使用するための鍵を作成します。
+
+```bash
+bundle exec rails secrets:setup RAILS_ENV=production
+bundle exec rails secret
+EDITOR=vim bundle exec rails secrets:edit
+```
+
+上記 2 行目で生成した文字列をコピーしておき、3 行目のコマンドで立ち上がったエディタで次を追記します。
+
+```yaml
+production:
+  secret_key_base: <コピーした secret>
+```
+
 ## データベースの設定
 
 チャットログに含まれる絵文字等を正しく扱えるようにするため、MySQL/MariaDB の設定を変更する必要があります。
