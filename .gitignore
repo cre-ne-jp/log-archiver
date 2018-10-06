@@ -20,7 +20,3 @@
 *.swp
 /coverage
 /public/assets
-
-# Ignore encrypted secrets key file.
-config/secrets.yml.key
-config/secrets.yml.enc

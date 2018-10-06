@@ -6,7 +6,7 @@ After=network.target, mariadb.service
 [Service]
 User=log-archiver
 Group=log-archiver
-Environment=RAILS_ENV=production
+EnvironmentFile=/etc/default/log-archiver
 SyslogIdentifier=log-archiver-ircbot
 Type=simple
 PIDFile=/home/log-archiver/log-archiver/tmp/pids/ircbot.pid
