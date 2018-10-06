@@ -172,6 +172,8 @@ module LogArchiver
           c.realname = bot_config['RealName']
           c.channels = bot_config['Channels'] || []
 
+          c.ssl.use = bot_config['SSL']
+
           c.plugins.plugins = plugins
           c.plugins.options = plugin_options
         end

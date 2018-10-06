@@ -37,10 +37,12 @@ gem install bundler
 * zlib-devel
 * mariadb-devel
 
+具体的なインストール手順は [インストール](doc/install.md) を参照してください。
+
 ## 設定
 
+* [インストール](doc/install.md)
 * [IRC の接続設定](doc/irc.md)
-* [データベースの接続設定](doc/database.md)
 * [ウェブサーバの設定](doc/nginx.md)
 
 ## IRC ボットの起動

@@ -10,6 +10,7 @@ development:
     RealName: LogArchiver
     Channels:
       - ''
+    SSL: off
     # QUIT メッセージ。空にすると "Caught <signal>" が設定される
     QuitMessage: 'bye'
   # IRC管理・運営サービス(Atheme-Services) の設定
