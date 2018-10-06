@@ -10,7 +10,7 @@ class MessageDate < ApplicationRecord
     where(channel: channel).
       distinct.
       order(:date).
-      pluck('YEAR(date)')
+      pluck(Arel.sql('YEAR(date)'))
   end
 
   # 指定したチャンネルのメッセージが存在する年月の配列を返す
@@ -20,6 +20,6 @@ class MessageDate < ApplicationRecord
     where(channel: channel).
       distinct.
       order(:date).
-      pluck('YEAR(date), MONTH(date)')
+      pluck(Arel.sql('YEAR(date), MONTH(date)'))
   end
 end

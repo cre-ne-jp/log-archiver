@@ -36,7 +36,7 @@ class ChannelsController < ApplicationController
     @years = MessageDate.
       distinct.
       where(channel: @channel).
-      pluck('YEAR(date)')
+      pluck(Arel.sql('YEAR(date)'))
   end
 
   def new
