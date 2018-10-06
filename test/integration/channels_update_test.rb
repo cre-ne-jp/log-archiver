@@ -18,9 +18,11 @@ class ChannelsUpdateTest < ActionDispatch::IntegrationTest
 
     patch(
       channel_path(@channel),
-      channel: {
-        identifier: 'new_channel',
-        logging_enabled: true
+      params: {
+        channel: {
+          identifier: 'new_channel',
+          logging_enabled: true
+        }
       }
     )
 
@@ -33,9 +35,11 @@ class ChannelsUpdateTest < ActionDispatch::IntegrationTest
 
     patch(
       channel_path(@channel),
-      channel: {
-        identifier: 'new_channel',
-        logging_enabled: true
+      params: {
+        channel: {
+          identifier: 'new_channel',
+          logging_enabled: true
+        }
       }
     )
 
@@ -48,9 +52,11 @@ class ChannelsUpdateTest < ActionDispatch::IntegrationTest
 
     patch(
       channel_path(@channel),
-      channel: {
-        identifier: '',
-        logging_enabled: true
+      params: {
+        channel: {
+          identifier: '',
+          logging_enabled: true
+        }
       }
     )
 

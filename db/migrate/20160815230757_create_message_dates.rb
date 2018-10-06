@@ -1,4 +1,4 @@
-class CreateMessageDates < ActiveRecord::Migration
+class CreateMessageDates < ActiveRecord::Migration[4.2]
   def change
     create_table :message_dates do |t|
       t.references :channel, index: true, foreign_key: true

@@ -1,5 +1,5 @@
 # チャンネルごとの最終発言
-class CreateChannelLastSpeeches < ActiveRecord::Migration
+class CreateChannelLastSpeeches < ActiveRecord::Migration[4.2]
   def change
     create_table :channel_last_speeches, options: 'ENGINE=Mroonga' do |t|
       # チャンネル

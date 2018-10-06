@@ -1,4 +1,4 @@
-class IrcUser < ActiveRecord::Base
+class IrcUser < ApplicationRecord
   has_many :messages
 
   validates :user,

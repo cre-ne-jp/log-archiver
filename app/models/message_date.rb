@@ -1,4 +1,4 @@
-class MessageDate < ActiveRecord::Base
+class MessageDate < ApplicationRecord
   belongs_to :channel
   validates :channel, presence: true
   validates :date, presence: true
@@ -8,7 +8,7 @@ class MessageDate < ActiveRecord::Base
   # @return [Array<Integer>]
   def self.years(channel)
     where(channel: channel).
-      uniq.
+      distinct.
       order(:date).
       pluck('YEAR(date)')
   end
@@ -18,7 +18,7 @@ class MessageDate < ActiveRecord::Base
   # @return [Array<Array<Integer, Integer>>]
   def self.year_month_list(channel)
     where(channel: channel).
-      uniq.
+      distinct.
       order(:date).
       pluck('YEAR(date), MONTH(date)')
   end

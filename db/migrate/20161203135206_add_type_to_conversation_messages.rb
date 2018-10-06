@@ -1,4 +1,4 @@
-class AddTypeToConversationMessages < ActiveRecord::Migration
+class AddTypeToConversationMessages < ActiveRecord::Migration[4.2]
   def up
     remove_column :conversation_messages, :command
     add_column :conversation_messages, :type, :string

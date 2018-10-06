@@ -29,7 +29,7 @@ class Channels::DaysController < ApplicationController
       order(:date).
       pluck(:date)
     @speech_count = ConversationMessage.
-      uniq.
+      distinct.
       where(channel: @channel,
             type: %w(Privmsg Notice),
             timestamp: date_range).
@@ -40,6 +40,7 @@ class Channels::DaysController < ApplicationController
     year_month_list = MessageDate.year_month_list(@channel)
     @years = year_month_list.
       map { |year, _| year }.
+      # mapにより配列が返るため、distinctでなくuniqを使う
       uniq
     @year_months_in_the_year =
       year_month_list.select { |year, _| year == @year }

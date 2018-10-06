@@ -1,4 +1,4 @@
-class AddIndicesToCovnersationMessages < ActiveRecord::Migration
+class AddIndicesToCovnersationMessages < ActiveRecord::Migration[4.2]
   def change
     add_index :conversation_messages, :command
     add_index :conversation_messages, :nick

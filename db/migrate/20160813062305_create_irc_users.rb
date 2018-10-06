@@ -1,4 +1,4 @@
-class CreateIrcUsers < ActiveRecord::Migration
+class CreateIrcUsers < ActiveRecord::Migration[4.2]
   def change
     create_table :irc_users do |t|
       t.string :name, limit: 9, null: false, default: ''

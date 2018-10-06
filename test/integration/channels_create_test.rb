@@ -17,10 +17,12 @@ class ChannelsCreateTest < ActionDispatch::IntegrationTest
 
     post(
       channels_path,
-      channel: {
-        name: '新しいチャンネル',
-        identifier: 'new_channel',
-        logging_enabled: '1'
+      params: {
+        channel: {
+          name: '新しいチャンネル',
+          identifier: 'new_channel',
+          logging_enabled: '1'
+        }
       }
     )
 
@@ -33,10 +35,12 @@ class ChannelsCreateTest < ActionDispatch::IntegrationTest
 
     post(
       channels_path,
-      channel: {
-        name: '新しいチャンネル',
-        identifier: 'new_channel',
-        logging_enabled: '1'
+      params: {
+        channel: {
+          name: '新しいチャンネル',
+          identifier: 'new_channel',
+          logging_enabled: '1'
+        }
       }
     )
 
@@ -49,10 +53,12 @@ class ChannelsCreateTest < ActionDispatch::IntegrationTest
 
     post(
       channels_path,
-      channel: {
-        name: '',
-        identifier: '',
-        logging_enabled: '1'
+      params: {
+        channel: {
+          name: '',
+          identifier: '',
+          logging_enabled: '1'
+        }
       }
     )
 

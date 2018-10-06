@@ -29,11 +29,14 @@ class SettingsControllerTest < ActionController::TestCase
   test 'update: 更新に成功する' do
     login_user(@user)
 
-    patch(
+    process(
       :update,
-      setting: {
-        site_title: '新しいサイト名',
-        text_on_homepage: '新しい文章'
+      method: :patch,
+      params: {
+        setting: {
+          site_title: '新しいサイト名',
+          text_on_homepage: '新しい文章'
+        }
       }
     )
 
@@ -44,12 +47,15 @@ class SettingsControllerTest < ActionController::TestCase
   test 'update: 無効な値の場合は更新に失敗する' do
     login_user(@user)
 
-    patch(
+    process(
       :update,
-      setting: {
-        # 無効なサイト名
-        site_title: '',
-        text_on_homepage: '新しい文章'
+      method: :patch,
+      params: {
+        setting: {
+          # 無効なサイト名
+          site_title: '',
+          text_on_homepage: '新しい文章'
+        }
       }
     )
 

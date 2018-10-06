@@ -18,7 +18,7 @@ class Channels::MonthsController < ApplicationController
 
     start_date = Date.new(@year, 1, 1)
     @month_count = MessageDate.
-      uniq.
+      distinct.
       where(channel: @channel,
             date: start_date...(start_date.next_year)).
       group('MONTH(date)').

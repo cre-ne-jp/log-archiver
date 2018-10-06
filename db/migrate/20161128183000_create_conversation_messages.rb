@@ -1,4 +1,4 @@
-class CreateConversationMessages < ActiveRecord::Migration
+class CreateConversationMessages < ActiveRecord::Migration[4.2]
   def change
     create_table :conversation_messages, options: 'ENGINE=Mroonga' do |t|
       t.references :channel, index: true, foreign_key: true

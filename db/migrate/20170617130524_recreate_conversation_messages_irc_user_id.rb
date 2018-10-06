@@ -1,4 +1,4 @@
-class RecreateConversationMessagesIrcUserId < ActiveRecord::Migration
+class RecreateConversationMessagesIrcUserId < ActiveRecord::Migration[4.2]
   def up
     puts('[irc_user_id の退避]')
     id_irc_user_id_pairs = {}

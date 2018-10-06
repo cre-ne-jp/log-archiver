@@ -26,7 +26,13 @@ end
 
 class ActionDispatch::IntegrationTest
    def login_user(user)
-    post(user_sessions_path, username: user.username, password: 'pa$$word')
+    post(
+      user_sessions_path,
+      params: {
+        username: user.username,
+        password: 'pa$$word'
+      }
+    )
     follow_redirect!
    end
 

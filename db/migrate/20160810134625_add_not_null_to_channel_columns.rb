@@ -1,4 +1,4 @@
-class AddNotNullToChannelColumns < ActiveRecord::Migration
+class AddNotNullToChannelColumns < ActiveRecord::Migration[4.2]
   def change
     change_column_null :channels, :name, false
     change_column_null :channels, :identifier, false

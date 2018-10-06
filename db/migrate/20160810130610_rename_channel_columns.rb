@@ -1,4 +1,4 @@
-class RenameChannelColumns < ActiveRecord::Migration
+class RenameChannelColumns < ActiveRecord::Migration[4.2]
   def up
     rename_column :channels, :original, :name
     rename_column :channels, :alphabet, :identifier
