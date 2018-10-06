@@ -40,7 +40,8 @@ class Channels::DaysController < ApplicationController
     year_month_list = MessageDate.year_month_list(@channel)
     @years = year_month_list.
       map { |year, _| year }.
-      distinct
+      # mapにより配列が返るため、distinctでなくuniqを使う
+      uniq
     @year_months_in_the_year =
       year_month_list.select { |year, _| year == @year }
   end
