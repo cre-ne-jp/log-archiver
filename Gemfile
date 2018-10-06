@@ -50,6 +50,9 @@ gem 'unicorn'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# Reduces boot times through caching; required in config/boot.rb
+gem 'bootsnap', '>= 1.1.0', require: false
+
 # カレンダー
 gem "simple_calendar", "~> 2.0"
 gem 'momentjs-rails', '~> 2.15'
