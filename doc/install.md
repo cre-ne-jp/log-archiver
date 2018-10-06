@@ -5,7 +5,7 @@
 log-archiver は、単独のサーバとして起動します。しかし、直接インターネットからアクセス出来るようにはしないでください(セキュリティ的・パフォーマンス的な問題があります)。
 nginx や Apache などのウェブサーバをリバースプロキシとして用意することを強く勧めます。
 
-log-archiver は、チャットログの保存先として、リレーショナルデータベースシステムとして MySQL もしくは MariaDB と、全文検索エンジン Groonga 、RDBMS プラグインとして Groonga を使用するための Mroonga が必要です。
+log-archiver は、チャットログの保存先として、リレーショナルデータベース管理システムとして MySQL もしくは MariaDB と、全文検索エンジン Groonga 、RDBMS プラグインとして Groonga を使用するための Mroonga が必要です。
 これらのインストールは、[Mroonga 公式サイト](http://mroonga.org/ja/docs/install.html) を参照してください。
 
 log-archiver は Ruby で書かれています。
@@ -30,7 +30,7 @@ bundle install --deployment --path vendor/bundle
 
 ## データベースの設定
 
-全文検索のため、MySQL/MariaDB の設定を変更する必要があります。
+チャットログに含まれる絵文字等を正しく扱えるようにするため、MySQL/MariaDB の設定を変更する必要があります。
 `/etc/my.cnf` や `/etc/my.cnf.d/server` など、ディストリビューションによって書き換えるファイルが違います。
 `[mysqld]` で始まる行があるファイルを開き、その行の直後に以下の設定を追記してください。
 この設定変更は、MySQL/MariaDB を使う他のプログラムにも影響を与えることがあります。
