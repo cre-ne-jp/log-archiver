@@ -13,7 +13,7 @@ PIDFile=/home/log-archiver/log-archiver/tmp/pids/unicorn.pid
 WorkingDirectory=/home/log-archiver/log-archiver
 Restart=always
 
-ExecStart=/usr/bin/bundle exec "unicorn_rails -c config/unicorn.rb -E production"
+ExecStart=/usr/bin/bundle exec "unicorn -c config/unicorn.rb -E production"
 ExecReload=/usr/bin/kill -USR2 $MAINPID
 ExecStop=/usr/bin/kill -QUIT $MAINPID
 
