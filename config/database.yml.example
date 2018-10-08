@@ -57,4 +57,4 @@ production:
   <<: *default
   database: log_archiver_production
   username: log_archiver
-  password: <%= ENV['LOG-ARCHIVER_DATABASE_PASSWORD'] %>
+  password: <%= ENV['LOG_ARCHIVER_DATABASE_PASSWORD'] %>
