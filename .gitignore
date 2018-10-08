@@ -13,6 +13,10 @@
 /config/ircbot.yml
 /config/unicorn.rb
 
+# Ignore yarn and node file.
+/yarn.lock
+/node_modules/
+
 # Ignore all logfiles and tempfiles.
 /log/*
 !/log/.keep
