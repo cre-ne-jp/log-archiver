@@ -12,6 +12,7 @@
 /config/database.yml
 /config/ircbot.yml
 /config/unicorn.rb
+/log-archiver.default
 
 # Ignore yarn and node file.
 /yarn.lock
