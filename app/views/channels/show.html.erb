@@ -43,8 +43,10 @@
               <% end %>
             </ul>
 
-            <h2>マスターサイト</h2>
-            <%= link_to(@channel.canonical_site, @channel.canonical_site) %>
+            <% if @channel.canonical_site? %>
+              <h2>マスターサイト</h2>
+              <%= @channel.canonical_site %>
+            <% end %>
           </article>
         </div>
       </div>

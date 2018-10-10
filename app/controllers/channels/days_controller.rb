@@ -104,9 +104,15 @@ class Channels::DaysController < ApplicationController
     @message_dates = MessageDate.where(channel: @channel)
 
     @canonical_site =
-      @channel.canonical_site == '' ? false : @channel.canonical_site.
-      gsub(':year', @year.to_s).
-      gsub(':month', @month.to_s).
-      gsub(':day', @day.to_s)
+      @channel.canonical_site? ? replace_date_to_canonical_site : false
+  end
+
+  private
+
+  def replace_date_to_canonical_site
+    @channel.canonical_site.
+      gsub(':year', sprintf('%02d', @year)).
+      gsub(':month', sprintf('%02d', @month)).
+      gsub(':day', sprintf('%02d', @day))
   end
 end

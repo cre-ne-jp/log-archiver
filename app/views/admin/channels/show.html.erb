@@ -34,7 +34,7 @@
               </tr>
               <tr>
                 <th scope="row" class="channel-canonical-site">マスターサイト</th>
-                <td class="channel-canonical-site"><%= @channel.canonical_site == '' ? '無効' : @channel.canonical_site %></td>
+                <td class="channel-canonical-site"><%= @channel.canonical_site? ? @channel.canonical_site : '無効' %></td>
             </tbody>
           </table>
 

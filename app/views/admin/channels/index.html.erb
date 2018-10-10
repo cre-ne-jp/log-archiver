@@ -37,7 +37,7 @@
                   <td class="channel-name"><%= link_to(channel.name_with_prefix, admin_channel_path(channel)) %></td>
                   <td class="channel-identifier"><%= channel.identifier %></td>
                   <td class="channel-logging-enabled"><%= channel.logging_enabled? ? fa_icon('check') : '' %></td>
-                  <td class="channel-canonical-site"><%= channel.canonical_site == '' ? '無効' : channel.canonical_site %></td>
+                  <td class="channel-canonical-site"><%= channel.canonical_site? ? channel.canonical_site : '無効' %></td>
                 </tr>
               <% end %>
             </tbody>
