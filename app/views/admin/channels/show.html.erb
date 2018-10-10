@@ -32,6 +32,9 @@
                 <th scope="row" class="channel-logging-enabled">ログ記録中</th>
                 <td class="channel-logging-enabled"><%= @channel.logging_enabled? ? fa_icon('check') : '' %></td>
               </tr>
+              <tr>
+                <th scope="row" class="channel-canonical-site">マスターサイト</th>
+                <td class="channel-canonical-site"><%= @channel.canonical_site == '' ? '無効' : @channel.canonical_site %></td>
             </tbody>
           </table>
 

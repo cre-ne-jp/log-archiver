@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170704121029) do
+ActiveRecord::Schema.define(version: 2018_10_10_040315) do
 
   create_table "channel_last_speeches", force: :cascade, options: "ENGINE=Mroonga DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
     t.integer  "channel_id"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20170704121029) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "row_order"
+    t.string "canonical_site",    default: "",   null: false
     t.index ["identifier"], name: "index_channels_on_identifier", using: :btree
     t.index ["logging_enabled"], name: "index_channels_on_logging_enabled", using: :btree
   end

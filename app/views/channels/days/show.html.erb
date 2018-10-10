@@ -1,6 +1,6 @@
 <% date_str = @date.strftime('%F') %>
 <% title([@channel.name_with_prefix, date_str]) %>
-<% noindex if @browse_day.is_style_raw? %>
+<% noindex if @browse_day.is_style_raw? || @canonical_site %>
 
 <div class="container main-container">
 

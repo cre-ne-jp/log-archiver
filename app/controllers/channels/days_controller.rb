@@ -102,5 +102,11 @@ class Channels::DaysController < ApplicationController
     @sorted_messages = whole_messages.sort_by { |m| [m.timestamp, i += 1] }
 
     @message_dates = MessageDate.where(channel: @channel)
+
+    @canonical_site =
+      @channel.canonical_site == '' ? false : @channel.canonical_site.
+      gsub(':year', @year.to_s).
+      gsub(':month', @month.to_s).
+      gsub(':day', @day.to_s)
   end
 end

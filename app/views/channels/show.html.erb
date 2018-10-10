@@ -42,6 +42,9 @@
                 <li><%= link_to("#{year}年", browse_year.path) %></li>
               <% end %>
             </ul>
+
+            <h2>マスターサイト</h2>
+            <%= link_to(@channel.canonical_site, @channel.canonical_site) %>
           </article>
         </div>
       </div>
