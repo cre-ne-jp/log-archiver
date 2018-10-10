@@ -21,7 +21,7 @@ module LogArchiver
           (?:\.[a-z\d](?:[-a-z\d]{0,61}[a-z\d])?)*)/ix
       # サーバーがネットワークに参加したときのメッセージを表す正規表現
       NETJOIN_RE =
-        /^\*\*\* Notice -- Netjoin #{HOSTNAME_RE} <-> (#{HOSTNAME_RE})/o
+        /\A\*\*\* Notice -- Netjoin #{HOSTNAME_RE} <-> (#{HOSTNAME_RE})/o
 
       # サーバーがネットワークに参加したときのメッセージを表す正規表現
       match(NETJOIN_RE, method: :joined)
@@ -97,7 +97,7 @@ module LogArchiver
           raise e
         end
 
-        m = result.match(/^Logins from: (.+)$/)
+        m = result.match(/\ALogins from: (.+)\z/)
         if(m)
           m[1].split.include?(@bot.nick)
         else

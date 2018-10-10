@@ -2,7 +2,7 @@
   <div class="form-group">
     <% if name_changeable %>
       <%= f.label(:name) %>
-      <%= f.text_field(:name, class: 'form-control', required: true, pattern: '^[^# ,:]+[^ ,:]*$') %>
+      <%= f.text_field(:name, class: 'form-control', required: true, pattern: '\A[^# ,:]+[^ ,:]*\z') %>
       <p class="help-block"><strong>先頭の "#" を除いた</strong>チャンネル名を入力してください。例：#もの書き → もの書き</p>
       <p class="help-block">作成後にチャンネル名を変更することはできません。</p>
     <% else %>
@@ -13,7 +13,7 @@
 
   <div class="form-group">
     <%= f.label(:identifier) %>
-    <%= f.text_field(:identifier, class: 'form-control', required: true, pattern: '^[A-Za-z][-_A-Za-z0-9]*$') %>
+    <%= f.text_field(:identifier, class: 'form-control', required: true, pattern: '\A[A-Za-z][-_A-Za-z0-9]*\z') %>
     <p class="help-block">識別子に使用可能な文字は半角英数字、ハイフン（<code>-</code>）、アンダーライン（<code>_</code>）です。先頭の文字には英字のみが使用可能です。</p>
   </div>
 
