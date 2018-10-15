@@ -16,8 +16,6 @@ default: &default
   collation: utf8mb4_general_ci
   pool: 5
   socket: /var/lib/mysql/mysql.sock
-  variables:
-    sql_mode: TRADITIONAL
 
 development:
   <<: *default
