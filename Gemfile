@@ -7,11 +7,9 @@ gem 'sysexits'
 gem 'xmlrpc'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.1.0'
+gem 'rails', '~> 5.2.0'
 # Use mysql as the database for Active Record
 gem 'mysql2', '~> 0.5.2'
-#gem 'activerecord-mysql-awesome'
-#gem 'activerecord-mysql-comment'
 
 gem 'activerecord-import'
 
@@ -32,7 +30,7 @@ gem 'jquery-ui-rails'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', '~> 0.4.0', group: :doc
+gem 'sdoc', '~> 1.0.0', group: :doc
 
 # デザイン
 gem 'bootstrap-sass'
@@ -49,6 +47,9 @@ gem 'unicorn'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+
+# Reduces boot times through caching; required in config/boot.rb
+gem 'bootsnap', '>= 1.1.0', require: false
 
 # カレンダー
 gem "simple_calendar", "~> 2.0"
@@ -108,7 +109,7 @@ end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '~> 2.0'
+  gem 'web-console', '~> 3.0'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'

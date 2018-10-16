@@ -11,7 +11,7 @@ module LogArchiver
       set(plugin_name: 'Part')
 
       self.prefix = '.'
-      match(/part(?:-(\w+))?$/, method: :part)
+      match(/part(?:-(\w+))?\z/, method: :part)
 
       def initialize(*args)
         super

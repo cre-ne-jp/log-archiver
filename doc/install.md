@@ -28,23 +28,6 @@ cd log-archiver
 bundle install --deployment --path vendor/bundle
 ```
 
-## log-archiver の設定
-
-ログインセッションを安全に使用するための鍵を作成します。
-
-```bash
-bundle exec rails secrets:setup RAILS_ENV=production
-bundle exec rails secret
-EDITOR=vim bundle exec rails secrets:edit
-```
-
-上記 2 行目で生成した文字列をコピーしておき、3 行目のコマンドで立ち上がったエディタで次を追記します。
-
-```yaml
-production:
-  secret_key_base: <コピーした secret>
-```
-
 ## データベースの設定
 
 チャットログに含まれる絵文字等を正しく扱えるようにするため、MySQL/MariaDB の設定を変更する必要があります。
@@ -81,7 +64,8 @@ vi config/database.yml
 ```
 
 一番下の production: から始まる行が、書き換えるデータベース設定です。
-`database:`、`username:`、`password:` の3項目を、お使いの環境に合わせて書き換えてください。
+`database:`、`username:` の 2 項目を、お使いの環境に合わせて書き換えてください。
+パスワードは後ほど設定します。
 
 最後に、テーブルを作成します。
 
@@ -117,6 +101,16 @@ vi config/ircbot.yml
 
 log-archiver の IRC ボットは、NickServ にログインして動作する必要があります。予め他のクライアントで IRC サーバに接続し、log-archiver 用のアカウントを作成しておいてください。
 
+## 環境変数の設定
+
+データベースのパスワードや、セッションを安全に保つための鍵などを環境変数として設定します。
+次のテンプレートファイルをコピーして使ってください。
+
+```bash
+cp doc/log-archiver.default .
+vi log-archiver.default
+```
+
 ## systemd への登録
 
 システム起動時、自動的に log-archiver を起動させるための設定です。
@@ -135,6 +129,7 @@ ruby インタプリタや、log-archiver のパスを確認してください�
 
 ```bash
 sudo mv log-archiver_unicorn.service log-archiver_ircbot.service /etc/systemd/system/
+sudo mv log-archiver.default /etc/default/log-archiver
 sudo systemctl daemon-reload
 ```
 
