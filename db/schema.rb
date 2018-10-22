@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2017_06_17_130524) do
+ActiveRecord::Schema.define(version: 2018_10_21_174843) do
 
   create_table "channel_last_speeches", id: :integer, options: "ENGINE=Mroonga DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "channel_id"
@@ -41,17 +41,11 @@ ActiveRecord::Schema.define(version: 2017_06_17_130524) do
     t.datetime "updated_at", null: false
     t.string "type"
     t.integer "irc_user_id", default: 0, null: false
-    t.index ["channel_id", "timestamp"], name: "index_conversation_messages_on_channel_id_and_timestamp"
-    t.index ["channel_id"], name: "index_conversation_messages_on_channel_id"
-    t.index ["id", "channel_id", "timestamp"], name: "index_conversation_messages_on_id_and_channel_id_and_timestamp"
-    t.index ["id", "channel_id"], name: "index_conversation_messages_on_id_and_channel_id"
-    t.index ["id", "timestamp"], name: "index_conversation_messages_on_id_and_timestamp"
-    t.index ["irc_user_id"], name: "index_conversation_messages_on_irc_user_id"
+    t.index ["message", "nick"], name: "index_conversation_messages_on_message_and_nick", type: :fulltext
     t.index ["message"], name: "index_conversation_messages_on_message", type: :fulltext
-    t.index ["nick", "message"], name: "index_conversation_messages_on_nick_and_message", type: :fulltext
     t.index ["nick"], name: "index_conversation_messages_on_nick", type: :fulltext
-    t.index ["timestamp"], name: "index_conversation_messages_on_timestamp"
-    t.index ["type"], name: "index_conversation_messages_on_type"
+    t.index ["timestamp", "channel_id", "type"], name: "index_cm_on_timestamp_and_channel_id_and_type"
+    t.index ["type", "channel_id", "timestamp"], name: "index_cm_on_type_and_channel_id_and_timestamp"
   end
 
   create_table "irc_users", id: :integer, options: "ENGINE=Mroonga DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
