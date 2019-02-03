@@ -2,6 +2,8 @@
 
 require_relative 'base'
 
+require 'time'
+
 module LogArchiver
   module Plugin
     # CTCP を返す
@@ -33,16 +35,29 @@ module LogArchiver
         ctcp_reply(m, "log-archiver_ircbot #{Application.version_and_commit_id}")
       end
 
+      # PING に応答する
+      # @param [Cinch::Message] m
+      # @return [void]
       def ctcp_ping(m)
         ctcp_reply(m, m.ctcp_args.join(' '))
       end
 
+      # SOURCE に応答する
+      # @param [Cinch::Message] m
+      # @return [void]
       def ctcp_source(m)
         ctcp_reply(m, 'https://github.com/cre-ne-jp/log-archiver')
       end
 
+      # TIME に応答する
+      # @param [Cinch::Message] m
+      # @return [void]
+      #
+      # RFC 2822で定義されている形式で現在の日時を返す。
+      #
+      # 応答例: "Sun, 03 Feb 2019 09:52:57 +0900"
       def ctcp_time(m)
-        ctcp_reply(m, Time.now.strftime('%a, %d %b %Y %T %z'))
+        ctcp_reply(m, Time.now.rfc2822)
       end
 
       private
