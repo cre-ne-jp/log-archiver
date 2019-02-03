@@ -2,6 +2,8 @@
 
 require_relative 'base'
 
+require 'time'
+
 module LogArchiver
   module Plugin
     # CTCP を返す
@@ -50,8 +52,12 @@ module LogArchiver
       # TIME に応答する
       # @param [Cinch::Message] m
       # @return [void]
+      #
+      # RFC 2822で定義されている形式で現在の日時を返す。
+      #
+      # 応答例: "Sun, 03 Feb 2019 09:52:57 +0900"
       def ctcp_time(m)
-        ctcp_reply(m, Time.now.strftime('%a, %d %b %Y %T %z'))
+        ctcp_reply(m, Time.now.rfc2822)
       end
 
       private
