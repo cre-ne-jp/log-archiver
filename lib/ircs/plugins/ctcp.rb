@@ -33,14 +33,23 @@ module LogArchiver
         ctcp_reply(m, "log-archiver_ircbot #{Application.version_and_commit_id}")
       end
 
+      # PING に応答する
+      # @param [Cinch::Message] m
+      # @return [void]
       def ctcp_ping(m)
         ctcp_reply(m, m.ctcp_args.join(' '))
       end
 
+      # SOURCE に応答する
+      # @param [Cinch::Message] m
+      # @return [void]
       def ctcp_source(m)
         ctcp_reply(m, 'https://github.com/cre-ne-jp/log-archiver')
       end
 
+      # TIME に応答する
+      # @param [Cinch::Message] m
+      # @return [void]
       def ctcp_time(m)
         ctcp_reply(m, Time.now.strftime('%a, %d %b %Y %T %z'))
       end
