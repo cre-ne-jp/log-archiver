@@ -1,6 +1,7 @@
 # vim: fileencoding=utf-8
 
 require_relative 'base'
+require_relative '../irc_bot_version'
 
 require 'time'
 
@@ -32,7 +33,7 @@ module LogArchiver
       # @param [Cinch::Message] m
       # @return [void]
       def ctcp_version(m)
-        ctcp_reply(m, "log-archiver_ircbot #{Application.version_and_commit_id}")
+        ctcp_reply(m, Ircs::APP_NAME_VERSION_COMMIT_ID)
       end
 
       # PING に応答する
