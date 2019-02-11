@@ -3,7 +3,7 @@
 module LogArchiver
   class Application
     # Log Archiverのバージョン
-    VERSION = '0.4.1'
+    VERSION = '0.4.2'
 
     # バージョンとコミットIDのキャッシュ用
     # @return [String, nil]
