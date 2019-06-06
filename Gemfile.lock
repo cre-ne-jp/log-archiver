@@ -240,6 +240,9 @@ GEM
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 1.7)
+    rubocop-rails (2.0.0)
+      rack (>= 2.0)
+      rubocop (>= 0.70.0)
     ruby-progressbar (1.10.1)
     ruby_dep (1.5.0)
     sass (3.7.4)
@@ -338,6 +341,7 @@ DEPENDENCIES
   redcarpet
   rinku!
   rubocop
+  rubocop-rails
   sass-rails (~> 5.0)
   sdoc (~> 1.0.0)
   simple_calendar (~> 2.0)
