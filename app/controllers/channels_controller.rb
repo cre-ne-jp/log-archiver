@@ -34,9 +34,10 @@ class ChannelsController < ApplicationController
       reverse
 
     @years = MessageDate.
-      distinct.
       where(channel: @channel).
-      pluck(Arel.sql('YEAR(date)'))
+      group(:year).
+      order(Arel.sql('EXTRACT(YEAR FROM date)')).
+      pluck(Arel.sql('EXTRACT(YEAR FROM date) AS year'))
   end
 
   def new

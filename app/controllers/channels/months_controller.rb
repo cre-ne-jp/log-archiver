@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Channels::MonthsController < ApplicationController
   include NavLinkSettable
 
@@ -17,12 +19,12 @@ class Channels::MonthsController < ApplicationController
     set_next_link!(@browse_next_year)
 
     start_date = Date.new(@year, 1, 1)
+    sql_extract_month_from_date = Arel.sql('EXTRACT(MONTH FROM date)')
     @month_count = MessageDate.
-      distinct.
       where(channel: @channel,
             date: start_date...(start_date.next_year)).
-      group('MONTH(date)').
-      order(:date).
+      group(sql_extract_month_from_date).
+      order(sql_extract_month_from_date).
       count
 
     @years = MessageDate.years(@channel)

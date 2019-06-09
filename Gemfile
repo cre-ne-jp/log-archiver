@@ -10,8 +10,6 @@ gem 'xmlrpc'
 gem 'rails', '~> 5.2.0'
 # Use mysql as the database for Active Record
 gem 'mysql2', '~> 0.5.2'
-#gem 'activerecord-mysql-awesome'
-#gem 'activerecord-mysql-comment'
 
 gem 'activerecord-import'
 
@@ -35,7 +33,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 1.0.0', group: :doc
 
 # デザイン
-gem 'bootstrap-sass'
+gem 'bootstrap-sass', '>= 3.4.1'
 gem 'font-awesome-rails'
 
 # SEO

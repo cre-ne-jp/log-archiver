@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Channels::DaysController < ApplicationController
   include NavLinkSettable
 
@@ -28,13 +30,14 @@ class Channels::DaysController < ApplicationController
             date: date_range).
       order(:date).
       pluck(:date)
+
+    sql_date_timestamp = Arel.sql('DATE(timestamp)')
     @speech_count = ConversationMessage.
-      distinct.
       where(channel: @channel,
             type: %w(Privmsg Notice),
             timestamp: date_range).
-      group('DATE(timestamp)').
-      order(:timestamp).
+      group(sql_date_timestamp).
+      order(sql_date_timestamp).
       count
 
     year_month_list = MessageDate.year_month_list(@channel)

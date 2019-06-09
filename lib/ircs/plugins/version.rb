@@ -1,6 +1,7 @@
 # vim: fileencoding=utf-8
 
 require_relative 'base'
+require_relative '../irc_bot_version'
 
 module LogArchiver
   module Plugin
@@ -13,14 +14,8 @@ module LogArchiver
 
       match(/version/, method: :version)
 
-      def initialize(*)
-        super
-
-        @version = "IRC Log Archiver #{Application.version_and_commit_id}"
-      end
-
       def version(m)
-        send_and_record(m, @version)
+        send_and_record(m, Ircs::APP_NAME_VERSION_COMMIT_ID)
       end
     end
   end
