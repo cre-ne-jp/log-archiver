@@ -126,7 +126,7 @@ class Channel < ApplicationRecord
   # @param [Integer/String] day
   # @return [String]
   def replace_date_to_canonical_site(year: nil, month: nil, day: nil)
-    date = {'year' => year.to_i, 'month' => month.to_i, 'day' => day.to_i}.compact
+    date = {'year' => year, 'month' => month, 'day' => day}.compact
     result = canonical_site
     pattern = /:(#{date.keys.join('|')})/
 
