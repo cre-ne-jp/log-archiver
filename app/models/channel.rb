@@ -119,4 +119,19 @@ class Channel < ApplicationRecord
       limit(1).
       first
   end
+
+  # canonical 属性の URL から、日付に置換される部分を削除する
+  # @param [Boolean] delete 日付部分を削除する
+  # @return [String]
+  def replace_date_to_canonical_site(year: nil, month: nil, day: nil)
+    date = {'year' => year, 'month' => month, 'day' => day}.compact
+    result = canonical_site
+    pattern = /:(#{date.keys.join('|')})/
+
+    while(result.match(pattern)) do
+      result.gsub!(":#{$1}", sprintf('%02d', date[$1])) if date[$1].instance_of?(Integer)
+    end
+
+    result.gsub(/:(year|month|day).*/, '')
+  end
 end
