@@ -25,7 +25,7 @@
                   <td class="channel-name"><%= link_to(channel.name_with_prefix, channel) %></td>
                   <td class="channel-last-speech"><%= last_speech_timestamp_link(channel) %></td>
                   <td class="channel-logging-enabled"><%= channel.logging_enabled? ? fa_icon('check') : '' %></td>
-                  <td class="canonical-site"><%= channel.canonical_site? ? link_to(channel.canonical_base_url, channel.canonical_base_url) : 'なし' %></td>
+                  <td class="canonical-site"><%= channel.canonical_site? ? link_to(channel.canonical_base_url, channel.canonical_base_url) : '' %></td>
                 </tr>
               <% end %>
             </tbody>
