@@ -109,4 +109,39 @@ class ChannelTest < ActiveSupport::TestCase
 
     assert_nil(Channel.from_cinch_message(cinch_message))
   end
+
+  test 'canonical_site は空でもよい' do
+    @channel.canonical_site = ''
+    assert(@channel.valid?, '空文字列でもよい')
+    refute(@channel.canonical_site?, '空文字列を設定すると指定されていないと見なされる')
+
+    @channel.canonical_site = ' ' * 10
+    assert(@channel.valid?, '空白のみでもよい')
+    refute(@channel.canonical_site?, '空白のみを設定すると指定されていないと見なされる')
+  end
+
+  test 'canonical_site に http スキームの URI を設定できる' do
+    @channel.canonical_site = 'http://log.irc.cre.jp/channels/cre/:year/:month/:day'
+    assert(@channel.valid?)
+  end
+
+  test 'canonical_site に https スキームの URI を設定できる' do
+    @channel.canonical_site = 'https://log.irc.cre.jp/channels/cre/:year/:month/:day'
+    assert(@channel.valid?)
+  end
+
+  test 'canonical_site に http(s) スキーム以外の URI は設定できない' do
+    @channel.canonical_site = 'ftp://log.irc.cre.jp/channels/cre/:year/:month/:day'
+    refute(@channel.valid?)
+  end
+
+  test 'canonical_site に URI として不適切な文字は使用できない（ひらがな）' do
+    @channel.canonical_site = 'http://log.irc.cre.jp/channels/あああ/:year/:month/:day'
+    refute(@channel.valid?)
+  end
+
+  test 'canonical_site に URI でない文字列は設定できない' do
+    @channel.canonical_site = 'log.irc.cre.jp/channels/cre/:year/:month/:day'
+    refute(@channel.valid?)
+  end
 end

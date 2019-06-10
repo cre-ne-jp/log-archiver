@@ -3,6 +3,7 @@ FactoryBot.define do
     name { 'irc_test' }
     identifier { 'irc_test' }
     logging_enabled { true }
+    canonical_site { '' }
 
     initialize_with { Channel.find_or_create_by(identifier: identifier) }
 
