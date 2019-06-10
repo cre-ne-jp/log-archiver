@@ -27,7 +27,7 @@
   <div class="form-group">
     <%= f.label(:canonical_site) %>
     <%= f.text_field(:canonical_site, class: 'form-control', pattern: "\A#{URI::regexp(%w(http https))}\z") %>
-    <p class="help-block">このチャンネルのログ公開をミラーサイトとして行なう場合、マスターサイトの URL を指定します。<br /><code>:year</code> / <code>:month</code> / <code>:day</code> は、指定した日付に置換されます。</p>
+    <p class="help-block">このチャンネルのログ公開をミラーサイトとして行なう場合、正規 URL のテンプレートを指定します。<br /><code>:year</code> / <code>:month</code> / <code>:day</code> は、指定した日付に置換されます。</p>
   </div>
 
   <div class="form-group">

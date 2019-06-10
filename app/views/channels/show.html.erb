@@ -44,7 +44,7 @@
             </ul>
 
             <% if @channel.canonical_site? %>
-              <h2>マスターサイト</h2>
+              <h2>正規 URL</h2>
               <%= link_to(@channel.canonical_base_url, @channel.canonical_base_url) %>
             <% end %>
           </article>

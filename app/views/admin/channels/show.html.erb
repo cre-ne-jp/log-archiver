@@ -33,7 +33,7 @@
                 <td class="channel-logging-enabled"><%= @channel.logging_enabled? ? fa_icon('check') : '' %></td>
               </tr>
               <tr>
-                <th scope="row" class="channel-canonical-site">マスターサイト</th>
+                <th scope="row" class="channel-canonical-site">正規 URL のテンプレート</th>
                 <td class="channel-canonical-site"><%= @channel.canonical_site? ? @channel.canonical_site : '無効' %></td>
             </tbody>
           </table>
