@@ -114,9 +114,11 @@ class ChannelTest < ActiveSupport::TestCase
     @channel.canonical_site = ''
     assert(@channel.valid?, '空文字列でもよい')
     refute(@channel.canonical_site?, '空文字列を設定すると指定されていないと見なされる')
+  end
 
+  test 'canonical_site は空白のみではならない' do
     @channel.canonical_site = ' ' * 10
-    assert(@channel.valid?, '空白のみでもよい')
+    refute(@channel.valid?, '空白のみではならない')
     refute(@channel.canonical_site?, '空白のみを設定すると指定されていないと見なされる')
   end
 

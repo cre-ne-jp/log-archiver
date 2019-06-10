@@ -40,6 +40,11 @@ class Channel < ApplicationRecord
     format: { with: /\A[A-Za-z][-_A-Za-z0-9]*\z/ }
   )
 
+  validates(
+    :canonical_site,
+    format: { with: /\A#{URI.regexp(%w(http https))}?\z/ }
+  )
+
   # ログ記録が有効なチャンネル
   scope :logging_enabled, -> { where(logging_enabled: true) }
   # ログ記録が無効なチャンネル
