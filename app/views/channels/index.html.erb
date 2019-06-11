@@ -16,7 +16,6 @@
                 <th class="channel-name">チャンネル名</th>
                 <th class="channel-last-speech">最終発言日時</th>
                 <th class="channel-logging-enabled">ログ記録中</th>
-                <th class="canonical-site-url">正規 URL</th>
               </tr>
             </thead>
             <tbody>
@@ -25,7 +24,6 @@
                   <td class="channel-name"><%= link_to(channel.name_with_prefix, channel) %></td>
                   <td class="channel-last-speech"><%= last_speech_timestamp_link(channel) %></td>
                   <td class="channel-logging-enabled"><%= channel.logging_enabled? ? fa_icon('check') : '' %></td>
-                  <td class="canonical-site-url"><%= channel.canonical_url_template? ? link_to(channel.canonical_base_url, channel.canonical_base_url) : '' %></td>
                 </tr>
               <% end %>
             </tbody>
