@@ -47,6 +47,9 @@ class Channels::DaysController < ApplicationController
       uniq
     @year_months_in_the_year =
       year_month_list.select { |year, _| year == @year }
+
+    @canonical_url =
+      @channel.canonical_url_template? ? @channel.canonical_url(year: @year, month: @month) : nil
   end
 
   def show
@@ -105,5 +108,8 @@ class Channels::DaysController < ApplicationController
     @sorted_messages = whole_messages.sort_by { |m| [m.timestamp, i += 1] }
 
     @message_dates = MessageDate.where(channel: @channel)
+
+    @canonical_url =
+      @channel.canonical_url_template? ? @channel.canonical_url(year: @year, month: @month, day: @day) : nil
   end
 end

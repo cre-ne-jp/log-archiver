@@ -28,5 +28,8 @@ class Channels::MonthsController < ApplicationController
       count
 
     @years = MessageDate.years(@channel)
+
+    @canonical_url =
+      @channel.canonical_url_template? ? @channel.canonical_url(year: @year) : nil
   end
 end

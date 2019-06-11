@@ -81,13 +81,13 @@ class ChannelsController < ApplicationController
   def channel_params_for_create
     params.
       require(:channel).
-      permit(:name, :identifier, :logging_enabled)
+      permit(:name, :identifier, :logging_enabled, :canonical_url_template)
   end
 
   def channel_params_for_update
     params.
       require(:channel).
-      permit(:identifier, :logging_enabled)
+      permit(:identifier, :logging_enabled, :canonical_url_template)
   end
 
   def channel_params_for_sort

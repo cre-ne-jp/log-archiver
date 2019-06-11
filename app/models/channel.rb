@@ -119,4 +119,28 @@ class Channel < ApplicationRecord
       limit(1).
       first
   end
+
+  # canonical 属性の URL テンプレートを、日付を入れた URL にして返す
+  # @param [Integer/String] year
+  # @param [Integer/String] month
+  # @param [Integer/String] day
+  # @return [String]
+  def canonical_url(year: nil, month: nil, day: nil)
+    date = {'year' => year, 'month' => month, 'day' => day}.compact
+    result = canonical_url_template
+    pattern = /:(#{date.keys.join('|')})/
+
+    while(result.match(pattern)) do
+      result.gsub!(":#{$1}", sprintf('%02d', date[$1])) if date[$1].instance_of?(Integer)
+    end
+
+    canonical_base_url(result)
+  end
+
+  # canonical 属性の URL の埋め込みがない部分を返す
+  # @param [String] url 埋め込み部分を含む URL
+  # @return [String]
+  def canonical_base_url(url = canonical_url_template)
+    url.gsub(/:(year|month|day).*/, '')
+  end
 end

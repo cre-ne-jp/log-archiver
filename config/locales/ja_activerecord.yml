@@ -11,6 +11,7 @@ ja:
         name: チャンネル名
         identifier: 識別子
         logging_enabled: ログ記録
+        canonical_url_template: 正規 URL のテンプレート
       user:
         username: 利用者名
         email: メールアドレス
