@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 2018_10_10_040315) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "row_order"
-    t.string "canonical_site",    default: "",   null: false
+    t.string "canonical_url_template", default: "", null: false
     t.index ["identifier"], name: "index_channels_on_identifier", using: :btree
     t.index ["logging_enabled"], name: "index_channels_on_logging_enabled", using: :btree
   end
