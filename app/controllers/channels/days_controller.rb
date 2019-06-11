@@ -48,8 +48,8 @@ class Channels::DaysController < ApplicationController
     @year_months_in_the_year =
       year_month_list.select { |year, _| year == @year }
 
-    @canonical_site =
-      @channel.canonical_site? ? @channel.replace_date_to_canonical_site(year: @year, month: @month) : nil
+    @canonical_url =
+      @channel.canonical_url_template? ? @channel.canonical_url(year: @year, month: @month) : nil
   end
 
   def show
@@ -109,7 +109,7 @@ class Channels::DaysController < ApplicationController
 
     @message_dates = MessageDate.where(channel: @channel)
 
-    @canonical_site =
-      @channel.canonical_site? ? @channel.replace_date_to_canonical_site(year: @year, month: @month, day: @day) : nil
+    @canonical_url =
+      @channel.canonical_url_template? ? @channel.canonical_url(year: @year, month: @month, day: @day) : nil
   end
 end

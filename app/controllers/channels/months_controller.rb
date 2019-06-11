@@ -29,7 +29,7 @@ class Channels::MonthsController < ApplicationController
 
     @years = MessageDate.years(@channel)
 
-    @canonical_site =
-      @channel.canonical_site? ? @channel.replace_date_to_canonical_site(year: @year) : nil
+    @canonical_url =
+      @channel.canonical_url_template? ? @channel.canonical_url(year: @year) : nil
   end
 end

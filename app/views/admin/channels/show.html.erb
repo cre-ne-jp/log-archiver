@@ -33,14 +33,14 @@
                 <td class="channel-logging-enabled"><%= @channel.logging_enabled? ? fa_icon('check') : '' %></td>
               </tr>
               <tr>
-                <th scope="row" class="channel-canonical-site">正規 URL のテンプレート</th>
-                <td class="channel-canonical-site"><%= @channel.canonical_site? ? @channel.canonical_site : '無効' %></td>
+                <th scope="row" class="channel-canonical-site-template">正規 URL のテンプレート</th>
+                <td class="channel-canonical-site-template"><%= @channel.canonical_url_template? ? @channel.canonical_url_template : '無効' %></td>
               </tr>
-              <% if @channel.canonical_site? %><tr>
+              <% if @channel.canonical_url_template? %><tr>
                 <th scope="row" class="channel-canonical-site-example">正規 URL の転送先例</th>
                 <td class="channel-canonical-site-example">
                   <% today = Date.today %>
-                  <% url = @channel.replace_date_to_canonical_site(year: today.year, month: today.month, day: today.day) %>
+                  <% url = @channel.canonical_url(year: today.year, month: today.month, day: today.day) %>
                   <%= link_to(url, url) %>
                 </td>
               </tr><% end %>

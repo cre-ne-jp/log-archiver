@@ -43,7 +43,7 @@
               <% end %>
             </ul>
 
-            <% if @channel.canonical_site? %>
+            <% if @channel.canonical_url_template? %>
               <h2>正規 URL</h2>
               <%= link_to(@channel.canonical_base_url, @channel.canonical_base_url) %>
             <% end %>
