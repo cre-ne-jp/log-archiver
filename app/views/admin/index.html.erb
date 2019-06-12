@@ -11,9 +11,30 @@
           </div>
 
           <div class="admin-menu">
+            <h2>メニュー</h2>
             <p><%= link_to(fa_icon('user', text: '利用者'), users_path, class: 'btn btn-default btn-block') %></p>
             <p><%= link_to(fa_icon('cog', text: '設定'), settings_path, class: 'btn btn-default btn-block') %></p>
             <p><%= link_to(fa_icon('folder-open', text: 'チャンネル'), admin_channels_path, class: 'btn btn-default btn-block') %></p>
+          </div>
+
+          <div class="statuses">
+            <h2>バージョン情報</h2>
+            <table class="table table-striped statuses">
+              <tbody>
+                <tr>
+                  <th>バージョン</th>
+                  <td><%= LogArchiver::Application::VERSION %></td>
+                </tr>
+                <tr>
+                  <th>コミット ID</th>
+                  <td><%= LogArchiver::Application::COMMIT_ID %></td>
+                </tr>
+                <tr>
+                  <th>起動時間</th>
+                  <td><%= LogArchiver::Application::BOOTED_AT %> (<%= LogArchiver::Application.uptime %>)</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

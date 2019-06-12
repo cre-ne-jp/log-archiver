@@ -6,7 +6,6 @@ require 'optparse'
 require 'sysexits'
 require 'pp'
 
-require_relative '../../config/version'
 require_relative './config'
 require_relative './plugins_loader'
 
@@ -50,7 +49,7 @@ module LogArchiver
       OptionParser.new do |opt|
         opt.banner = "使用法: #{opt.program_name} [オプション]"
 
-        opt.version = Application.version_and_commit_id
+        opt.version = Application::VERSION_AND_COMMIT_ID
 
         opt.summary_indent = ' ' * 2
         opt.summary_width = 24
