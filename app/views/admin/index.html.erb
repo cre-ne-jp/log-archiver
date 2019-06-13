@@ -30,8 +30,8 @@
                   <td><%= LogArchiver::Application::COMMIT_ID %></td>
                 </tr>
                 <tr>
-                  <th>起動時間</th>
-                  <td><%= LogArchiver::Application::BOOTED_AT %> (<%= LogArchiver::Application.uptime %>)</td>
+                  <th>稼働時間</th>
+                  <td><%= format_uptime(@uptime) %>（<%= @booted_at.strftime('%F %T') %> に起動）</td>
                 </tr>
               </tbody>
             </table>
