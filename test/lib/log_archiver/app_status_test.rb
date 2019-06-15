@@ -5,6 +5,17 @@ module LogArchiver
   class AppStatusTest < ActiveSupport::TestCase
     # ダミーの起動時刻
     DUMMY_START_TIME = Time.new(2019, 4, 1, 12, 34, 56, '+09:00')
+
+    # ダミーの稼働時間1（0:01:12:03経過）
+    DUMMY_UPTIME_1 = (1 * 60 * 60) + (12 * 60) + 3
+    # ダミーの現在時刻1（0:01:12:03経過）
+    DUMMY_CURRENT_TIME_1 = DUMMY_START_TIME + DUMMY_UPTIME_1
+
+    # ダミーの稼働時間2（12:23:34:45経過）
+    DUMMY_UPTIME_2 = (12 * 24 * 60 * 60) + (23 * 60 * 60) + (34 * 60) + 45
+    # ダミーの現在時刻2（12:23:34:45経過）
+    DUMMY_CURRENT_TIME_2 = DUMMY_START_TIME + DUMMY_UPTIME_2
+
     # ダミーのコミットID
     DUMMY_COMMIT_ID = '0123456789abcdef0123456789abcdef01234567'
 
@@ -53,6 +64,24 @@ module LogArchiver
       assert_equal('12:23:34:56',
                    AppStatus.format_uptime((12 * 24 * 60 * 60) +
                                            (23 * 60 * 60) + (34 * 60) + 56))
+    end
+
+    test '#uptime: 0:01:12:03経過' do
+      assert_equal(DUMMY_UPTIME_1, @app_status.uptime(DUMMY_CURRENT_TIME_1))
+    end
+
+    test '#uptime: 12:23:34:45経過' do
+      assert_equal(DUMMY_UPTIME_2, @app_status.uptime(DUMMY_CURRENT_TIME_2))
+    end
+
+    test '#formatted_uptime: 0:01:12:03経過' do
+      assert_equal('0:01:12:03',
+                   @app_status.formatted_uptime(DUMMY_CURRENT_TIME_1))
+    end
+
+    test '#formatted_uptime: 12:23:34:45経過' do
+      assert_equal('12:23:34:45',
+                   @app_status.formatted_uptime(DUMMY_CURRENT_TIME_2))
     end
   end
 end

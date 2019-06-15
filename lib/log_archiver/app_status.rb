@@ -50,14 +50,14 @@ module LogArchiver
     # @param [Time] current_time 現在の時刻
     # @return [Float]
     def uptime(current_time = Time.now)
-      raise NotImplementedError
+      current_time - @start_time
     end
 
     # 整形された稼働時間を返す
     # @param [Time] current_time 現在の時刻
     # @return [String]
     def formatted_uptime(current_time = Time.now)
-      raise NotImplementedError
+      AppStatus.format_uptime(uptime(current_time))
     end
   end
 end
