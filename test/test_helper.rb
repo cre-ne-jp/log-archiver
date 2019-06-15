@@ -25,7 +25,9 @@ class ActiveSupport::TestCase
 end
 
 class ActionDispatch::IntegrationTest
-   def login_user(user)
+  include Sorcery::TestHelpers::Rails::Integration
+
+  def login_user(user)
     post(
       user_sessions_path,
       params: {
@@ -34,10 +36,10 @@ class ActionDispatch::IntegrationTest
       }
     )
     follow_redirect!
-   end
+  end
 
-   def logout_user
-     get(logout_path)
-     follow_redirect!
-   end
+  def logout_user
+    get(logout_path)
+    follow_redirect!
+  end
 end

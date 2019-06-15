@@ -1,9 +1,6 @@
 require 'test_helper'
 
-class AdminControllerTest < ActionController::TestCase
-  include Sorcery::TestHelpers::Rails::Integration
-  include Sorcery::TestHelpers::Rails::Controller
-
+class AdminIndexTest < ActionDispatch::IntegrationTest
   setup do
     create(:setting)
     @user = create(:user)
@@ -12,7 +9,7 @@ class AdminControllerTest < ActionController::TestCase
   test 'index: ログインしていない場合、ログインページにリダイレクトされる' do
     logout_user
 
-    get :index
+    get(admin_path)
 
     assert_redirected_to(:login, 'ログインページにリダイレクトされる')
     refute_nil(flash[:warning], 'warningのflashが表示される')
@@ -21,7 +18,7 @@ class AdminControllerTest < ActionController::TestCase
   test 'index: ログインしている場合、表示される' do
     login_user(@user)
 
-    get :index
+    get(admin_path)
 
     assert_response(:success)
   end
