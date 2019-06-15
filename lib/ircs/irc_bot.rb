@@ -30,7 +30,7 @@ module LogArchiver
 
       bot = new_bot(config, plugins, log_level)
 
-      @quit_message = config.irc_bot['QuitMessage']
+      @quit_message = config.irc_bot['QuitMessage'] || ''
       set_signal_handler(bot)
       bot.start
 
