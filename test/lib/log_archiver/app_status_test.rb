@@ -29,5 +29,30 @@ module LogArchiver
       app_status_without_commit_id = AppStatus.new(DUMMY_START_TIME, nil)
       assert_equal(VERSION, app_status_without_commit_id.version_and_commit_id)
     end
+
+    test '.format_uptime: 1秒' do
+      assert_equal('0:00:00:01', AppStatus.format_uptime(1))
+    end
+
+    test '.format_uptime: 1分23秒' do
+      assert_equal('0:00:01:23', AppStatus.format_uptime(1 * 60 + 23))
+    end
+
+    test '.format_uptime: 1時間23分45秒' do
+      assert_equal('0:01:23:45',
+                   AppStatus.format_uptime((1 * 60 * 60) + (23 * 60) + 45))
+    end
+
+    test '.format_uptime: 1日2時間3分4秒' do
+      assert_equal('1:02:03:04',
+                   AppStatus.format_uptime((1 * 24 * 60 * 60) +
+                                           (2 * 60 * 60) + (3 * 60) + 4))
+    end
+
+    test '.format_uptime: 12日23時間34分56秒' do
+      assert_equal('12:23:34:56',
+                   AppStatus.format_uptime((12 * 24 * 60 * 60) +
+                                           (23 * 60 * 60) + (34 * 60) + 56))
+    end
   end
 end

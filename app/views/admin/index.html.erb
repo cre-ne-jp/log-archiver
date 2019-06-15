@@ -31,7 +31,7 @@
                 </tr>
                 <tr>
                   <th class="app-status-uptime">稼働時間</th>
-                  <td id="uptime" class="app-status-uptime"><%= format_uptime(@uptime) %>（<%= @booted_at.strftime('%F %T') %> に起動）</td>
+                  <td id="uptime" class="app-status-uptime"><%= LogArchiver::AppStatus.format_uptime(@uptime) %>（<%= @booted_at.strftime('%F %T') %> に起動）</td>
                 </tr>
               </tbody>
             </table>
