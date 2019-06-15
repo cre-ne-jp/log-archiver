@@ -2,9 +2,6 @@
 
 module LogArchiver
   class Application
-    # Log Archiverのバージョン
-    VERSION = '0.5.1'
-
     # コミットIDのキャッシュ用
     # @return [String]
     COMMIT_ID =

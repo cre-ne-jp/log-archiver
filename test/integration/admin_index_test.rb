@@ -22,7 +22,7 @@ class AdminIndexTest < ActionDispatch::IntegrationTest
 
   test 'バージョン番号が正しい形式で表示される' do
     assert_successful_login_and_get
-    assert_select('#version', LogArchiver::Application::VERSION)
+    assert_select('#version', LogArchiver::VERSION)
   end
 
   test 'コミットIDを取得できるとき、正しい形式で表示される' do
