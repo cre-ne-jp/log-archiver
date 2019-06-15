@@ -83,5 +83,23 @@ module LogArchiver
       assert_equal('12:23:34:45',
                    @app_status.formatted_uptime(DUMMY_CURRENT_TIME_2))
     end
+
+    test '.get_commit_id: コミットIDを取得できる' do
+      `git log -1 > /dev/null 2>&1`
+      unless $?.success?
+        skip('コミットIDを取得できない環境です')
+      end
+
+      assert_match(/\A\h{40}\z/, AppStatus.get_commit_id)
+    end
+
+    test '.get_commit_id: コミットIDを取得できない場合nilが返る' do
+      `git log -1 > /dev/null 2>&1`
+      if $?.success?
+        skip('コミットIDを取得できる環境です')
+      end
+
+      assert_nil(AppStatus.get_commit_id)
+    end
   end
 end

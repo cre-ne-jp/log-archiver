@@ -15,7 +15,13 @@ module LogArchiver
     # @return [String] 取得したコミットID
     # @return [nil] コミットIDを取得できなかった場合はnil
     def self.get_commit_id
-      raise NotImplementedError
+      begin
+        Dir.chdir(Rails.application.root) do
+          `git show -s --format=%H`.strip
+        end
+      rescue
+        nil
+      end
     end
 
     # 稼働時間を整形する
