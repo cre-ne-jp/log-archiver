@@ -14,11 +14,6 @@ module AdminHelper
     # 分、秒を求める
     min, sec = rest_ms.divmod(60)
 
-    # 時分秒の文字列
-    hms_str = '%02d:%02d:%02d' % [hour, min, sec]
-
-    # 1日以上だったら日数も加える
-    # 1日未満だったら時分秒のみ
-    day > 0 ? "#{day}日 #{hms_str}" : hms_str
+    '%d:%02d:%02d:%02d' % [day, hour, min, sec]
   end
 end
