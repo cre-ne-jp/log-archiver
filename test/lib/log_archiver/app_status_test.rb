@@ -19,5 +19,15 @@ module LogArchiver
     test '#commit_id はコミットIDを返す' do
       assert_equal(DUMMY_COMMIT_ID, @app_status.commit_id)
     end
+
+    test '#version_and_commit_id: バージョンとコミットIDを表す文字列を返す' do
+      assert_equal("#{VERSION} (#{DUMMY_COMMIT_ID})",
+                   @app_status.version_and_commit_id)
+    end
+
+    test '#version_and_commit_id: コミットIDがない場合、バージョンのみが含まれる文字列を返す' do
+      app_status_without_commit_id = AppStatus.new(DUMMY_START_TIME, nil)
+      assert_equal(VERSION, app_status_without_commit_id.version_and_commit_id)
+    end
   end
 end

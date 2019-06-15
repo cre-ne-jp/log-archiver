@@ -31,6 +31,8 @@ module LogArchiver
     def initialize(start_time, commit_id = nil)
       @start_time = start_time
       @commit_id = commit_id
+
+      @version_and_commit_id = commit_id ? "#{VERSION} (#{commit_id})" : VERSION
     end
 
     # 稼働時間を返す
