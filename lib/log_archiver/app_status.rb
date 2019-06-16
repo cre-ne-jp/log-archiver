@@ -1,6 +1,9 @@
 module LogArchiver
   # アプリケーションの状態を表すクラス
   class AppStatus
+    # アプリケーションのバージョン
+    # @return [String]
+    attr_reader :version
     # アプリケーションの起動時刻
     # @return [Time]
     attr_reader :start_time
@@ -42,14 +45,16 @@ module LogArchiver
     end
 
     # アプリケーションの状態を初期化する
+    # @param [String] version アプリケーションのバージョン
     # @param [Time] start_time アプリケーションの起動時刻
     # @param [String] commit_id コミットID
-    def initialize(start_time, commit_id = '')
+    def initialize(version, start_time, commit_id = '')
+      @version = version
       @start_time = start_time
       @commit_id = commit_id
 
       @version_and_commit_id = commit_id.empty? ?
-        VERSION : "#{VERSION} (#{commit_id})"
+        version : "#{version} (#{commit_id})"
     end
 
     # バージョンを返す

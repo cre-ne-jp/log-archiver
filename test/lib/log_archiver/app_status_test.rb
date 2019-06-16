@@ -16,11 +16,14 @@ module LogArchiver
     # ダミーの現在時刻2（12:23:34:45経過）
     DUMMY_CURRENT_TIME_2 = DUMMY_START_TIME + DUMMY_UPTIME_2
 
+    # ダミーのバージョン
+    DUMMY_VERSION = '1.2.3'
     # ダミーのコミットID
     DUMMY_COMMIT_ID = '0123456789abcdef0123456789abcdef01234567'
 
     setup do
-      @app_status = AppStatus.new(DUMMY_START_TIME, DUMMY_COMMIT_ID)
+      @app_status =
+        AppStatus.new(DUMMY_VERSION, DUMMY_START_TIME, DUMMY_COMMIT_ID)
 
       # Dir.chdir を書き換えるので、元のクラスメソッドを退避しておく
       Dir.singleton_class.class_eval do
@@ -46,17 +49,18 @@ module LogArchiver
     end
 
     test '#version はバージョンを返す' do
-      assert_equal(VERSION, @app_status.version)
+      assert_equal(DUMMY_VERSION, @app_status.version)
     end
 
     test '#version_and_commit_id: バージョンとコミットIDを表す文字列を返す' do
-      assert_equal("#{VERSION} (#{DUMMY_COMMIT_ID})",
+      assert_equal("#{DUMMY_VERSION} (#{DUMMY_COMMIT_ID})",
                    @app_status.version_and_commit_id)
     end
 
     test '#version_and_commit_id: コミットIDがない場合、バージョンのみが含まれる文字列を返す' do
-      app_status_without_commit_id = AppStatus.new(DUMMY_START_TIME, '')
-      assert_equal(VERSION, app_status_without_commit_id.version_and_commit_id)
+      app_status_without_commit_id =
+        AppStatus.new(DUMMY_VERSION, DUMMY_START_TIME, '')
+      assert_equal(DUMMY_VERSION, app_status_without_commit_id.version_and_commit_id)
     end
 
     test '.format_uptime: 1秒' do
