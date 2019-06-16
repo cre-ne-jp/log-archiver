@@ -45,6 +45,10 @@ module LogArchiver
       assert_equal(DUMMY_COMMIT_ID, @app_status.commit_id)
     end
 
+    test '#version はバージョンを返す' do
+      assert_equal(VERSION, @app_status.version)
+    end
+
     test '#version_and_commit_id: バージョンとコミットIDを表す文字列を返す' do
       assert_equal("#{VERSION} (#{DUMMY_COMMIT_ID})",
                    @app_status.version_and_commit_id)

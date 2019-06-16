@@ -52,6 +52,12 @@ module LogArchiver
         VERSION : "#{VERSION} (#{commit_id})"
     end
 
+    # バージョンを返す
+    # @return [String]
+    def version
+      VERSION
+    end
+
     # 稼働時間を返す
     # @param [Time] current_time 現在の時刻
     # @return [Float]
