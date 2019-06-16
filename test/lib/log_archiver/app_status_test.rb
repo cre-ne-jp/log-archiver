@@ -21,6 +21,20 @@ module LogArchiver
 
     setup do
       @app_status = AppStatus.new(DUMMY_START_TIME, DUMMY_COMMIT_ID)
+
+      # Dir.chdir を書き換えるので、元のクラスメソッドを退避しておく
+      Dir.singleton_class.class_eval do
+        unless method_defined?(:chdir_original)
+          alias :chdir_original :chdir
+        end
+      end
+    end
+
+    teardown do
+      # 元の Dir.chdir に戻す
+      Dir.singleton_class.class_eval do
+        alias :chdir :chdir_original
+      end
     end
 
     test '#start_time は起動時刻を返す' do
@@ -93,13 +107,22 @@ module LogArchiver
       assert_match(/\A\h{40}\z/, AppStatus.get_commit_id)
     end
 
-    test '.get_commit_id: コミットIDを取得できない場合nilが返る' do
-      `git log -1 > /dev/null 2>&1`
-      if $?.success?
-        skip('コミットIDを取得できる環境です')
+    test '.get_commit_id: コミットIDを取得できない場合、空文字列が返る' do
+      Dir.chdir('/') do
+        `git log -1 > /dev/null 2>&1`
+        if $?.success?
+          skip('ルートディレクトリがGitリポジトリになっています')
+        end
       end
 
-      assert_nil(AppStatus.get_commit_id)
+      Dir.singleton_class.class_eval do
+        # 強制的にルートディレクトリに移動する
+        def chdir(_, &b)
+          chdir_original('/', &b)
+        end
+      end
+
+      assert_equal('', AppStatus.get_commit_id)
     end
   end
 end
