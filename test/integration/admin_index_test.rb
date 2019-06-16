@@ -2,9 +2,22 @@ require 'test_helper'
 
 # 管理画面の結合テスト
 class AdminIndexTest < ActionDispatch::IntegrationTest
+  # ダミーの起動時刻
+  DUMMY_START_TIME = Time.new(2014, 3, 20, 12, 34, 56, '+09:00')
+  # ダミーのコミットID
+  DUMMY_COMMIT_ID = '0123456789abcdef0123456789abcdef01234567'
+
   setup do
     create(:setting)
     @user = create(:user)
+
+    @original_app_status = Rails.application.config.app_status
+    Rails.application.config.app_status =
+      LogArchiver::AppStatus.new(DUMMY_START_TIME, DUMMY_COMMIT_ID)
+  end
+
+  teardown do
+    Rails.application.config.app_status = @original_app_status
   end
 
   test 'ログインしていない場合、ログインページにリダイレクトされる' do
@@ -27,10 +40,17 @@ class AdminIndexTest < ActionDispatch::IntegrationTest
 
   test 'コミットIDを取得できるとき、正しい形式で表示される' do
     assert_successful_login_and_get
-    assert_select('#commit-id', /\A\h{40}\z/)
+    assert_select('#commit-id', DUMMY_COMMIT_ID)
   end
 
-  test 'コミットIDを取得できないとき、正しい形式で表示される'
+  test 'コミットIDを取得できないとき、正しい形式で表示される' do
+    # コミットIDなしに設定する
+    Rails.application.config.app_status =
+      LogArchiver::AppStatus.new(DUMMY_START_TIME, '')
+
+    assert_successful_login_and_get
+    assert_select('#commit-id', '-')
+  end
 
   test '稼働時間が正しい形式で表示される' do
     assert_successful_login_and_get

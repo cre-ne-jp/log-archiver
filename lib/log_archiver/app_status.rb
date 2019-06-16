@@ -5,7 +5,7 @@ module LogArchiver
     # @return [Time]
     attr_reader :start_time
     # コミットID
-    # @return [String, nil]
+    # @return [String]
     attr_reader :commit_id
     # バージョンとコミットIDを表す文字列
     # @return [String]
@@ -16,7 +16,7 @@ module LogArchiver
     def self.get_commit_id
       begin
         Dir.chdir(Rails.application.root) do
-          `git show -s --format=%H`.strip
+          `git show -s --format=%H 2>/dev/null`.strip
         end
       rescue
         ''
@@ -43,12 +43,13 @@ module LogArchiver
 
     # アプリケーションの状態を初期化する
     # @param [Time] start_time アプリケーションの起動時刻
-    # @param [String, nil] commit_id コミットID
-    def initialize(start_time, commit_id = nil)
+    # @param [String] commit_id コミットID
+    def initialize(start_time, commit_id = '')
       @start_time = start_time
       @commit_id = commit_id
 
-      @version_and_commit_id = commit_id ? "#{VERSION} (#{commit_id})" : VERSION
+      @version_and_commit_id = commit_id.empty? ?
+        VERSION : "#{VERSION} (#{commit_id})"
     end
 
     # 稼働時間を返す
