@@ -30,7 +30,9 @@ module LogArchiver
 
       bot = new_bot(config, plugins, log_level)
 
-      @quit_message = config.irc_bot['QuitMessage']
+      # 後に @quit_message.empty? を実行するため、
+      # NoMethodError などの例外が発生しないよう文字列化しておく
+      @quit_message = config.irc_bot['QuitMessage'].to_s
       set_signal_handler(bot)
       bot.start
 
