@@ -26,7 +26,7 @@ module LogArchiver
       # @param [Cinch::Message] m
       # @return [void]
       def ctcp_clientinfo(m)
-        valid_cmds = %w(CLIENTINFO VERSION PING SOURCE TIME).sort
+        valid_cmds = %w(CLIENTINFO USERINFO VERSION PING SOURCE TIME).sort
         ctcp_reply(m, valid_cmds.join(' '))
       end
 
