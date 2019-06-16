@@ -40,6 +40,16 @@ module LogArchiver
       end
     end
 
+    def app_status_from_hash
+      hash = {
+        version: DUMMY_VERSION,
+        commit_id: DUMMY_COMMIT_ID,
+        start_time: DUMMY_START_TIME.to_f
+      }
+
+      AppStatus.from_hash(hash)
+    end
+
     test '#start_time は起動時刻を返す' do
       assert_equal(DUMMY_START_TIME, @app_status.start_time)
     end
@@ -131,6 +141,36 @@ module LogArchiver
       end
 
       assert_equal('', AppStatus.get_commit_id)
+    end
+
+    test '#to_h: version が正しい' do
+      hash = @app_status.to_h
+      assert_equal(DUMMY_VERSION, hash.fetch(:version))
+    end
+
+    test '#to_h: commit_id が正しい' do
+      hash = @app_status.to_h
+      assert_equal(DUMMY_COMMIT_ID, hash.fetch(:commit_id))
+    end
+
+    test '#to_h: start_time が正しい' do
+      hash = @app_status.to_h
+      assert_equal(DUMMY_START_TIME.to_f, hash.fetch(:start_time))
+    end
+
+    test '.from_hash: #version が正しい' do
+      app_status = app_status_from_hash
+      assert_equal(DUMMY_VERSION, app_status.version)
+    end
+
+    test '.from_hash: commit_id が正しい' do
+      app_status = app_status_from_hash
+      assert_equal(DUMMY_COMMIT_ID, app_status.commit_id)
+    end
+
+    test '.from_hash: start_time が正しい' do
+      app_status = app_status_from_hash
+      assert_equal(DUMMY_START_TIME, app_status.start_time)
     end
   end
 end
