@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module LogArchiver
   # アプリケーションの状態を表すクラス
   class AppStatus
@@ -45,11 +47,11 @@ module LogArchiver
     # @param [Time] start_time アプリケーションの起動時刻
     # @param [String] commit_id コミットID
     def initialize(start_time, commit_id = '')
-      @start_time = start_time
-      @commit_id = commit_id
+      @start_time = start_time.dup.freeze
+      @commit_id = commit_id.dup.freeze
 
       @version_and_commit_id = commit_id.empty? ?
-        VERSION : "#{VERSION} (#{commit_id})"
+        VERSION : "#{VERSION} (#{commit_id})".freeze
     end
 
     # バージョンを返す

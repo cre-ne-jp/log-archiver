@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 module LogArchiver
@@ -21,6 +23,7 @@ module LogArchiver
 
     setup do
       @app_status = AppStatus.new(DUMMY_START_TIME, DUMMY_COMMIT_ID)
+      @app_status_without_commit_id = AppStatus.new(DUMMY_START_TIME, '')
 
       # Dir.chdir を書き換えるので、元のクラスメソッドを退避しておく
       Dir.singleton_class.class_eval do
@@ -41,12 +44,24 @@ module LogArchiver
       assert_equal(DUMMY_START_TIME, @app_status.start_time)
     end
 
+    test '#start_time はfreezeされている' do
+      assert(@app_status.start_time.frozen?)
+    end
+
     test '#commit_id はコミットIDを返す' do
       assert_equal(DUMMY_COMMIT_ID, @app_status.commit_id)
     end
 
+    test '#commit_id はfreezeされている' do
+      assert(@app_status.commit_id.frozen?)
+    end
+
     test '#version はバージョンを返す' do
       assert_equal(VERSION, @app_status.version)
+    end
+
+    test '#version はfreezeされている' do
+      assert(@app_status.version.frozen?)
     end
 
     test '#version_and_commit_id: バージョンとコミットIDを表す文字列を返す' do
@@ -55,8 +70,15 @@ module LogArchiver
     end
 
     test '#version_and_commit_id: コミットIDがない場合、バージョンのみが含まれる文字列を返す' do
-      app_status_without_commit_id = AppStatus.new(DUMMY_START_TIME, '')
-      assert_equal(VERSION, app_status_without_commit_id.version_and_commit_id)
+      assert_equal(VERSION, @app_status_without_commit_id.version_and_commit_id)
+    end
+
+    test '#version_and_commit_id: コミットIDがある場合、freezeされている' do
+      assert(@app_status.version_and_commit_id.frozen?)
+    end
+
+    test '#version_and_commit_id: コミットIDがない場合、freezeされている' do
+      assert(@app_status_without_commit_id.version_and_commit_id.frozen?)
     end
 
     test '.format_uptime: 1秒' do
