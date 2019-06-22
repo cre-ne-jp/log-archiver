@@ -13,6 +13,10 @@
 /config/ircbot.yml
 /config/unicorn.rb
 
+# Ignore db/schema.rb because automatically generated db/schema.rb will induce
+# database setup errors.
+/db/schema.rb
+
 # Ignore yarn and node file.
 /yarn.lock
 /node_modules/
