@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_21_174843) do
+ActiveRecord::Schema.define(version: 2019_06_22_062447) do
 
   create_table "channel_last_speeches", id: :integer, options: "ENGINE=Mroonga DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "channel_id"
@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 2018_10_21_174843) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "type"
-    t.integer "irc_user_id", default: 0, null: false
+    t.integer "irc_user_id", default: 1, null: false
     t.index ["message", "nick"], name: "index_conversation_messages_on_message_and_nick", type: :fulltext
     t.index ["message"], name: "index_conversation_messages_on_message", type: :fulltext
     t.index ["nick"], name: "index_conversation_messages_on_nick", type: :fulltext
@@ -68,7 +68,7 @@ ActiveRecord::Schema.define(version: 2018_10_21_174843) do
 
   create_table "messages", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "channel_id"
-    t.integer "irc_user_id"
+    t.integer "irc_user_id", default: 1, null: false
     t.string "type"
     t.datetime "timestamp", null: false
     t.string "nick", limit: 64, default: "", null: false
