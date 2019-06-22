@@ -10,11 +10,34 @@
             <h1>管理</h1>
           </div>
 
-          <div class="admin-menu">
+          <section class="admin-menu">
+            <h2>メニュー</h2>
             <p><%= link_to(fa_icon('user', text: '利用者'), users_path, class: 'btn btn-default btn-block') %></p>
             <p><%= link_to(fa_icon('cog', text: '設定'), settings_path, class: 'btn btn-default btn-block') %></p>
             <p><%= link_to(fa_icon('folder-open', text: 'チャンネル'), admin_channels_path, class: 'btn btn-default btn-block') %></p>
-          </div>
+          </section>
+
+          <% app_status = Rails.application.config.app_status %>
+          <% commit_id = app_status.commit_id %>
+          <section class="app-status">
+            <h2>アプリケーションの状態</h2>
+            <table class="table table-striped app-status-list">
+              <tbody>
+                <tr>
+                  <th class="app-status-version">バージョン</th>
+                  <td id="version" class="app-status-version"><%= app_status.version %></td>
+                </tr>
+                <tr>
+                  <th class="app-status-commit-id">コミット ID</th>
+                  <td id="commit-id" class="app-status-commit-id"><%= commit_id.empty? ? '-' : commit_id %></td>
+                </tr>
+                <tr>
+                  <th class="app-status-uptime">稼働時間</th>
+                  <td id="uptime" class="app-status-uptime"><%= app_status.formatted_uptime %>（<%= app_status.start_time.strftime('%F %T') %> に起動）</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
         </div>
       </div>
     </div>

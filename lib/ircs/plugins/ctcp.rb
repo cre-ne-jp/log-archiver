@@ -16,6 +16,7 @@ module LogArchiver
 
       # CTCP を返す
       ctcp(:clientinfo)
+      ctcp(:userinfo)
       ctcp(:version)
       ctcp(:ping)
       ctcp(:source)
@@ -25,8 +26,16 @@ module LogArchiver
       # @param [Cinch::Message] m
       # @return [void]
       def ctcp_clientinfo(m)
-        valid_cmds = %w(CLIENTINFO VERSION PING SOURCE TIME).sort
+        valid_cmds = %w(CLIENTINFO USERINFO VERSION PING SOURCE TIME).sort
         ctcp_reply(m, valid_cmds.join(' '))
+      end
+
+      # USERINFO に応答する
+      # @param [Cinch::Message] m
+      # @return [void]
+      def ctcp_userinfo(m)
+        app_status = Rails.application.config.app_status
+        ctcp_reply(m, "稼働時間: #{app_status.formatted_uptime} (#{app_status.start_time.strftime('%F %T')} に起動)")
       end
 
       # VERSION に応答する
