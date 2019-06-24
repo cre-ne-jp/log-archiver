@@ -18,47 +18,20 @@ class SetIrcUserId1ToDummy < ActiveRecord::Migration[5.2]
     first_irc_user = IrcUser.find_by(id: 1)
 
     if first_irc_user.nil?
-      puts
-      puts('[ダミーのIRCユーザーの作成]')
-      dummy_user = IrcUser.new(id: 1, user: DUMMY_USER, host: DUMMY_HOST)
-      dummy_user.save!
-      puts("ダミーのIRCユーザー: ユーザー名 = #{dummy_user.user}, ホスト = #{dummy_user.host}")
+      create_dummy_irc_user
     elsif first_irc_user.user == DUMMY_USER && first_irc_user.host == DUMMY_HOST
       puts
       puts('ダミーのIRCユーザーが既に設定されています')
+
+      update_message_irc_user_id_from_null_to_1
     else
-      puts
-      puts('[最初のIRCユーザーの情報のコピー]')
-      first_irc_user_copied = first_irc_user.dup
-      first_irc_user_copied.id = nil
-      first_irc_user_copied.created_at = first_irc_user.created_at
-      first_irc_user.save!
-      puts("最初のIRCユーザー: ユーザー名 = #{first_irc_user.user}, ホスト = #{first_irc_user.host}")
+      duplicated_first_irc_user = duplicate_first_irc_user(first_irc_user)
+      create_dummy_user_as_id_1(first_irc_user)
 
-      puts
-      puts('[ダミーのIRCユーザーをIRCユーザーID: 1として設定]')
-      dummy_user = first_irc_user
-      dummy_user.user = DUMMY_USER
-      dummy_user.host = DUMMY_HOST
-      dummy_user.save!
-      puts("ダミーのIRCユーザー: ユーザー名 = #{dummy_user.user}, ホスト = #{dummy_user.host}")
+      update_message_irc_user_id_from_1_to(duplicated_first_irc_user)
+      update_conversation_message_irc_user_id_from_1_to(duplicated_first_irc_user)
 
-      puts
-      puts('[メッセージのIRCユーザーIDの更新]')
-      n_message_updated = Message.
-        where(irc_user_id: 1).
-        update_all(irc_user_id: first_irc_user_copied.id)
-      puts("Message: #{n_message_updated} 件更新")
-
-      n_message_null_updated = Message.
-        where(irc_user_id: nil).
-        update_all(irc_user_id: 1)
-      puts("Message: #{n_message_null_updated} 件の NULL を解消")
-
-      n_conversation_message_updated = ConversationMessage.
-        where(irc_user_id: 1).
-        update_all(irc_user_id: first_irc_user_copied.id)
-      puts("ConversationMessage: #{n_conversation_message_updated} 件更新")
+      update_message_irc_user_id_from_null_to_1
     end
 
     puts
@@ -90,5 +63,84 @@ class SetIrcUserId1ToDummy < ActiveRecord::Migration[5.2]
   end
 
   def down
+  end
+
+  private
+
+  # ダミーのIRCユーザーを作る
+  # @return [IrcUser] ダミーのIRCユーザー
+  def create_dummy_irc_user
+    puts
+    puts('[ダミーのIRCユーザーの作成]')
+    dummy_user = IrcUser.new(id: 1, user: DUMMY_USER, host: DUMMY_HOST)
+    dummy_user.save!
+    puts("ダミーのIRCユーザー: ユーザー名 = #{dummy_user.user}, ホスト = #{dummy_user.host}")
+
+    dummy_user
+  end
+
+  # 最初のIRCユーザーをコピーする
+  # @param [IrcUser] first_irc_user 最初のIRCユーザー
+  # @return [IrcUser] コピーされた最初のIRCユーザー
+  def duplicate_first_irc_user(first_irc_user)
+    puts
+    puts('[最初のIRCユーザーの情報のコピー]')
+    duplicated_first_irc_user = first_irc_user.dup
+    duplicated_first_irc_user.id = nil
+    duplicated_first_irc_user.created_at = first_irc_user.created_at
+    duplicated_first_irc_user.save!
+    puts("最初のIRCユーザー -> id = #{duplicated_first_irc_user.id}, ユーザー名 = #{duplicated_first_irc_user.user}, ホスト = #{duplicated_first_irc_user.host}")
+
+    duplicated_first_irc_user
+  end
+
+  # ダミーのIRCユーザーをID 1として作る
+  # @param [IrcUser] first_irc_user 最初のIRCユーザー
+  # @return [IrcUser] ダミーのIRCユーザー
+  def create_dummy_user_as_id_1(first_irc_user)
+    puts
+    puts('[ダミーのIRCユーザーをIRCユーザーID: 1として設定]')
+    dummy_user = first_irc_user
+    dummy_user.user = DUMMY_USER
+    dummy_user.host = DUMMY_HOST
+    dummy_user.save!
+    puts("ダミーのIRCユーザー -> id = #{dummy_user.id}, ユーザー名 = #{dummy_user.user}, ホスト = #{dummy_user.host}")
+
+    dummy_user
+  end
+
+  # Message.irc_user_idをNULLから1に更新する
+  # @return [void]
+  def update_message_irc_user_id_from_null_to_1
+    puts
+    puts('[Message.irc_user_id: NULL を解消して 1 に設定する]')
+    n_message_null_updated = Message.
+      where(irc_user_id: nil).
+      update_all(irc_user_id: 1)
+    puts("Message.irc_user_id: #{n_message_null_updated} 件の NULL を解消")
+  end
+
+  # Message.irc_user_idを1からコピーされた最初のIRCユーザーのIDに更新する
+  # @param [IrcUser] duplicated_first_irc_user コピーされた最初のIRCユーザー
+  # @return [void]
+  def update_message_irc_user_id_from_1_to(duplicated_first_irc_user)
+    puts
+    puts('[Message.irc_user_id: 1 からコピーされた最初のIRCユーザーのIDに更新する]')
+    n_message_updated = Message.
+      where(irc_user_id: 1).
+      update_all(irc_user_id: duplicated_first_irc_user.id)
+    puts("Message.irc_user_id: #{n_message_updated} 件更新")
+  end
+
+  # ConversationMessage.irc_user_idを1からコピーされた最初のIRCユーザーのIDに更新する
+  # @param [IrcUser] duplicated_first_irc_user コピーされた最初のIRCユーザー
+  # @return [void]
+  def update_conversation_message_irc_user_id_from_1_to(duplicated_first_irc_user)
+    puts
+    puts('[ConversationMessage.irc_user_id: 1 からコピーされた最初のIRCユーザーのIDに更新する]')
+    n_conversation_message_updated = ConversationMessage.
+      where(irc_user_id: 1).
+      update_all(irc_user_id: duplicated_first_irc_user.id)
+    puts("ConversationMessage.irc_user_id: #{n_conversation_message_updated} 件更新")
   end
 end
