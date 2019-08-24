@@ -62,7 +62,7 @@ class ChannelsController < ApplicationController
   def update
     @channel = Channel.friendly.find(params[:id])
 
-    if @channel.update_attributes(channel_params_for_update)
+    if @channel.update(channel_params_for_update)
       flash[:success] = t('views.flash.updated_channel')
       redirect_to(admin_channel_path(@channel))
     else
