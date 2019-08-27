@@ -4,8 +4,11 @@ require 'time'
 namespace :data do
   namespace :import do
     desc 'JSON データを読み込み、データベースに保存する'
-    task :json, ['filename'] => :environment do |task, args|
-      json = File.open(args['filename']) do |file|
+    task :json, [:filename] => :environment do |task, args|
+      filename = args[:filename]
+      raise ArgumentError, '入力ファイルが指定されていません' unless filename
+
+      json = File.open(filename) do |file|
           file.read
         end
 
@@ -23,7 +26,7 @@ namespace :data do
               IrcUser.find_or_create_by(user: entry['user'],
                                         host: entry['host'])
             else
-              nil
+              IrcUser.find(1)
             end
 
           nick = entry['nick']
