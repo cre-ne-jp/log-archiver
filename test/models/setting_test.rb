@@ -31,6 +31,6 @@ class SettingTest < ActiveSupport::TestCase
     assert_equal(@setting.site_title, hash['site_title'])
     assert_equal(@setting.text_on_homepage, hash['text_on_homepage'])
     assert_equal(@setting.created_at, Time.parse(hash['created_at']))
-    assert_equal(@setting.updated_at, Time.parse(hash['created_at']))
+    assert_equal(@setting.updated_at, Time.parse(hash['updated_at']))
   end
 end

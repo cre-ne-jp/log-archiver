@@ -26,6 +26,6 @@ class JoinTest < ActiveSupport::TestCase
     assert_equal(@join.message, hash['message'])
     assert_equal(@join.target, hash['target'])
     assert_equal(@join.created_at, Time.parse(hash['created_at']))
-    assert_equal(@join.updated_at, Time.parse(hash['created_at']))
+    assert_equal(@join.updated_at, Time.parse(hash['updated_at']))
   end
 end

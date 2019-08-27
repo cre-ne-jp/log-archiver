@@ -118,7 +118,7 @@ class ChannelTest < ActiveSupport::TestCase
     assert_equal(@channel.identifier, hash['identifier'])
     assert_equal(@channel.logging_enabled, hash['logging_enabled'])
     assert_equal(@channel.created_at, Time.parse(hash['created_at']))
-    assert_equal(@channel.updated_at, Time.parse(hash['created_at']))
+    assert_equal(@channel.updated_at, Time.parse(hash['updated_at']))
     assert_equal(@channel.row_order, hash['row_order'])
     assert_equal(@channel.canonical_url_template, hash['canonical_url_template'])
   end

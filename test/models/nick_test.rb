@@ -44,6 +44,6 @@ class NickTest < ActiveSupport::TestCase
     assert_equal(@nick.message, hash['message'])
     assert_equal(@nick.target, hash['target'])
     assert_equal(@nick.created_at, Time.parse(hash['created_at']))
-    assert_equal(@nick.updated_at, Time.parse(hash['created_at']))
+    assert_equal(@nick.updated_at, Time.parse(hash['updated_at']))
   end
 end

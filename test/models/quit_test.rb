@@ -25,6 +25,6 @@ class QuitTest < ActiveSupport::TestCase
     assert_equal(@quit.message, hash['message'])
     assert_equal(@quit.target, hash['target'])
     assert_equal(@quit.created_at, Time.parse(hash['created_at']))
-    assert_equal(@quit.updated_at, Time.parse(hash['created_at']))
+    assert_equal(@quit.updated_at, Time.parse(hash['updated_at']))
   end
 end

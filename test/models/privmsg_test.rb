@@ -36,7 +36,7 @@ class PrivmsgTest < ActiveSupport::TestCase
     assert_equal(@privmsg.nick, hash['nick'])
     assert_equal(@privmsg.message, hash['message'])
     assert_equal(@privmsg.created_at, Time.parse(hash['created_at']))
-    assert_equal(@privmsg.updated_at, Time.parse(hash['created_at']))
+    assert_equal(@privmsg.updated_at, Time.parse(hash['updated_at']))
     assert_equal('Privmsg', hash['type'])
     assert_equal(@privmsg.irc_user_id, hash['irc_user_id'])
   end

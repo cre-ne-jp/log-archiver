@@ -31,6 +31,6 @@ class PartTest < ActiveSupport::TestCase
     assert_equal(@part.message, hash['message'])
     assert_equal(@part.target, hash['target'])
     assert_equal(@part.created_at, Time.parse(hash['created_at']))
-    assert_equal(@part.updated_at, Time.parse(hash['created_at']))
+    assert_equal(@part.updated_at, Time.parse(hash['updated_at']))
   end
 end

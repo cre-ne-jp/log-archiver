@@ -36,7 +36,7 @@ class NoticeTest < ActiveSupport::TestCase
     assert_equal(@notice.nick, hash['nick'])
     assert_equal(@notice.message, hash['message'])
     assert_equal(@notice.created_at, Time.parse(hash['created_at']))
-    assert_equal(@notice.updated_at, Time.parse(hash['created_at']))
+    assert_equal(@notice.updated_at, Time.parse(hash['updated_at']))
     assert_equal('Notice', hash['type'])
     assert_equal(@notice.irc_user_id, hash['irc_user_id'])
   end

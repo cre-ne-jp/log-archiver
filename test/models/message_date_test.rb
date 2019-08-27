@@ -60,6 +60,6 @@ class MessageDateTest < ActiveSupport::TestCase
     assert_equal(@message_date.channel_id, hash['channel_id'])
     assert_equal(@message_date.date, Date.parse(hash['date']))
     assert_equal(@message_date.created_at, Time.parse(hash['created_at']))
-    assert_equal(@message_date.updated_at, Time.parse(hash['created_at']))
+    assert_equal(@message_date.updated_at, Time.parse(hash['updated_at']))
   end
 end

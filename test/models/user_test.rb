@@ -72,6 +72,6 @@ class UserTest < ActiveSupport::TestCase
     assert_equal(@user.crypted_password, hash['crypted_password'])
     assert_equal(@user.salt, hash['salt'])
     assert_equal(@user.created_at, Time.parse(hash['created_at']))
-    assert_equal(@user.updated_at, Time.parse(hash['created_at']))
+    assert_equal(@user.updated_at, Time.parse(hash['updated_at']))
   end
 end

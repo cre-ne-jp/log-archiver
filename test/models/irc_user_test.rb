@@ -32,6 +32,6 @@ class IrcUserTest < ActiveSupport::TestCase
     assert_equal(@user.user, hash['user'])
     assert_equal(@user.host, hash['host'])
     assert_equal(@user.created_at, Time.parse(hash['created_at']))
-    assert_equal(@user.updated_at, Time.parse(hash['created_at']))
+    assert_equal(@user.updated_at, Time.parse(hash['updated_at']))
   end
 end

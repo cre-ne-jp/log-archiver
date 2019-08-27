@@ -23,7 +23,7 @@ class TopicTest < ActiveSupport::TestCase
     assert_equal(@topic.nick, hash['nick'])
     assert_equal(@topic.message, hash['message'])
     assert_equal(@topic.created_at, Time.parse(hash['created_at']))
-    assert_equal(@topic.updated_at, Time.parse(hash['created_at']))
+    assert_equal(@topic.updated_at, Time.parse(hash['updated_at']))
     assert_equal('Topic', hash['type'])
     assert_equal(@topic.irc_user_id, hash['irc_user_id'])
   end

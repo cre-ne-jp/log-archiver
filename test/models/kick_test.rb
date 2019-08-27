@@ -36,6 +36,6 @@ class KickTest < ActiveSupport::TestCase
     assert_equal(@kick.message, hash['message'])
     assert_equal(@kick.target, hash['target'])
     assert_equal(@kick.created_at, Time.parse(hash['created_at']))
-    assert_equal(@kick.updated_at, Time.parse(hash['created_at']))
+    assert_equal(@kick.updated_at, Time.parse(hash['updated_at']))
   end
 end
