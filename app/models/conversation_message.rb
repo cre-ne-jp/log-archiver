@@ -1,4 +1,6 @@
 class ConversationMessage < ApplicationRecord
+  include HashForJson
+
   belongs_to :channel
   belongs_to :irc_user
 

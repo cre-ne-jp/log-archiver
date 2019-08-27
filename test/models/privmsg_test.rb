@@ -26,4 +26,18 @@ class PrivmsgTest < ActiveSupport::TestCase
     assert_equal('12:35:03 <#irc_test:rgrb> プライベートメッセージ',
                  @privmsg.to_tiarra_format)
   end
+
+  test 'to_hash_for_json: 値が正しく設定される' do
+    hash = @privmsg.to_hash_for_json
+
+    assert_equal(@privmsg.id, hash['id'])
+    assert_equal(@privmsg.channel_id, hash['channel_id'])
+    assert_equal(@privmsg.timestamp, Time.parse(hash['timestamp']))
+    assert_equal(@privmsg.nick, hash['nick'])
+    assert_equal(@privmsg.message, hash['message'])
+    assert_equal(@privmsg.created_at, Time.parse(hash['created_at']))
+    assert_equal(@privmsg.updated_at, Time.parse(hash['created_at']))
+    assert_equal('Privmsg', hash['type'])
+    assert_equal(@privmsg.irc_user_id, hash['irc_user_id'])
+  end
 end

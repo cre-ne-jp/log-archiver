@@ -29,7 +29,7 @@ namespace :data do
       # filename_format には '%d' を含めること
       save_json_in_batch = lambda do |model_class, filename_format|
         i = 0
-        model_class.each_group_of_hash_for_json_in_batches do |hashes|
+        model_class.each_group_of_hash_for_json_in_batches(10000) do |hashes|
           filename = filename_format % i
           save_json[hashes, filename]
 
@@ -44,6 +44,7 @@ namespace :data do
         save_json_of[Setting, 'settings.json']
         save_json_of[User, 'users.json']
         save_json_in_batch[Message, 'messages_%d.json']
+        save_json_in_batch[ConversationMessage, 'conversation_messages_%d.json']
       end
     end
   end
