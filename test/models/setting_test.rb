@@ -23,4 +23,14 @@ class SettingTest < ActiveSupport::TestCase
     @setting.site_title = 'A' * 256
     refute(@setting.valid?)
   end
+
+  test 'to_hash_for_json: 値が正しく設定される' do
+    hash = @setting.to_hash_for_json
+
+    assert_equal(@setting.id, hash['id'])
+    assert_equal(@setting.site_title, hash['site_title'])
+    assert_equal(@setting.text_on_homepage, hash['text_on_homepage'])
+    assert_equal(@setting.created_at, Time.parse(hash['created_at']))
+    assert_equal(@setting.updated_at, Time.parse(hash['created_at']))
+  end
 end

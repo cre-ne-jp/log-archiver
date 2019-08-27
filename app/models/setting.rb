@@ -1,4 +1,6 @@
 class Setting < ApplicationRecord
+  include HashForJson
+
   validates(
     :site_title,
     presence: true,

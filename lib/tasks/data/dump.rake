@@ -40,7 +40,8 @@ namespace :data do
       chdir(output_dir, verbose: true) do
         save_json_of[Channel, 'channels.json']
         save_json_in_batch[IrcUser, 'irc_users_%d.json']
-        save_json_in_batch[MessageDate, 'message_date_%d.json']
+        save_json_in_batch[MessageDate, 'message_dates_%d.json']
+        save_json_of[Setting, 'settings.json']
       end
     end
   end
