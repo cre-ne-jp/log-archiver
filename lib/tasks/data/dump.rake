@@ -7,7 +7,9 @@ namespace :data do
       raise Errno::ENOTDIR, output_dir unless File.directory?(output_dir)
       raise Errno::EACCES, output_dir unless File.writable?(output_dir)
 
-      save_json = lambda do |filename, obj|
+      # 与えられたオブジェクトをJSONファイルに出力する
+      # これは直接呼び出さないこと
+      save_json = lambda do |obj, filename|
         File.open(filename, 'w') do |f|
           f.puts(JSON.pretty_generate(obj))
         end
@@ -15,17 +17,29 @@ namespace :data do
         puts(filename)
       end
 
-      chdir(output_dir, verbose: true) do
-        channels = Channel.hash_for_json
-        save_json['channels.json', channels]
+      # モデルに対応するJSONファイルを出力する
+      # 件数が少ない場合はこちらを使う
+      save_json_of = lambda do |model_class, filename|
+        hashes = model_class.hash_for_json
+        save_json[hashes, filename]
+      end
 
+      # バッチ処理でJSONファイルを出力する
+      # 件数が多く、JSONファイルを分割したい場合はこちらを使う
+      # filename_format には '%d' を含めること
+      save_json_in_batch = lambda do |model_class, filename_format|
         i = 0
-        IrcUser.each_group_of_hash_for_json_in_batches do |hashes|
-          filename = "irc_users_#{i}.json"
-          save_json[filename, hashes]
+        model_class.each_group_of_hash_for_json_in_batches do |hashes|
+          filename = filename_format % i
+          save_json[hashes, filename]
 
           i += 1
         end
+      end
+
+      chdir(output_dir, verbose: true) do
+        save_json_of[Channel, 'channels.json']
+        save_json_in_batch[IrcUser, 'irc_users_%d.json']
       end
     end
   end
