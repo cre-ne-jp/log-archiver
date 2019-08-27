@@ -26,7 +26,8 @@ namespace :data do
               IrcUser.find_or_create_by(user: entry['user'],
                                         host: entry['host'])
             else
-              IrcUser.find(1)
+              IrcUser.find_or_create_by(user: 'dummy',
+                                        host: 'irc.example.net')
             end
 
           nick = entry['nick']
