@@ -5,6 +5,8 @@ class Channel < ApplicationRecord
   include RankedModel
   ranks :row_order
 
+  include HashForJson
+
   # 発言以外のメッセージ
   has_many :messages
   # 発言のメッセージ
@@ -97,14 +99,6 @@ class Channel < ApplicationRecord
   # @return [Channel, nil]
   def self.from_cinch_message(m)
     find_by(name: m.channel.name[1..-1])
-  end
-
-  # JSON ダンプ用の Hash を返す
-  # @return [Hash]
-  def self.hash_for_json
-    all.map { |c|
-      JSON.parse(c.to_json)
-    }
   end
 
   # 接頭辞付きのチャンネル名を返す
