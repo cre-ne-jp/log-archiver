@@ -99,6 +99,14 @@ class Channel < ApplicationRecord
     find_by(name: m.channel.name[1..-1])
   end
 
+  # JSON ダンプ用の Hash を返す
+  # @return [Hash]
+  def self.hash_for_json
+    all.map { |c|
+      JSON.parse(c.to_json)
+    }
+  end
+
   # 接頭辞付きのチャンネル名を返す
   # @return [String]
   def name_with_prefix
