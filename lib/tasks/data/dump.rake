@@ -18,6 +18,14 @@ namespace :data do
       chdir(output_dir, verbose: true) do
         channels = Channel.hash_for_json
         save_json['channels.json', channels]
+
+        i = 0
+        IrcUser.each_group_of_hash_for_json_in_batches do |hashes|
+          filename = "irc_users_#{i}.json"
+          save_json[filename, hashes]
+
+          i += 1
+        end
       end
     end
   end

@@ -1,4 +1,6 @@
 class IrcUser < ApplicationRecord
+  include HashForJson
+
   has_many :messages
 
   validates :user,
