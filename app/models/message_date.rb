@@ -2,6 +2,8 @@
 
 # メッセージが存在する日付のモデル
 class MessageDate < ApplicationRecord
+  include HashForJson
+
   belongs_to :channel
   validates :channel, presence: true
   validates :date, presence: true
