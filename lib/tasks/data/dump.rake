@@ -42,6 +42,7 @@ namespace :data do
         save_json_in_batch[IrcUser, 'irc_users_%d.json']
         save_json_in_batch[MessageDate, 'message_dates_%d.json']
         save_json_of[Setting, 'settings.json']
+        save_json_of[User, 'users.json']
       end
     end
   end
