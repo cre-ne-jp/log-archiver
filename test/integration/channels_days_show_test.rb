@@ -5,9 +5,10 @@ class ChannelsDaysShowTest < ActionDispatch::IntegrationTest
     create(:setting)
     create(:user)
 
-    @channel = create(:channel)
-
+    Message.delete_all
     ConversationMessage.delete_all
+
+    @channel = create(:channel)
 
     # NICK 1件
     create(:nick_foo_bar_20140320012354)
@@ -35,11 +36,12 @@ class ChannelsDaysShowTest < ActionDispatch::IntegrationTest
 
     date = Date.new(2014, 3, 20)
     @browse = ChannelBrowse::Day.new(channel: @channel,
-                                    date: date,
-                                    style: :normal)
+                                     date: date,
+                                     style: :normal)
   end
 
   teardown do
+    Message.delete_all
     ConversationMessage.delete_all
   end
 
@@ -51,9 +53,8 @@ class ChannelsDaysShowTest < ActionDispatch::IntegrationTest
                   '#irc_test 2014-03-20',
                   'チャンネル名と日付の見出しが存在する')
 
-    assert_select('tr.message', 5)
     assert_select('tr.message-type-nick', 1)
-    assert_select('tr.message-type-privmsg', 3)
     assert_select('tr.message-type-notice', 1)
+    assert_select('tr.message-type-privmsg', 3)
   end
 end
