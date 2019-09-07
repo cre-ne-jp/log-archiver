@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Message < ApplicationRecord
   include HashForJson
 
@@ -15,5 +17,21 @@ class Message < ApplicationRecord
   # @return [String]
   def fragment_id
     "m#{id}"
+  end
+
+  # to_hash_for_json で残すキー
+  KEYS_OF_HASH_FOR_JSON =
+    %w(type timestamp nick message target channel user host).freeze
+
+  # JSON ダンプ用の Hash に変換する
+  # @return [Hash]
+  def to_hash_for_json
+    super.
+      select { |key, _| KEYS_OF_HASH_FOR_JSON.include?(key) }.
+      merge({
+        'channel' => channel.name,
+        'user' => irc_user.user,
+        'host' => irc_user.host
+      })
   end
 end

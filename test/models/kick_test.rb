@@ -1,6 +1,9 @@
 require 'test_helper'
+require 'models/test_helper_for_to_hash_for_json'
 
 class KickTest < ActiveSupport::TestCase
+  include TestHelperForToHashForJson
+
   setup do
     @kick = create(:kick)
   end
@@ -26,16 +29,6 @@ class KickTest < ActiveSupport::TestCase
 
   test 'to_hash_for_json: 値が正しく設定される' do
     hash = @kick.to_hash_for_json
-
-    assert_equal(@kick.id, hash['id'])
-    assert_equal(@kick.channel_id, hash['channel_id'])
-    assert_equal(@kick.irc_user_id, hash['irc_user_id'])
-    assert_equal('Kick', hash['type'])
-    assert_equal(@kick.timestamp, Time.parse(hash['timestamp']))
-    assert_equal(@kick.nick, hash['nick'])
-    assert_equal(@kick.message, hash['message'])
-    assert_equal(@kick.target, hash['target'])
-    assert_equal(@kick.created_at, Time.parse(hash['created_at']))
-    assert_equal(@kick.updated_at, Time.parse(hash['updated_at']))
+    assert_contain_valid_message_data(@kick, hash, 'Kick')
   end
 end

@@ -1,6 +1,9 @@
 require 'test_helper'
+require 'models/test_helper_for_to_hash_for_json'
 
 class NickTest < ActiveSupport::TestCase
+  include TestHelperForToHashForJson
+
   setup do
     @nick = create(:nick)
   end
@@ -34,16 +37,6 @@ class NickTest < ActiveSupport::TestCase
 
   test 'to_hash_for_json: 値が正しく設定される' do
     hash = @nick.to_hash_for_json
-
-    assert_equal(@nick.id, hash['id'])
-    assert_equal(@nick.channel_id, hash['channel_id'])
-    assert_equal(@nick.irc_user_id, hash['irc_user_id'])
-    assert_equal('Nick', hash['type'])
-    assert_equal(@nick.timestamp, Time.parse(hash['timestamp']))
-    assert_equal(@nick.nick, hash['nick'])
-    assert_equal(@nick.message, hash['message'])
-    assert_equal(@nick.target, hash['target'])
-    assert_equal(@nick.created_at, Time.parse(hash['created_at']))
-    assert_equal(@nick.updated_at, Time.parse(hash['updated_at']))
+    assert_contain_valid_message_data(@nick, hash, 'Nick')
   end
 end
