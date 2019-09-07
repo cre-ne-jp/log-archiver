@@ -33,9 +33,9 @@ class Channels::DaysController < ApplicationController
 
     sql_date_timestamp = Arel.sql('DATE(timestamp)')
     @speech_count = ConversationMessage.
-      where(channel: @channel,
-            type: %w(Privmsg Notice),
-            timestamp: date_range).
+      where(timestamp: date_range,
+            channel: @channel,
+            type: %w(Privmsg Notice)).
       group(sql_date_timestamp).
       order(sql_date_timestamp).
       count
@@ -71,12 +71,12 @@ class Channels::DaysController < ApplicationController
     timestamp_range = @date...(@date.next_day)
     messages = Message.
       includes(:channel, :irc_user).
-      where(channel: @channel, timestamp: timestamp_range).
+      where(timestamp: timestamp_range, channel: @channel).
       order(:timestamp, :id).
       to_a
     @conversation_messages = ConversationMessage.
       includes(:channel, :irc_user).
-      where(channel: @channel, timestamp: timestamp_range).
+      where(timestamp: timestamp_range, channel: @channel).
       order(:timestamp, :id).
       to_a
 

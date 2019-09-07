@@ -70,8 +70,11 @@ vi config/database.yml
 最後に、テーブルを作成します。
 
 ```bash
-bundle exec rake db:setup RAILS_ENV=production
+bin/rails db:migrate RAILS_ENV=production
+bin/rails db:seed RAILS_ENV=production
 ```
+
+**注意**：`bin/rails db:setup` でも同様にデータベースの準備を行いますが、Mroonga と相性が悪く、エラーが発生するようです。
 
 ## unicorn の設定
 
