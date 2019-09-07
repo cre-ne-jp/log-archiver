@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_01_053654) do
+ActiveRecord::Schema.define(version: 2019_09_01_151835) do
 
   create_table "channel_last_speeches", id: :integer, options: "ENGINE=Mroonga DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "channel_id"
@@ -76,14 +76,7 @@ ActiveRecord::Schema.define(version: 2019_09_01_053654) do
     t.string "target", limit: 64
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.index ["channel_id"], name: "index_messages_on_channel_id"
-    t.index ["id", "channel_id", "timestamp"], name: "index_messages_on_id_and_channel_id_and_timestamp"
-    t.index ["id", "channel_id"], name: "index_messages_on_id_and_channel_id"
-    t.index ["id", "timestamp"], name: "index_messages_on_id_and_timestamp"
-    t.index ["irc_user_id"], name: "index_messages_on_irc_user_id"
-    t.index ["nick"], name: "index_messages_on_nick"
-    t.index ["timestamp"], name: "index_messages_on_timestamp"
-    t.index ["type"], name: "index_messages_on_type"
+    t.index ["timestamp", "channel_id"], name: "index_messages_on_timestamp_and_channel_id"
   end
 
   create_table "settings", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
@@ -103,5 +96,7 @@ ActiveRecord::Schema.define(version: 2019_09_01_053654) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "channel_last_speeches", "channels", name: "channel_id"
   add_foreign_key "channel_last_speeches", "conversation_messages", name: "conversation_message_id"
+  add_foreign_key "conversation_messages", "channels", name: "channel_id"
 end
