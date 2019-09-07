@@ -71,7 +71,7 @@ class Channels::DaysController < ApplicationController
     timestamp_range = @date...(@date.next_day)
     messages = Message.
       includes(:channel, :irc_user).
-      where(channel: @channel, timestamp: timestamp_range).
+      where(timestamp: timestamp_range, channel: @channel).
       order(:timestamp, :id).
       to_a
     @conversation_messages = ConversationMessage.

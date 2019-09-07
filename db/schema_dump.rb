@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_22_062447) do
+ActiveRecord::Schema.define(version: 2019_09_01_053654) do
 
   create_table "channel_last_speeches", id: :integer, options: "ENGINE=Mroonga DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "channel_id"
@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 2019_06_22_062447) do
     t.index ["message", "nick"], name: "index_conversation_messages_on_message_and_nick", type: :fulltext
     t.index ["message"], name: "index_conversation_messages_on_message", type: :fulltext
     t.index ["nick"], name: "index_conversation_messages_on_nick", type: :fulltext
-    t.index ["timestamp", "channel_id", "type"], name: "index_cm_on_timestamp_and_channel_id_and_type"
+    t.index ["timestamp", "channel_id"], name: "index_conversation_messages_on_timestamp_and_channel_id"
     t.index ["type", "channel_id", "timestamp"], name: "index_cm_on_type_and_channel_id_and_timestamp"
   end
 
