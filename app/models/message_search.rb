@@ -145,7 +145,7 @@ class MessageSearch
 
   # 検索結果で必要な列
   MESSAGE_COLUMNS =
-    %i(type id channel_id irc_user_id timestamp nick message).freeze
+    %i(message nick type id channel_id irc_user_id timestamp).freeze
 
   # 検索結果を返す
   # @return [MessageSearchResult] 検索結果
@@ -154,15 +154,15 @@ class MessageSearch
     return nil unless valid?
 
     channels = @channels.empty? ?
-      [] : Channel.where(identifier: @channels)
+      [] : Channel.where(identifier: @channels).to_a
 
     messages = ConversationMessage.
+      full_text_search(@query).
+      filter_by_nick(@nick).
       filter_by_channels(channels).
       filter_by_since(@since).
       filter_by_until(@until).
-      filter_by_nick(@nick).
-      full_text_search(@query).
-      select('DATE(timestamp) AS date', *MESSAGE_COLUMNS).
+      select(*MESSAGE_COLUMNS, 'DATE(timestamp) AS date').
       order(timestamp: :desc).
       page(@page).
       includes(:channel)
