@@ -50,7 +50,7 @@ namespace :data do
       desc 'テーブルmessagesの内容をmessages_N.jsonに出力する'
       task :messages, [:output_dir] => :environment do |_, args|
         in_output_dir(args) do
-          save_json_in_batch(Message, 'messages_%d.json')
+          save_json_in_batch(Message, 'messages_%d.json', [:channel, :irc_user])
         end
       end
 
@@ -103,9 +103,11 @@ namespace :data do
       #
       # 件数が多く、JSONファイルを分割したい場合はこちらを使う。
       # filename_format には '%d' を含めること。
-      def save_json_in_batch(model_class, filename_format)
+      def save_json_in_batch(model_class, filename_format, with = [])
         i = 0
-        model_class.each_group_of_hash_for_json_in_batches(10000) do |hashes|
+        model_class.each_group_of_hash_for_json_in_batches(
+          10000, with
+        ) do |hashes|
           filename = filename_format % i
           save_json(hashes, filename)
 

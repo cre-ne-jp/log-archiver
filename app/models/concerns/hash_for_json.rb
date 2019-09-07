@@ -10,12 +10,15 @@ module HashForJson
 
     # JSON ダンプ用の Hash に対するバッチ処理
     # @param [Integer] batch_size バッチ数
+    # @param [Array<Symbol>] with eager_loadする列名の配列
     # @yieldparam [Array<Hash>] 取得した Hash の配列
-    def self.each_group_of_hash_for_json_in_batches(batch_size = 1000)
-      all.find_in_batches(batch_size: batch_size) do |entries|
-        hashes = entries.map(&:to_hash_for_json)
-        yield hashes
-      end
+    def self.each_group_of_hash_for_json_in_batches(batch_size = 1000, with = [])
+      all.
+        includes(with).
+        find_in_batches(batch_size: batch_size) do |entries|
+          hashes = entries.map(&:to_hash_for_json)
+          yield hashes
+        end
     end
   end
 
