@@ -57,7 +57,9 @@ namespace :data do
       desc 'テーブルconversation_messagesの内容をconversation_messages_N.jsonに出力する'
       task :conversation_messages, [:output_dir] => :environment do |_, args|
         in_output_dir(args) do
-          save_json_in_batch(ConversationMessage, 'conversation_messages_%d.json')
+          save_json_in_batch(ConversationMessage,
+                             'conversation_messages_%d.json',
+                             [:channel, :irc_user])
         end
       end
 

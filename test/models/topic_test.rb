@@ -1,6 +1,9 @@
 require 'test_helper'
+require 'models/test_helper_for_to_hash_for_json'
 
 class TopicTest < ActiveSupport::TestCase
+  include TestHelperForToHashForJson
+
   setup do
     @topic = create(:topic)
   end
@@ -16,15 +19,6 @@ class TopicTest < ActiveSupport::TestCase
 
   test 'to_hash_for_json: 値が正しく設定される' do
     hash = @topic.to_hash_for_json
-
-    assert_equal(@topic.id, hash['id'])
-    assert_equal(@topic.channel_id, hash['channel_id'])
-    assert_equal(@topic.timestamp, Time.parse(hash['timestamp']))
-    assert_equal(@topic.nick, hash['nick'])
-    assert_equal(@topic.message, hash['message'])
-    assert_equal(@topic.created_at, Time.parse(hash['created_at']))
-    assert_equal(@topic.updated_at, Time.parse(hash['updated_at']))
-    assert_equal('Topic', hash['type'])
-    assert_equal(@topic.irc_user_id, hash['irc_user_id'])
+    assert_contain_valid_conversation_message_data(@topic, hash, 'Topic')
   end
 end

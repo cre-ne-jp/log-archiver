@@ -1,6 +1,9 @@
 require 'test_helper'
+require 'models/test_helper_for_to_hash_for_json'
 
 class NoticeTest < ActiveSupport::TestCase
+  include TestHelperForToHashForJson
+
   setup do
     @notice = create(:notice)
   end
@@ -29,15 +32,6 @@ class NoticeTest < ActiveSupport::TestCase
 
   test 'to_hash_for_json: 値が正しく設定される' do
     hash = @notice.to_hash_for_json
-
-    assert_equal(@notice.id, hash['id'])
-    assert_equal(@notice.channel_id, hash['channel_id'])
-    assert_equal(@notice.timestamp, Time.parse(hash['timestamp']))
-    assert_equal(@notice.nick, hash['nick'])
-    assert_equal(@notice.message, hash['message'])
-    assert_equal(@notice.created_at, Time.parse(hash['created_at']))
-    assert_equal(@notice.updated_at, Time.parse(hash['updated_at']))
-    assert_equal('Notice', hash['type'])
-    assert_equal(@notice.irc_user_id, hash['irc_user_id'])
+    assert_contain_valid_conversation_message_data(@notice, hash, 'Notice')
   end
 end

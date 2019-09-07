@@ -1,6 +1,9 @@
 require 'test_helper'
+require 'models/test_helper_for_to_hash_for_json'
 
 class PrivmsgTest < ActiveSupport::TestCase
+  include TestHelperForToHashForJson
+
   setup do
     @privmsg = create(:privmsg)
   end
@@ -29,15 +32,6 @@ class PrivmsgTest < ActiveSupport::TestCase
 
   test 'to_hash_for_json: 値が正しく設定される' do
     hash = @privmsg.to_hash_for_json
-
-    assert_equal(@privmsg.id, hash['id'])
-    assert_equal(@privmsg.channel_id, hash['channel_id'])
-    assert_equal(@privmsg.timestamp, Time.parse(hash['timestamp']))
-    assert_equal(@privmsg.nick, hash['nick'])
-    assert_equal(@privmsg.message, hash['message'])
-    assert_equal(@privmsg.created_at, Time.parse(hash['created_at']))
-    assert_equal(@privmsg.updated_at, Time.parse(hash['updated_at']))
-    assert_equal('Privmsg', hash['type'])
-    assert_equal(@privmsg.irc_user_id, hash['irc_user_id'])
+    assert_contain_valid_conversation_message_data(@privmsg, hash, 'Privmsg')
   end
 end
