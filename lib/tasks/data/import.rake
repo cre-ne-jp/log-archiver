@@ -4,7 +4,7 @@ require 'time'
 namespace :data do
   namespace :import do
     desc 'JSON データを読み込み、データベースに保存する'
-    task :json, [:filename] => :environment do |task, args|
+    task :json, [:filename] => :environment do |_, args|
       filename = args[:filename]
       raise ArgumentError, '入力ファイルが指定されていません' unless filename
 
