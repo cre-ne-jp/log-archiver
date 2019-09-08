@@ -15,12 +15,7 @@ namespace :data do
       result = []
 
       Dir.glob(File.join(dir, '/*.json')) do |filename|
-        begin
-          json = File.read(filename, encoding: 'UTF-8')
-          result += JSON.parse(json)
-        rescue => e
-          $stderr.puts("#{filename} #{e}")
-        end
+        result += read_json(filename)
       end
 
       puts(JSON.generate(result))
@@ -28,10 +23,7 @@ namespace :data do
 
     desc 'JSON ファイル内のメッセージを、時系列に並べ替える'
     task :sort_by_time, [:filename] => :environment do |_, args|
-      filename = args[:filename]
-      raise ArgumentError, '入力ファイルが指定されていません' unless filename
-
-      entries = read_json(filename)
+      entries = read_json(args[:filename])
 
       i = 0
       entries.sort_by! do |entry|
@@ -43,10 +35,7 @@ namespace :data do
 
     desc 'データの JOIN メッセージから取得した IrcUser を補完する'
     task :supplement_user_host, [:filename] => :environment do |_, args|
-      filename = args[:filename]
-      raise ArgumentError, '入力ファイルが指定されていません' unless filename
-
-      entries = read_json(filename)
+      entries = read_json(args[:filename])
 
       # {'nick' => ['user', 'host']}
       irc_users = {}
@@ -77,6 +66,8 @@ namespace :data do
     # @param [String] filename 読み込むファイル名
     # @return [Array, Hash, Nil]
     def read_json(filename)
+      raise ArgumentError, '入力ファイルが指定されていません' unless filename
+
       begin
         entries = JSON.parse(File.read(filename, encoding: 'UTF-8'))
       rescue => e
