@@ -22,7 +22,7 @@ namespace :data do
           MessageDate.find_or_create_by(channel: channel, date: timestamp.to_date)
 
           irc_user =
-            if entry['user']
+            if entry['user'] && entry['host']
               IrcUser.find_or_create_by(user: entry['user'],
                                         host: entry['host'])
             else
