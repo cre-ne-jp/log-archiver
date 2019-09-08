@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# development環境で正常にリロードするために必要
+require_dependency 'log_archiver/version'
+
 module LogArchiver
   # アプリケーションの状態を表すクラス
   class AppStatus
