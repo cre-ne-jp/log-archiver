@@ -29,7 +29,7 @@ namespace :data do
       desc 'テーブルirc_usersの内容をirc_user_N.jsonに出力する'
       task :irc_users, [:output_dir] => :environment do |_, args|
         in_output_dir(args) do
-          save_json_in_batch(IrcUser, 'irc_users_%d.json')
+          save_json_in_batch(IrcUser, 'irc_users')
         end
       end
 
@@ -50,7 +50,7 @@ namespace :data do
       desc 'テーブルmessagesの内容をmessages_N.jsonに出力する'
       task :messages, [:output_dir] => :environment do |_, args|
         in_output_dir(args) do
-          save_json_in_batch(Message, 'messages_%d.json', [:channel, :irc_user])
+          save_json_in_batch(Message, 'messages', [:channel, :irc_user])
         end
       end
 
@@ -58,7 +58,7 @@ namespace :data do
       task :conversation_messages, [:output_dir] => :environment do |_, args|
         in_output_dir(args) do
           save_json_in_batch(ConversationMessage,
-                             'conversation_messages_%d.json',
+                             'conversation_messages',
                              [:channel, :irc_user])
         end
       end
@@ -101,14 +101,35 @@ namespace :data do
 
       # バッチ処理でJSONファイルを出力する
       # @param [Class] model_class モデルのクラス
-      # @param [String] filename 出力するJSONファイルの名前
+      # @param [String] filename_prefix 出力するJSONファイルの名前の接頭辞
       #
       # 件数が多く、JSONファイルを分割したい場合はこちらを使う。
-      # filename_format には '%d' を含めること。
-      def save_json_in_batch(model_class, filename_format, with = [])
-        i = 0
+      def save_json_in_batch(model_class, filename_prefix, with = [])
+        # 1ファイルに含める最大件数
+        # TODO: 変更できるようにする？
+        n_per_file = 10000
+
+        n = model_class.count
+        return if n < 1
+
+        # n_per_file件までは1ファイル
+        # (n_per_file + 1)件からは次のファイル
+        #
+        # 例:
+        #  9,999 件 -> 1 ファイル
+        # 10,000 件 -> 1 ファイル
+        # 10,001 件 -> 2 ファイル
+        # 19,999 件 -> 2 ファイル
+        # 20,000 件 -> 2 ファイル
+        # 20,001 件 -> 3 ファイル
+        n_files = 1 + (n - 1) / n_per_file
+
+        n_digits = 1 + Math.log10(n_files).floor
+        filename_format = "#{filename_prefix}_%0#{n_digits}d.json"
+
+        i = 1
         model_class.each_group_of_hash_for_json_in_batches(
-          10000, with
+          n_per_file, with
         ) do |hashes|
           filename = filename_format % i
           save_json(hashes, filename)
