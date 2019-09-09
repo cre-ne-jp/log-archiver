@@ -1,20 +1,26 @@
 # frozen_string_literal: true
 
 namespace :json do
+  # JSONファイルに出力するテーブルの一覧
+  TABLES_TO_DUMP = [
+    'channels',
+    'irc_users',
+    'settings',
+    'users',
+    'messages',
+    'conversation_messages'
+  ]
+
   desc 'データをJSONファイルに出力する。output_dir で出力先を指定する。'
   task :dump, [:output_dir] => :environment do |_, args|
-    tables = [
-      'channels',
-      'irc_users',
-      'settings',
-      'users',
-      'messages',
-      'conversation_messages'
-    ]
-
-    tables.each do |t|
-      Rake::Task["json:dump:#{t}"].invoke(args[:output_dir])
+    TABLES_TO_DUMP.each do |t|
+      task_to_invoke = "json:dump:#{t}"
+      puts("[#{task_to_invoke}]")
+      Rake::Task[task_to_invoke].invoke(args[:output_dir])
+      puts
     end
+
+    puts('JSONファイルへの出力が完了しました')
   end
 
   namespace :dump do
