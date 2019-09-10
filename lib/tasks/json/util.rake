@@ -5,8 +5,8 @@ require 'time'
 DUMMY_USER = 'dummy'.freeze
 DUMMY_HOST = 'irc.example.net'.freeze
 
-namespace :data do
-  namespace :json do
+namespace :json do
+  namespace :util do
     desc 'JSON ファイルを結合する'
     task :concat, [:dirname] => :environment do |task, args|
       dir = args[:dirname]
