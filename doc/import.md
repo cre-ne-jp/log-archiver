@@ -5,11 +5,11 @@ JSON への変換方法は、変換ツール(irclog2json)の使い方をご覧�
 
 ## 使い方
 
-rake タスク **data:import:json** を使います。変換後、以下のコマンドで log-archiver のデータベースにログをインポートします。
+rake タスク **json:import** を使います。変換後、以下のコマンドで log-archiver のデータベースにログをインポートします。
 
 ```bash
 cd /path/to/log-archiver
-rails data:import:json[/path/to/json] RAILS_ENV=production
+rails json:import[/path/to/json] RAILS_ENV=production
 ```
 
 ## 補助タスクの使い方
@@ -22,7 +22,7 @@ rails data:import:json[/path/to/json] RAILS_ENV=production
 
 ```bash
 cd /path/to/log-archiver
-rails data:json:concat[/path/to/json/directory] > concated.json
+rails json:util:concat[/path/to/json/directory] > concated.json
 ```
 
 ### 時系列に並べ替える
@@ -31,7 +31,7 @@ rails data:json:concat[/path/to/json/directory] > concated.json
 
 ```bash
 cd /path/to/log-archiver
-rails data:json:sort_by_time[/path/to/json] > sorted.json
+rails json:util:sort_by_time[/path/to/json] > sorted.json
 ```
 
 ### ユーザー名・ホスト名を補完する
@@ -42,5 +42,5 @@ PART/QUIT メッセージが見つかるまでに出現した各メッセージ�
 
 ```bash
 cd /path/to/log-archiver
-rails data:json:supplement_user_host[/path/to/json] > supplemented.json
+rails json:util:supplement_user_host[/path/to/json] > supplemented.json
 ```
