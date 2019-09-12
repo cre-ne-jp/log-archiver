@@ -34,7 +34,7 @@ namespace :json do
     end
 
     desc 'データの JOIN メッセージから取得した IrcUser を補完する'
-    task :supplement_user_host, [:filename] => :environment do |_, args|
+    task :complement_user_host, [:filename] => :environment do |_, args|
       entries = read_json(args[:filename])
 
       # {'nick' => ['user', 'host']}

@@ -42,5 +42,5 @@ PART/QUIT メッセージが見つかるまでに出現した各メッセージ�
 
 ```bash
 cd /path/to/log-archiver
-rails json:util:supplement_user_host[/path/to/json] > supplemented.json
+rails json:util:complement_user_host[/path/to/json] > complemented.json
 ```
