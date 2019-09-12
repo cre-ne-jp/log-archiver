@@ -34,7 +34,7 @@ class UsersController < ApplicationController
     @user = User.friendly.find(params[:id])
     old_username = @user.username
 
-    if @user.update_attributes(user_params)
+    if @user.update(user_params)
       flash[:success] = t('views.flash.updated_user')
       redirect_to(@user)
     else
