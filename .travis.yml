@@ -1,4 +1,5 @@
 language: ruby
+dist: bionic
 cache: bundler
 rvm:
   # テストで使用するRubyのバージョンを指定する
@@ -15,15 +16,18 @@ env:
   global:
     - TZ=Asia/Tokyo
 before_install:
-  - ./install-mroonga-on-travis-ci.sh
   # https://github.com/travis-ci/travis-ci/issues/8978#issuecomment-354036443
   - gem update --system
-before_script:
+install:
+  - travis/install-mroonga.sh
+  - sudo mysql -uroot < travis/create-mysql-user.sql
+  - bundle install --jobs=3 --retry=3 --deployment --path=vendor/bundle
   - cp config/database.yml.travis config/database.yml
-  - mysql -u root -e 'SET GLOBAL innodb_file_format = Barracuda'
-  - mysql -u root -e 'SET GLOBAL innodb_file_per_table = 1'
-  - mysql -u root -e 'SET GLOBAL innodb_large_prefix = 1'
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS log_archiver_test;'
+script:
+  - bin/rails db:create RAILS_ENV=test
+  - bin/rails db:migrate RAILS_ENV=test
+  - bin/rails db:migrate:status RAILS_ENV=test
+  - bin/rails test RAILS_ENV=test
 after_success:
   - bundle exec codeclimate-test-reporter
 notifications:

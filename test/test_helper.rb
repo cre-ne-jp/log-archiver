@@ -1,5 +1,12 @@
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
+
+if ENV['CI'] == 'true'
+  # CI環境では事前にテスト用データベースのマイグレーションを行うため
+  # テスト前のデータベースの準備を行わないようにする
+  ActiveRecord::Base.maintain_test_schema = false
+end
+
 require 'rails/test_help'
 
 require 'minitest/mock'
