@@ -37,22 +37,24 @@ namespace :json do
     task :complement_user_host, [:filename] => :environment do |_, args|
       entries = read_json(args[:filename])
 
-      # {'nick' => ['user', 'host']}
+      # {'nick'.downcase => ['user', 'host']}
       irc_users = {}
 
       entries.map! do |entry|
-        if (entry['user'].nil? || entry['user'] == DUMMY_USER) && (entry['host'].nil? || entry['host'] == DUMMY_HOST) && irc_users.has_key?(entry['nick'])
-          entry['user'], entry['host'] = irc_users[entry['nick']]
+        nick = entry['nick'].downcase
+
+        if (entry['user'].nil? || entry['user'] == DUMMY_USER) && (entry['host'].nil? || entry['host'] == DUMMY_HOST) && irc_users.has_key?(nick)
+          entry['user'], entry['host'] = irc_users[nick]
         end
 
         case entry['type'].upcase
         when 'JOIN'
-          irc_users[entry['nick']] = [entry['user'], entry['host']]
+          irc_users[nick] = [entry['user'], entry['host']]
         when 'PART', 'QUIT'
-          irc_users.delete(entry['nick'])
+          irc_users.delete(nick)
         when 'NICK'
-          if irc_users.has_key?(entry['nick'])
-            irc_users[entry['message']] = irc_users.delete(entry['nick'])
+          if irc_users.has_key?(nick)
+            irc_users[entry['message'].downcase] = irc_users.delete(nick)
           end
         end
 

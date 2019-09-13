@@ -38,7 +38,7 @@ namespace :json do
 
         target = entry['target']
 
-        case entry['type']
+        case entry['type'].upcase
         when 'PRIVMSG'
           Privmsg.create!(timestamp: timestamp,
                           channel: channel,
