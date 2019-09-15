@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-# development環境で正常にリロードするために必要
-require_dependency 'log_archiver/version'
+require 'log_archiver/version'
 
 module LogArchiver
   # アプリケーションの状態を表すクラス
@@ -54,13 +53,13 @@ module LogArchiver
       @commit_id = commit_id.dup.freeze
 
       @version_and_commit_id = commit_id.empty? ?
-        VERSION : "#{VERSION} (#{commit_id})".freeze
+        Version : "#{Version} (#{commit_id})".freeze
     end
 
     # バージョンを返す
     # @return [String]
     def version
-      VERSION
+      Version
     end
 
     # 稼働時間を返す

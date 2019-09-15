@@ -57,7 +57,7 @@ module LogArchiver
     end
 
     test '#version はバージョンを返す' do
-      assert_equal(VERSION, @app_status.version)
+      assert_equal(Version, @app_status.version)
     end
 
     test '#version はfreezeされている' do
@@ -65,12 +65,12 @@ module LogArchiver
     end
 
     test '#version_and_commit_id: バージョンとコミットIDを表す文字列を返す' do
-      assert_equal("#{VERSION} (#{DUMMY_COMMIT_ID})",
+      assert_equal("#{Version} (#{DUMMY_COMMIT_ID})",
                    @app_status.version_and_commit_id)
     end
 
     test '#version_and_commit_id: コミットIDがない場合、バージョンのみが含まれる文字列を返す' do
-      assert_equal(VERSION, @app_status_without_commit_id.version_and_commit_id)
+      assert_equal(Version, @app_status_without_commit_id.version_and_commit_id)
     end
 
     test '#version_and_commit_id: コミットIDがある場合、freezeされている' do
