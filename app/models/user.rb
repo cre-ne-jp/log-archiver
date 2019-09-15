@@ -7,7 +7,9 @@ class User < ApplicationRecord
   validates(
     :username,
     presence: true,
-    uniqueness: true,
+    uniqueness: {
+      case_sensitive: false
+    },
     length: { maximum: 255 }
   )
 

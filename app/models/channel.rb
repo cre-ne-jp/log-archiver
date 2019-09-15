@@ -30,13 +30,17 @@ class Channel < ApplicationRecord
   validates(
     :name,
     presence: true,
-    uniqueness: true,
+    uniqueness: {
+      case_sensitive: false
+    },
     format: { with: /\A[^# ,:]+[^ ,:]*\z/ }
   )
   validates(
     :identifier,
     presence: true,
-    uniqueness: true,
+    uniqueness: {
+      case_sensitive: false
+    },
     format: { with: /\A[A-Za-z][-_A-Za-z0-9]*\z/ }
   )
 

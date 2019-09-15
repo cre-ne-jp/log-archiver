@@ -10,7 +10,7 @@ class SettingsController < ApplicationController
     @setting = Setting.get
     old_site_title = @setting.site_title
 
-    if @setting.update_attributes(setting_params)
+    if @setting.update(setting_params)
       flash[:success] = t('views.flash.updated_settings')
       redirect_to(admin_path)
     else
