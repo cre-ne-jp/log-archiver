@@ -8,7 +8,7 @@ DUMMY_HOST = 'irc.example.net'.freeze
 namespace :json do
   namespace :util do
     desc 'JSON ファイルを結合する'
-    task :concat, [:dirname] => :environment do |task, args|
+    task :concat, [:dirname] => :environment do |_, args|
       dir = args[:dirname]
       raise ArgumentError, '入力ディレクトリが指定されていません' unless dir
 
@@ -71,7 +71,7 @@ namespace :json do
       raise ArgumentError, '入力ファイルが指定されていません' unless filename
 
       begin
-        entries = JSON.parse(File.read(filename, encoding: 'UTF-8'))
+        JSON.parse(File.read(filename, encoding: 'UTF-8'))
       rescue => e
         $stderr.puts("#{filename} #{e}")
       end

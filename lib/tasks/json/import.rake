@@ -7,10 +7,7 @@ namespace :json do
     filename = args[:filename]
     raise ArgumentError, '入力ファイルが指定されていません' unless filename
 
-    json = File.open(filename) do |file|
-        file.read
-      end
-
+    json = File.read(filename)
     JSON.parse(json).each do |entry|
       begin
         timestamp = Time.parse(entry['timestamp'])
