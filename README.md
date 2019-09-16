@@ -44,6 +44,7 @@ gem install bundler
 * [インストール](doc/install.md)
 * [IRC の接続設定](doc/irc.md)
 * [ウェブサーバの設定](doc/nginx.md)
+* [過去ログのインポート](doc/import.md)
 
 ## IRC ボットの起動
 
