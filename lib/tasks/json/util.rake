@@ -37,24 +37,36 @@ namespace :json do
     task :complement_user_host, [:filename] => :environment do |_, args|
       entries = read_json(args[:filename])
 
-      # {'nick'.downcase => ['user', 'host']}
+      # {
+      #   'channel'.downcase => {
+      #     'nick'.downcase => ['user', 'host']
+      #   }
+      # }
       irc_users = {}
 
       entries.map! do |entry|
         nick = entry['nick'].downcase
+        channel = entry['channel'].downcase
 
-        if (entry['user'].nil? || entry['user'] == DUMMY_USER) && (entry['host'].nil? || entry['host'] == DUMMY_HOST) && irc_users.has_key?(nick)
-          entry['user'], entry['host'] = irc_users[nick]
+        # キャッシュにチャンネル名が保存されていなければ追加
+        unless irc_users.has_key?(channel)
+          irc_users[channel] = {}
         end
 
+        # entry の書き換え
+        if (entry['user'].nil? || entry['user'] == DUMMY_USER) && (entry['host'].nil? || entry['host'] == DUMMY_HOST) && irc_users[channel].has_key?(nick)
+          entry['user'], entry['host'] = irc_users[channel][nick]
+        end
+
+        # キャッシュの管理
         case entry['type'].upcase
         when 'JOIN'
-          irc_users[nick] = [entry['user'], entry['host']]
+          irc_users[channel][nick] = [entry['user'], entry['host']]
         when 'PART', 'QUIT'
-          irc_users.delete(nick)
+          irc_users[channel].delete(nick)
         when 'NICK'
-          if irc_users.has_key?(nick)
-            irc_users[entry['message'].downcase] = irc_users.delete(nick)
+          if irc_users[channel].has_key?(nick)
+            irc_users[channel][entry['message'].downcase] = irc_users[channel].delete(nick)
           end
         end
 
@@ -71,7 +83,7 @@ namespace :json do
       raise ArgumentError, '入力ファイルが指定されていません' unless filename
 
       begin
-        JSON.parse(File.read(filename, encoding: 'UTF-8'))
+        entries = JSON.parse(File.read(filename, encoding: 'UTF-8'))
       rescue => e
         $stderr.puts("#{filename} #{e}")
       end
