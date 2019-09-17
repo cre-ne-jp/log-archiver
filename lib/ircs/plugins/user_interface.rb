@@ -99,7 +99,7 @@ module LogArchiver
       # サイト説明を返す
       # @param [Cinch::Message] m
       # @return [void]
-      def site_desc(m)
+      def site_description(m)
         header = ui_header('desc')
         send_and_record(m, header + Setting.first.text_on_homepage)
       end
