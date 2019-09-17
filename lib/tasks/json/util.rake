@@ -83,7 +83,7 @@ namespace :json do
       raise ArgumentError, '入力ファイルが指定されていません' unless filename
 
       begin
-        entries = JSON.parse(File.read(filename, encoding: 'UTF-8'))
+        JSON.parse(File.read(filename, encoding: 'UTF-8'))
       rescue => e
         $stderr.puts("#{filename} #{e}")
       end
