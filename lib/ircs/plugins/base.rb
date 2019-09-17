@@ -15,7 +15,6 @@ module LogArchiver
         super
 
         @logger = config[:logger]
-        @authentication_server = config[:authentication_server]
       end
 
       # IRC へ発言し、データベースに保存する
