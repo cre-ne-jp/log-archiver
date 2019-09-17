@@ -37,6 +37,7 @@ namespace :json do
     task :complement_user_host, [:filename] => :environment do |_, args|
       entries = read_json(args[:filename])
 
+      # キャッシュデータの構造
       # {
       #   'channel'.downcase => {
       #     'nick'.downcase => ['user', 'host']
