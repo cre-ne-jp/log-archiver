@@ -13,27 +13,11 @@ development:
     SSL: off
     # QUIT メッセージ。空にすると "Caught <signal>" が設定される
     QuitMessage: 'bye'
-  # IRC管理・運営サービス(Atheme-Services) の設定
-  AuthenticationServer:
-    # NickServ(Atheme-Services) の XMLRPC アドレス
-    XMLRPC: 'http://irc.example.com:6667/xmlrpc'
-    # ボット自身のアカウント情報
-    Account:
-      Nick: 'YOUR NICK'
-      Pass: 'PA$$WORD'
   # プラグインの設定
   Plugins:
     ChannelSync:
       # ログ記録が無効なチャンネルから自動的に退出するか
       PartEnable: off
-    LoginNickserv:
-      # NickServ の、IRCネットワーク内でのユーザー情報
-      NickServ:
-        Nick: 'NickServ'
-        User: 'NickServ'
-        Host: 'services.cre.jp'
-      # NickServ がリレーしているサーバアドレス
-      LoginServer: 'services.cre.jp'
     UserInterface:
       # ログ公開URLのホスト名
       # 末尾の / は要りません

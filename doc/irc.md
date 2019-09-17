@@ -73,33 +73,6 @@ IRC サーバから切断するときに出力するメッセージを指定し�
 
 <signal> には、TERM や INT など、システムシグナルが入ります。
 
-
-## AuthenticationServer
-
-IRC管理・運営サービス(Atheme-Services) にログインするための設定を行ないます。
-
-```
-AuthenticationServer:
-  # NickServ(Atheme-Services) の XMLRPC アドレス
-  XMLRPC: 'http://irc.example.com:6667/xmlrpc'
-  # ボット自身のアカウント情報
-  Account:
-    Nick: 'YOUR NICK'
-    Pass: 'PA$$WORD'
-```
-
-### XMLRPC
-
-Atheme-Services の API のアドレスを指定します。
-接続先の IRC サーバ管理者にお問い合わせください。
-
-### Account
-
-NickServ のアカウントを指定します。
-
-log-archiver には IRC に接続して自動的にアカウントを作成する機能はありません。
-予め log-archiver に名乗らせるニックネームで IRC サーバに接続し、アカウントを作成しておく必要があります。
-
 ## Plugins
 
 プラグインの設定を行ないます。
@@ -116,23 +89,6 @@ ChannelSync:
 
 on にすると、ログ記録対象ではないチャンネルに参加していた場合、自動的に退出します。
 off にすると、ログ記録対象チャンネルへの参加は自動的に行なわれますが、対象外のチャンネルに参加していた場合はそのまま退出しません(退出させるときは後述の Part プラグインを使用するか、KICK します)。
-
-### LoginNickserv
-
-```
-LoginNickserv:
-  # NickServ の、IRCネットワーク内でのユーザー情報
-  NickServ:
-    Nick: 'NickServ'
-    User: 'NickServ'
-    Host: 'services.cre.jp'
-  # NickServ がリレーしているサーバアドレス
-  LoginServer: 'services.cre.jp'
-```
-
-IRC ネットワークで利用されている NickServ サービスを設定します。
-
-NickServ はボットのようなインターフェイスを持っているため、どのようなボットか、ニックネーム・ユーザー名・接続元ホスト名と、NickServ が接続している IRC ネットワーク内のサーバ名を指定します。
 
 ### UserInterface
 

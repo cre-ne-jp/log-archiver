@@ -8,9 +8,6 @@ module LogArchiver
     # IRC ボットの設定のハッシュ
     # @return [Hash]
     attr_reader :irc_bot
-    # IRC管理・運営サービスの情報
-    # @return [Hash]
-    attr_reader :authentication_server
     # プラグインの設定
     # @return [Array<Hash>]
     attr_reader :plugins
@@ -45,7 +42,6 @@ module LogArchiver
     # @return [RGRB::Config]
     def initialize(config_data)
       @irc_bot = config_data['IRCBot']
-      @authentication_server = config_data['AuthenticationServer'] || {}
       @plugins = config_data['Plugins'] || []
     end
   end
