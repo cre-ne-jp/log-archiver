@@ -55,14 +55,18 @@ namespace :json do
         end
 
         # entry の書き換え
-        if (entry['user'].nil? || entry['user'] == DUMMY_USER) && (entry['host'].nil? || entry['host'] == DUMMY_HOST) && irc_users[channel].has_key?(nick)
+        user = entry['user']
+        host = entry['host']
+        user_is_nil_or_dummy = user.nil? || user == DUMMY_USER
+        host_is_nil_or_dummy = host.nil? || host == DUMMY_HOST
+        if user_is_nil_or_dummy && host_is_nil_or_dummy && irc_users[channel].has_key?(nick)
           entry['user'], entry['host'] = irc_users[channel][nick]
         end
 
         # キャッシュの管理
         case entry['type'].upcase
         when 'JOIN'
-          irc_users[channel][nick] = [entry['user'], entry['host']]
+          irc_users[channel][nick] = [user, host]
         when 'PART', 'QUIT'
           irc_users[channel].delete(nick)
         when 'NICK'
