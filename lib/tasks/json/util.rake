@@ -37,24 +37,41 @@ namespace :json do
     task :complement_user_host, [:filename] => :environment do |_, args|
       entries = read_json(args[:filename])
 
-      # {'nick'.downcase => ['user', 'host']}
+      # キャッシュデータの構造
+      # {
+      #   'channel'.downcase => {
+      #     'nick'.downcase => ['user', 'host']
+      #   }
+      # }
       irc_users = {}
 
       entries.map! do |entry|
         nick = entry['nick'].downcase
+        channel = entry['channel'].downcase
 
-        if (entry['user'].nil? || entry['user'] == DUMMY_USER) && (entry['host'].nil? || entry['host'] == DUMMY_HOST) && irc_users.has_key?(nick)
-          entry['user'], entry['host'] = irc_users[nick]
+        # キャッシュにチャンネル名が保存されていなければ追加
+        unless irc_users.has_key?(channel)
+          irc_users[channel] = {}
         end
 
+        # entry の書き換え
+        user = entry['user']
+        host = entry['host']
+        user_is_nil_or_dummy = user.nil? || user == DUMMY_USER
+        host_is_nil_or_dummy = host.nil? || host == DUMMY_HOST
+        if user_is_nil_or_dummy && host_is_nil_or_dummy && irc_users[channel].has_key?(nick)
+          entry['user'], entry['host'] = irc_users[channel][nick]
+        end
+
+        # キャッシュの管理
         case entry['type'].upcase
         when 'JOIN'
-          irc_users[nick] = [entry['user'], entry['host']]
+          irc_users[channel][nick] = [user, host]
         when 'PART', 'QUIT'
-          irc_users.delete(nick)
+          irc_users[channel].delete(nick)
         when 'NICK'
-          if irc_users.has_key?(nick)
-            irc_users[entry['message'].downcase] = irc_users.delete(nick)
+          if irc_users[channel].has_key?(nick)
+            irc_users[channel][entry['message'].downcase] = irc_users[channel].delete(nick)
           end
         end
 
