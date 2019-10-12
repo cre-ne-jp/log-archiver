@@ -1,6 +1,9 @@
 require 'test_helper'
+require 'models/test_helper_for_to_hash_for_json'
 
 class PrivmsgTest < ActiveSupport::TestCase
+  include TestHelperForToHashForJson
+
   setup do
     @privmsg = create(:privmsg)
   end
@@ -25,5 +28,10 @@ class PrivmsgTest < ActiveSupport::TestCase
   test 'Tiarra のログ形式が正しい' do
     assert_equal('12:35:03 <#irc_test:rgrb> プライベートメッセージ',
                  @privmsg.to_tiarra_format)
+  end
+
+  test 'to_hash_for_json: 値が正しく設定される' do
+    hash = @privmsg.to_hash_for_json
+    assert_contain_valid_conversation_message_data(@privmsg, hash, 'Privmsg')
   end
 end

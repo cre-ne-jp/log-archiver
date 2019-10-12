@@ -52,4 +52,14 @@ class MessageDateTest < ActiveSupport::TestCase
     ]
     assert_equal(expected, year_month_list)
   end
+
+  test 'to_hash_for_json: 値が正しく設定される' do
+    hash = @message_date.to_hash_for_json
+
+    assert_equal(@message_date.id, hash['id'])
+    assert_equal(@message_date.channel_id, hash['channel_id'])
+    assert_equal(@message_date.date, Date.parse(hash['date']))
+    assert_equal(@message_date.created_at, Time.parse(hash['created_at']))
+    assert_equal(@message_date.updated_at, Time.parse(hash['updated_at']))
+  end
 end

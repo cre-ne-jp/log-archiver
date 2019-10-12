@@ -1,6 +1,9 @@
 require 'test_helper'
+require 'models/test_helper_for_to_hash_for_json'
 
 class NickTest < ActiveSupport::TestCase
+  include TestHelperForToHashForJson
+
   setup do
     @nick = create(:nick)
   end
@@ -30,5 +33,10 @@ class NickTest < ActiveSupport::TestCase
 
   test 'Tiarra のログ形式が正しい' do
     assert_equal('12:35:01 rgrb -> rgrb2', @nick.to_tiarra_format)
+  end
+
+  test 'to_hash_for_json: 値が正しく設定される' do
+    hash = @nick.to_hash_for_json
+    assert_contain_valid_message_data(@nick, hash, 'Nick')
   end
 end

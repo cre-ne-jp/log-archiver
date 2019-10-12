@@ -5,6 +5,8 @@ class Channel < ApplicationRecord
   include RankedModel
   ranks :row_order
 
+  include HashForJson
+
   # 発言以外のメッセージ
   has_many :messages
   # 発言のメッセージ

@@ -62,4 +62,16 @@ class UserTest < ActiveSupport::TestCase
     @user.password_confirmation = 'a' * 7
     refute(@user.valid?)
   end
+
+  test 'to_hash_for_json: 値が正しく設定される' do
+    hash = @user.to_hash_for_json
+
+    assert_equal(@user.id, hash['id'])
+    assert_equal(@user.username, hash['username'])
+    assert_equal(@user.email, hash['email'])
+    assert_equal(@user.crypted_password, hash['crypted_password'])
+    assert_equal(@user.salt, hash['salt'])
+    assert_equal(@user.created_at, Time.parse(hash['created_at']))
+    assert_equal(@user.updated_at, Time.parse(hash['updated_at']))
+  end
 end

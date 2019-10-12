@@ -1,6 +1,9 @@
 require 'test_helper'
+require 'models/test_helper_for_to_hash_for_json'
 
 class NoticeTest < ActiveSupport::TestCase
+  include TestHelperForToHashForJson
+
   setup do
     @notice = create(:notice)
   end
@@ -25,5 +28,10 @@ class NoticeTest < ActiveSupport::TestCase
   test 'Tiarra のログ形式が正しい' do
     assert_equal('12:35:04 (#irc_test:rgrb) 通知',
                  @notice.to_tiarra_format)
+  end
+
+  test 'to_hash_for_json: 値が正しく設定される' do
+    hash = @notice.to_hash_for_json
+    assert_contain_valid_conversation_message_data(@notice, hash, 'Notice')
   end
 end

@@ -24,4 +24,14 @@ class IrcUserTest < ActiveSupport::TestCase
   test 'ユーザー名とホストを含む文字列の形式が正しい' do
     assert_equal('rgrb_bot@irc.cre.jp', @user.user_host)
   end
+
+  test 'to_hash_for_json: 値が正しく設定される' do
+    hash = @user.to_hash_for_json
+
+    assert_equal(@user.id, hash['id'])
+    assert_equal(@user.user, hash['user'])
+    assert_equal(@user.host, hash['host'])
+    assert_equal(@user.created_at, Time.parse(hash['created_at']))
+    assert_equal(@user.updated_at, Time.parse(hash['updated_at']))
+  end
 end

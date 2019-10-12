@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include HashForJson
+
   extend FriendlyId
   friendly_id :username
 
