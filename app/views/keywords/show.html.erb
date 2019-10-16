@@ -1,0 +1,23 @@
+<% title(@keyword.display_title) %>
+<div class="container main-container">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="main-panel">
+        <div class="panel-body">
+          <%= render('shared/flash') %>
+
+          <ol class="breadcrumb">
+            <li><%= link_to('キーワード', keywords_path) %></li>
+            <li class="active"><%= @keyword.display_title %></li>
+          </ol>
+
+          <article>
+            <div class="page-header">
+              <h1><%= @keyword.display_title %></h1>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

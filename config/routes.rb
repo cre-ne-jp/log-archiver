@@ -24,6 +24,8 @@ Rails.application.routes.draw do
     resource :search, only: %i(create show)
   end
 
+  resources :keywords, only: %i(index show)
+
   resources :users
   resources :user_sessions, only: %i(create)
 
