@@ -23,5 +23,15 @@ class KeywordsController < ApplicationController
 
   def show
     @keyword = Keyword.friendly.find(params[:id])
+
+    page_i = params[:page].to_i
+    page = page_i >= 1 ? page_i : 1
+    @logs = @keyword.privmsgs
+      .page(page)
+      .joins(:channel)
+      .select(:channel_id, :timestamp, 'DATE(timestamp) AS date', 'channels.row_order')
+      .distinct
+      .order('timestamp DESC', 'channels.row_order ASC')
+      .preload(:channel)
   end
 end

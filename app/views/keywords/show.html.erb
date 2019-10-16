@@ -13,8 +13,33 @@
 
           <article>
             <div class="page-header">
-              <h1><%= @keyword.display_title %></h1>
+              <h1>キーワード「<%= @keyword.display_title %>」を含むログ</h1>
             </div>
+
+            <p><%= page_entries_info(@logs, entry_name: 'ログ') %></p>
+
+            <table class="table table-striped channel-date-list">
+              <thead>
+                <tr>
+                  <th class="channel-date-channel">チャンネル</th>
+                  <th class="channel-date-date">日付</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% style = message_list_style(cookies) %>
+                <% @logs.each do |log| %>
+                  <% channel = log.channel %>
+                  <% date = log.date %>
+                  <% browse_day = ChannelBrowse::Day.new(channel: channel, date: date, style: style) %>
+                  <tr>
+                    <td class="channel-date-channel"><%= link_to(channel.name_with_prefix, channel) %></td>
+                    <td class="channel-date-date"><%= link_to(date.strftime('%F'), browse_day.path) %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+
+            <%= paginate(@logs, outer_window: 2) %>
           </article>
         </div>
       </div>
