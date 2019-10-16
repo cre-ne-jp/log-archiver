@@ -13,6 +13,11 @@ class Keyword < ApplicationRecord
   validates(:display_title,
             presence: true)
 
+  # 全文検索
+  scope :full_text_search, ->query {
+    where('MATCH(display_title) AGAINST(? IN BOOLEAN MODE)', "*D+ #{query}")
+  }
+
   # キーワードの表記を正規化する
   # @param [String] text 正規化するテキスト
   # @return [String]
