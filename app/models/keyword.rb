@@ -2,6 +2,9 @@ require 'nkf'
 require 'strscan'
 
 class Keyword < ApplicationRecord
+  extend FriendlyId
+  friendly_id :title
+
   validates(:title,
             presence: true)
   validates(:display_title,
