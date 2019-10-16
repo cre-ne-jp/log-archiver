@@ -1,0 +1,2 @@
+class PrivmsgKeywordRelationship < ApplicationRecord
+end
