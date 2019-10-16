@@ -28,6 +28,16 @@
                     <th scope="row">発言数</th>
                     <td><%= @conversation_messages.length %></td>
                   </tr>
+                  <% unless @privmsg_keyword_relationships.empty? %>
+                    <tr>
+                      <th scope="row">キーワード</th>
+                      <td>
+                        <% @privmsg_keyword_relationships.each do |r| %>
+                          <%= link_to(sanitize(r.keyword.display_title), r.keyword, class: 'channel-day-keyword-link') %>
+                        <% end %>
+                      </td>
+                    </tr>
+                  <% end %>
                   <tr class="message-visibility">
                     <th scope="row">表示</th>
                     <td>
