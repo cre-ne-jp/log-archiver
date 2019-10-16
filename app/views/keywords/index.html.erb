@@ -10,11 +10,26 @@
             <h1>キーワード</h1>
           </div>
 
-          <ul>
-            <% @keywords.each do |keyword| %>
-              <li><%= link_to(h(keyword.display_title), keyword) %></li>
-            <% end %>
-          </ul>
+          <p><%= page_entries_info(@keyword_privmsg_counts) %></p>
+
+          <table class="table table-striped keyword-list">
+            <thead>
+              <tr>
+                <th class="keyword-keyword">キーワード</th>
+                <th class="keyword-num-of-privmsgs">発言数</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @keyword_privmsg_counts.each do |keyword| %>
+                <tr>
+                  <td class="keyword-keyword"><%= link_to(h(keyword.display_title), keyword) %></td>
+                  <td class="keyword-num-of-privmsgs"><%= keyword.privmsg_count %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+
+          <%= paginate(@keyword_privmsg_counts, outer_window: 2) %>
         </div>
       </div>
     </div>
