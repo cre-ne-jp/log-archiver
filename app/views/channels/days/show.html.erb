@@ -32,7 +32,7 @@
                     <tr>
                       <th scope="row">キーワード</th>
                       <td>
-                        <% @privmsg_keyword_relationships.each do |r| %>
+                        <% @privmsg_keyword_relationships_for_header.each do |r| %>
                           <%= link_to(sanitize(r.keyword.display_title), r.keyword, class: 'channel-day-keyword-link') %>
                         <% end %>
                       </td>
@@ -82,7 +82,7 @@
                 <%= render(partial: 'raw_message', collection: @sorted_messages, as: :m) %>
               </div>
             <% else %>
-              <%= render('shared/message_list', messages: @sorted_messages, show_channel: false, style: :normal) %>
+              <%= render('shared/message_list', messages: @sorted_messages, privmsg_keyword_relationships: @privmsg_keyword_relationships, show_channel: false, style: :normal) %>
             <% end %>
 
             <div class="alert alert-info no-message-to-show">表示するメッセージがありません。</div>

@@ -34,7 +34,9 @@
 
           <p><%= page_entries_info(@messages) %></p>
 
-          <%= render(partial: 'message_group', collection: @result.message_groups.to_a) %>
+          <% privmsg_keyword_relationships ||= [] %>
+          <% privmsg_id_keyword_map = privmsg_keyword_relationships.map { |r| [r.privmsg_id, r.keyword] }.to_h %>
+          <%= render(partial: 'message_group', collection: @result.message_groups.to_a, locals: { privmsg_keyword_relationships: @privmsg_keyword_relationships, privmsg_id_keyword_map: privmsg_id_keyword_map }) %>
 
           <%= paginate(@messages, outer_window: 2) %>
         </div>

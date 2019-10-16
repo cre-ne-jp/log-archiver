@@ -80,13 +80,13 @@ class Channels::DaysController < ApplicationController
       order(:timestamp, :id).
       to_a
 
-    @privmsgs = @conversation_messages.select { |m| m.kind_of?(Privmsg) }
+    privmsgs = @conversation_messages.select { |m| m.kind_of?(Privmsg) }
     @privmsg_keyword_relationships = PrivmsgKeywordRelationship
-      .includes(:keyword)
-      .where(privmsg: @privmsgs)
-      .select(:keyword_id)
-      .distinct
+      .from_privmsgs(privmsgs)
       .to_a
+
+    @privmsg_keyword_relationships_for_header = @privmsg_keyword_relationships
+      .uniq(&:keyword_id)
 
     @browse_day_normal = ChannelBrowse::Day.new(
       channel: @channel, date: @date, style: :normal

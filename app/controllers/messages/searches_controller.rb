@@ -41,6 +41,12 @@ class Messages::SearchesController < ApplicationController
       @result = @message_search.result
 
       @messages = @result.messages
+
+      privmsgs = @messages.select { |m| m.kind_of?(Privmsg) }
+      @privmsg_keyword_relationships = PrivmsgKeywordRelationship
+        .from_privmsgs(privmsgs)
+        .to_a
+
       set_prev_link!(path_to_prev_page(@messages))
       set_next_link!(path_to_next_page(@messages))
     else
