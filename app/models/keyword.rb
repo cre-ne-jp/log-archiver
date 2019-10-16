@@ -5,6 +5,9 @@ class Keyword < ApplicationRecord
   extend FriendlyId
   friendly_id :title
 
+  has_many :privmsg_keyword_relationships, dependent: :destroy
+  has_many :privmsgs, through: :privmsg_keyword_relationships
+
   validates(:title,
             presence: true)
   validates(:display_title,
