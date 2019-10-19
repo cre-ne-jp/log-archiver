@@ -35,8 +35,8 @@
       <dl class="message">
         <dt><b class="nickname message-privmsg"><%= m.nick %></b></dt>
         <% if keyword = privmsg_id_keyword_map[m.id] %>
-          <% keyword_part = sanitize(m.message.sub('.k', '').strip) %>
-          <dd>.k <%= link_to(keyword_part, keyword) %></dd>
+          <% command_part = sanitize(m.message.sub(/([ 　]+).+/, '\1')) %>
+          <dd><%= command_part %><%= link_to(sanitize(keyword.display_title), keyword) %></dd>
         <% else %>
           <dd><%= raw(linkify(m.message)) %></dd>
         <% end %>
