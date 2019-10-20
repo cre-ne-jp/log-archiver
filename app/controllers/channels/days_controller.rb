@@ -80,11 +80,8 @@ class Channels::DaysController < ApplicationController
       order(:timestamp, :id).
       to_a
 
-    privmsgs = @conversation_messages.select { |m| m.kind_of?(Privmsg) }
-    @privmsg_keyword_relationships = PrivmsgKeywordRelationship
-      .from_privmsgs(privmsgs)
-      .to_a
-
+    @privmsg_keyword_relationships =
+      privmsg_keyword_relationships_from(@conversation_messages)
     @privmsg_keyword_relationships_for_header = @privmsg_keyword_relationships
       .uniq(&:keyword_id)
 
