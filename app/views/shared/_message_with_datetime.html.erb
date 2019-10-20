@@ -1,7 +1,7 @@
 <% anchor = m.fragment_id %>
 <% browse_day = ChannelBrowse::Day.new(channel: m.channel, date: m.timestamp.to_date) %>
 <tr class="message message-type-<%= m.type.downcase %>">
-  <td class="message-datetime"><%= link_to(m.timestamp.strftime('%F %T'), browse_day.path(anchor: anchor), id: anchor) %></td>
+  <td class="message-datetime"><%= link_to(m.timestamp.strftime('%F %T'), browse_day.path(anchor: anchor)) %></td>
   <% if show_channel %>
     <td class="message-channel"><%= link_to(m.channel.name_with_prefix, m.channel) %></td>
   <% end %>
@@ -35,8 +35,7 @@
       <dl class="message">
         <dt><b class="nickname message-privmsg"><%= m.nick %></b></dt>
         <% if keyword = privmsg_id_keyword_map[m.id] %>
-          <% keyword_part = sanitize(m.message.sub('.k', '').strip) %>
-          <dd>.k <%= link_to(keyword_part, keyword) %></dd>
+          <dd><%= linkify_keyword(m, keyword) %></dd>
         <% else %>
           <dd><%= raw(linkify(m.message)) %></dd>
         <% end %>

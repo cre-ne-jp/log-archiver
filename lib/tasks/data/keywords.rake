@@ -10,44 +10,19 @@ namespace :data do
     end
 
     desc '登録されているPRIVMSGからキーワードを抽出して登録する'
-    task :extract_from_privmsgs => :environment do
+    task :extract_from_privmsgs, [:command] => :environment do |_, args|
+      args.with_defaults(command: '.k')
+
       privmsgs = Privmsg.
-        where("message LIKE '.k %'").
+        where("message LIKE '#{args[:command]}%'").
         order(:timestamp)
 
       n_keywords = 0
       n_privmsgs = 0
       privmsgs.find_each do |privmsg|
-        display_title = privmsg.message.sub(/\A\.k /, '').strip
-        title = Keyword.normalize(display_title)
-
-        keyword = Keyword.find_or_initialize_by(title: title)
-        if keyword.new_record?
-          keyword.display_title = display_title
-
-          begin
-            keyword.save!
-
-            n_keywords += 1
-            puts("#{title} => #{display_title}")
-          rescue => e
-            puts("! #{title}: #{e}")
-            next
-          end
-        end
-
-        unless privmsg.keyword == keyword
-          begin
-            privmsg.keyword = keyword
-            privmsg.save!
-
-            n_privmsgs += 1
-            puts("PRIVMSG #{privmsg.id} <-> #{keyword.title}")
-          rescue => e
-            puts("! PRIVMSG #{privmsg.id} <-> #{keyword.title}: #{e}")
-            next
-          end
-        end
+        result = LogArchiver::ExtractKeyword.run(privmsg, /#{args[:command]}[ 　]+/o, quiet: false)
+        n_keywords += 1 if result[:keyword]
+        n_privmsgs += 1 if result[:privmsg]
       end
 
       puts
