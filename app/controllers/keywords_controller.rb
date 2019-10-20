@@ -29,9 +29,9 @@ class KeywordsController < ApplicationController
     @logs = @keyword.privmsgs
       .page(page)
       .joins(:channel)
-      .select(:channel_id, :timestamp, 'DATE(timestamp) AS date', 'channels.row_order')
+      .select(:channel_id, 'DATE(timestamp) AS date', 'channels.row_order')
       .distinct
-      .order('timestamp DESC', 'channels.row_order ASC')
+      .order('date DESC', 'channels.row_order ASC')
       .preload(:channel)
   end
 end
