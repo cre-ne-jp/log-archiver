@@ -25,11 +25,16 @@ class Keyword < ApplicationRecord
   # * 英数字といくつかの記号を半角にする
   # * 半角片仮名を全角にする
   # * 全角空白を半角にする
+  # * パスに使われる記号をアンダーバーに置換する
   # * 空白をアンダーバーに置換する
   # * アンダーバーの出現回数を最小化する
   def self.normalize(text)
     nkfed = NKF.nkf('-Ww -Z0 -Z1 -X -m0', text)
-    spaces_replaced = nkfed.gsub(/\s/, '_')
+
+    # URL生成時に失敗しないよう、パスに使われる記号を置換する
+    symbols_for_path_replaced = nkfed.gsub(%r![./]!, '_')
+
+    spaces_replaced = symbols_for_path_replaced.gsub(/\s/, '_')
     underbars_trimmed = spaces_replaced.
       sub(/\A_+/, '').
       sub(/_+\z/, '')

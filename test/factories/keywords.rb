@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :keyword do
-    title { 'sword_world_2.0' }
     display_title { 'Sword World 2.0' }
+    title { Keyword.normalize(display_title) }
 
     initialize_with {
       Keyword.find_or_initialize_by(title: title) do |new_keyword|

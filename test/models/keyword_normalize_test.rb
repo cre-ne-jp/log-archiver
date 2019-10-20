@@ -60,4 +60,16 @@ class KeywordNormalizeTest < ActiveSupport::TestCase
     assert_equal('テストthe_blacklistテスト',
                  Keyword.normalize('テスト__the___blacklist_テスト'))
   end
+
+  # URL生成で失敗しないように
+  test 'ドットを除去する' do
+    assert_equal('sword_world_2_0', Keyword.normalize('Sword World 2.0'))
+    assert_equal('sword_world_2_0', Keyword.normalize('Sword World 2．0'))
+  end
+
+  # URL生成で失敗しないように
+  test 'スラッシュを除去する' do
+    assert_equal('fate_stay_night', Keyword.normalize('Fate/stay night'))
+    assert_equal('fate_stay_night', Keyword.normalize('Fate／stay night'))
+  end
 end
