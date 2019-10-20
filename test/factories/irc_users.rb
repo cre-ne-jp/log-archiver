@@ -3,7 +3,9 @@ FactoryBot.define do
     user { 'rgrb_bot' }
     host { 'irc.cre.jp' }
 
-    initialize_with { IrcUser.find_or_create_by(user: user) }
+    initialize_with {
+      IrcUser.find_or_initialize_by(user: user, host: host)
+    }
 
     factory :irc_user_role do
       user { 'Role' }
