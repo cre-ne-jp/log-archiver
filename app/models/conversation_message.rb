@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class ConversationMessage < ApplicationRecord
+  include MessagesFragment
+
+  before_save :add_fragment
+
   belongs_to :channel
   belongs_to :irc_user
 
@@ -62,6 +66,6 @@ class ConversationMessage < ApplicationRecord
   # URLのフラグメント識別子を返す
   # @return [String]
   def fragment_id
-    "c#{id}"
+    "c#{fragment_hash}"
   end
 end

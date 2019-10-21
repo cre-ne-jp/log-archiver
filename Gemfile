@@ -79,6 +79,9 @@ gem 'ranked-model'
 # グラフ描画
 gem 'chart-js-rails'
 
+# 高速なハッシュ関数ライブラリ
+gem 'cfnv'
+
 # コンソールとして pry を使う
 gem 'pry-rails'
 
