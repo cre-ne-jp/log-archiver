@@ -1,4 +1,6 @@
 class Message < ApplicationRecord
+  include MessageDigest
+
   belongs_to :channel
   belongs_to :irc_user
 
@@ -11,7 +13,5 @@ class Message < ApplicationRecord
 
   # URLのフラグメント識別子を返す
   # @return [String]
-  def fragment_id
-    "m#{id}"
-  end
+  alias fragment_id digest
 end

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ConversationMessage < ApplicationRecord
+  include MessageDigest
+
   belongs_to :channel
   belongs_to :irc_user
 
@@ -61,7 +63,5 @@ class ConversationMessage < ApplicationRecord
 
   # URLのフラグメント識別子を返す
   # @return [String]
-  def fragment_id
-    "c#{id}"
-  end
+  alias fragment_id digest
 end
