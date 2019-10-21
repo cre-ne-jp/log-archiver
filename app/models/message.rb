@@ -1,7 +1,7 @@
 class Message < ApplicationRecord
-  include MessagesFragment
+  include MessagesDigest
 
-  before_save :add_fragment
+  before_save :add_digest
 
   belongs_to :channel
   belongs_to :irc_user
@@ -16,6 +16,6 @@ class Message < ApplicationRecord
   # URLのフラグメント識別子を返す
   # @return [String]
   def fragment_id
-    "m#{fragment_hash}"
+    "m#{digest_hash}"
   end
 end

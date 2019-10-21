@@ -1,5 +1,5 @@
 namespace :data do
-  namespace :initialize_fragments do
+  namespace :initialize_digests do
     desc 'ConversationMessage のフラグメント識別子を初期化する'
     task :conversation_messages => :environment do
       n = 0
@@ -7,12 +7,12 @@ namespace :data do
         all.
         each { |msg|
         puts msg.id
-          before = msg.fragment.dup
-          msg.fragment = ''
+          before = msg.digest.dup
+          msg.digest = ''
           msg.save!
-          if before != msg.fragment
+          if before != msg.digest
             n += 1
-            puts("ConversationMessage: #{msg.id} '#{before}' -> '#{msg.fragment}'")
+            puts("ConversationMessage: #{msg.id} '#{before}' -> '#{msg.digest}'")
           end
         }
 
@@ -25,12 +25,12 @@ namespace :data do
       Message.
         all.
         each { |msg|
-          before = msg.fragment.dup
-          msg.fragment = ''
+          before = msg.digest.dup
+          msg.digest = ''
           msg.save!
-          if before != msg.fragment
+          if before != msg.digest
             n += 1
-            puts("Message: #{msg.id} '#{before}' -> '#{msg.fragment}'")
+            puts("Message: #{msg.id} '#{before}' -> '#{msg.digest}'")
           end
         }
 
@@ -39,8 +39,8 @@ namespace :data do
 
     desc 'フラグメント識別子を初期化する'
     task :all => :environment do
-      Rake::Task['data:initialize_fragments:conversation_messages'].invoke
-      Rake::Task['data:initialize_fragments:messages'].invoke
+      Rake::Task['data:initialize_digests:conversation_messages'].invoke
+      Rake::Task['data:initialize_digests:messages'].invoke
     end
   end
 end
