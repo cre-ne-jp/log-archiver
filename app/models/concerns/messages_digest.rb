@@ -10,12 +10,17 @@ module MessagesDigest
   # CFnv インスタンス
   CFNV = CFnv.new
 
+  # 識別子のハッシュ本体を得る
+  def digest_hash
+    digest.sub('fnv1a32:', '')
+  end
+
   # フラグメント識別子をオブジェクトに作成・追加する
   def add_digest
     unless digest.match?(DIGEST_REGEXP)
-      original_string = "#{timestamp.to_i}#{type}#{nick}#{message}"
+      original_string = "#{timestamp.to_i} #{type} #{nick} #{message}"
       hash_integer = CFNV.fnv1a32(original_string)
-      self.digest = sprintf("%0#{DIGEST_HASH_LENGTH}x", hash_integer)
+      self.digest = sprintf("fnv1a32:%0#{DIGEST_HASH_LENGTH}x", hash_integer)
 
       self.save! if self.changed?
     end

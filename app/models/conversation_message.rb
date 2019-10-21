@@ -67,6 +67,6 @@ class ConversationMessage < ApplicationRecord
   # URLのフラグメント識別子を返す
   # @return [String]
   def fragment_id
-    "c#{digest}"
+    "c#{digest_hash}"
   end
 end
