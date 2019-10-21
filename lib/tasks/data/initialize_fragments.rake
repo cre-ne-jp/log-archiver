@@ -3,9 +3,10 @@ namespace :data do
     desc 'ConversationMessage のフラグメント識別子を初期化する'
     task :conversation_messages => :environment do
       n = 0
-      messages = ConversationMessage.
+      ConversationMessage.
         all.
         each { |msg|
+        puts msg.id
           before = msg.fragment.dup
           msg.fragment = ''
           msg.save!
@@ -21,7 +22,7 @@ namespace :data do
     desc 'Message のフラグメント識別子を初期化する'
     task :messages => :environment do
       n = 0
-      messages = Message.
+      Message.
         all.
         each { |msg|
           before = msg.fragment.dup
