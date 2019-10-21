@@ -25,6 +25,8 @@ module MessagesDigest
       hash_integer = cfnv.send(DIGEST_HASH_FUNCTION, original_string)
       digest_string = sprintf("%0#{DIGEST_HASH_LENGTH}x", hash_integer)
       self.digest = "#{DIGEST_HASH_FUNCTION}:#{digest_string}"
+
+      self.save! if self.changed?
     end
 
     self

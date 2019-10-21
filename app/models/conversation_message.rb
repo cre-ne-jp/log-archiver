@@ -3,6 +3,7 @@
 class ConversationMessage < ApplicationRecord
   include MessagesDigest
 
+  after_find :add_digest
   before_save :add_digest
 
   belongs_to :channel
