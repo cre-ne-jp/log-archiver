@@ -13,6 +13,7 @@ module MessagesFragment
   # フラグメント識別子を得る
   # @return [String]
   def fragment_hash
+#    fragment.sub("#{FRAGMENT_HASH_FUNCTION}:", '')
     fragment.match(FRAGMENT_REGEXP)[1]
   end
 
@@ -22,7 +23,7 @@ module MessagesFragment
       cfnv = CFnv.new
       original_string = "#{timestamp}#{type}#{nick}#{message}"
       hash_integer = cfnv.send(FRAGMENT_HASH_FUNCTION, original_string)
-      fragment_string = sprintf('%x', hash_integer)
+      fragment_string = sprintf('%08x', hash_integer)
       self.fragment = "#{FRAGMENT_HASH_FUNCTION}:#{fragment_string}"
     end
 
