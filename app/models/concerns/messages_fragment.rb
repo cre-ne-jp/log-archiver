@@ -21,9 +21,9 @@ module MessagesFragment
   def add_fragment
     unless fragment.match?(FRAGMENT_REGEXP)
       cfnv = CFnv.new
-      original_string = "#{timestamp}#{type}#{nick}#{message}"
+      original_string = "#{timestamp.to_i}#{type}#{nick}#{message}"
       hash_integer = cfnv.send(FRAGMENT_HASH_FUNCTION, original_string)
-      fragment_string = sprintf('%08x', hash_integer)
+      fragment_string = sprintf("%0#{FRAGMENT_HASH_LENGTH}x", hash_integer)
       self.fragment = "#{FRAGMENT_HASH_FUNCTION}:#{fragment_string}"
     end
 
