@@ -46,6 +46,6 @@ class MessageTest < ActiveSupport::TestCase
   end
 
   test 'fragment_id が正しい' do
-    assert_equal("m#{@message.digest_hash}", @message.fragment_id)
+    assert_equal("m#{@message.digest_value}", @message.fragment_id)
   end
 end
