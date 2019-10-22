@@ -82,6 +82,9 @@ gem 'chart-js-rails'
 # 高速なハッシュ関数ライブラリ
 gem 'cfnv'
 
+# バルクアップデートに使う
+gem 'activerecord-import'
+
 # コンソールとして pry を使う
 gem 'pry-rails'
 
