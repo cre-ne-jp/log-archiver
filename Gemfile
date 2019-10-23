@@ -11,6 +11,7 @@ gem 'rails', '~> 6.0'
 # Use mysql as the database for Active Record
 gem 'mysql2', '~> 0.5'
 
+# バルクアップデートに使う
 gem 'activerecord-import'
 
 # Use SCSS for stylesheets
