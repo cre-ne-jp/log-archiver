@@ -145,7 +145,7 @@ class MessageSearch
 
   # 検索結果で必要な列
   MESSAGE_COLUMNS =
-    %i(message nick type id channel_id irc_user_id timestamp).freeze
+    %i(message nick type id channel_id irc_user_id timestamp digest).freeze
 
   # 検索結果を返す
   # @return [MessageSearchResult] 検索結果

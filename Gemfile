@@ -11,6 +11,7 @@ gem 'rails', '~> 6.0'
 # Use mysql as the database for Active Record
 gem 'mysql2', '~> 0.5'
 
+# バルクアップデートに使う
 gem 'activerecord-import'
 
 # Use SCSS for stylesheets
@@ -78,6 +79,9 @@ gem 'ranked-model'
 
 # グラフ描画
 gem 'chart-js-rails'
+
+# 高速なハッシュ関数ライブラリ
+gem 'cfnv'
 
 # コンソールとして pry を使う
 gem 'pry-rails'

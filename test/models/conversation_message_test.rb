@@ -46,6 +46,6 @@ class ConversationMessageTest < ActiveSupport::TestCase
   end
 
   test 'fragment_id が正しい' do
-    assert_equal("c#{@message.id}", @message.fragment_id)
+    assert_equal("c#{@message.digest_value}", @message.fragment_id)
   end
 end
