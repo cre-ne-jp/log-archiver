@@ -8,6 +8,8 @@ module LogArchiver
     class UserInterface < Base
       include Cinch::Plugin
 
+      HELP_URL = "https://github.com/cre-ne-jp/log-archiver/blob/#{Rails.application.config.app_status.commit_id}/doc/irc.md#userinterface"
+
       set(plugin_name: 'UserInterface')
       self.prefix = '.log '
 
@@ -21,6 +23,10 @@ module LogArchiver
       match(/status/, method: :status)
       # サイト名と説明を返す
       match(/site desc/, method: :site_description)
+
+      # ヘルプメッセージを返す
+      match(/help/, method: :help)
+      match(/help/, method: :help, prefix: '.')
 
       def initialize(*)
         super
@@ -102,6 +108,14 @@ module LogArchiver
       def site_description(m)
         header = ui_header('desc')
         send_and_record(m, header + Setting.first.text_on_homepage)
+      end
+
+      # ヘルプメッセージを返す
+      # @param [Cinch::Message] m
+      # @return [void]
+      def help(m)
+        header = ui_header('help')
+        send_and_record(m, header + HELP_URL)
       end
 
       private
