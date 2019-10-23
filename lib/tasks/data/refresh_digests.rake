@@ -24,7 +24,7 @@ namespace :data do
     def refresh_digests(model, batch_size = 10000)
       n = 0
       model.find_in_batches(batch_size: batch_size) do |data|
-        data.each(&:refresh_digest)
+        data.each(&:refresh_digest!)
         model.import(data, on_duplicate_key_update: [:digest])
 
         n += data.length
