@@ -101,11 +101,12 @@ UserInterface:
 
 IRC 上で、そのチャンネルのログ公開 URL を返すコマンドの設定です。
 
-`.log url` / `.log url list`: そのチャンネルの目次への URL を出力します。
-`.log url today`: そのチャンネルの今日のログへの URL を出力します。
-`.log url yesterday`: そのチャンネルの昨日のログへの URL を出力します。
-`.log url yyyy-mm-dd`: そのチャンネルの指定日のログへの URL を出力します。
-`.log status`: そのチャンネルを記録しているかどうかを返します。
+* `.log url` / `.log url list`: そのチャンネルの目次への URL を出力します。
+* `.log url today`: そのチャンネルの今日のログへの URL を出力します。
+* `.log url yesterday`: そのチャンネルの昨日のログへの URL を出力します。
+* `.log url yyyy-mm-dd`: そのチャンネルの指定日のログへの URL を出力します。
+* `.log status`: そのチャンネルを記録しているかどうかを返します。
+* `.log help`: このページへのリンクを返します。
 
 出力例
 
