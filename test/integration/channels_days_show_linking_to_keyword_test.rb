@@ -41,7 +41,7 @@ class ChannelsDaysShowLinkingToKeywordTest < ActionDispatch::IntegrationTest
     # すべてのメッセージが同じキーワードと関連付けられていることを確認する
     @privmsgs.each do |privmsg|
       assert_equal(@keyword.id, privmsg.keyword.id,
-                   %Q|"#{privmsg.message}: 対応するキーワードが正しい"|)
+                   "#{privmsg.message.inspect}: 対応するキーワードが正しい")
     end
 
     # 1日ごとのログページを閲覧する
@@ -58,7 +58,7 @@ class ChannelsDaysShowLinkingToKeywordTest < ActionDispatch::IntegrationTest
     @privmsgs.each do |privmsg|
       assert_select("##{privmsg.fragment_id} .message dd a", 1) do |links|
         assert_equal(keyword_path(privmsg.keyword), links[0]['href'],
-                     %Q|"#{privmsg.message.inspect}: キーワード部分のリンク先が正しい"|)
+                     "#{privmsg.message.inspect}: キーワード部分のリンク先が正しい")
       end
     end
 
@@ -66,7 +66,30 @@ class ChannelsDaysShowLinkingToKeywordTest < ActionDispatch::IntegrationTest
     @privmsgs.each do |privmsg|
       assert_select("##{privmsg.fragment_id} .message dd", 1) do |elements|
         assert_equal(privmsg.message, elements[0].content,
-                     %Q|"#{privmsg.message.inspect}: メッセージの表記が正しい"|)
+                     "#{privmsg.message.inspect}: メッセージの表記が正しい")
+      end
+    end
+
+    # ヘッダのキーワード一覧の表示が正しいことを確認する
+    assert_select('#keyword-list td') do
+      assert_select(
+        'a',
+        { text: @keyword.display_title, count: 1 },
+        'ヘッダ: キーワードへのリンクが存在する'
+      ) do |links|
+        assert_equal(keyword_path(@keyword), links[0]['href'],
+                     'ヘッダ: キーワードのリンク先が正しい')
+      end
+
+      @privmsgs.each do |privmsg|
+        assert_select(
+          'a',
+          { text: privmsg.timestamp.strftime('%T'), count: 1 },
+          "ヘッダ: #{privmsg.message.inspect}: リンク（時刻表記）が存在する"
+        ) do |links|
+          assert_equal("##{privmsg.fragment_id}", links[0]['href'],
+                       "ヘッダ: #{privmsg.message.inspect}: リンク先が正しい")
+        end
       end
     end
   end

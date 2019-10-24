@@ -162,6 +162,7 @@ table.day-summary {
   th {
     padding-right: 1em;
     text-align: right;
+    vertical-align: top;
     white-space: nowrap;
   }
 }
@@ -316,10 +317,6 @@ textarea.text-on-homepage {
 
 .keyword-num-of-privmsgs {
   text-align: right;
-}
-
-.channel-day-keyword-link {
-  margin-right: 0.5em;
 }
 
 footer {
