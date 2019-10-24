@@ -35,8 +35,10 @@
                         <ul class="list-unstyled">
                           <% @keywords_privmsgs_for_header.each do |keyword, privmsgs| %>
                             <li>
-                              <% privmsg_links = privmsgs.map { |m| link_to(m.timestamp.strftime('%T'), "##{m.fragment_id}") } %>
-                              <%= link_to(sanitize(keyword.display_title), keyword, class: 'channel-day-keyword-link') %>（<%= raw(privmsg_links.join('、')) %>）
+                              <%= link_to(sanitize(keyword.display_title), keyword, class: 'channel-day-keyword-link') %>
+                              <% privmsgs.each do |m| %>
+                                <%= link_to(m.timestamp.strftime('%T'), "##{m.fragment_id}", class: 'keyword-list-time') %>
+                              <% end %>
                             </li>
                           <% end %>
                         </ul>

@@ -167,6 +167,20 @@ table.day-summary {
   }
 }
 
+a.keyword-list-time {
+  margin-left: 0.25em;
+  margin-right: 0.25em;
+  font-size: $font-size-small;
+
+  &:link, &:visited {
+    color: $gray;
+  }
+
+  &:hover {
+    color: $link-hover-color;
+  }
+}
+
 .message-visibility {
   th {
     vertical-align: top;
