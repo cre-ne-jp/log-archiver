@@ -25,21 +25,25 @@ FactoryBot.define do
       message { 'Toybox (irc.cre.jp)' }
     end
 
+    # fragment_id: #c190465ea
     factory :privmsg_keyword_sw_k do
       timestamp { '2019-10-20 01:23:45 +0900' }
       message { '.k Sword World 2.0' }
     end
 
+    # fragment_id: #c4f6f174d
     factory :privmsg_keyword_sw_a do
       timestamp { '2019-10-20 01:23:55 +0900' }
       message { '.a Sword World 2.0' }
     end
 
+    # fragment_id: #c110eb57c
     factory :privmsg_keyword_sw_capital do
       timestamp { '2019-10-20 01:24:05 +0900' }
       message { '.k SWORD WORLD 2.0' }
     end
 
+    # fragment_id: #c53c2aad9
     factory :privmsg_keyword_sw_zenkaku do
       timestamp { '2019-10-20 01:24:15 +0900' }
       message { '.k　Ｓｗｏｒｄ　Ｗｏｒｌｄ　２．０' }
