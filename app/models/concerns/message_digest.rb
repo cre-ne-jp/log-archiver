@@ -19,7 +19,7 @@ module MessageDigest
   # メッセージの内容からハッシュ値の文字列表現を生成する
   # @return [String]
   def generate_digest
-    original_string = "#{timestamp.to_i} #{type} #{nick} #{message}"
+    original_string = "#{timestamp.to_i} #{type} #{channel.identifier} #{nick} #{message}"
     hash_integer = CFNV.fnv1a32(original_string)
 
     sprintf(DIGEST_FORMAT, hash_integer)
