@@ -1,7 +1,12 @@
-class Api::V1::MessagesController < ApplicationController
+# frozen_string_literal: true
+
+class Api::V1::MessagesController < ApiController
   def show
     fragment_id = params[:id]
-    query = fragment_id.match(/\A([cm])([\da-f]{8})\z/)
+    unless query = fragment_id.match(/\A([cm])([\da-f]{8})\z/)
+      response_bad_request('Fragment ID is broken.')
+      return
+    end
 
     type = case(query[1])
       when 'c'
@@ -24,13 +29,13 @@ class Api::V1::MessagesController < ApplicationController
         }
       end
 
-    render json: {
+    render(json: {
       query: {
         fragment_id: fragment_id,
         type: type.to_s,
         digest: digest
       },
       response: messages
-    }
+    })
   end
 end

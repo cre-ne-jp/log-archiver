@@ -1,11 +1,8 @@
 # frozen_string_literal: true
 
-class Api::V1::Channels::DaysController < ApplicationController
+class Api::V1::Channels::DaysController < ApiController
   def index
-    target_channels, other_channels = Channel.
-      order_for_list.
-      partition { |channel| channel.identifier == params[:id] }
-    channel = target_channels.first
+    channel = Channel.friendly.find(params[:id])
 
     year = params[:year].to_i
     month = params[:month].to_i
@@ -22,7 +19,7 @@ class Api::V1::Channels::DaysController < ApplicationController
       order(sql_date_timestamp).
       count
 
-    render json: {
+    render(json: {
       query: {
         year: year,
         month: month,
@@ -32,14 +29,11 @@ class Api::V1::Channels::DaysController < ApplicationController
         channel_name: channel.name,
         speech_count: speech_count
       }
-    }
+    })
   end
 
   def show
-    target_channels, other_channels = Channel.
-      order_for_list.
-      partition { |channel| channel.identifier == params[:id] }
-    channel = target_channels.first
+    channel = Channel.friendly.find(params[:id])
 
     year = params[:year].to_i
     month = params[:month].to_i
@@ -93,7 +87,7 @@ class Api::V1::Channels::DaysController < ApplicationController
     i = 0
     sorted_messages = whole_messages.sort_by { |m| [m[:timestamp], i += 1] }
 
-    render json: {
+    render(json: {
       query: {
         year: year,
         month: month,
@@ -104,6 +98,6 @@ class Api::V1::Channels::DaysController < ApplicationController
         channel_name: channel.name,
         messages: sorted_messages
       }
-    }
+    })
   end
 end

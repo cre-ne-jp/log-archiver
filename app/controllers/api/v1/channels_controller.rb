@@ -1,4 +1,6 @@
-class Api::V1::ChannelsController < ApplicationController
+# frozen_string_literal: true
+
+class Api::V1::ChannelsController < ApiController
   def index
     channels = Channel.for_channels_index.map do |c|
       {
@@ -8,7 +10,7 @@ class Api::V1::ChannelsController < ApplicationController
       }
     end
 
-    render json: channels
+    render(json: channels)
   end
 
   def show
@@ -37,7 +39,7 @@ class Api::V1::ChannelsController < ApplicationController
       order(Arel.sql('EXTRACT(YEAR FROM date)')).
       pluck(Arel.sql('EXTRACT(YEAR FROM date) AS year'))
 
-    render json: {
+    render(json: {
       query: {
         channel_identifier: channel.identifier
       },
@@ -46,6 +48,6 @@ class Api::V1::ChannelsController < ApplicationController
         latest_topic: latest_topic,
         years: years
       }
-    }
+    })
   end
 end

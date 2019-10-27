@@ -1,11 +1,8 @@
 # frozen_string_literal: true
 
-class Api::V1::Channels::MonthsController < ApplicationController
+class Api::V1::Channels::MonthsController < ApiController
   def index
-    target_channels, other_channels = Channel.
-      order_for_list.
-      partition { |channel| channel.identifier == params[:id] }
-    channel = target_channels.first
+    channel = Channel.friendly.find(params[:id])
 
     year = params[:year].to_i
 
@@ -18,7 +15,7 @@ class Api::V1::Channels::MonthsController < ApplicationController
       order(sql_extract_month_from_date).
       count
 
-    render json: {
+    render(json: {
       query: {
         year: year,
         channel_identifier: channel.identifier
@@ -27,6 +24,6 @@ class Api::V1::Channels::MonthsController < ApplicationController
         channel_name: channel.name,
         month_count: month_count
       }
-    }
+    })
   end
 end
