@@ -48,5 +48,19 @@ Rails.application.routes.draw do
     resource :channel_order, only: %i(show)
   end
 
+  namespace :api, {format: 'json'} do
+    namespace :v1 do
+      namespace :channels do
+        get ':id/:year/:month/:day', to: 'days#show', as: 'day',
+          year: /[1-9][0-9]{3}/, month: /0[1-9]|1[0-2]/, day: /0[1-9]|[12][0-9]|3[01]/
+        get ':id/:year/:month', to: 'days#index', as: 'days',
+          year: /[1-9][0-9]{3}/, month: /0[1-9]|1[0-2]/
+        get ':id/:year', to: 'months#index', as: 'months', year: /[1-9][0-9]{3}/
+      end
+      resources :channels, only: %i(index show)
+
+      resources :messages, only: %i(show)
+    end
+  end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
