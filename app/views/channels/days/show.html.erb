@@ -29,12 +29,19 @@
                     <td><%= @conversation_messages.length %></td>
                   </tr>
                   <% unless @privmsg_keyword_relationships.empty? %>
-                    <tr>
+                    <tr id="keyword-list">
                       <th scope="row">キーワード</th>
                       <td>
-                        <% @privmsg_keyword_relationships_for_header.each do |r| %>
-                          <%= link_to(sanitize(r.keyword.display_title), r.keyword, class: 'channel-day-keyword-link') %>
-                        <% end %>
+                        <ul class="list-unstyled">
+                          <% @keywords_privmsgs_for_header.each do |keyword, privmsgs| %>
+                            <li>
+                              <%= link_to(sanitize(keyword.display_title), keyword, class: 'channel-day-keyword-link') %>
+                              <% privmsgs.each do |m| %>
+                                <%= link_to(m.timestamp.strftime('%T'), "##{m.fragment_id}", class: 'keyword-list-time') %>
+                              <% end %>
+                            </li>
+                          <% end %>
+                        </ul>
                       </td>
                     </tr>
                   <% end %>
