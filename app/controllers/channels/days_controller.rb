@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Channels::DaysController < ApplicationController
+  before_action :require_login, only: %i(edit)
   include NavLinkSettable
 
   def index
@@ -68,15 +69,15 @@ class Channels::DaysController < ApplicationController
 
     @calendar_start_date = (params[:start_date]&.to_date || @date) rescue @date
 
-    timestamp_range = @date...(@date.next_day)
+    @timestamp_range = @date...(@date.next_day)
     messages = Message.
       includes(:channel, :irc_user).
-      where(timestamp: timestamp_range, channel: @channel).
+      where(timestamp: @timestamp_range, channel: @channel).
       order(:timestamp, :id).
       to_a
     @conversation_messages = ConversationMessage.
       includes(:channel, :irc_user).
-      where(timestamp: timestamp_range, channel: @channel).
+      where(timestamp: @timestamp_range, channel: @channel).
       order(:timestamp, :id).
       to_a
 
@@ -111,5 +112,22 @@ class Channels::DaysController < ApplicationController
 
     @canonical_url =
       @channel.canonical_url_template? ? @channel.canonical_url(year: @year, month: @month, day: @day) : nil
+  end
+
+  def edit
+    show
+
+    pp @browse_day.path
+    archive_conversation_messages = ArchiveConversationMessage.
+      includes(:channel, :irc_user).
+      where(timestamp: @timestamp_range, channel: @channel).
+      order(:timestamp, :id).
+      to_a
+
+    # タイムスタンプによるソート
+    # 安定ソートとなるようにカウンタを用意する
+    i = 0
+    @sorted_messages = (@sorted_messages + archive_conversation_messages).
+      sort_by { |m| [m.timestamp, i += 1] }
   end
 end

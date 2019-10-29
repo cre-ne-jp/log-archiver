@@ -16,7 +16,7 @@ class ChannelBrowse::Day
   # * normal: 通常
   # * raw: 生ログ
   attr_accessor :style_cd
-  as_enum(:style, %i{normal raw}, prefix: :is_style)
+  as_enum(:style, %i{normal raw edit}, prefix: :is_style)
 
   validates(:channel, presence: true)
   validates(:date, presence: true)
