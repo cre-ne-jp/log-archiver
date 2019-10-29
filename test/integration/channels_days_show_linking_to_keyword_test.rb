@@ -35,8 +35,9 @@ class ChannelsDaysShowLinkingToKeywordTest < ActionDispatch::IntegrationTest
 
   test 'キーワードのリンク先および表記が正しい' do
     # メッセージとキーワードを関連付ける
+    extract_keyword = LogArchiver::ExtractKeyword.new
     @privmsgs.each do |privmsg|
-      LogArchiver::ExtractKeyword.run(privmsg)
+      extract_keyword.run(privmsg)
     end
 
     # すべてのメッセージが同じキーワードと関連付けられていることを確認する

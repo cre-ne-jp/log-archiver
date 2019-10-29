@@ -12,6 +12,10 @@ namespace :data do
     desc '登録されているPRIVMSGからキーワードを抽出して登録する'
     task :extract_from_privmsgs, [:command] => :environment do |_, args|
       args.with_defaults(command: '.k')
+      extract_keyword = LogArchiver::ExtractKeyword.new(
+        command_prefix: /#{args[:command]}[ 　]+/,
+        verbose: true
+      )
 
       privmsgs = Privmsg.
         where("message LIKE '#{args[:command]}%'").
@@ -20,7 +24,7 @@ namespace :data do
       n_keywords = 0
       n_privmsgs = 0
       privmsgs.find_each do |privmsg|
-        result = LogArchiver::ExtractKeyword.run(privmsg, /#{args[:command]}[ 　]+/o, quiet: false)
+        result = extract_keyword.run(privmsg)
         n_keywords += 1 if result[:keyword]
         n_privmsgs += 1 if result[:privmsg]
       end
