@@ -162,7 +162,22 @@ table.day-summary {
   th {
     padding-right: 1em;
     text-align: right;
+    vertical-align: top;
     white-space: nowrap;
+  }
+}
+
+a.keyword-list-time {
+  margin-left: 0.25em;
+  margin-right: 0.25em;
+  font-size: $font-size-small;
+
+  &:link, &:visited {
+    color: $gray;
+  }
+
+  &:hover {
+    color: $link-hover-color;
   }
 }
 
@@ -312,6 +327,10 @@ textarea.text-on-homepage {
 
 .help-block {
   font-size: $font-size-small;
+}
+
+.keyword-num-of-privmsgs {
+  text-align: right;
 }
 
 footer {

@@ -28,6 +28,23 @@
                     <th scope="row">発言数</th>
                     <td><%= @conversation_messages.length %></td>
                   </tr>
+                  <% unless @privmsg_keyword_relationships.empty? %>
+                    <tr id="keyword-list">
+                      <th scope="row">キーワード</th>
+                      <td>
+                        <ul class="list-unstyled">
+                          <% @keywords_privmsgs_for_header.each do |keyword, privmsgs| %>
+                            <li>
+                              <%= link_to(sanitize(keyword.display_title), keyword, class: 'channel-day-keyword-link') %>
+                              <% privmsgs.each do |m| %>
+                                <%= link_to(m.timestamp.strftime('%T'), "##{m.fragment_id}", class: 'keyword-list-time') %>
+                              <% end %>
+                            </li>
+                          <% end %>
+                        </ul>
+                      </td>
+                    </tr>
+                  <% end %>
                   <tr class="message-visibility">
                     <th scope="row">表示</th>
                     <td>
@@ -72,7 +89,7 @@
                 <%= render(partial: 'raw_message', collection: @sorted_messages, as: :m) %>
               </div>
             <% else %>
-              <%= render('shared/message_list', messages: @sorted_messages, show_channel: false, style: :normal) %>
+              <%= render('shared/message_list', messages: @sorted_messages, privmsg_keyword_relationships: @privmsg_keyword_relationships, show_channel: false, style: :normal) %>
             <% end %>
 
             <div class="alert alert-info no-message-to-show">表示するメッセージがありません。</div>

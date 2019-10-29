@@ -32,7 +32,7 @@
 
             <% unless @latest_speeches.empty? %>
               <h2>最新の発言</h2>
-              <%= render('shared/message_with_datetime_list', messages: @latest_speeches, show_channel: false) %>
+              <%= render('shared/message_with_datetime_list', messages: @latest_speeches, privmsg_keyword_relationships: @privmsg_keyword_relationships, show_channel: false) %>
             <% end %>
 
             <h2>年別のログ</h2>

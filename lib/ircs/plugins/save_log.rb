@@ -114,6 +114,9 @@ module LogArchiver
                                              timestamp: m.time,
                                              nick: m.user.nick,
                                              message: m.message)
+          if privmsg.message.match?(/\A\.(k|a)[ 　]+.+\z/)
+            LogArchiver::ExtractKeyword.new.run(privmsg)
+          end
           update_last_speech!(channel, privmsg)
         end
       end

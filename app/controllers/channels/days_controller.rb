@@ -80,6 +80,13 @@ class Channels::DaysController < ApplicationController
       order(:timestamp, :id).
       to_a
 
+    @privmsg_keyword_relationships =
+      privmsg_keyword_relationships_from(@conversation_messages)
+    @keywords_privmsgs_for_header = @privmsg_keyword_relationships
+      .sort_by { |r| r.privmsg.timestamp }
+      .group_by(&:keyword)
+      .map { |keyword, relations| [keyword, relations.map(&:privmsg)] }
+
     @browse_day_normal = ChannelBrowse::Day.new(
       channel: @channel, date: @date, style: :normal
     )

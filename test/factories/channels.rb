@@ -4,7 +4,11 @@ FactoryBot.define do
     identifier { 'irc_test' }
     logging_enabled { true }
 
-    initialize_with { Channel.find_or_create_by(identifier: identifier) }
+    initialize_with {
+      Channel.find_or_initialize_by(identifier: identifier) do |new_channel|
+        new_channel.attributes = attributes
+      end
+    }
 
     factory :channel_with_camel_case_name do
       name { 'CamelCaseChannel' }

@@ -6,6 +6,7 @@ ja:
       channel: チャンネル
       user: 利用者
       setting: 設定
+      keyword: キーワード
     attributes:
       channel:
         name: チャンネル名
@@ -20,6 +21,9 @@ ja:
       setting:
         site_title: サイト名
         text_on_homepage: ホームページに表示する文章
+      keyword:
+        title: 名前
+        display_title: 表示名
   # ActiveModel の翻訳は ActiveRecord のものを流用する
   activemodel:
     <<: activerecord

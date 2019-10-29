@@ -39,8 +39,10 @@ class Messages::SearchesController < ApplicationController
 
     if @message_search.valid?
       @result = @message_search.result
-
       @messages = @result.messages
+      @privmsg_keyword_relationships =
+        privmsg_keyword_relationships_from(@messages)
+
       set_prev_link!(path_to_prev_page(@messages))
       set_next_link!(path_to_next_page(@messages))
     else
