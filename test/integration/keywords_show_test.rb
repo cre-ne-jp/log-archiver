@@ -33,7 +33,7 @@ class KeywordsShowTest < ActionDispatch::IntegrationTest
   test 'キーワードを含む日が1つにまとめられる' do
     # メッセージとキーワードを関連付ける
     @privmsgs.each do |privmsg|
-      LogArchiver::ExtractKeyword.run(privmsg)
+      LogArchiver::ExtractKeyword.new.run(privmsg)
     end
 
     # すべてのメッセージが同じキーワードと関連付けられていることを確認する
