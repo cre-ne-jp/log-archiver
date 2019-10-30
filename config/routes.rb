@@ -49,7 +49,8 @@ Rails.application.routes.draw do
 
     resource :channel_order, only: %i(show)
 
-    resources :conversation_messages, param: :id, only: %i(index show edit update)
+    resources :conversation_messages, only: %i(index show edit update)
+    resources :archive_reasons, only: %i(index new create show edit update)
   end
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

@@ -6,6 +6,8 @@ ja:
       channel: チャンネル
       user: 利用者
       setting: 設定
+      archived_conversation_message: メッセージ
+      archive_reason: 発言の非表示理由
     attributes:
       channel:
         name: チャンネル名
@@ -20,6 +22,8 @@ ja:
       setting:
         site_title: サイト名
         text_on_homepage: ホームページに表示する文章
+      archive_reason:
+        reason: 理由
   # ActiveModel の翻訳は ActiveRecord のものを流用する
   activemodel:
     <<: activerecord
