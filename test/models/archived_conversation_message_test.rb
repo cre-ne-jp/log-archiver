@@ -1,4 +1,4 @@
 require 'test_helper'
 
-class ArchiveConversationMessageTest < ActiveSupport::TestCase
+class ArchivedConversationMessageTest < ActiveSupport::TestCase
 end

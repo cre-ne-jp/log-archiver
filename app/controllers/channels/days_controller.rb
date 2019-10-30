@@ -118,7 +118,7 @@ class Channels::DaysController < ApplicationController
     show
 
     pp @browse_day.path
-    archive_conversation_messages = ArchiveConversationMessage.
+    archived_conversation_messages = ArchivedConversationMessage.
       includes(:channel, :irc_user).
       where(timestamp: @timestamp_range, channel: @channel).
       order(:timestamp, :id).
@@ -127,7 +127,7 @@ class Channels::DaysController < ApplicationController
     # タイムスタンプによるソート
     # 安定ソートとなるようにカウンタを用意する
     i = 0
-    @sorted_messages = (@sorted_messages + archive_conversation_messages).
+    @sorted_messages = (@sorted_messages + archived_conversation_messages).
       sort_by { |m| [m.timestamp, i += 1] }
   end
 end

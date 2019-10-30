@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ArchiveConversationMessage < ApplicationRecord
+class ArchivedConversationMessage < ApplicationRecord
   include MessageDigest
 
   self.inheritance_column = :_type_disabled

@@ -1,6 +1,6 @@
-class CreateArchiveConversationMessages < ActiveRecord::Migration[6.0]
+class CreateArchivedConversationMessages < ActiveRecord::Migration[6.0]
   def change
-    create_table :archive_conversation_messages, options: 'ENGINE=Mroonga' do |t|
+    create_table :archived_conversation_messages, options: 'ENGINE=Mroonga' do |t|
       t.integer :old_id, default: 0, null: false
       t.integer :channel_id
       t.datetime :timestamp, null: false

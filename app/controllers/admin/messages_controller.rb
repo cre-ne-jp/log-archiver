@@ -12,7 +12,7 @@ class Admin::MessagesController < ApplicationController
       when 'm'
         Message
       when 'a'
-        ArchiveConversationMessage
+        ArchivedConversationMessage
       end
     digest = query[2]
 
