@@ -1,0 +1,27 @@
+<% title(['管理', '発言の非表示']) %>
+<div class="container main-container">
+  <div class="row">
+    <%= render('shared/admin/nav_conversation_messages') %>
+
+    <div class="col-xs-12 col-sm-9">
+      <div class="main-panel">
+        <div class="panel-body">
+          <%= render('shared/flash') %>
+
+          <ol class="breadcrumb visible-xs-block">
+            <li><%= link_to('管理', admin_path) %></li>
+            <li class="active">発言の非表示</li>
+          </ol>
+
+          <div class="page-header">
+            <h1>発言の非表示</h1>
+          </div>
+
+          <p>
+          発言 (Privmsg, Notice, Topic) を指定して下さい。
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
