@@ -1,8 +1,10 @@
 <% anchor = m.fragment_id %>
 <% browse_day = ChannelBrowse::Day.new(channel: m.channel, date: m.timestamp.to_date, style: style) %>
 <tr class="message message-type-<%= m.type.downcase %>">
-  <% if style == :edit %>
-    <td class="message-archive"><%= link_to('表示設定', admin_message_path(anchor)) %></td>
+  <% if style == :edit && m.class.superclass == ConversationMessage%>
+    <td class="message-archive"><%= link_to('表示設定', admin_conversation_message_path(m.id)) %></td>
+  <% else %>
+    <td class="message-archive"></td>
   <% end %>
   <td class="message-time"><%= link_to(m.timestamp.strftime('%T'), browse_day.path(anchor: anchor), id: anchor) %></td>
   <% if show_channel %>

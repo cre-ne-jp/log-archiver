@@ -42,8 +42,6 @@ Rails.application.routes.draw do
         as: 'update_last_speech'
       get ':id/:year/:month/:day', controller: '/channels/days', action: 'edit', as: 'day',
         year: /[1-9][0-9]{3}/, month: /0[1-9]|1[0-2]/, day: /0[1-9]|[12][0-9]|3[01]/
-      get ':id/:year/:month/:day/:fragment_id', controller: '/admin/messages', action: 'show', as: 'message',
-        year: /[1-9][0-9]{3}/, month: /0[1-9]|1[0-2]/, day: /0[1-9]|[12][0-9]|3[01]/, fragment_id: /[cma][\da-f]{8}/
     end
 
     get 'channels/:id' => 'channels#show', as: 'channel'
@@ -51,7 +49,7 @@ Rails.application.routes.draw do
 
     resource :channel_order, only: %i(show)
 
-    #resources :messages, param: :fragment_id, only: %i(show edit update)
+    resources :conversation_messages, param: :id, only: %i(show edit update)
   end
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
