@@ -26,6 +26,7 @@ ja:
         reason: 理由
       archived_conversation_message:
         archive_reason: 非表示理由
+        archive_reason_id: 非表示理由
   # ActiveModel の翻訳は ActiveRecord のものを流用する
   activemodel:
     <<: activerecord
