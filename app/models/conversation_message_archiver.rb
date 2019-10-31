@@ -8,8 +8,8 @@ class ConversationMessageArchiver
 
   # ConversationMessage -> Archived
   # @param [ActionController::Parameter] params フォームヘルパーが送信するパラメーター
+  # @option [String] :old_id 元の ConversationMessage.id
   # @option [String] :archive_reason 非表示理由
-  # @option [String] :old_id ConversationMessage.id
   # @return [ArchivedConversationMessage]
   def archive!(params)
     old_id = params[:old_id]
@@ -34,8 +34,34 @@ class ConversationMessageArchiver
   end
 
   # Archived -> ConversationMessage
-  # @param [ArchivedConversationMessage] m 再表示するメッセージ
+  # @param [ActionController::Parameter] params フォームヘルパーが送信するパラメーター
+  # @option [String] :id 元の ArchivedConversationMessage.old_id
   # @return [ConversationMessage]
-  def reconstituter(m)
+  def reconstitute!(params)
+    old_id = params[:id]
+    unless am = ArchivedConversationMessage.find_by(old_id: params[:id])
+      raise(ArgumentError, 'old_id is required.')
+    end
+
+    cm = ConversationMessage.new
+    cm.attributes = {
+      id: am.old_id,
+      channel_id: am.channel_id,
+      timestamp: am.timestamp,
+      nick: am.nick,
+      message: am.message,
+      type: am.type,
+      irc_user_id: am.irc_user_id,
+      digest: am.digest,
+      created_at: am.created_at
+    }
+
+    # Mroonga ストレージモードはトランザクション非対応
+    ApplicationRecord.transaction do
+      cm.save!
+      am.destroy!
+    end
+
+    cm
   end
 end

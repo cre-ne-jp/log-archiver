@@ -86,7 +86,8 @@ class ArchivedConversationMessage < ApplicationRecord
       message: m.message,
       type: m.type,
       irc_user_id: m.irc_user_id,
-      digest: m.digest
+      digest: m.digest,
+      created_at: m.created_at
     }
 
     self
