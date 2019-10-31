@@ -91,15 +91,4 @@ class ArchivedConversationMessage < ApplicationRecord
 
     self
   end
-
-  alias :_save! :save!
-  def save!
-    # Mroonga 9.08 ストレージモードはトランザクション非対応
-    #self.transaction do
-      self._save!
-      ConversationMessage.find(self.old_id).destroy!
-    #end
-
-    self
-  end
 end

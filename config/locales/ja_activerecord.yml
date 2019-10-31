@@ -24,6 +24,8 @@ ja:
         text_on_homepage: ホームページに表示する文章
       archive_reason:
         reason: 理由
+      archived_conversation_message:
+        archive_reason: 非表示理由
   # ActiveModel の翻訳は ActiveRecord のものを流用する
   activemodel:
     <<: activerecord

@@ -4,6 +4,8 @@
   <% if style == :edit %>
     <% if m.class.superclass == ConversationMessage %>
       <td class="message-archive"><%= link_to('表示設定', admin_conversation_message_path(m.id)) %></td>
+    <% elsif m.class.superclass == ArchivedConversationMessage %>
+      <td class="message-archive"><%= link_to('表示設定', admin_conversation_message_path(m.old_id)) %></td>
     <% else %>
       <td class="message-archive"></td>
     <% end %>

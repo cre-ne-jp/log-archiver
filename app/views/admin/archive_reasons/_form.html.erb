@@ -1,4 +1,4 @@
-<%= form_for(@archive_reason, url: path) do |f| %>
+<%= form_for([:admin, @archive_reason]) do |f| %>
   <div class="form-group">
     <%= f.label(:reason) %>
     <%= f.text_field(:reason, class: 'form-control', required: true) %>

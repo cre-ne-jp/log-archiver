@@ -121,7 +121,7 @@ class Channels::DaysController < ApplicationController
     archived_conversation_messages = ArchivedConversationMessage.
       includes(:channel, :irc_user).
       where(timestamp: @timestamp_range, channel: @channel).
-      order(:timestamp, :id).
+      order(:timestamp, :old_id).
       to_a
 
     # タイムスタンプによるソート

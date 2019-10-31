@@ -16,5 +16,7 @@ ja:
       failed_to_update_last_speech: 最終発言キャッシュの更新に失敗しました。
       added_archive_reason: 発言の非表示理由を追加しました。
       updated_archive_reason: 発言の非表示理由を更新しました。
+      added_archived_conversation_message: 発言を非表示に設定しました。
+      updated_archived_conversation_message: 発言の非表示設定を更新しました。
     login: ログイン
     save: 保存

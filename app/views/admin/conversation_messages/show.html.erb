@@ -11,7 +11,7 @@
           <ol class="breadcrumb">
             <li><%= link_to('管理', admin_path) %></li>
             <li><%= link_to('発言の非表示', admin_conversation_messages_path) %></li>
-            <li class="active"><%= @conversation_message.id %></li>
+            <li class="active">詳細</li>
           </ol>
 
           <div class="page-header">
@@ -40,11 +40,23 @@
                 <th scope="row" class="message-body">内容</th>
                 <td class="message-body"><%= @conversation_message.message %></td>
               </tr>
+              <tr>
+                <th scope="row" class="message-status">現在の設定</th>
+                <% if @conversation_message.class.superclass == ConversationMessage %>
+                  <td class="message-status">表示中</td>
+                <% else %>
+                  <td class="message-status">非表示: <%= @conversation_message.archive_reason.reason %></td>
+                <% end %>
+              </tr>
             </tbody>
           </table>
 
           <p>
-          <%= link_to('編集', edit_admin_conversation_message_path(@conversation_message), class: 'btn btn-success') %>
+          <% if @conversation_message.class.superclass == ConversationMessage %>
+            <%= link_to('非表示化', new_admin_conversation_message_path(id: @conversation_message.id), class: 'btn btn-success') %>
+          <% else %>
+            <%= link_to('編集', edit_admin_conversation_message_path(@conversation_message.old_id), class: 'btn btn-success') %>
+          <% end %>
           <%= link_to('メッセージ表示に戻る', @browse_day.path(anchor: @conversation_message.fragment_id), id: @conversation_message.fragment_id, class: 'btn btn-default') %>
           </p>
         </div>
