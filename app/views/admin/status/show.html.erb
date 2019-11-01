@@ -1,21 +1,16 @@
-<% title('管理') %>
+<% title('現在の状態') %>
 <div class="container main-container">
   <div class="row">
-    <div class="col-xs-12 col-md-8 col-md-offset-2">
+    <%= render('shared/admin/nav_status') %>
+
+    <div class="col-xs-12 col-sm-9">
       <div class="main-panel">
         <div class="panel-body">
           <%= render('shared/flash') %>
 
           <div class="page-header">
-            <h1>管理</h1>
+            <h1>現在の状態</h1>
           </div>
-
-          <section class="admin-menu">
-            <h2>メニュー</h2>
-            <p><%= link_to(fa_icon('user', text: '利用者'), users_path, class: 'btn btn-default btn-block') %></p>
-            <p><%= link_to(fa_icon('cog', text: '設定'), settings_path, class: 'btn btn-default btn-block') %></p>
-            <p><%= link_to(fa_icon('folder-open', text: 'チャンネル'), admin_channels_path, class: 'btn btn-default btn-block') %></p>
-          </section>
 
           <section class="app-status">
             <h2>Webアプリケーションの状態</h2>
@@ -23,15 +18,15 @@
               <tbody>
                 <tr>
                   <th class="app-status-version">バージョン</th>
-                  <td id="version" class="app-status-version"><%= @app_status.version %></td>
+                  <td id="app-version" class="app-status-version"><%= @app_status.version %></td>
                 </tr>
                 <tr>
                   <th class="app-status-commit-id">コミット ID</th>
-                  <td id="commit-id" class="app-status-commit-id"><%= format_commit_id(@app_status.commit_id) %></td>
+                  <td id="app-commit-id" class="app-status-commit-id"><%= format_commit_id(@app_status.commit_id) %></td>
                 </tr>
                 <tr>
                   <th class="app-status-uptime">稼働時間</th>
-                  <td id="uptime" class="app-status-uptime"><%= @app_status.formatted_uptime %>（<%= @app_status.start_time.strftime('%F %T') %> に起動）</td>
+                  <td id="app-uptime" class="app-status-uptime"><%= @app_status.formatted_uptime %>（<%= @app_status.start_time.strftime('%F %T') %> に起動）</td>
                 </tr>
               </tbody>
             </table>
@@ -41,7 +36,7 @@
             <h2>IRCボットの状態</h2>
             <% if @exception_on_fetching_irc_bot_status %>
               <div class="alert alert-danger">
-                IRCボットの状態を取得できませんでした: <%= @exception_on_fetching_irc_bot_status.message %>
+                <%= fa_icon('exclamation-triangle') %> IRCボットの状態を取得できませんでした: <%= @exception_on_fetching_irc_bot_status.message %>
               </div>
             <% else %>
               <table class="table table-striped irc-bot-status-list">
