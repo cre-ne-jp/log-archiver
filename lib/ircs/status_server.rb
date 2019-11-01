@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'ircs/status_server/socket_manager'
 
 require 'socket'
