@@ -13,7 +13,7 @@ class AdminIndexTest < ActionDispatch::IntegrationTest
 
     @original_app_status = Rails.application.config.app_status
     Rails.application.config.app_status = LogArchiver::AppStatus.new(
-      LogArchiver::VERSION,
+      LogArchiver::Version,
       DUMMY_START_TIME,
       DUMMY_COMMIT_ID
     )
@@ -49,7 +49,7 @@ class AdminIndexTest < ActionDispatch::IntegrationTest
   test 'コミットIDを取得できないとき、正しい形式で表示される' do
     # コミットIDなしに設定する
     Rails.application.config.app_status = LogArchiver::AppStatus.new(
-      LogArchiver::VERSION,
+      LogArchiver::Version,
       DUMMY_START_TIME,
       ''
     )

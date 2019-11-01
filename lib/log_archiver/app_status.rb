@@ -65,9 +65,9 @@ module LogArchiver
     # @param [Time] start_time アプリケーションの起動時刻
     # @param [String] commit_id コミットID
     def initialize(version, start_time, commit_id = '')
-      @version = version
-      @start_time = start_time
-      @commit_id = commit_id
+      @version = version.dup.freeze
+      @start_time = start_time.dup.freeze
+      @commit_id = commit_id.dup.freeze
 
       @version_and_commit_id = commit_id.empty? ?
         version : "#{version} (#{commit_id})"
