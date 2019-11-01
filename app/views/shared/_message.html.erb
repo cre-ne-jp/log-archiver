@@ -4,7 +4,7 @@
   <% if style == :edit %>
     <% if m.class.superclass == ConversationMessage %>
       <td class="message-archive"><%= link_to('表示設定', admin_conversation_message_path(m.id)) %></td>
-    <% elsif m.class.superclass == ArchivedConversationMessage %>
+    <% elsif m.class == ArchivedConversationMessage %>
       <td class="message-archive"><%= link_to('表示設定', admin_conversation_message_path(m.old_id)) %></td>
     <% else %>
       <td class="message-archive"></td>
@@ -50,6 +50,13 @@
     <td class="message-content">
       <dl class="message">
         <dt><b class="nickname"><%= m.nick %></b></dt>
+        <dd><%= raw(linkify(m.message)) %></dd>
+      </dl>
+    </td>
+  <% when ArchivedConversationMessage %>
+    <td class="message-content">
+      <dl class="message">
+        <dt><b class="nickname<%= ' message-privmsg' if m.type == 'Privmsg' %>"><%= m.nick %></b></dt>
         <dd><%= raw(linkify(m.message)) %></dd>
       </dl>
     </td>

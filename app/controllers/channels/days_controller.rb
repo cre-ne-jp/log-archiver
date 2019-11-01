@@ -54,6 +54,10 @@ class Channels::DaysController < ApplicationController
   end
 
   def show
+    if params[:style] == 'edit'
+      redirect_to("/admin/channels/#{params[:id]}/#{params[:year]}/#{params[:month]}/#{params[:day]}")
+    end
+
     target_channels, @other_channels = Channel.
       order_for_list.
       partition { |channel| channel.identifier == params[:id] }
@@ -117,7 +121,12 @@ class Channels::DaysController < ApplicationController
   def edit
     show
 
-    pp @browse_day.path
+    @browse_day = ChannelBrowse::Day.new(
+      channel: @channel, date: @date, style: :edit
+    )
+    @browse_prev_day = @browse_day.prev_day
+    @browse_next_day = @browse_day.next_day
+
     archived_conversation_messages = ArchivedConversationMessage.
       includes(:channel, :irc_user).
       where(timestamp: @timestamp_range, channel: @channel).
