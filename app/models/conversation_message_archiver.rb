@@ -34,12 +34,11 @@ class ConversationMessageArchiver
   end
 
   # Archived -> ConversationMessage
-  # @param [ActionController::Parameter] params フォームヘルパーが送信するパラメーター
+  # @param [Integer/String] old_id ArchivedConversationMessage.old_id
   # @option [String] :id 元の ArchivedConversationMessage.old_id
   # @return [ConversationMessage]
-  def reconstitute!(params)
-    old_id = params[:id]
-    unless am = ArchivedConversationMessage.find_by(old_id: params[:id])
+  def reconstitute!(old_id)
+    unless am = ArchivedConversationMessage.find_by(old_id: old_id)
       raise(ArgumentError, 'old_id is required.')
     end
 

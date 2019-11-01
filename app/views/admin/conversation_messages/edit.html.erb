@@ -12,11 +12,11 @@
             <li><%= link_to('管理', admin_path) %></li>
             <li><%= link_to('発言の非表示', admin_conversation_messages_path) %></li>
             <li><%= link_to(@archived_conversation_message.old_id, admin_conversation_message_path(@archived_conversation_message.old_id)) %></li>
-            <li class="active">編集</li>
+            <li class="active">設定</li>
           </ol>
 
           <div class="page-header">
-            <h1>発言の非表示の編集</h1>
+            <h1>発言の非表示設定</h1>
           </div>
 
           <table class="table table-striped channel-info">
@@ -46,8 +46,12 @@
 
           <%= render('shared/error_messages', target: @archived_conversation_message) %>
 
+          <h2>非表示理由の設定</h2>
           <%= render('form', path: admin_conversation_message_path) %>
-          </p>
+
+          <h2>表示を再開する</h2>
+          <p>非表示設定を解除し、メッセージを表示状態を戻します。</p>
+          <p><%= link_to('表示再開', admin_conversation_message_path, method: :delete, class: 'btn btn-success') %></p>
         </div>
       </div>
     </div>
