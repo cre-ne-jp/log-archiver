@@ -77,8 +77,8 @@ class ArchivedConversationMessage < ApplicationRecord
   # ConversationMessage インスタンスから値をコピーする
   # @param [ConversationMessage] m
   # @return [Hash]
-  def attribute_by_conversation_message(m)
-    self.attributes = {
+  def self.from_conversation_message(m)
+    new(
       old_id: m.id,
       channel_id: m.channel_id,
       timestamp: m.timestamp,
@@ -88,8 +88,6 @@ class ArchivedConversationMessage < ApplicationRecord
       irc_user_id: m.irc_user_id,
       digest: m.digest,
       created_at: m.created_at
-    }
-
-    self
+    )
   end
 end

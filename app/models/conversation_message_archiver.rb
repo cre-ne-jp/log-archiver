@@ -21,7 +21,7 @@ class ConversationMessageArchiver
       raise(ArgumentError, 'archive_reason is required.')
     end
 
-    am = ArchivedConversationMessage.new.attribute_by_conversation_message(cm)
+    am = ArchivedConversationMessage.from_conversation_message(cm)
     am.archive_reason = reason
 
     # Mroonga ストレージモードはトランザクション非対応

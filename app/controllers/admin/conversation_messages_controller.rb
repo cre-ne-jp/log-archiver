@@ -18,7 +18,7 @@ class Admin::ConversationMessagesController < ApplicationController
 
   def new
     @archived_conversation_message =
-      ArchivedConversationMessage.new.attribute_by_conversation_message(
+      ArchivedConversationMessage.from_conversation_message(
         ConversationMessage.find(params[:id])
       )
     @archive_reasons = ArchiveReason.all
