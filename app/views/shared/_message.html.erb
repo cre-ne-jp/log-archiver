@@ -38,7 +38,7 @@
       </dl>
     </td>
     <% if current_user %>
-      <td class="message-detail"><%= link_to(fa_icon('edit'), admin_conversation_message_path(m.id)) %></td>
+      <td class="message-detail"><%= link_to(fa_icon('info-circle'), admin_conversation_message_path(m.id)) %></td>
     <% end %>
   <% when Notice %>
     <td class="message-content">
@@ -48,17 +48,17 @@
       </dl>
     </td>
     <% if current_user %>
-      <td class="message-detail"><%= link_to(fa_icon('edit'), admin_conversation_message_path(m.id)) %></td>
+      <td class="message-detail"><%= link_to(fa_icon('info-circle'), admin_conversation_message_path(m.id)) %></td>
     <% end %>
   <% when ArchivedConversationMessage %>
     <td class="message-content">
       <dl class="message">
-        <dt><s><b class="nickname<%= ' message-privmsg' if m.type == 'Privmsg' %>"><%= m.nick %></b></s></dt>
+        <dt><b class="nickname<%= ' message-privmsg' if m.type == 'Privmsg' %>"><s><%= m.nick %></s></b></dt>
         <dd><%= raw(linkify(m.message)) %></dd>
       </dl>
     </td>
     <% if current_user %>
-      <td class="message-detail"><%= link_to(fa_icon('edit'), admin_conversation_message_path(m.old_id)) %></td>
+      <td class="message-detail"><%= link_to(fa_icon('info-circle'), admin_conversation_message_path(m.old_id)) %></td>
     <% end %>
   <% end %>
 </tr>
