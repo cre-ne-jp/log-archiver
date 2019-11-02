@@ -24,24 +24,19 @@ class ConversationMessageArchiver
     am = ArchivedConversationMessage.from_conversation_message(cm)
     am.archive_reason = reason
 
-    last_speech = cm.channel.channel_last_speech
-    last_speech_update = last_speech.conversation_message == cm
+    last_speech =
+      cm.channel.channel_last_speech || ChannelLastSpeech.new(channel: cm.channel)
 
     # Mroonga ストレージモードはトランザクション非対応
     ApplicationRecord.transaction do
-      if last_speech_update
-        last_speech.destroy!
-      end
+      last_speech.conversation_message = nil
 
       am.save!
       cm.destroy!
 
-      if last_speech_update
-        new_last_speech = ChannelLastSpeech.new(channel: last_speech.channel)
-        new_last_speech.conversation_message =
-          last_speech.channel.current_last_speech
-        new_last_speech.save!
-      end
+      last_speech.conversation_message =
+        last_speech.channel.current_last_speech
+      last_speech.save!
     end
 
     am
