@@ -205,6 +205,20 @@ table.user-info, table.channel-info {
   width: 6.5em;
 }
 
+.table .message-details {
+  width: 2em;
+  text-align: right;
+  vertical-align: middle;
+
+  a:link, a:visited {
+    color: $gray;
+  }
+
+  a:hover {
+    color: $link-color;
+  }
+}
+
 table {
   .odd {
     background-color: $table-bg-accent;

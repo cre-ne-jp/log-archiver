@@ -2,9 +2,10 @@
 <% browse_day = ChannelBrowse::Day.new(channel: m.channel, date: m.timestamp.to_date, style: style) %>
 <tr class="message message-type-<%= m.type.downcase %>">
   <% if style == :edit %>
-    <% if m.class.superclass == ConversationMessage %>
+    <% case m %>
+    <% when ConversationMessage %>
       <td class="message-archive"><%= link_to('表示設定', admin_conversation_message_path(m.id)) %></td>
-    <% elsif m.class.superclass == ArchivedConversationMessage %>
+    <% when ArchivedConversationMessage %>
       <td class="message-archive"><%= link_to('表示設定', admin_conversation_message_path(m.old_id)) %></td>
     <% else %>
       <td class="message-archive"></td>
@@ -39,7 +40,7 @@
     <td class="message-content">
       <b class="nickname"><%= m.nick %></b> が <b class="channel"><%= m.channel.name_with_prefix %></b> のトピックを設定しました：<%= raw(linkify(m.message)) %>
     </td>
-  <% when Privmsg %>
+  <% when Privmsg, MessageHelper::IsArchived[:privmsg] %>
     <td class="message-content">
       <dl class="message">
         <dt><b class="nickname message-privmsg"><%= m.nick %></b></dt>
@@ -52,6 +53,13 @@
         <dt><b class="nickname"><%= m.nick %></b></dt>
         <dd><%= raw(linkify(m.message)) %></dd>
       </dl>
+    </td>
+  <% end %>
+  <% if current_user %>
+    <td class="message-details">
+      <% if m.kind_of?(ConversationMessage) %>
+        <%= link_to(fa_icon('info-circle', title: '詳細'), admin_conversation_message_path(m)) %>
+      <% end %>
     </td>
   <% end %>
 </tr>

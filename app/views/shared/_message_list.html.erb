@@ -9,6 +9,9 @@
         <th class="message-channel">チャンネル</th>
       <% end %>
       <th>メッセージ</th>
+      <% if current_user %>
+        <th class="message-details"></th>
+      <% end %>
     </tr>
   </thead>
   <tbody>
