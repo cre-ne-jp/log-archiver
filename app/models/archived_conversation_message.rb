@@ -18,6 +18,7 @@ class ArchivedConversationMessage < ApplicationRecord
     presence: true,
     length: { maximum: 64 }
   validates :message, length: { maximum: 512 }
+  validates :type, inclusion: { in: %w(Privmsg Notice) }
   validates :archive_reason, presence: true
 
   # チャンネルで絞り込む
