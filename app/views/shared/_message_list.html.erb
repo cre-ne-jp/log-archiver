@@ -1,14 +1,14 @@
 <table class="table table-striped message-list">
   <thead>
     <tr>
-      <% if style == :edit %>
-        <th class="message-archive">表示設定</th>
-      <% end %>
       <th class="message-time">時刻</th>
       <% if show_channel %>
         <th class="message-channel">チャンネル</th>
       <% end %>
       <th>メッセージ</th>
+      <% if current_user %>
+        <th class="message-detail"></th>
+      <% end %>
     </tr>
   </thead>
   <tbody>

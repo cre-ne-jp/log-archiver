@@ -17,9 +17,6 @@
         <li><%= link_to(fa_icon('folder-open', text: 'チャンネル'), channels_path) %></li>
         <% if current_user %>
           <li><%= link_to(fa_icon('cog', text: '管理'), admin_path) %></li>
-          <% if controller.controller_path == 'channels/days' && controller.action_name == 'show' %>
-            <li><%= link_to(fa_icon('edit', text: '表示ログの管理'), admin_channels_day_path) %></li>
-          <% end %>
         <% end %>
       </ul>
 

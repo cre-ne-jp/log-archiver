@@ -5,13 +5,9 @@ class Admin::ConversationMessagesController < ApplicationController
   end
 
   def show
-    if @conversation_message = ConversationMessage.where(id: params[:id]).first
+    if @conversation_message = ConversationMessage.where(id: params[:id]).first || ArchivedConversationMessage.where(old_id: params[:id]).first
       @browse_day = ChannelBrowse::Day.new(
         channel: @conversation_message.channel, date: @conversation_message.timestamp, style: :normal
-      )
-    elsif @conversation_message = ArchivedConversationMessage.where(old_id: params[:id]).first
-      @browse_day = ChannelBrowse::Day.new(
-        channel: @conversation_message.channel, date: @conversation_message.timestamp, style: :edit
       )
     end
   end

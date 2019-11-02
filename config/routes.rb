@@ -40,8 +40,6 @@ Rails.application.routes.draw do
     namespace :channels do
       get ':id/update-last-speech' => 'last_speech_updates#show',
         as: 'update_last_speech'
-      get ':id/:year/:month/:day', controller: '/channels/days', action: 'edit', as: 'day',
-        year: /[1-9][0-9]{3}/, month: /0[1-9]|1[0-2]/, day: /0[1-9]|[12][0-9]|3[01]/
     end
 
     get 'channels/:id' => 'channels#show', as: 'channel'

@@ -1,15 +1,6 @@
 <% anchor = m.fragment_id %>
 <% browse_day = ChannelBrowse::Day.new(channel: m.channel, date: m.timestamp.to_date, style: style) %>
 <tr class="message message-type-<%= m.type.downcase %>">
-  <% if style == :edit %>
-    <% if m.class.superclass == ConversationMessage %>
-      <td class="message-archive"><%= link_to('表示設定', admin_conversation_message_path(m.id)) %></td>
-    <% elsif m.class == ArchivedConversationMessage %>
-      <td class="message-archive"><%= link_to('表示設定', admin_conversation_message_path(m.old_id)) %></td>
-    <% else %>
-      <td class="message-archive"></td>
-    <% end %>
-  <% end %>
   <td class="message-time"><%= link_to(m.timestamp.strftime('%T'), browse_day.path(anchor: anchor), id: anchor) %></td>
   <% if show_channel %>
     <td class="message-channel"><%= link_to(m.channel.name_with_prefix, m.channel) %></td>
@@ -46,6 +37,9 @@
         <dd><%= raw(linkify(m.message)) %></dd>
       </dl>
     </td>
+    <% if current_user %>
+      <td class="message-detail"><%= link_to(fa_icon('edit'), admin_conversation_message_path(m.id)) %></td>
+    <% end %>
   <% when Notice %>
     <td class="message-content">
       <dl class="message">
@@ -53,12 +47,18 @@
         <dd><%= raw(linkify(m.message)) %></dd>
       </dl>
     </td>
+    <% if current_user %>
+      <td class="message-detail"><%= link_to(fa_icon('edit'), admin_conversation_message_path(m.id)) %></td>
+    <% end %>
   <% when ArchivedConversationMessage %>
     <td class="message-content">
       <dl class="message">
-        <dt><b class="nickname<%= ' message-privmsg' if m.type == 'Privmsg' %>"><%= m.nick %></b></dt>
+        <dt><s><b class="nickname<%= ' message-privmsg' if m.type == 'Privmsg' %>"><%= m.nick %></b></s></dt>
         <dd><%= raw(linkify(m.message)) %></dd>
       </dl>
     </td>
+    <% if current_user %>
+      <td class="message-detail"><%= link_to(fa_icon('edit'), admin_conversation_message_path(m.old_id)) %></td>
+    <% end %>
   <% end %>
 </tr>

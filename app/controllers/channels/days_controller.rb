@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Channels::DaysController < ApplicationController
-  before_action :require_login, only: %i(edit)
   include NavLinkSettable
 
   def index
@@ -54,10 +53,6 @@ class Channels::DaysController < ApplicationController
   end
 
   def show
-    if params[:style] == 'edit'
-      redirect_to("/admin/channels/#{params[:id]}/#{params[:year]}/#{params[:month]}/#{params[:day]}")
-    end
-
     target_channels, @other_channels = Channel.
       order_for_list.
       partition { |channel| channel.identifier == params[:id] }
@@ -84,6 +79,17 @@ class Channels::DaysController < ApplicationController
       where(timestamp: @timestamp_range, channel: @channel).
       order(:timestamp, :id).
       to_a
+    archived_conversation_messages =
+      if current_user
+        ArchivedConversationMessage.
+          includes(:channel, :irc_user).
+          where(timestamp: @timestamp_range, channel: @channel).
+          order(:timestamp, :id).
+          to_a
+      else
+        []
+      end
+
 
     @browse_day_normal = ChannelBrowse::Day.new(
       channel: @channel, date: @date, style: :normal
@@ -104,7 +110,7 @@ class Channels::DaysController < ApplicationController
       if @browse_day.is_style_raw?
         HourSeparator.for_day_browse(@date) + messages + @conversation_messages
       else
-        messages + @conversation_messages
+        (messages + @conversation_messages + archived_conversation_messages).compact
       end
 
     # タイムスタンプによるソート
@@ -116,27 +122,5 @@ class Channels::DaysController < ApplicationController
 
     @canonical_url =
       @channel.canonical_url_template? ? @channel.canonical_url(year: @year, month: @month, day: @day) : nil
-  end
-
-  def edit
-    show
-
-    @browse_day = ChannelBrowse::Day.new(
-      channel: @channel, date: @date, style: :edit
-    )
-    @browse_prev_day = @browse_day.prev_day
-    @browse_next_day = @browse_day.next_day
-
-    archived_conversation_messages = ArchivedConversationMessage.
-      includes(:channel, :irc_user).
-      where(timestamp: @timestamp_range, channel: @channel).
-      order(:timestamp, :old_id).
-      to_a
-
-    # タイムスタンプによるソート
-    # 安定ソートとなるようにカウンタを用意する
-    i = 0
-    @sorted_messages = (@sorted_messages + archived_conversation_messages).
-      sort_by { |m| [m.timestamp, i += 1] }
   end
 end
