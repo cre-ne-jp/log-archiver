@@ -7,6 +7,12 @@ class Admin::ArchiveReasonsController < ApplicationController
 
   def show
     @archive_reason = ArchiveReason.find(params[:id])
+
+    page_i = params[:page].to_i
+    page = page_i >= 1 ? page_i : 1
+    @messages = @archive_reason.archived_conversation_messages
+      .page(page)
+      .order('timestamp DESC')
   end
 
   def new

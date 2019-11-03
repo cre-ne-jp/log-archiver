@@ -24,7 +24,6 @@
           <table class="table table-striped archive-reason-list">
             <thead>
               <tr>
-                <th class="archive-reason-id">ID</th>
                 <th class="archive-reason-body">理由</th>
                 <th class="archive-reason-count">該当メッセージ件数</th>
               </tr>
@@ -32,9 +31,8 @@
             <tbody>
               <% @archive_reasons.each do |r| %>
                 <tr>
-                  <td class="archive-reason-id"><%= link_to(r.id, admin_archive_reason_path(r)) %></td>
-                  <td class="archive-reason-body"><%= r.reason %></td>
-                  <td class="archive-reason-count">0</td>
+                  <td class="archive-reason-body"><%= link_to(r.reason, admin_archive_reason_path(r)) %></td>
+                  <td class="archive-reason-count"><%= r.archived_conversation_messages.count %></td>
                 </tr>
               <% end %>
             </tbody>
