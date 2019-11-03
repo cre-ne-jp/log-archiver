@@ -38,7 +38,7 @@ module LogArchiver
 
             ActiveRecord::Base.transaction do
               irc_user = IrcUser.find_or_create_by!(user: bot.user, host: bot.host)
-              notice = channel.notices.create!(
+              channel.notices.create!(
                 irc_user: irc_user,
                 timestamp: m.time,
                 nick: bot.nick,
