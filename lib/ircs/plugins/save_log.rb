@@ -95,7 +95,7 @@ module LogArchiver
                                          timestamp: m.time,
                                          nick: m.user.nick,
                                          message: m.message)
-          update_last_speech!(channel, topic)
+          ChannelLastSpeech.refresh!(channel)
         end
       end
 
@@ -107,7 +107,7 @@ module LogArchiver
                                            timestamp: m.time,
                                            nick: m.user.nick,
                                            message: m.message)
-          update_last_speech!(channel, notice)
+          ChannelLastSpeech.refresh!(channel)
         end
       end
 
@@ -122,7 +122,7 @@ module LogArchiver
           if privmsg.message.match?(/\A\.(k|a)[ 　]+.+\z/)
             @extract_keyword.run(privmsg)
           end
-          update_last_speech!(channel, privmsg)
+          ChannelLastSpeech.refresh!(channel)
         end
       end
     end
