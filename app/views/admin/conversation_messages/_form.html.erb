@@ -8,5 +8,8 @@
   <div class="form-group">
     <%= f.hidden_field(:old_id, value: @archived_conversation_message.old_id) %>
     <%= f.submit(t('views.save'), class: 'btn btn-success') %>
+    <% if @archived_conversation_message.id %>
+      <%= link_to('非表示設定の解除', admin_conversation_message_path, method: :delete, class: 'btn btn-default') %>
+    <% end %>
   </div>
 <% end %>
