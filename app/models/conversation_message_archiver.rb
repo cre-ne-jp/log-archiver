@@ -12,11 +12,11 @@ class ConversationMessageArchiver
   # @option [String] :archive_reason 非表示理由
   # @return [ArchivedConversationMessage]
   def archive!(params)
-    old_id = params[:old_id]
+    old_id = params[:old_id].to_i
     unless cm = ConversationMessage.find(old_id)
       raise(ArgumentError, 'old_id is required.')
     end
-    archive_reason = params[:archive_reason_id]
+    archive_reason = params[:archive_reason_id].to_i
     unless reason = ArchiveReason.find(archive_reason)
       raise(ArgumentError, 'archive_reason is required.')
     end
@@ -40,7 +40,7 @@ class ConversationMessageArchiver
   # @option [String] :id 元の ArchivedConversationMessage.old_id
   # @return [ConversationMessage]
   def reconstitute!(old_id)
-    unless am = ArchivedConversationMessage.find_by(old_id: old_id)
+    unless am = ArchivedConversationMessage.find_by(old_id: old_id.to_i)
       raise(ArgumentError, 'old_id is required.')
     end
 
