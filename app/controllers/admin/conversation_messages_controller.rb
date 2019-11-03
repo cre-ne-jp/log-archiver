@@ -2,6 +2,11 @@ class Admin::ConversationMessagesController < ApplicationController
   before_action(:require_login)
 
   def index
+    page_i = params[:page].to_i
+    page = page_i >= 1 ? page_i : 1
+    @messages = ArchivedConversationMessage
+      .page(page)
+      .order('timestamp DESC')
   end
 
   def show

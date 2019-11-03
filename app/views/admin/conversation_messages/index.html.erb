@@ -17,9 +17,10 @@
             <h1>発言の非表示</h1>
           </div>
 
-          <p>
-          発言 (Privmsg, Notice, Topic) を指定して下さい。
-          </p>
+          <p>設定を変更するメッセージを選択してください。</p>
+
+          <%= render('shared/message_list', messages: @messages, show_channel: true, style: :normal) %>
+          <%= paginate(@messages, outer_window: 2) %>
         </div>
       </div>
     </div>
