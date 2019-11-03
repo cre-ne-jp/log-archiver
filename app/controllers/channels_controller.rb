@@ -33,6 +33,9 @@ class ChannelsController < ApplicationController
       limit(3).
       reverse
 
+    @privmsg_keyword_relationships =
+      privmsg_keyword_relationships_from(@latest_speeches)
+
     @years = MessageDate.
       where(channel: @channel).
       group(:year).

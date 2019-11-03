@@ -3,7 +3,13 @@ FactoryBot.define do
     channel
     conversation_message
 
-    initialize_with { ChannelLastSpeech.find_or_create_by(channel: channel) }
+    initialize_with {
+      ChannelLastSpeech.find_or_initialize_by(
+        channel: channel
+      ) do |new_channel_last_speech|
+        new_channel_last_speech.attributes = attributes
+      end
+    }
 
     factory :channel_100_last_speech do
       association :channel, factory: :channel_100
