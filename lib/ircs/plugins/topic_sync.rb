@@ -18,29 +18,31 @@ module LogArchiver
         config_data = config[:plugin] || {}
       end
 
-      # チャンネルに JOIN したときのニューメリックリプライ 333 から、
+      # チャンネルに JOIN したときの Numeric Reply 333 から、
       # チャンネルが作成されたタイムスタンプと作成者を取得する
       # @param [Cinch::Message] m
       # @return [void]
       def get_topic_metadatas(m)
+        return if m.channel.topic == ''
+
         _, nick, user, host = m.params[2].match(/\A(.+)!(.+)@(.+)\z/).to_a
-        timestamp = Time.at(m.params[3].to_i)
+        timestamp = Time.zone.at(m.params[3].to_i)
         save_topic(m.channel, nick, user, host, timestamp)
       end
 
       private
 
       # TOPIC を保存する
-      # @params [Cinch::Target] _channel
+      # @params [Cinch::Target] m_channel
       # @params [String] nick
       # @params [String] user
       # @params [String] host
       # @params [Time] timestamp
       # @return [void]
-      def save_topic(_channel, nick, user, host, timestamp)
+      def save_topic(m_channel, nick, user, host, timestamp)
         synchronize(RECORD_MESSAGE) do
           ActiveRecord::Base.connection_pool.with_connection do
-            channel = ::Channel.find_by(name: _channel.name[1..-1],
+            channel = ::Channel.find_by(name: m_channel.name[1..-1],
                                         logging_enabled: true)
             next nil unless channel
 
@@ -50,7 +52,7 @@ module LogArchiver
                 irc_user: irc_user,
                 timestamp: timestamp,
                 nick: nick,
-                message: _channel.topic
+                message: m_channel.topic
               )
               update_last_speech!(channel, topic)
               MessageDate.find_or_create_by!(channel: channel, date: timestamp)
