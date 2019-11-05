@@ -12,12 +12,6 @@ module LogArchiver
 
       listen_to(333, method: :get_topic_metadatas)
 
-      def initialize(*args)
-        super
-
-        config_data = config[:plugin] || {}
-      end
-
       # チャンネルに JOIN したときの Numeric Reply 333 から、
       # チャンネルが作成されたタイムスタンプと作成者を取得する
       # @param [Cinch::Message] m
