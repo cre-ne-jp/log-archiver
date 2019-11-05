@@ -6,7 +6,7 @@ require 'timeout'
 
 module LogArchiver
   module Ircs
-    # IRCボットの現在の状態を問い合わせるクライアントのクラス。
+    # IRCボットの現在の状態を問い合わせるクライアントのクラス
     class StatusClient
       # クライアントを初期化する
       # @param [String] socket_path ソケットファイルのパス

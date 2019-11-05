@@ -7,7 +7,7 @@ require 'json'
 
 module LogArchiver
   module Ircs
-    # IRCボットの現在の状態を返すサーバのクラス。
+    # IRCボットの現在の状態を返すサーバのクラス
     class StatusServer
       # 応答生成処理
       # @type [Hash<String, Proc>]

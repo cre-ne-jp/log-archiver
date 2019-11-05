@@ -205,6 +205,8 @@ module LogArchiver
 
     # シグナルハンドラを設定する
     # @param [Cinch::Bot] bot IRC ボット
+    # @param [IO] status_server_signal_io_w ボットの状態送信用サーバの
+    #   シグナル関連コマンド書き込み用IO
     # @return [void]
     def set_signal_handler(bot, status_server_signal_io_w)
       # シグナルを捕捉し、ボットを終了させる処理
