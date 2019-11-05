@@ -20,7 +20,14 @@ module LogArchiver
         return if m.channel.topic == ''
 
         _, nick, user, host = m.params[2].match(/\A(.+)!(.+)@(.+)\z/).to_a
-        timestamp = Time.zone.at(m.params[3].to_i)
+
+        begin
+          timestamp = Time.zone.at(m.params[3].to_i)
+        rescue
+          @log.warn("#{m.channel}: TOPIC 設定日時の取得に失敗しました。")
+          return
+        end
+
         save_topic(m.channel, nick, user, host, timestamp)
       end
 
