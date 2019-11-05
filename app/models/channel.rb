@@ -43,6 +43,11 @@ class Channel < ApplicationRecord
     },
     format: { with: /\A[A-Za-z][-_A-Za-z0-9]*\z/ }
   )
+  validates(
+    :canonical_url_template,
+    allow_blank: true,
+    canonical_url_template: true
+  )
 
   # ログ記録が有効なチャンネル
   scope :logging_enabled, -> { where(logging_enabled: true) }
