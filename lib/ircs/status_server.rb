@@ -39,6 +39,10 @@ module LogArchiver
       # @param [IO] signal_io_r シグナル関連コマンドの読み取り用IO
       # @return [Thread] サーバスレッド
       def start_thread(signal_io_r)
+        if File.exist?(@socket_path)
+          raise Errno::EEXIST, @socket_path
+        end
+
         Thread.new do
           Socket.unix_server_socket(@socket_path) do |server_socket|
             @logger.info("StatusServer: UNIXドメインソケット " \
