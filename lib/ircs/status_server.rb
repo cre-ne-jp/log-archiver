@@ -38,25 +38,14 @@ module LogArchiver
       # サーバスレッドを開始する
       # @param [IO] signal_io_r シグナル関連コマンドの読み取り用IO
       # @return [Thread] サーバスレッド
+      # @raise [Errno::EEXIST] ソケットファイルが既に存在する場合
       def start_thread(signal_io_r)
         if File.exist?(@socket_path)
           raise Errno::EEXIST, @socket_path
         end
 
         Thread.new do
-          Socket.unix_server_socket(@socket_path) do |server_socket|
-            @logger.info("StatusServer: UNIXドメインソケット " \
-                         "#{@socket_path} を使用して通信します")
-
-            socket_manager = SocketManager.new(server_socket, @logger)
-
-            loop do
-              stop = handle_readable_ios(signal_io_r, socket_manager)
-              break if stop
-            end
-
-            socket_manager.close_all_client_sockets
-          end
+          thread_proc(signal_io_r)
         end
       end
 
@@ -87,6 +76,25 @@ module LogArchiver
 
       private
 
+      # サーバスレッドの処理
+      # @param [IO] signal_io_r シグナル関連コマンドの読み取り用IO
+      # @return [void]
+      def thread_proc(signal_io_r)
+        Socket.unix_server_socket(@socket_path) do |server_socket|
+          @logger.info("StatusServer: UNIXドメインソケット " \
+                       "#{@socket_path} を使用して通信します")
+
+          socket_manager = SocketManager.new(server_socket, @logger)
+
+          loop do
+            stop = handle_readable_ios(signal_io_r, socket_manager)
+            break if stop
+          end
+
+          socket_manager.close_all_client_sockets
+        end
+      end
+
       # 読み込み用IOに対する処理
       # @param [IO] signal_io_r シグナル関連コマンドの読み取り用IO
       # @param [SocketManager] socket_manager ソケット管理
@@ -98,24 +106,36 @@ module LogArchiver
         # 読み取りの準備ができたIOを選ぶ
         readable_ios, _ = IO.select(ios)
         readable_ios.each do |io|
-          case io
-          when signal_io_r
-            stop = dispatch_signal_related_command(io)
-            # 終了要求を受信した場合、サーバを終了する
-            return true if stop
-          when socket_manager.server_socket
-            socket_manager.accept_connection
-          else
-            command = socket_manager.read_command(io)
-            if command
-              json = JSON.dump(response_to(command))
-              socket_manager.reply(json, io)
-            end
-          end
+          stop = handle_readable_io(io, signal_io_r, socket_manager)
+          return true if stop
         end
 
         # サーバを終了する必要がない
         false
+      end
+
+      # 個別の読み取り用IOに対する処理
+      # @param [IO] io 処理対象IO
+      # @param [IO] signal_io_r シグナル関連コマンドの読み取り用IO
+      # @param [SocketManager] socket_manager ソケット管理
+      # @return [true] サーバ終了要求を受信した場合
+      # @return [false] サーバを終了する必要がない場合
+      def handle_readable_io(io, signal_io_r, socket_manager)
+        case io
+        when signal_io_r
+          return dispatch_signal_related_command(io)
+        when socket_manager.server_socket
+          socket_manager.accept_connection
+          return false
+        else
+          command = socket_manager.read_command(io)
+          if command
+            json = JSON.dump(response_to(command))
+            socket_manager.reply(json, io)
+          end
+
+          return false
+        end
       end
 
       # シグナル関連コマンドを呼び出す
