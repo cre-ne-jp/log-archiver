@@ -53,7 +53,7 @@
 
           <p>
           <% if @conversation_message.class.superclass == ConversationMessage %>
-            <%= link_to('非表示化', new_admin_conversation_message_path(id: @conversation_message.id), class: 'btn btn-success') %>
+            <%= link_to('非表示化', edit_admin_conversation_message_path(id: @conversation_message.id), class: 'btn btn-success') %>
           <% else %>
             <%= link_to('編集', edit_admin_conversation_message_path(@conversation_message.old_id), class: 'btn btn-success') %>
             <%= link_to('非表示メッセージ一覧に戻る', admin_conversation_messages_path, class: 'btn btn-default') %>

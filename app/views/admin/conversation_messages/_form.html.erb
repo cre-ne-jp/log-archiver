@@ -11,5 +11,6 @@
     <% if @archived_conversation_message.id %>
       <%= link_to('非表示設定の解除', admin_conversation_message_path, method: :delete, class: 'btn btn-default') %>
     <% end %>
+    <%= link_to('メッセージ詳細に戻る', admin_conversation_message_path, class: 'btn btn-default') %>
   </div>
 <% end %>

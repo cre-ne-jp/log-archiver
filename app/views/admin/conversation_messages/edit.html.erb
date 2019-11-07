@@ -43,7 +43,11 @@
               </tr>
               <tr>
                 <th scope="row" class="message-status">現在の設定</th>
-                <td class="message-status"><%= link_to(@archived_conversation_message.archive_reason.reason, admin_archive_reason_path(@archived_conversation_message.archive_reason)) %></td>
+                <% if @archived_conversation_message.new_record? %>
+                  <td class="message-status">表示中</td>
+                <% else %>
+                  <td class="message-status"><%= link_to(@archived_conversation_message.archive_reason.reason, admin_archive_reason_path(@archived_conversation_message.archive_reason)) %></td>
+                <% end %>
               </tr>
             </tbody>
           </table>
@@ -51,7 +55,7 @@
           <%= render('shared/error_messages', target: @archived_conversation_message) %>
 
           <h2>非表示理由の設定</h2>
-          <%= render('form', path: admin_conversation_message_path) %>
+          <%= render('form', path: @archived_conversation_message.new_record? ? admin_conversation_messages_path : admin_conversation_message_path) %>
         </div>
       </div>
     </div>

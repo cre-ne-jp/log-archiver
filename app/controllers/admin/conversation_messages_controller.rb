@@ -17,14 +17,6 @@ class Admin::ConversationMessagesController < ApplicationController
     end
   end
 
-  def new
-    @archived_conversation_message =
-      ArchivedConversationMessage.from_conversation_message(
-        ConversationMessage.find(params[:id])
-      )
-    @archive_reasons = ArchiveReason.all
-  end
-
   def create
     archiver = ConversationMessageArchiver.new
 
@@ -38,7 +30,10 @@ class Admin::ConversationMessagesController < ApplicationController
 
   def edit
     @archived_conversation_message =
-      ArchivedConversationMessage.find_by(old_id: params[:id])
+      ArchivedConversationMessage.find_or_initialize_by(old_id: params[:id])
+    if @archived_conversation_message.new_record?
+      @archived_conversation_message.from_conversation_message
+    end
     @archive_reasons = ArchiveReason.all
   end
 

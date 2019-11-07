@@ -79,8 +79,12 @@ class ArchivedConversationMessage < ApplicationRecord
   # @param [ConversationMessage] m
   # @return [Hash]
   def self.from_conversation_message(m)
-    new(
-      old_id: m.id,
+    new(old_id: m.id).from_conversation_message
+  end
+
+  def from_conversation_message
+    m = ConversationMessage.find(old_id)
+    assign_attributes(
       channel_id: m.channel_id,
       timestamp: m.timestamp,
       nick: m.nick,
@@ -90,5 +94,7 @@ class ArchivedConversationMessage < ApplicationRecord
       digest: m.digest,
       created_at: m.created_at
     )
+
+    self
   end
 end
