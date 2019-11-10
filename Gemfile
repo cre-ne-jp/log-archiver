@@ -10,8 +10,6 @@ gem 'xmlrpc'
 gem 'rails', '~> 6.0'
 # Use mysql as the database for Active Record
 gem 'mysql2', '~> 0.5'
-# Sprockets 4.x では、SCSS コンパイル時にエラーが発生する
-gem 'sprockets', '~> 3'
 
 # バルクアップデートに使う
 gem 'activerecord-import'
