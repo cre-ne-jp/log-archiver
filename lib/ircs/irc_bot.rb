@@ -8,6 +8,7 @@ require 'pp'
 
 require_relative './config'
 require_relative './plugins_loader'
+require_relative './status_server'
 
 module LogArchiver
   module Ircs
@@ -27,13 +28,22 @@ module LogArchiver
       config = load_config(config_id, options[:mode])
       plugins = load_plugins(%w(ChannelSync SaveLog KickBack Version UserInterface Part Ctcp TopicSync))
 
-      bot = new_bot(config, plugins, log_level)
+      status_server = StatusServer.new(
+        Rails.application.config.irc_bot_status.socket_path,
+        @logger
+      )
+      status_server_signal_io_r, status_server_signal_io_w = IO.pipe
+      status_server_thread =
+        status_server.start_thread(status_server_signal_io_r)
 
+      bot = new_bot(config, plugins, log_level)
       # 後に @quit_message.empty? を実行するため、
       # NoMethodError などの例外が発生しないよう文字列化しておく
       @quit_message = config.irc_bot['QuitMessage'].to_s
-      set_signal_handler(bot)
+      set_signal_handler(bot, status_server_signal_io_w)
       bot.start
+
+      status_server_thread.join
 
       @logger.warn('ボットは終了しました')
     end
@@ -195,8 +205,10 @@ module LogArchiver
 
     # シグナルハンドラを設定する
     # @param [Cinch::Bot] bot IRC ボット
+    # @param [IO] status_server_signal_io_w ボットの状態送信用サーバの
+    #   シグナル関連コマンド書き込み用IO
     # @return [void]
-    def set_signal_handler(bot)
+    def set_signal_handler(bot, status_server_signal_io_w)
       # シグナルを捕捉し、ボットを終了させる処理
       # trap 内で普通に bot.quit すると ThreadError が出るので
       # 新しい Thread で包む
@@ -204,6 +216,7 @@ module LogArchiver
         Signal.trap(signal) do
           Thread.new(signal) do |sig|
             bot.quit(@quit_message.empty? ? "Caught #{sig}" : @quit_message)
+            status_server_signal_io_w.write('q')
           end
         end
       end

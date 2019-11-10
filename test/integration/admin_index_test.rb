@@ -12,8 +12,11 @@ class AdminIndexTest < ActionDispatch::IntegrationTest
     @user = create(:user)
 
     @original_app_status = Rails.application.config.app_status
-    Rails.application.config.app_status =
-      LogArchiver::AppStatus.new(DUMMY_START_TIME, DUMMY_COMMIT_ID)
+    Rails.application.config.app_status = LogArchiver::AppStatus.new(
+      LogArchiver::Version,
+      DUMMY_START_TIME,
+      DUMMY_COMMIT_ID
+    )
   end
 
   teardown do
@@ -29,40 +32,9 @@ class AdminIndexTest < ActionDispatch::IntegrationTest
     refute_nil(flash[:warning], 'warningのflashが表示される')
   end
 
-  test 'ログインしている場合、表示される' do
-    assert_successful_login_and_get
-  end
-
-  test 'バージョン番号が正しい形式で表示される' do
-    assert_successful_login_and_get
-    assert_select('#version', LogArchiver::Version)
-  end
-
-  test 'コミットIDを取得できるとき、正しい形式で表示される' do
-    assert_successful_login_and_get
-    assert_select('#commit-id', DUMMY_COMMIT_ID)
-  end
-
-  test 'コミットIDを取得できないとき、正しい形式で表示される' do
-    # コミットIDなしに設定する
-    Rails.application.config.app_status =
-      LogArchiver::AppStatus.new(DUMMY_START_TIME, '')
-
-    assert_successful_login_and_get
-    assert_select('#commit-id', '-')
-  end
-
-  test '稼働時間が正しい形式で表示される' do
-    assert_successful_login_and_get
-    assert_select('#uptime', /\A\d+:\d{2}:\d{2}:\d{2}（\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} に起動）\z/)
-  end
-
-  private
-
-  def assert_successful_login_and_get
+  test 'ログインしている場合、状態ページにリダイレクトされる' do
     login_user(@user)
     get(admin_path)
-
-    assert_response(:success)
+    assert_redirected_to(admin_status_path)
   end
 end

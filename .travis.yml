@@ -15,9 +15,13 @@ sudo: required
 env:
   global:
     - TZ=Asia/Tokyo
+    - CC_TEST_REPORTER_ID=LogArchiver
 before_install:
   # https://github.com/travis-ci/travis-ci/issues/8978#issuecomment-354036443
   - gem update --system
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
 install:
   - travis/install-mroonga.sh
   - sudo mysql -uroot < travis/create-mysql-user.sql
@@ -27,8 +31,8 @@ script:
   - bin/rails db:create RAILS_ENV=test
   - bin/rails db:migrate RAILS_ENV=test
   - bin/rails test
-after_success:
-  - bundle exec codeclimate-test-reporter
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 notifications:
   irc:
     use_notice: true

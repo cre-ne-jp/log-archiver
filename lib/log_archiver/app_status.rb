@@ -1,10 +1,15 @@
 # frozen_string_literal: true
 
+require 'time'
+
 require 'log_archiver/version'
 
 module LogArchiver
   # アプリケーションの状態を表すクラス
   class AppStatus
+    # アプリケーションのバージョン
+    # @return [String]
+    attr_reader :version
     # アプリケーションの起動時刻
     # @return [Time]
     attr_reader :start_time
@@ -45,21 +50,37 @@ module LogArchiver
       '%d:%02d:%02d:%02d' % [day, hour, min, sec]
     end
 
+    # アプリケーションの状態を表すHashから新しいインスタンスを作る
+    # @param [Hash] hash アプリケーションの状態を表すHash
+    def self.from_hash(hash)
+      version = hash.dig(:version).to_s
+      start_time = Time.at(hash.dig(:start_time))
+      commit_id = hash.dig(:commit_id).to_s
+
+      new(version, start_time, commit_id)
+    end
+
     # アプリケーションの状態を初期化する
+    # @param [String] version アプリケーションのバージョン
     # @param [Time] start_time アプリケーションの起動時刻
     # @param [String] commit_id コミットID
-    def initialize(start_time, commit_id = '')
+    def initialize(version, start_time, commit_id = '')
+      @version = version.dup.freeze
       @start_time = start_time.dup.freeze
       @commit_id = commit_id.dup.freeze
 
       @version_and_commit_id = commit_id.empty? ?
-        Version : "#{Version} (#{commit_id})".freeze
+        version : "#{version} (#{commit_id})"
     end
 
-    # バージョンを返す
-    # @return [String]
-    def version
-      Version
+    # アプリケーションの状態を表すHashを返す
+    # @return [Hash]
+    def to_h
+      {
+        version: version,
+        commit_id: commit_id,
+        start_time: start_time.to_f
+      }
     end
 
     # 稼働時間を返す
