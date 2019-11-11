@@ -18,34 +18,7 @@
             <h1>発言の非表示</h1>
           </div>
 
-          <table class="table table-striped channel-info">
-            <tbody>
-              <tr>
-                <th scope="row" class="message-type">IRC コマンド</th>
-                <td class="message-type"><%= @conversation_message.type %></td>
-              </tr>
-              <tr>
-                <th scope="row" class="message-channel">チャンネル名</th>
-                <td class="message-channel"><%= link_to(@conversation_message.channel.name_with_prefix, channel_path(@conversation_message.channel)) %></td>
-              </tr>
-              <tr>
-                <th scope="row" class="message-timestamp">発言日時</th>
-                <td class="message-timestamp"><%= @conversation_message.timestamp.strftime('%F %T') %></td>
-              </tr>
-              <tr>
-                <th scope="row" class="message-user">発言者</th>
-                <td class="message-user"><%= "#{@conversation_message.nick}!#{@conversation_message.irc_user.user}@#{@conversation_message.irc_user.host}" %></td>
-              </tr>
-              <tr>
-                <th scope="row" class="message-body">内容</th>
-                <td class="message-body"><%= raw(linkify(@conversation_message.message)) %></td>
-              </tr>
-              <tr>
-                <th scope="row" class="message-status">現在の設定</th>
-                <td class="message-status">非表示: <%= link_to(@conversation_message.archive_reason.reason, admin_archive_reason_path(@conversation_message.archive_reason)) %></td>
-              </tr>
-            </tbody>
-          </table>
+          <%= render('shared/admin/message_detail', m: @conversation_message) %>
 
           <p>
           <%= link_to('編集', edit_admin_archived_conversation_message_path(@conversation_message.id), class: 'btn btn-success') %>
