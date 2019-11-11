@@ -1,5 +1,6 @@
-Rails.application.routes.draw do
+# frozen_string_literal: true
 
+Rails.application.routes.draw do
   root 'welcome#index'
 
   resources :channels do
@@ -39,6 +40,8 @@ Rails.application.routes.draw do
   get 'admin' => 'admin#index', as: :admin
 
   namespace :admin do
+    get 'status' => 'status#show', as: 'status'
+
     namespace :channels do
       get ':id/update-last-speech' => 'last_speech_updates#show',
         as: 'update_last_speech'
