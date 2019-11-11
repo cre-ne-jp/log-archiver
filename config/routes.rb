@@ -52,7 +52,8 @@ Rails.application.routes.draw do
 
     resource :channel_order, only: %i(show)
 
-    resources :conversation_messages, only: %i(index show create edit update destroy)
+    resources :archived_conversation_messages, only: %i(index show create edit update destroy)
+    resources :conversation_messages, only: %i(show edit)
     resources :archive_reasons, only: %i(index new create show edit update)
   end
 

@@ -11,7 +11,7 @@
           <ol class="breadcrumb">
             <li><%= link_to('管理', admin_path) %></li>
             <li><%= link_to('発言の非表示', admin_archived_conversation_messages_path) %></li>
-            <li><%= link_to(@conversation_message.id, admin_conversation_message_path(@conversation_message.id)) %></li>
+            <li><%= link_to(@archived_conversation_message.id, admin_archived_conversation_message_path(@archived_conversation_message)) %></li>
             <li class="active">設定</li>
           </ol>
 
@@ -23,35 +23,35 @@
             <tbody>
               <tr>
                 <th scope="row" class="message-type">IRC コマンド</th>
-                <td class="message-type"><%= @conversation_message.type %></td>
+                <td class="message-type"><%= @archived_conversation_message.type %></td>
               </tr>
               <tr>
                 <th scope="row" class="message-channel">チャンネル名</th>
-                <td class="message-channel"><%= link_to(@conversation_message.channel.name_with_prefix, channel_path(@conversation_message.channel)) %></td>
+                <td class="message-channel"><%= link_to(@archived_conversation_message.channel.name_with_prefix, channel_path(@archived_conversation_message.channel)) %></td>
               </tr>
               <tr>
                 <th scope="row" class="message-timestamp">発言日時</th>
-                <td class="message-timestamp"><%= @conversation_message.timestamp.strftime('%F %T') %></td>
+                <td class="message-timestamp"><%= @archived_conversation_message.timestamp.strftime('%F %T') %></td>
               </tr>
               <tr>
                 <th scope="row" class="message-user">発言者</th>
-                <td class="message-user"><%= "#{@conversation_message.nick}!#{@conversation_message.irc_user.user}@#{@conversation_message.irc_user.host}" %></td>
+                <td class="message-user"><%= "#{@archived_conversation_message.nick}!#{@archived_conversation_message.irc_user.user}@#{@archived_conversation_message.irc_user.host}" %></td>
               </tr>
               <tr>
                 <th scope="row" class="message-body">内容</th>
-                <td class="message-body"><%= raw(linkify(@conversation_message.message)) %></td>
+                <td class="message-body"><%= raw(linkify(@archived_conversation_message.message)) %></td>
               </tr>
               <tr>
                 <th scope="row" class="message-status">現在の設定</th>
-                <td class="message-status">表示中</td>
+                <td class="message-status"><%= link_to(@archived_conversation_message.archive_reason.reason, admin_archive_reason_path(@archived_conversation_message.archive_reason)) %></td>
               </tr>
             </tbody>
           </table>
 
-          <%= render('shared/error_messages', target: @conversation_message) %>
+          <%= render('shared/error_messages', target: @archived_conversation_message) %>
 
           <h2>非表示理由の設定</h2>
-          <%= render('form', path: admin_archived_conversation_messages_path) %>
+          <%= render('form', path: admin_archived_conversation_message_path) %>
         </div>
       </div>
     </div>

@@ -36,11 +36,11 @@ class ConversationMessageArchiver
   end
 
   # Archived -> ConversationMessage
-  # @param [Integer/String] old_id ArchivedConversationMessage.old_id
+  # @param [Integer/String] old_id ArchivedConversationMessage.id
   # @option [String] :id 元の ArchivedConversationMessage.old_id
   # @return [ConversationMessage]
   def reconstitute!(old_id)
-    unless am = ArchivedConversationMessage.find_by(old_id: old_id.to_i)
+    unless am = ArchivedConversationMessage.find(old_id.to_i)
       raise(ArgumentError, 'old_id is required.')
     end
 

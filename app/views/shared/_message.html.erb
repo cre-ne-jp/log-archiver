@@ -1,5 +1,4 @@
 <% anchor = m.fragment_id %>
-<% id = m.kind_of?(ArchivedConversationMessage) ? m.old_id : m.id %>
 <% browse_day = ChannelBrowse::Day.new(channel: m.channel, date: m.timestamp.to_date, style: style) %>
 <tr id="<%= anchor %>" class="message message-type-<%= m.type.downcase %><%= ' message-archived' if m.kind_of?(ArchivedConversationMessage) %>">
   <td class="message-time"><%= link_to(m.timestamp.strftime('%T'), browse_day.path(anchor: anchor)) %></td>
@@ -39,7 +38,11 @@
   <% if current_user %>
     <td class="message-detail">
       <% if MessageHelper::PossibleArchiveTypes.include?(m.type) %>
-        <%= link_to(fa_icon('info-circle', title: '詳細'), admin_conversation_message_path(id)) %>
+        <% if m.kind_of?(ArchivedConversationMessage) %>
+          <%= link_to(fa_icon('info-circle', title: '詳細'), admin_archived_conversation_message_path(m.id)) %>
+        <% else %>
+          <%= link_to(fa_icon('info-circle', title: '詳細'), admin_conversation_message_path(m.id)) %>
+        <% end %>
       <% end %>
     </td>
   <% end %>

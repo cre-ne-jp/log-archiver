@@ -1,4 +1,4 @@
-<% title('発言の非表示', '編集') %>
+<% title('発言の非表示') %>
 <div class="container main-container">
   <div class="row">
     <%= render('shared/admin/nav_conversation_messages') %>
@@ -11,12 +11,11 @@
           <ol class="breadcrumb">
             <li><%= link_to('管理', admin_path) %></li>
             <li><%= link_to('発言の非表示', admin_archived_conversation_messages_path) %></li>
-            <li><%= link_to(@conversation_message.id, admin_conversation_message_path(@conversation_message.id)) %></li>
-            <li class="active">設定</li>
+            <li class="active"><%= @conversation_message.id %></li>
           </ol>
 
           <div class="page-header">
-            <h1>発言の非表示設定</h1>
+            <h1>発言の非表示</h1>
           </div>
 
           <table class="table table-striped channel-info">
@@ -43,15 +42,16 @@
               </tr>
               <tr>
                 <th scope="row" class="message-status">現在の設定</th>
-                <td class="message-status">表示中</td>
+                <td class="message-status">非表示: <%= link_to(@conversation_message.archive_reason.reason, admin_archive_reason_path(@conversation_message.archive_reason)) %></td>
               </tr>
             </tbody>
           </table>
 
-          <%= render('shared/error_messages', target: @conversation_message) %>
-
-          <h2>非表示理由の設定</h2>
-          <%= render('form', path: admin_archived_conversation_messages_path) %>
+          <p>
+          <%= link_to('編集', edit_admin_archived_conversation_message_path(@conversation_message.id), class: 'btn btn-success') %>
+          <%= link_to('非表示メッセージ一覧に戻る', admin_archived_conversation_messages_path, class: 'btn btn-default') %>
+          <%= link_to('日付別のメッセージ表示に戻る', @browse_day.path(anchor: @conversation_message.fragment_id), id: @conversation_message.fragment_id, class: 'btn btn-default') %>
+          </p>
         </div>
       </div>
     </div>
