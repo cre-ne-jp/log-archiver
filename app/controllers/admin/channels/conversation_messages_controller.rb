@@ -1,4 +1,4 @@
-class Admin::ConversationMessagesController < ApplicationController
+class Admin::Channels::ConversationMessageController < ApplicationController
   before_action(:require_login)
 
   def show
