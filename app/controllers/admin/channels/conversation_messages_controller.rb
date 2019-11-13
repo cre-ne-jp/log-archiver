@@ -1,8 +1,8 @@
-class Admin::Channels::ConversationMessageController < ApplicationController
+class Admin::Channels::ConversationMessagesController < ApplicationController
   before_action(:require_login)
 
   def show
-    @conversation_message = ConversationMessage.find(params[:id])
+    @conversation_message = ConversationMessage.find(params[:conversation_message_id])
     @browse_day = ChannelBrowse::Day.new(
       channel: @conversation_message.channel, date: @conversation_message.timestamp, style: :normal
     )
