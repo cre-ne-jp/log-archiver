@@ -9,6 +9,6 @@
     <%= f.hidden_field(:old_id, value: @archived_conversation_message.old_id) %>
     <%= f.submit(t('views.save'), class: 'btn btn-success') %>
     <%= link_to('非表示設定の解除', admin_archived_conversation_message_path, method: :delete, class: 'btn btn-default') %>
-    <%= link_to('メッセージ詳細に戻る', admin_archived_conversation_message_path, class: 'btn btn-default') %>
+    <%= link_to('発言の詳細に戻る', admin_archived_conversation_message_path, class: 'btn btn-default') %>
   </div>
 <% end %>
