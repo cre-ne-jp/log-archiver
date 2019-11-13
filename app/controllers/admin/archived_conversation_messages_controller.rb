@@ -1,4 +1,6 @@
 class Admin::ArchivedConversationMessagesController < ApplicationController
+  include MessageHelper
+
   before_action(:require_login)
 
   def index
@@ -12,7 +14,7 @@ class Admin::ArchivedConversationMessagesController < ApplicationController
   def show
     @conversation_message = ArchivedConversationMessage.find(params[:id])
     @browse_day = ChannelBrowse::Day.new(
-        channel: @conversation_message.channel, date: @conversation_message.timestamp, style: :normal
+      channel: @conversation_message.channel, date: @conversation_message.timestamp, style: :normal
       )
   end
 
@@ -49,14 +51,7 @@ class Admin::ArchivedConversationMessagesController < ApplicationController
 
     if cm = archiver.reconstitute!(params[:id])
       flash[:success] = t('views.flash.deleted_archived_conversation_message')
-      params = {
-        id: cm.channel.identifier,
-        year: cm.timestamp.year,
-        month: cm.timestamp.month,
-        day: cm.timestamp.day,
-        conversation_message_id: cm.id
-      }
-      redirect_to(admin_channels_conversation_message_path(params))
+      redirect_to(admin_conversation_message_path(cm))
     else
       redirect_to(admin_archived_conversation_message_path(params[:id]))
     end

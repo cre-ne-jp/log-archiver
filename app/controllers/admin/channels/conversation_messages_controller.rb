@@ -1,4 +1,6 @@
 class Admin::Channels::ConversationMessagesController < ApplicationController
+  include MessageHelper
+
   before_action(:require_login)
 
   def show
@@ -9,13 +11,7 @@ class Admin::Channels::ConversationMessagesController < ApplicationController
     # 実質的にページを指定するのは ConversationMessage.id とする
     # パスで指定されたチャンネル識別子・日付が間違っていたら、正しいページに転送する
     if !(@channel.identifier == params[:id] && @date.year == params[:year].to_i && @date.month == params[:month].to_i && @date.day == params[:day].to_i)
-      redirect_to(admin_channels_conversation_message_path({
-        id: @channel.identifier,
-        year: @date.year,
-        month: @date.month,
-        day: @date.day,
-        conversation_message_id: @conversation_message.id
-      }))
+      redirect_to(admin_conversation_message_path(@conversation_message))
     end
 
     @archived_conversation_message = ArchivedConversationMessage.from_conversation_message(@conversation_message)
