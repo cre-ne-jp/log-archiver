@@ -49,7 +49,14 @@ class Admin::ArchivedConversationMessagesController < ApplicationController
 
     if cm = archiver.reconstitute!(params[:id])
       flash[:success] = t('views.flash.deleted_archived_conversation_message')
-      redirect_to(admin_conversation_message_path(cm.id))
+      params = {
+        id: cm.channel.identifier,
+        year: cm.timestamp.year,
+        month: cm.timestamp.month,
+        day: cm.timestamp.day,
+        conversation_message_id: cm.id
+      }
+      redirect_to(admin_channels_conversation_message_path(params))
     else
       redirect_to(admin_archived_conversation_message_path(params[:id]))
     end
