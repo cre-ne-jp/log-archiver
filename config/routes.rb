@@ -46,7 +46,6 @@ Rails.application.routes.draw do
       get ':id/update-last-speech' => 'last_speech_updates#show',
         as: 'update_last_speech'
       get ':id/:year/:month/:day/:conversation_message_id' => 'conversation_messages#show',
-#        controller: 'conversation_message', action: :show,
         as: 'conversation_message',
         year: /[1-9][0-9]{3}/, month: /0[1-9]|1[0-2]/, day: /0[1-9]|[12][0-9]|3[01]/,
         conversation_message_id: /\d+/

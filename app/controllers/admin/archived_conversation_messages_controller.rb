@@ -15,7 +15,7 @@ class Admin::ArchivedConversationMessagesController < ApplicationController
     @conversation_message = ArchivedConversationMessage.find(params[:id])
     @browse_day = ChannelBrowse::Day.new(
       channel: @conversation_message.channel, date: @conversation_message.timestamp, style: :normal
-      )
+    )
   end
 
   def create
@@ -42,7 +42,7 @@ class Admin::ArchivedConversationMessagesController < ApplicationController
       flash[:success] = t('views.flash.updated_archived_conversation_message')
       redirect_to(admin_archived_conversation_message_path(am.id))
     else
-      render(:new)
+      render(:edit)
     end
   end
 

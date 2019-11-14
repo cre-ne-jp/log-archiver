@@ -77,11 +77,13 @@ class ArchivedConversationMessage < ApplicationRecord
 
   # ConversationMessage インスタンスから値をコピーする
   # @param [ConversationMessage] m
-  # @return [Hash]
+  # @return [self]
   def self.from_conversation_message(m)
     new(old_id: m.id).from_conversation_message
   end
 
+  # ConversationMessage インスタンスから値をコピーする
+  # @return [self]
   def from_conversation_message
     m = ConversationMessage.find(old_id)
     assign_attributes(

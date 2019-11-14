@@ -24,9 +24,9 @@ module MessageHelper
 
     params = {
       id: cm.channel.identifier,
-      year: cm.timestamp.year,
-      month: cm.timestamp.month,
-      day: cm.timestamp.day,
+      year: cm.timestamp.strftime('%Y'),
+      month: cm.timestamp.strftime('%m'),
+      day: cm.timestamp.strftime('%d'),
       conversation_message_id: cm.id
     }
 
