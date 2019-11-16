@@ -4,7 +4,7 @@ class MessagePeriod
   include ActiveModel::Validations::Callbacks
 
   # メッセージ検索の結果
-  MessagePeriodResult = Struct.new(:channels, :messages)
+  MessagePeriodResult = Struct.new(:channels, :conversation_messages, :messages)
 
   # チャンネル識別子
   #
@@ -158,20 +158,26 @@ class MessagePeriod
         conversation_messages.last
       end
 
-    messages = Message.
-      filter_by_channels(channels).
-      filter_by_since(conversation_messages.first.timestamp).
-      filter_by_until(next_page_first_conversation_message.timestamp).
-      order(id: :asc, timestamp: :asc).
-      includes(:channel)
+    since_val, until_val =
+      if conversation_messages.empty?
+        [@since, @until]
+      elsif  conversation_messages.first_page?
+        [@since, nil]
+      elsif conversation_messages.last_page?
+        [nil, @until]
+      end
+    since_val ||= conversation_messages.first.timestamp
+    until_val ||= next_page_first_conversation_message.timestamp
 
-    # タイムスタンプによるソート
-    # 安定ソートとなるようにカウンタを用意する
-    i = 0
-    sorted_messages = (conversation_messages.to_a + messages.to_a).
-      sort_by { |m| [m.timestamp, i += 1] }
+    messages =
+      Message.
+        filter_by_channels(channels).
+        filter_by_since(since_val).
+        filter_by_until(until_val).
+        order(id: :asc, timestamp: :asc).
+        includes(:channel)
 
-    MessagePeriodResult.new(channels, sorted_messages)
+    MessagePeriodResult.new(channels, conversation_messages, messages)
   end
 
   private

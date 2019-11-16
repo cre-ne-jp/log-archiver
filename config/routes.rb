@@ -23,6 +23,7 @@ Rails.application.routes.draw do
 
   namespace :messages do
     resource :search, only: %i(create show)
+    resource :period, only: %i(create show)
   end
 
   resources :keywords, only: %i(index show)

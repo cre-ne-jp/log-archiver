@@ -30,6 +30,7 @@ ja:
     models:
       channel_browse: チャンネル閲覧
       message_search: メッセージ検索
+      message_period: メッセージ検索
     attributes:
       channel_browse:
         channel: チャンネル
@@ -41,6 +42,10 @@ ja:
         channels: チャンネル
         since: 開始日
         until: 終了日
+      message_period:
+        channels: チャンネル
+        since: 開始日時
+        until: 終了日時
   enums:
     channel_browse_date_type:
       today: 今日
