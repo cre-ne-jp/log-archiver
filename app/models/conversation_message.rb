@@ -32,7 +32,11 @@ class ConversationMessage < ApplicationRecord
     :filter_by_until,
     lambda { |until_date|
       if until_date.present?
-        where('timestamp < ?', until_date.next_day)
+        if until_date.kind_of?(Date)
+          where('timestamp < ?', until_date.next_day)
+        else
+          where('timestamp < ?', until_date)
+        end
       else
         all
       end
