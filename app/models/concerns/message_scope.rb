@@ -21,11 +21,7 @@ module MessageScope
       :filter_by_until,
       lambda { |until_date|
         if until_date.present?
-          if until_date.kind_of?(Date)
-            where('timestamp < ?', until_date.next_day)
-          else
-            where('timestamp < ?', until_date)
-          end
+          where('timestamp < ?', until_date.kind_of?(Date) ? until_date.next_day : until_date)
         else
           all
         end

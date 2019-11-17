@@ -19,7 +19,7 @@
                   <% unless @result.channels.empty? %>
                     <tr class="search-conditions-channels">
                       <th scope="raw">チャンネル</th>
-                      <td><%= raw(@result.channels.map{ |c| link_to(c&.name_with_prefix, channel_url(c)) }.join(', ')) %></td>
+                      <td><%= raw(@result.channels.map{ |c| link_to(c&.name_with_prefix, channel_path(c)) }.join(', ')) %></td>
                     </tr>
                   <% end %>
                   <% if @message_period.since.present? %>
@@ -78,7 +78,7 @@
               </table>
             </div>
 
-            <%= render('shared/message_list', messages: @messages, privmsg_keyword_relationships: @privmsg_keyword_relationships, show_channel: false, style: :normal) %>
+            <%= render('shared/message_list', messages: @messages, privmsg_keyword_relationships: @privmsg_keyword_relationships, show_channel: true, style: :normal) %>
 
             <div class="alert alert-info no-message-to-show">表示するメッセージがありません。</div>
 

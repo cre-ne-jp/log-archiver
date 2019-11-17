@@ -7,8 +7,7 @@ class Messages::SearchesController < ApplicationController
 
   # 検索クエリを作成する
   #
-  # 有効なクエリならば #show で検索結果ページを表示するようにリダイレクト
-  # する。
+  # 有効なクエリならば検索結果ページ #show にリダイレクトする。
   #
   # 無効なクエリならばホームページの検索フォームが見えるように描画する。
   def create
