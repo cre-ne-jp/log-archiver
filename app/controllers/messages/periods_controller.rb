@@ -13,7 +13,6 @@ class Messages::PeriodsController < ApplicationController
   # 無効なクエリならばホームページの検索フォームが見えるように描画する。
   def create
     @message_period = MessagePeriod.new(params_for_create)
-    @channel_browse = ChannelBrowse.new
 
     if @message_period.valid?
       redirect_to(
@@ -21,6 +20,8 @@ class Messages::PeriodsController < ApplicationController
       )
     else
       @invalid_model = :message_period
+      @channel_browse = ChannelBrowse.new
+      @message_search = MessageSearch.new
       render 'welcome/index'
     end
   end
@@ -49,6 +50,8 @@ class Messages::PeriodsController < ApplicationController
         sort_by { |m| [m.timestamp, i += 1] }
     else
       @invalid_model = :message_period
+      @channel_browse = ChannelBrowse.new
+      @message_search = MessageSearch.new
       render 'welcome/index'
     end
   end

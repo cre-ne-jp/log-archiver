@@ -13,7 +13,6 @@ class Messages::SearchesController < ApplicationController
   # 無効なクエリならばホームページの検索フォームが見えるように描画する。
   def create
     @message_search = MessageSearch.new(params_for_create)
-    @channel_browse = ChannelBrowse.new
 
     if @message_search.valid?
       redirect_to(
@@ -21,6 +20,8 @@ class Messages::SearchesController < ApplicationController
       )
     else
       @invalid_model = :message_search
+      @channel_browse = ChannelBrowse.new
+      @message_period = MessagePeriod.new
       render 'welcome/index'
     end
   end
@@ -35,8 +36,6 @@ class Messages::SearchesController < ApplicationController
     @message_search = MessageSearch.new
     @message_search.set_attributes_with_result_page_params(params_for_show)
 
-    @channel_browse = ChannelBrowse.new
-
     if @message_search.valid?
       @result = @message_search.result
       @messages = @result.messages
@@ -47,6 +46,8 @@ class Messages::SearchesController < ApplicationController
       set_next_link!(path_to_next_page(@messages))
     else
       @invalid_model = :message_search
+      @channel_browse = ChannelBrowse.new
+      @message_period = MessagePeriod.new
       render 'welcome/index'
     end
   end

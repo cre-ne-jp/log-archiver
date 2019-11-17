@@ -17,7 +17,7 @@
 
           <!-- Navタブ -->
           <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="<%= (@invalid_model == :message_search) ? '' : 'active' %>"><a href="#browse" aria-controls="browse" role="tab" data-toggle="tab"><%= fa_icon('folder-open', text: 'チャンネル') %></a></li>
+            <li role="presentation" class="<%= (@invalid_model.nil? || @invalid_model == :channel_browse) ? 'active' : '' %>"><a href="#browse" aria-controls="browse" role="tab" data-toggle="tab"><%= fa_icon('folder-open', text: 'チャンネル') %></a></li>
             <li role="presentation" class="<%= (@invalid_model == :message_search) ? 'active' : '' %>"><a href="#search" aria-controls="search" role="tab" data-toggle="tab"><%= fa_icon('search', text: '検索') %></a></li>
             <li role="presentation" class="<%= (@invalid_model == :message_period) ? 'active' : '' %>"><a href="#period" aria-controls="period" role="tab" data-toggle="tab"><%= fa_icon('arrows-h', text: '期間') %></a></li>
           </ul>
