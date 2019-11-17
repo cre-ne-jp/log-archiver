@@ -1,4 +1,4 @@
-<% title_value = "検索結果：" %>
+<% title_value = "検索結果" %>
 <% title(title_value) %>
 <% noindex %>
 <div class="container main-container">
@@ -10,7 +10,7 @@
 
           <article>
             <div class="page-header">
-              <h1>検索結果</h1>
+              <h1><%= title_value %></h1>
             </div>
 
             <div class="search-conditions well">
@@ -19,7 +19,7 @@
                   <% unless @result.channels.empty? %>
                     <tr class="search-conditions-channels">
                       <th scope="raw">チャンネル</th>
-                      <td><%= @result.channels.map(&:name_with_prefix).join(', ') %></td>
+                      <td><%= raw(@result.channels.map{ |c| link_to(c&.name_with_prefix, channel_url(c)) }.join(', ')) %></td>
                     </tr>
                   <% end %>
                   <% if @message_period.since.present? %>
@@ -36,7 +36,7 @@
                   <% end %>
                   <tr>
                     <th scope="row">発言数</th>
-                    <td><%= @conversation_messages.length %></td>
+                    <td><%= page_entries_info @conversation_messages %></td>
                   </tr>
                   <% unless @privmsg_keyword_relationships.empty? %>
                     <tr id="keyword-list">
@@ -78,7 +78,7 @@
               </table>
             </div>
 
-            <%= render('shared/message_list', messages: @messages, privmsg_keyword_relationships: @privmsg_keyword_relationships, show_channel: true, style: :normal) %>
+            <%= render('shared/message_list', messages: @messages, privmsg_keyword_relationships: @privmsg_keyword_relationships, show_channel: false, style: :normal) %>
 
             <div class="alert alert-info no-message-to-show">表示するメッセージがありません。</div>
 

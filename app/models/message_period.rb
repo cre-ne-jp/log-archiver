@@ -135,7 +135,7 @@ class MessagePeriod
     return nil unless valid?
 
     channels = @channels.empty? ?
-      [] : Channel.where(identifier: @channels).to_a
+      [] : Channel.where(identifier: @channels.split).to_a
 
     conversation_messages = ConversationMessage.
       filter_by_channels(channels).

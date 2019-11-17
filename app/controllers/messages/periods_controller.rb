@@ -41,6 +41,10 @@ class Messages::PeriodsController < ApplicationController
       @conversation_messages = @result.conversation_messages
       @privmsg_keyword_relationships =
         privmsg_keyword_relationships_from(@conversation_messages)
+      @keywords_privmsgs_for_header = @privmsg_keyword_relationships
+        .sort_by { |r| r.privmsg.timestamp }
+        .group_by(&:keyword)
+        .map { |keyword, relations| [keyword, relations.map(&:privmsg)] }
 
       set_prev_link!(path_to_prev_page(@conversation_messages))
       set_next_link!(path_to_next_page(@conversation_messages))
