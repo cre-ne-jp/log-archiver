@@ -4,20 +4,16 @@ require 'test_helper'
 require 'user_login_test_helper'
 require 'admin_nav_item_test_helper'
 
-class ChannelsEditTest < ActionDispatch::IntegrationTest
+class AdminChannelsShowTest < ActionDispatch::IntegrationTest
   setup do
     @setting = create(:setting)
     @user = create(:user)
 
-    Channel.delete_all
     @channel = create(:channel)
-    @path = edit_channel_path(@channel)
 
-    @login_helper = UserLoginTestHelper.new(self, @user, @path)
-  end
-
-  teardown do
-    Channel.delete_all
+    @login_helper = UserLoginTestHelper.new(
+      self, @user, admin_channel_path(@channel)
+    )
   end
 
   test 'ログインしている場合、表示される' do

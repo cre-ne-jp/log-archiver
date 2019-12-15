@@ -4,20 +4,18 @@ require 'test_helper'
 require 'user_login_test_helper'
 require 'admin_nav_item_test_helper'
 
-class ChannelsEditTest < ActionDispatch::IntegrationTest
+class UsersNewTest < ActionDispatch::IntegrationTest
   setup do
     @setting = create(:setting)
+
+    User.delete_all
     @user = create(:user)
 
-    Channel.delete_all
-    @channel = create(:channel)
-    @path = edit_channel_path(@channel)
-
-    @login_helper = UserLoginTestHelper.new(self, @user, @path)
+    @login_helper = UserLoginTestHelper.new(self, @user, new_user_path)
   end
 
   teardown do
-    Channel.delete_all
+    User.delete_all
   end
 
   test 'ログインしている場合、表示される' do
@@ -30,6 +28,6 @@ class ChannelsEditTest < ActionDispatch::IntegrationTest
 
   test '正しい管理メニュー項目がハイライトされる' do
     @login_helper.assert_successful_login_and_get
-    AdminNavItemTestHelper.assert_highlighted(self, :admin_nav_channels)
+    AdminNavItemTestHelper.assert_highlighted(self, :admin_nav_users)
   end
 end
