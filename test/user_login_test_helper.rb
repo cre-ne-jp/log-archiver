@@ -43,10 +43,17 @@ class UserLoginTestHelper
 
   # 未ログイン時にログインページにリダイレクトされることを確認する
   # @return [void]
+  #
+  # ブロックが与えられた場合は、ログアウト後にそのブロックを実行する。
+  # ブロックが与えられなかった場合は、#path をGETする。
   def assert_redirected_to_login_on_logged_out
     log_out
 
-    @test.get(@path)
+    if block_given?
+      yield
+    else
+      @test.get(@path)
+    end
 
     @test.assert_redirected_to(:login, 'ログインページにリダイレクトされる')
     @test.refute_nil(@test.flash[:warning], 'warningのflashが表示される')
