@@ -42,7 +42,16 @@ SimpleNavigation::Configuration.run do |navigation|
                  users_path, options[])
     primary.item(:admin_nav_settings, fa_icon('cog', text: '設定'),
                  settings_path, options[])
+
+    # 「チャンネル」をハイライトさせるパターン。
+    # 末尾の "/" については、除去して判定してくれるため、考慮しなくてよい。
+    #
+    # * /admin/channels 以下
+    # * /admin/channel_order 以下
+    # * /channels 以下
+    channels_pattern = %r!\A/(?:admin/channel(?:s|_order)|channels)(?:/.+)?\z!
     primary.item(:admin_nav_channels, fa_icon('folder-open', text: 'チャンネル'),
-                 admin_channels_path, options[])
+                 admin_channels_path,
+                 options[].merge({ highlights_on: channels_pattern }))
   end
 end
