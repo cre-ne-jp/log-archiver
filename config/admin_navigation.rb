@@ -8,9 +8,6 @@ SimpleNavigation::Configuration.run do |navigation|
   # アクティブな項目に適用されるクラス
   navigation.selected_class = 'active'
 
-  # 項目のキーをIDとして付与するか。
-  navigation.autogenerate_item_ids = false
-
   # 自動ハイライト機能を有効にするか
   navigation.auto_highlight = true
 
@@ -25,6 +22,8 @@ SimpleNavigation::Configuration.run do |navigation|
   # 最上位レベルのナビゲーションの定義。
   # ナビゲーション部分は ul タグで囲まれ、各項目は li タグとして出力される。
   navigation.items do |primary|
+    # ul タグの ID
+    primary.dom_id = 'admin_nav'
     # ul タグのクラス
     primary.dom_class = %w(nav nav-pills nav-stacked)
 
@@ -37,13 +36,13 @@ SimpleNavigation::Configuration.run do |navigation|
       { html: { role: 'presentation' } }
     }
 
-    primary.item(:status, fa_icon('info-circle', text: '現在の状態'),
+    primary.item(:admin_nav_status, fa_icon('info-circle', text: '現在の状態'),
                  admin_status_path, options[])
-    primary.item(:users, fa_icon('user', text: '利用者'),
+    primary.item(:admin_nav_users, fa_icon('user', text: '利用者'),
                  users_path, options[])
-    primary.item(:settings, fa_icon('cog', text: '設定'),
+    primary.item(:admin_nav_settings, fa_icon('cog', text: '設定'),
                  settings_path, options[])
-    primary.item(:channels, fa_icon('folder-open', text: 'チャンネル'),
+    primary.item(:admin_nav_channels, fa_icon('folder-open', text: 'チャンネル'),
                  admin_channels_path, options[])
   end
 end
