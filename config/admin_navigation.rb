@@ -53,5 +53,12 @@ SimpleNavigation::Configuration.run do |navigation|
     primary.item(:admin_nav_channels, fa_icon('folder-open', text: 'チャンネル'),
                  admin_channels_path,
                  options[].merge({ highlights_on: channels_pattern }))
+
+    primary.item(:admin_nav_archived_messages,
+                 fa_icon('comments', text: '非表示の発言'),
+                 admin_archived_conversation_messages_path, options[])
+    primary.item(:admin_nav_archive_reasons,
+                 fa_icon('question-circle', text: '発言の非表示理由'),
+                 admin_archive_reasons_path, options[])
   end
 end
