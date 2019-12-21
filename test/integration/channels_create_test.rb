@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 require 'test_helper'
+require 'user_login_test_helper'
 
 class ChannelsCreateTest < ActionDispatch::IntegrationTest
   setup do
@@ -6,6 +9,8 @@ class ChannelsCreateTest < ActionDispatch::IntegrationTest
     @user = create(:user)
 
     Channel.delete_all
+
+    @login_helper = UserLoginTestHelper.new(self, @user, channels_path)
   end
 
   teardown do
@@ -13,25 +18,22 @@ class ChannelsCreateTest < ActionDispatch::IntegrationTest
   end
 
   test 'ログインしていない場合、ログインページにリダイレクトされる' do
-    logout_user
-
-    post(
-      channels_path,
-      params: {
-        channel: {
-          name: '新しいチャンネル',
-          identifier: 'new_channel',
-          logging_enabled: '1'
+    @login_helper.assert_redirected_to_login_on_logged_out do
+      post(
+        channels_path,
+        params: {
+          channel: {
+            name: '新しいチャンネル',
+            identifier: 'new_channel',
+            logging_enabled: '1'
+          }
         }
-      }
-    )
-
-    assert_redirected_to(login_path, 'ログインページにリダイレクトされる')
-    refute_nil(flash[:warning], 'warningのflashが表示される')
+      )
+    end
   end
 
   test '追加に成功する' do
-    login_user(@user)
+    @login_helper.log_in
 
     post(
       channels_path,
@@ -49,7 +51,7 @@ class ChannelsCreateTest < ActionDispatch::IntegrationTest
   end
 
   test '無効な値の場合は追加に失敗する' do
-    login_user(@user)
+    @login_helper.log_in
 
     post(
       channels_path,
