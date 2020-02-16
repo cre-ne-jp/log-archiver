@@ -1,0 +1,28 @@
+<% title("発言の非表示理由の編集 #{@archive_reason.id}") %>
+<div class="container main-container">
+  <div class="row">
+    <%= render('shared/admin/navigation') %>
+
+    <div class="col-xs-12 col-sm-9">
+      <div class="main-panel">
+        <div class="panel-body">
+          <%= render('shared/flash') %>
+
+          <ol class="breadcrumb">
+            <li><%= link_to('管理', admin_path) %></li>
+            <li><%= link_to('発言の非表示理由', admin_archive_reasons_path) %></li>
+            <li class="active">編集</li>
+          </ol>
+
+          <div class="page-header">
+            <h1>発言の非表示理由の編集</h1>
+          </div>
+
+          <%= render('shared/error_messages', target: @archive_reason) %>
+
+          <%= render('form') %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

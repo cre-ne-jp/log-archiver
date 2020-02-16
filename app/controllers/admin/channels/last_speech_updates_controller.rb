@@ -1,17 +1,9 @@
 class Admin::Channels::LastSpeechUpdatesController < ApplicationController
   def show
     channel = Channel.friendly.find(params[:id])
-    message = channel.current_last_speech
 
     begin
-      if message
-        channel_last_speech =
-          channel.channel_last_speech ||
-          ChannelLastSpeech.new(channel: channel)
-        channel_last_speech.conversation_message = message
-
-        channel_last_speech.save!
-      end
+      ChannelLastSpeech.refresh!(channel)
 
       flash[:success] = t('views.flash.updated_last_speech')
     rescue
