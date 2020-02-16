@@ -38,13 +38,13 @@ module LogArchiver
 
             ActiveRecord::Base.transaction do
               irc_user = IrcUser.find_or_create_by!(user: bot.user, host: bot.host)
-              notice = channel.notices.create!(
+              channel.notices.create!(
                 irc_user: irc_user,
                 timestamp: m.time,
                 nick: bot.nick,
                 message: message
               )
-              update_last_speech!(channel, notice)
+              ChannelLastSpeech.refresh!(channel)
               MessageDate.find_or_create_by!(channel: channel, date: m.time.to_date)
             end
           end
@@ -106,15 +106,13 @@ module LogArchiver
         end
       end
 
-      # チャンネルごとの最終発言を更新する
+      # [DEPRECATED] チャンネルごとの最終発言を更新する
       # @param [::Channel] チャンネル
       # @param [::ConversationMessage] 発言のメッセージ
       # @return [::ChannelLastSpeech]
       def update_last_speech!(channel, message)
-        channel_last_speech =
-          ChannelLastSpeech.find_or_initialize_by(channel: channel)
-        channel_last_speech.conversation_message = message
-        channel_last_speech.save!
+        ChannelLastSpeech.refresh!(channel)
+        @logger.warn('このメソッドは廃止予定です。ChannelLastSpeech.refresh! を使ってください')
       end
     end
   end

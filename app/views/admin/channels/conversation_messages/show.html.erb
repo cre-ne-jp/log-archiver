@@ -1,0 +1,46 @@
+<% title(['発言の非表示', '編集']) %>
+<div class="container main-container">
+  <div class="row">
+    <%= render('shared/admin/navigation') %>
+
+    <div class="col-xs-12 col-sm-9">
+      <div class="main-panel">
+        <div class="panel-body">
+          <%= render('shared/flash') %>
+
+          <ol class="breadcrumb">
+            <li><%= link_to('管理', admin_path) %></li>
+            <li><%= link_to('チャンネル', admin_channels_path) %></li>
+            <li><%= link_to(@channel.name_with_prefix, @channel) %></li>
+            <li><%= link_to("#{@date.year}年", @browse_year.path) %></li>
+            <li><%= link_to("#{@date.month}月", @browse_month.path) %></li>
+            <li><%= link_to("#{@date.day}日", @browse_day.path) %></li>
+            <li class="active"><%= @conversation_message.id %></li>
+          </ol>
+
+          <div class="page-header">
+            <h1>発言の詳細</h1>
+          </div>
+
+          <%= render('shared/admin/message_detail', m: @conversation_message) %>
+
+          <%= render('shared/error_messages', target: @conversation_message) %>
+
+          <h2>非表示理由の設定</h2>
+          <%= form_for(@archived_conversation_message, url: admin_archived_conversation_messages_path) do |f| %>
+            <div class="form-group">
+              <%= f.label(:archive_reason_id) %>
+              <%= f.collection_select(:archive_reason_id, @archive_reasons, :id, :reason, {prompt: '選択して下さい'}, class: 'form-control', required: true) %>
+              <p class="help-block">非表示理由を選択してください。</p>
+            </div>
+
+            <div class="form-group">
+              <%= f.hidden_field(:old_id, value: @conversation_message.id) %>
+              <%= f.submit(t('views.save'), class: 'btn btn-success') %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

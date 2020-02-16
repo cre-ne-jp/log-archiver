@@ -46,12 +46,19 @@ Rails.application.routes.draw do
     namespace :channels do
       get ':id/update-last-speech' => 'last_speech_updates#show',
         as: 'update_last_speech'
+      get ':id/:year/:month/:day/:conversation_message_id' => 'conversation_messages#show',
+        as: 'conversation_message',
+        year: /[1-9][0-9]{3}/, month: /0[1-9]|1[0-2]/, day: /0[1-9]|[12][0-9]|3[01]/,
+        conversation_message_id: /\d+/
     end
 
     get 'channels/:id' => 'channels#show', as: 'channel'
     get 'channels' => 'channels#index', as: 'channels'
 
     resource :channel_order, only: %i(show)
+
+    resources :archived_conversation_messages, only: %i(index show create edit update destroy)
+    resources :archive_reasons, only: %i(index new create show edit update)
   end
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
