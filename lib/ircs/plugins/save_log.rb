@@ -91,11 +91,11 @@ module LogArchiver
       # @param [Cinch::Message] m メッセージ
       def on_topic(m)
         record_message(m) do |channel, irc_user|
-          topic = channel.topics.create!(irc_user: irc_user,
-                                         timestamp: m.time,
-                                         nick: m.user.nick,
-                                         message: m.message)
-          update_last_speech!(channel, topic)
+          channel.topics.create!(irc_user: irc_user,
+                                 timestamp: m.time,
+                                 nick: m.user.nick,
+                                 message: m.message)
+          ChannelLastSpeech.refresh!(channel)
         end
       end
 
@@ -103,11 +103,11 @@ module LogArchiver
       # @param [Cinch::Message] m メッセージ
       def on_notice(m)
         record_message(m) do |channel, irc_user|
-          notice = channel.notices.create!(irc_user: irc_user,
-                                           timestamp: m.time,
-                                           nick: m.user.nick,
-                                           message: m.message)
-          update_last_speech!(channel, notice)
+          channel.notices.create!(irc_user: irc_user,
+                                  timestamp: m.time,
+                                  nick: m.user.nick,
+                                  message: m.message)
+          ChannelLastSpeech.refresh!(channel)
         end
       end
 
@@ -122,7 +122,7 @@ module LogArchiver
           if privmsg.message.match?(/\A\.(k|a)[ 　]+.+\z/)
             @extract_keyword.run(privmsg)
           end
-          update_last_speech!(channel, privmsg)
+          ChannelLastSpeech.refresh!(channel)
         end
       end
     end

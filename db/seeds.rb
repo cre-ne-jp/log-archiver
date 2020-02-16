@@ -17,3 +17,11 @@ IrcUser.find_or_create_by(id: 1) do |irc_user|
   irc_user.user = 'dummy'
   irc_user.host = 'irc.example.net'
 end
+
+# メッセージの非表示理由を設定する
+[
+  '個人情報が掲載されているため',
+  '利用規約に違反しているため'
+].each do |new_reason|
+  ArchiveReason.find_or_create_by(reason: new_reason)
+end

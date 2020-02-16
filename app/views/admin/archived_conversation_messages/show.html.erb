@@ -1,0 +1,31 @@
+<% title(['非表示の発言', '詳細']) %>
+<div class="container main-container">
+  <div class="row">
+    <%= render('shared/admin/navigation') %>
+
+    <div class="col-xs-12 col-sm-9">
+      <div class="main-panel">
+        <div class="panel-body">
+          <%= render('shared/flash') %>
+
+          <ol class="breadcrumb">
+            <li><%= link_to('管理', admin_path) %></li>
+            <li><%= link_to('非表示の発言', admin_archived_conversation_messages_path) %></li>
+            <li class="active"><%= @conversation_message.id %></li>
+          </ol>
+
+          <div class="page-header">
+            <h1>発言の詳細</h1>
+          </div>
+
+          <%= render('shared/admin/message_detail', m: @conversation_message) %>
+
+          <p>
+          <%= link_to('編集', edit_admin_archived_conversation_message_path(@conversation_message.id), class: 'btn btn-success') %>
+          <%= link_to('日付別のメッセージ表示に戻る', @browse_day.path(anchor: @conversation_message.fragment_id), id: @conversation_message.fragment_id, class: 'btn btn-default') %>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
