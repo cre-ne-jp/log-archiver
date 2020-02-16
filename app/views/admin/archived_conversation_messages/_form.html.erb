@@ -1,0 +1,16 @@
+<%= form_for(@archived_conversation_message, url: path) do |f| %>
+  <div class="form-group">
+    <%= f.label(:archive_reason_id) %>
+    <%= f.collection_select(:archive_reason_id, @archive_reasons, :id, :reason, {prompt: '選択して下さい', selected: @archived_conversation_message.archive_reason ? @archived_conversation_message.archive_reason.id : nil}, class: 'form-control', required: true) %>
+    <p class="help-block">非表示理由を選択してください。</p>
+  </div>
+
+  <div class="form-group">
+    <% if controller.action_name == :create %>
+      <%= f.hidden_field(:old_id, value: @archived_conversation_message.old_id) %>
+    <% end %>
+    <%= f.submit(t('views.save'), class: 'btn btn-success') %>
+    <%= link_to('非表示設定の解除', admin_archived_conversation_message_path, method: :delete, class: 'btn btn-default') %>
+    <%= link_to('発言の詳細に戻る', admin_archived_conversation_message_path, class: 'btn btn-default') %>
+  </div>
+<% end %>

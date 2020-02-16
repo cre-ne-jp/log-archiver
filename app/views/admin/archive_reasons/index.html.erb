@@ -1,0 +1,44 @@
+<% title(['管理', '発言の非表示理由']) %>
+<div class="container main-container">
+  <div class="row">
+    <%= render('shared/admin/navigation') %>
+
+    <div class="col-xs-12 col-sm-9">
+      <div class="main-panel">
+        <div class="panel-body">
+          <%= render('shared/flash') %>
+
+          <ol class="breadcrumb visible-xs-block">
+            <li><%= link_to('管理', admin_path) %></li>
+            <li class="active">発言の非表示理由</li>
+          </ol>
+
+          <div class="page-header">
+            <h1>発言の非表示理由</h1>
+          </div>
+
+          <p>
+          <%= link_to('追加', new_admin_archive_reason_path, class: 'btn btn-success') %>
+          </p>
+
+          <table class="table table-striped archive-reason-list">
+            <thead>
+              <tr>
+                <th class="archive-reason-body">理由</th>
+                <th class="archive-reason-count">該当メッセージ件数</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @archive_reasons.each do |r| %>
+                <tr>
+                  <td class="archive-reason-body"><%= link_to(r.reason, admin_archive_reason_path(r)) %></td>
+                  <td class="archive-reason-count"><%= r.archived_conversation_messages.count %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

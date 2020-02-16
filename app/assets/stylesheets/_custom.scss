@@ -216,6 +216,20 @@ table.user-info, table.channel-info {
   width: 6.5em;
 }
 
+.table .message-detail {
+  width: 2em;
+  text-align: right;
+  vertical-align: middle;
+
+  a:link, a:visited {
+    color: $gray;
+  }
+
+  a:hover {
+    color: $link-color;
+  }
+}
+
 table {
   .odd {
     background-color: $table-bg-accent;
@@ -240,11 +254,16 @@ dl.message {
 }
 
 b.nickname.message-privmsg {
-    position: relative;
-    padding: 0em 0.25em;
-    border-radius: 4px;
-    background-color: $gray;
-    color: white;
+  position: relative;
+  padding: 0em 0.25em;
+  border-radius: 4px;
+  background-color: $gray;
+  color: white;
+}
+
+.message-archived b.nickname {
+  color: black;
+  text-decoration: line-through;
 }
 
 .raw-log {
