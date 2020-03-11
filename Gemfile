@@ -43,6 +43,7 @@ gem 'meta-tags'
 
 # Use Unicorn as the app server
 gem 'unicorn'
+gem 'unicorn-worker-killer'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
