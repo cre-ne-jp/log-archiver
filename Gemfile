@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # IRC framework
-gem 'cinch'
+gem 'mcinch'
 gem 'lumberjack'
 gem 'sysexits'
 gem 'xmlrpc'
