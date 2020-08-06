@@ -11,3 +11,26 @@ LOG_ARCHIVER_DATABASE_PASSWORD=
 # 以下のコマンドを実行することで生成できます。
 # bundle exec bin/rails secret
 SECRET_KEY_BASE=
+
+# UNICORN_AUTO_RESTART_VERBOSE
+# 以下の設定による自動再起動までのログを詳細に出力するかの設定
+# true にすると、詳細出力します。
+#UNICORN_AUTO_RESTART_VERBOSE=false
+
+# UNICORN_MAX_REQUESTS_MIN
+# UNICORN_MAX_REQUESTS_MAX
+# Unicorn プロセスを、リクエスト数により自動的に再起動する設定
+# ランダムにプロセスを再起動する最小・最大回数を設定します。
+#UNICORN_MAX_REQUESTS_MIN=1024
+#UNICORN_MAX_REQUESTS_MAX=2048
+
+# UNICORN_OOM_MIN
+# UNICORN_OOM_MAX
+# Unicorn プロセスを、メモリ使用量によって自動的に再起動する設定
+# メモリを何メガバイト使用したときに再起動するかを設定します。
+#UNICORN_OOM_MIN=192
+#UNICORN_OOM_MAX=256
+
+# UNICORN_OOM_CHECK_CYCLE
+# Oom の閾値に達しているかを何回のアクセスごとに調べるかを設定します。
+#UNICORN_OOM_CHECK_CYCLE=16
