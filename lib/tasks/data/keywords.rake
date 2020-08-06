@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :data do
   namespace :keywords do
     desc '登録されているキーワードをすべて削除する'
@@ -12,14 +14,20 @@ namespace :data do
     desc '登録されているPRIVMSGからキーワードを抽出して登録する'
     task :extract_from_privmsgs, [:command] => :environment do |_, args|
       args.with_defaults(command: '.k')
+      command = args[:command]
+
+      unless command.match?(/\A\.[a-z0-9]+/i)
+        raise ArgumentError, "不正なコマンドの書式: #{command}"
+      end
+
       extract_keyword = LogArchiver::ExtractKeyword.new(
-        command_prefix: /#{args[:command]}[ 　]+/,
+        command_prefix: /\A#{command}[ 　]+/,
         verbose: true
       )
 
-      privmsgs = Privmsg.
-        where("message LIKE '#{args[:command]}%'").
-        order(:timestamp)
+      privmsgs = Privmsg
+        .where("message LIKE '#{command} %' OR message LIKE '#{command}　%'")
+        .order(:timestamp)
 
       n_keywords = 0
       n_privmsgs = 0

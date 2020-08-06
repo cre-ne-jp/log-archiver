@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # IRC framework
-gem 'cinch'
+gem 'mcinch'
 gem 'lumberjack'
 gem 'sysexits'
 gem 'xmlrpc'
@@ -43,6 +43,7 @@ gem 'meta-tags'
 
 # Use Unicorn as the app server
 gem 'unicorn'
+gem 'unicorn-worker-killer'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

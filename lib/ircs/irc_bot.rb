@@ -210,14 +210,10 @@ module LogArchiver
     # @return [void]
     def set_signal_handler(bot, status_server_signal_io_w)
       # シグナルを捕捉し、ボットを終了させる処理
-      # trap 内で普通に bot.quit すると ThreadError が出るので
-      # 新しい Thread で包む
       %i(SIGINT SIGTERM).each do |signal|
         Signal.trap(signal) do
-          Thread.new(signal) do |sig|
-            bot.quit(@quit_message.empty? ? "Caught #{sig}" : @quit_message)
-            status_server_signal_io_w.write('q')
-          end
+          bot.quit(@quit_message.empty? ? "Caught #{sig}" : @quit_message)
+          status_server_signal_io_w.write('q')
         end
       end
     end
