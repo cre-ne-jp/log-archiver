@@ -169,13 +169,30 @@ class MessagePeriod
     since_val ||= conversation_messages.first.timestamp
     until_val ||= next_page_first_conversation_message.timestamp
 
+    prev_m = {}
     messages =
       Message.
         filter_by_channels(channels).
         filter_by_since(since_val).
         filter_by_until(until_val).
         order(id: :asc, timestamp: :asc).
-        includes(:channel)
+        map do |m|
+          if(
+              [Quit, Nick].include?(m.class) &&
+              prev_m[:type] == m[:type] &&
+              prev_m[:timestamp] == m[:timestamp] &&
+              prev_m[:irc_user_id] == m[:irc_user_id] &&
+              prev_m[:nick] == m[:nick] &&
+              prev_m[:message] == m[:message]
+          )
+            prev_m = m
+            nil
+          else
+            prev_m = m
+            m
+          end
+        end.
+        compact
 
     MessagePeriodResult.new(channels, conversation_messages, messages)
   end

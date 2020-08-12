@@ -78,7 +78,7 @@
               </table>
             </div>
 
-            <%= render('shared/message_list', messages: @messages, privmsg_keyword_relationships: @privmsg_keyword_relationships, show_channel: true, style: :normal) %>
+            <%= render('shared/message_list', messages: @messages, privmsg_keyword_relationships: @privmsg_keyword_relationships, show_channel: true, period: true, style: :normal) %>
 
             <div class="alert alert-info no-message-to-show">表示するメッセージがありません。</div>
 
