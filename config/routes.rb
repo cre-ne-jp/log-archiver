@@ -43,6 +43,7 @@ Rails.application.routes.draw do
     get 'status' => 'status#show', as: 'status'
 
     namespace :channels do
+      resource :refresh_digests, only: %i(show)
       get ':id/update-last-speech' => 'last_speech_updates#show',
         as: 'update_last_speech'
       get ':id/:year/:month/:day/:conversation_message_id' => 'conversation_messages#show',
