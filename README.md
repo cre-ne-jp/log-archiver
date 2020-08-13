@@ -11,10 +11,11 @@ IRC ボットを常駐させることでチャットログをチャンネル単�
 * Linux または OSX
 * Ruby 2.3.0 以降
 * MySQL または MariaDB
+* Redis
 
 ## インストール
 
-[MySQL](https://www-jp.mysql.com/) もしくは [MariaDB](https://mariadb.org/) をインストールしていない場合はインストールしてください。
+[MySQL](https://www-jp.mysql.com/) もしくは [MariaDB](https://mariadb.org/) と、[Redis](https://redis.io/) をインストールしていない場合はインストールしてください。
 
 全文検索機能を動作させるため、[Groonga](http://groonga.org/ja/) および [Mroonga](http://mroonga.org/ja/) のインストールが必要です。Mroonga 公式サイトより[インストール方法](http://mroonga.org/ja/docs/install.html)を参照してインストールを行ってください。
 
