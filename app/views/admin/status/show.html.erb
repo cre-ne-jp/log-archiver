@@ -57,6 +57,47 @@
               </table>
             <% end %>
           </section>
+
+          <section class="sidekiq-status">
+            <h2>バックグラウンドジョブの状態</h2>
+            <p><%= link_to('詳細を見る(Sidekiq Dashboard)', admin_sidekiq_web_path) %></p>
+            <table class="table table-striped sidekiq-status-list">
+              <tbody>
+                <tr>
+                  <th class="sidekiq-status-version">バージョン</th>
+                  <td id="sidekiq-version" class="sidekiq-status-version"><%= Sidekiq::VERSION %></td>
+                </tr>
+                <tr>
+                  <th class="sidekiq-status-processed">実行完了</th>
+                  <td id="sidekiq-processed" class="sidekiq-status-processed"><%= @sidekiq_statuses.processed %></td>
+                </tr>
+                <tr>
+                  <th class="sidekiq-status-processes">実行中</th>
+                  <td id="sidekiq-processes" class="sidekiq-status-processes"><%= @sidekiq_statuses.processes_size %></td>
+                </tr>
+                <tr>
+                  <th class="sidekiq-status-failed">失敗</th>
+                  <td id="sidekiq-failed" class="sidekiq-status-failed"><%= @sidekiq_statuses.failed %></td>
+                </tr>
+                <tr>
+                  <th class="sidekiq-status-scheduled">予定キュー内</th>
+                  <td id="sidekiq-scheduled" class="sidekiq-status-scheduled"><%= @sidekiq_statuses.scheduled_size %></td>
+                </tr>
+                <tr>
+                  <th class="sidekiq-status-retry">再試行キュー内</th>
+                  <td id="sidekiq-retry" class="sidekiq-status-retry"><%= @sidekiq_statuses.retry_size %></td>
+                </tr>
+                <tr>
+                  <th class="sidekiq-status-dead">デッド状態</th>
+                  <td id="sidekiq-dead" class="sidekiq-status-dead"><%= @sidekiq_statuses.dead_size %></td>
+                </tr>
+                <tr>
+                  <th class="sidekiq-status-workers">ワーカー</th>
+                  <td id="sidekiq-workers" class="sidekiq-status-workers"><%= @sidekiq_statuses.workers_size %></td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
         </div>
       </div>
     </div>

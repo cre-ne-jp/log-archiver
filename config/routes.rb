@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'sidekiq/web'
+require 'log_archiver/auth_constraint'
+
 Rails.application.routes.draw do
   root 'welcome#index'
 
@@ -40,6 +43,8 @@ Rails.application.routes.draw do
   get 'admin' => 'admin#index', as: :admin
 
   namespace :admin do
+    mount Sidekiq::Web => 'sidekiq', constraints: LogArchiver::AuthConstraint.new
+
     get 'status' => 'status#show', as: 'status'
 
     namespace :channels do
