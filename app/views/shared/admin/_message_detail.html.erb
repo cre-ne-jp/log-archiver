@@ -21,6 +21,10 @@
       <td class="message-body"><%= raw(linkify(m.message)) %></td>
     </tr>
     <tr>
+      <th scope="row" class="message-digest">フラグメント識別子</th>
+      <td class="message-body"><%= m.fragment_id %></td>
+    </tr>
+    <tr>
       <th scope="row" class="message-status">現在の設定</th>
       <% if m.kind_of?(ConversationMessage) %>
         <td class="message-status">表示中</td>

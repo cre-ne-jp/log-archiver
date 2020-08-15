@@ -31,4 +31,13 @@ module MessageDigest
     self.digest = generate_digest
     self
   end
+
+  # URLのフラグメント識別子を返す
+  # @return [String]
+  def fragment_id
+    if(self.digest.blank?)
+      RefreshDigestsJob.perform_later(model: self.class.name, target_id: self.id)
+      self.refresh_digest!
+    end
+  end
 end

@@ -3,15 +3,22 @@
 class RefreshDigestsJob < ApplicationJob
   queue_as :default
 
-  def perform(*args)
+  # ジョブ本体
+  # @param [Hash] args
+  # @option args [String] :model 再計算するモデルの名前
+  # @option args [String/Integer] :target_id モデルが指定されているときのみ、対象の id
+  # @return [void]
+  def perform(**args)
     case args[:model]
-    when ConversationMessage, Message
-      if(args[:target_id].numeric?)
-        m = args[:model].find(args[:target_id])
+    when *%w(ConversationMessage Message Join Kick Nick Notice Part Privmsg Quit Topic)
+      model = Module.const_get(args[:model])
+
+      if(args[:target_id].present?)
+        m = model.find(args[:target_id])
         m.refresh_digest!
         m.save!
       else
-        refresh_digests(args[:model])
+        refresh_digests(model)
       end
     else
       [ConversationMessage, Message].each do |model|
@@ -29,7 +36,7 @@ class RefreshDigestsJob < ApplicationJob
   def refresh_digests(model, batch_size = 10000)
     log_header = "[RefreshDigests(#{model})]: "
 
-    puts("#{log_header}start.")
+    Rails.logger.info("#{log_header}start.")
 
     if batch_size < 1
       raise ArgumentError, 'batch_size には1以上を設定してください'
@@ -41,9 +48,9 @@ class RefreshDigestsJob < ApplicationJob
       model.import(data, on_duplicate_key_update: [:digest])
 
       n += data.length
-      puts("#{log_header}Updated #{n} records.")
+      Rails.logger.info("#{log_header}Updated #{n} records.")
     end
 
-    puts("#{log_header}completed.")
+    Rails.logger.info("#{log_header}completed.")
   end
 end
