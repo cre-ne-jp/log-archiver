@@ -55,7 +55,7 @@ module LogArchiver
                 nick: nick,
                 message: m_channel.topic
               )
-              update_last_speech!(channel, topic)
+              ChannelLastSpeech.refresh!(channel)
               MessageDate.find_or_create_by!(channel: channel, date: timestamp)
             end
           end
