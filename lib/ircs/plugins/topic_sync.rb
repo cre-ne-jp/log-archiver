@@ -49,12 +49,13 @@ module LogArchiver
 
             ActiveRecord::Base.transaction do
               irc_user = IrcUser.find_or_create_by!(user: user, host: host)
-              topic = channel.topics.find_or_create_by!(
-                irc_user: irc_user,
+              channel.topics.find_or_create_by!(
                 timestamp: timestamp,
                 nick: nick,
                 message: m_channel.topic
-              )
+              ) do |topic|
+                topic.irc_user = irc_user
+              end
               ChannelLastSpeech.refresh!(channel)
               MessageDate.find_or_create_by!(channel: channel, date: timestamp)
             end
