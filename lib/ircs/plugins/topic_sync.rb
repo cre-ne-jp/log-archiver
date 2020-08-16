@@ -10,13 +10,13 @@ module LogArchiver
 
       set(plugin_name: 'TopicSync')
 
-      listen_to(333, method: :get_topic_metadatas)
+      listen_to(333, method: :get_topic_metadata)
 
       # チャンネルに JOIN したときの Numeric Reply 333 から、
       # チャンネルが作成されたタイムスタンプと作成者を取得する
       # @param [Cinch::Message] m
       # @return [void]
-      def get_topic_metadatas(m)
+      def get_topic_metadata(m)
         return if m.channel.topic == ''
 
         _, nick, user, host = m.params[2].match(/\A(.+)!(.+)@(.+)\z/).to_a
