@@ -5,6 +5,8 @@
 log-archiver は、単独のサーバとして起動します。しかし、直接インターネットからアクセス出来るようにはしないでください(セキュリティ的・パフォーマンス的な問題があります)。
 nginx や Apache などのウェブサーバをリバースプロキシとして用意することを強く勧めます。
 
+Rails が、JavaScript ランタイムを必要とするエラーを出力することがあります。その場合は、`nodejs` パッケージをシステムにインストールするか、Gemfile に `therubyracer` を追加してください。
+
 log-archiver は、チャットログの保存先として、リレーショナルデータベース管理システムとして MySQL もしくは MariaDB と、全文検索エンジン Groonga 、RDBMS プラグインとして Groonga を使用するための Mroonga が必要です。
 これらのインストールは、[Mroonga 公式サイト](http://mroonga.org/ja/docs/install.html) を参照してください。
 
