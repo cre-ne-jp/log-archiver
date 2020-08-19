@@ -55,25 +55,7 @@
                       </td>
                     </tr>
                   <% end %>
-                  <tr class="message-visibility">
-                    <th scope="row">表示</th>
-                    <td>
-                      <form>
-                        <label class="checkbox-inline">
-                          <input type="checkbox" id="show-speeches" name="show-speeches" checked />
-                          発言
-                        </label>
-                        <label class="checkbox-inline">
-                          <input type="checkbox" id="show-nick" name="show-nick" checked />
-                          ニックネーム変更
-                        </label>
-                        <label class="checkbox-inline">
-                          <input type="checkbox" id="show-join-part" name="show-join-part" />
-                          参加・退出
-                        </label>
-                      </form>
-                    </td>
-                  </tr>
+                  <%= render('shared/message_visibility') %>
                 </tbody>
               </table>
             </div>
