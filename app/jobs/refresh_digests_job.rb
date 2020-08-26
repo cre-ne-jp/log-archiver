@@ -34,23 +34,7 @@ class RefreshDigestsJob < ApplicationJob
   # @param [Integer] batch_size 一度に処理する件数
   # @return [void]
   def refresh_digests(model, batch_size = 10000)
-    log_header = "[RefreshDigests(#{model})]: "
-
-    Rails.logger.info("#{log_header}start.")
-
-    if batch_size < 1
-      raise ArgumentError, 'batch_size には1以上を設定してください'
-    end
-
-    n = 0
-    model.find_in_batches(batch_size: batch_size) do |data|
-      data.each(&:refresh_digest!)
-      model.import(data, on_duplicate_key_update: [:digest])
-
-      n += data.length
-      Rails.logger.info("#{log_header}Updated #{n} records.")
-    end
-
-    Rails.logger.info("#{log_header}completed.")
+    handler = LogArchiver::RefreshDigests.new(:job)
+    handler.refresh_digests(model, batch_size)
   end
 end
