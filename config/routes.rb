@@ -48,7 +48,6 @@ Rails.application.routes.draw do
     get 'status' => 'status#show', as: 'status'
 
     namespace :channels do
-      resource :refresh_digests, only: %i(show)
       get ':id/update-last-speech' => 'last_speech_updates#show',
         as: 'update_last_speech'
       get ':id/:year/:month/:day/:conversation_message_id' => 'conversation_messages#show',
@@ -61,6 +60,12 @@ Rails.application.routes.draw do
     get 'channels' => 'channels#index', as: 'channels'
 
     resource :channel_order, only: %i(show)
+
+    namespace :edit_messages do
+      resource :refresh_digests, only: %i(show)
+    end
+
+    get 'edit_messages' => 'edit_messages#index', as: 'edit_messages'
 
     resources :archived_conversation_messages, only: %i(index show create edit update destroy)
     resources :archive_reasons, only: %i(index new create show edit update)
