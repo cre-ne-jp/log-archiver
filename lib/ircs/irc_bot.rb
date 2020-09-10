@@ -26,7 +26,7 @@ module LogArchiver
 
       @logger = new_logger(log_level)
       config = load_config(config_id, options[:mode])
-      plugins = load_plugins(%w(ChannelSync SaveLog KickBack Version UserInterface Part Ctcp))
+      plugins = load_plugins(%w(ChannelSync SaveLog KickBack Version UserInterface Part Ctcp TopicSync))
 
       status_server = StatusServer.new(
         Rails.application.config.irc_bot_status.socket_path,
