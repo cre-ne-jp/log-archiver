@@ -21,8 +21,8 @@ class RefreshDigestsJob < ApplicationJob
         refresh_digests(model)
       end
     else
-      [ConversationMessage, Message].each do |model|
-        refresh_digests(model)
+      [ConversationMessage, Message].each do |m|
+        refresh_digests(m)
       end
     end
   end
