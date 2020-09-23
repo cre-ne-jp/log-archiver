@@ -1,0 +1,21 @@
+[Unit]
+Description=LogArchiver background server(Sidekiq) - IRC Log Save and Viewer
+Documentation=https://github.com/cre-ne-jp/log-archiver
+After=network.target, redis.service
+
+[Service]
+User=log-archiver
+Group=log-archiver
+EnvironmentFile=/etc/default/log-archiver
+SyslogIdentifier=log-archiver-sidekiq
+Type=simple
+PIDFile=/home/log-archiver/log-archiver/tmp/pids/sidekiq.pid
+WorkingDirectory=/home/log-archiver/log-archiver
+Restart=always
+
+ExecStart=/usr/bin/bundle exec "sidekiq -e $RAILS_ENV"
+ExecReload=/usr/bin/kill -USR2 $MAINPID
+ExecStop=/usr/bin/kill -QUIT $MAINPID
+
+[Install]
+WantedBy=multi-user.target

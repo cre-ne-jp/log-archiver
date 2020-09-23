@@ -1,7 +1,7 @@
 [Unit]
 Description=LogArchiver Rack Server(Unicorn) - IRC Log Save and Viewer
 Documentation=https://github.com/cre-ne-jp/log-archiver
-After=network.target, mariadb.service
+After=network.target, mysqld.service
 
 [Service]
 User=log-archiver
@@ -13,7 +13,7 @@ PIDFile=/home/log-archiver/log-archiver/tmp/pids/unicorn.pid
 WorkingDirectory=/home/log-archiver/log-archiver
 Restart=always
 
-ExecStart=/usr/bin/bundle exec "unicorn -c config/unicorn.rb -E production"
+ExecStart=/usr/bin/bundle exec "unicorn -c config/unicorn.rb -E $RAILS_ENV"
 ExecReload=/usr/bin/kill -USR2 $MAINPID
 ExecStop=/usr/bin/kill -QUIT $MAINPID
 
