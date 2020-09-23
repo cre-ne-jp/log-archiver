@@ -37,4 +37,4 @@ SECRET_KEY_BASE=
 
 # REDIS_URL
 # バックグラウンドジョブの実行に必要な redis データベースへの接続設定
-#REDIS_URL='redis://localhost:7372/0'
+#REDIS_URL='redis://localhost:6379/0'
