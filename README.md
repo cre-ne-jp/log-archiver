@@ -45,6 +45,9 @@ gem install bundler
 * [インストール](doc/install.md)
 * [IRC の接続設定](doc/irc.md)
 * [ウェブサーバの設定](doc/nginx.md)
+* [バックグラウンドジョブの設定](doc/sidekiq.md)
+
+systemd による制御を行なう場合は [systemd](doc/systemd.md) を参照してください。
 
 ## IRC ボットの起動
 
@@ -62,13 +65,17 @@ cd /path/to/log-archiver
 bin/ircbot -c test # /path/to/log-archiver/config/test.yaml を使用する場合
 ```
 
-systemd による制御を行なう場合は [systemd](doc/systemd.md) を参照してください。
-
 ## Web アプリケーションの起動
 
 記録されたログを閲覧するための Web アプリケーションは、Rails アプリケーションとして実装されています。
 
 単体で起動させることもできますが、Apache や nginx からのリバースプロキシ設定を行なうことをお勧めします。
+
+## バックグラウンドジョブの起動
+
+バックグラウンドジョブを実行するためのアプリケーションを起動します。
+
+バックグラウンドジョブを使用しないのであれば、省略可能です。
 
 ## 開発者の方へ
 
