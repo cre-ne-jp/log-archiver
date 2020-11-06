@@ -16,7 +16,7 @@ class Message < ApplicationRecord
   # URLのフラグメント識別子を返す
   # @return [String]
   def fragment_id
-    super
+    refresh_digest_unless_exist!
 
     "m#{digest_value}"
   end

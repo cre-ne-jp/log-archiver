@@ -32,9 +32,9 @@ module MessageDigest
     self
   end
 
-  # URLのフラグメント識別子を返す
+  # フラグメント識別子が設定されていなければ、生成・保存するジョブを追加する
   # @return [String]
-  def fragment_id
+  def refresh_digest_unless_exist!
     if(self.digest.blank?)
       RefreshDigestsJob.perform_later(model: self.class.name, target_id: self.id)
       self.refresh_digest!
