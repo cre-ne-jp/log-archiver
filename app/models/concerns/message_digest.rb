@@ -31,13 +31,4 @@ module MessageDigest
     self.digest = generate_digest
     self
   end
-
-  # フラグメント識別子が設定されていなければ、生成・保存するジョブを追加する
-  # @return [String]
-  def refresh_digest_unless_exist!
-    if(self.digest.blank?)
-      RefreshDigestsJob.perform_later(model: self.class.name, target_id: self.id)
-      self.refresh_digest!
-    end
-  end
 end
