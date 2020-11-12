@@ -14,7 +14,8 @@ module LogArchiver
     # @option logging :stdout 標準出力にログを書き出す
     # @return [void]
     def initialize(logging = nil)
-      @logger = case(logging)
+      @logger =
+        case logging
         when :job
           Sidekiq.logger
         when :stdout
