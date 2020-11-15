@@ -18,6 +18,7 @@ jobs:
     env:
       RAILS_ENV: test
       TZ: Asia/Tokyo
+      CC_TEST_REPORTER_ID: 74e589ede57e23f089cbbd2eee75be23a93b5ace7b5cfce58213cd3f21447147
     services:
       db:
         image: groonga/mroonga:latest
@@ -28,6 +29,10 @@ jobs:
       - uses: actions/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
+      - name: Setup Code Climate Test Reporter
+        run: |
+          wget https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 -O ./cc-test-reporter
+          chmod +x ./cc-test-reporter
       - uses: actions/cache@v2
         with:
           path: vendor/bundle
@@ -43,6 +48,8 @@ jobs:
           cp config/database.yml.github_actions config/database.yml
           bin/rails db:create
           bin/rails db:migrate
-      - name: Run tests
+      - name: Run tests and report the result to Code Climate
         run: |
+          GIT_BRANCH=$GITHUB_REF GIT_COMMIT_SHA=$GITHUB_SHA ./cc-test-reporter before-build
           bin/rails test
+          GIT_BRANCH=$GITHUB_REF GIT_COMMIT_SHA=$GITHUB_SHA ./cc-test-reporter after-build -t simplecov --exit-code $?
