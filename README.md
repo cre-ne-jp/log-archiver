@@ -1,6 +1,6 @@
 # Log Archiver
 
-[![Build Status](https://travis-ci.org/cre-ne-jp/log-archiver.svg?branch=master)](https://travis-ci.org/cre-ne-jp/log-archiver)
+![Test](https://github.com/cre-ne-jp/log-archiver/workflows/Test/badge.svg)
 [![Code Climate](https://codeclimate.com/github/cre-ne-jp/log-archiver/badges/gpa.svg)](https://codeclimate.com/github/cre-ne-jp/log-archiver)
 [![Test Coverage](https://codeclimate.com/github/cre-ne-jp/log-archiver/badges/coverage.svg)](https://codeclimate.com/github/cre-ne-jp/log-archiver/coverage)
 
