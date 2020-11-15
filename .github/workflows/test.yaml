@@ -17,6 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       RAILS_ENV: test
+      TZ: Asia/Tokyo
     services:
       db:
         image: groonga/mroonga:latest
