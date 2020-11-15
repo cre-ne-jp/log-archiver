@@ -108,9 +108,13 @@ end
 
 group :test do
   gem 'rake'
-  gem 'simplecov'
   gem 'rubocop'
   gem 'rubocop-rails'
+
+  # Workaround for cc-test-reporter with SimpleCov 0.18.
+  # Stop upgrading SimpleCov until the following issue will be resolved.
+  # https://github.com/codeclimate/test-reporter/issues/418
+  gem 'simplecov', '~> 0.10', '< 0.18'
 end
 
 group :development do
