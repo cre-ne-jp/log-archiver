@@ -10,9 +10,8 @@ jobs:
     strategy:
       matrix:
         ruby:
-          # 安定するまで1バージョンのみで実行する
-          # - 2.5
-          # - 2.6
+          - 2.5
+          - 2.6
           - 2.7
     runs-on: ubuntu-latest
     env:
@@ -29,6 +28,9 @@ jobs:
       - uses: actions/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
+      - name: Update bundler
+        run: |
+          bundle update --bundler
       - name: Setup Code Climate Test Reporter
         run: |
           wget https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 -O ./cc-test-reporter
