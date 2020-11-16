@@ -28,6 +28,10 @@ jobs:
         image: groonga/mroonga:latest
         ports:
           - 33060:3306
+      redis:
+        image: redis:6
+        ports:
+          - 6379:6379
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
