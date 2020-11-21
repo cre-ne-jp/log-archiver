@@ -34,3 +34,7 @@ SECRET_KEY_BASE=
 # UNICORN_OOM_CHECK_CYCLE
 # Oom の閾値に達しているかを何回のアクセスごとに調べるかを設定します。
 #UNICORN_OOM_CHECK_CYCLE=16
+
+# REDIS_URL
+# バックグラウンドジョブの実行に必要な redis データベースへの接続設定
+#REDIS_URL='redis://localhost:6379/0'
