@@ -51,23 +51,19 @@ class MessageSearchTest < ActiveSupport::TestCase
   test 'attributes が正しい' do
     attributes = @search.attributes
 
-    assert_equal(@search.query, attributes.fetch('query'), 'query')
-    assert_equal(@search.nick, attributes.fetch('nick'), 'nick')
-    assert_equal(@search.channels, attributes.fetch('channels'), 'channels')
-    assert_equal(@search.since, attributes.fetch('since'), 'since')
-    assert_equal(@search.until, attributes.fetch('until'), 'until')
-    assert_equal(@search.page, attributes.fetch('page'), 'page')
+    assert_equal('test', attributes.fetch('query'), 'query')
+    assert_equal('someone', attributes.fetch('nick'), 'nick')
+    assert_equal(%w(irc_test), attributes.fetch('channels'), 'channels')
+    assert_equal(Date.new(2001, 2, 3), attributes.fetch('since'), 'since')
+    assert_equal(Date.new(2002, 3, 4), attributes.fetch('until'), 'until')
+    assert_equal(2, attributes.fetch('page'), 'page')
   end
 
   test 'attributes= によって属性が正しく設定される' do
-    channels = %i(channel channel_with_camel_case_name).
-      map { |factory| create(factory) }
-    channel_identifiers = channels.map(&:identifier)
-
     attributes = {
       'query' => 'test',
       'nick' => 'foo',
-      'channels' => channel_identifiers,
+      'channels' => %w(irc_test camel_case_channel),
       'since' => Date.new(2000, 1, 23),
       'until' => Date.new(2001, 12, 31),
       'page' => 12
@@ -86,12 +82,12 @@ class MessageSearchTest < ActiveSupport::TestCase
   test 'attributes_for_result_page が正しい' do
     attributes = @search.attributes_for_result_page
 
-    assert_equal(@search.query, attributes.fetch('q'), 'query')
-    assert_equal(@search.nick, attributes.fetch('nick'), 'nick')
-    assert_equal(@search.channels.join(' '), attributes.fetch('channels'), 'channels')
-    assert_equal(@search.since&.strftime('%F'), attributes.fetch('since'), 'since')
-    assert_equal(@search.until&.strftime('%F'), attributes.fetch('until'), 'until')
-    assert_equal(@search.page, attributes.fetch('page'), 'page')
+    assert_equal('test', attributes.fetch('q'), 'query')
+    assert_equal('someone', attributes.fetch('nick'), 'nick')
+    assert_equal('irc_test', attributes.fetch('channels'), 'channels')
+    assert_equal('2001-02-03', attributes.fetch('since'), 'since')
+    assert_equal('2002-03-04', attributes.fetch('until'), 'until')
+    assert_equal(2, attributes.fetch('page'), 'page')
   end
 
   test 'set_attributes_with_result_page_params によって属性が正しく設定される' do
@@ -101,7 +97,7 @@ class MessageSearchTest < ActiveSupport::TestCase
     attributes = {
       'q' => 'test',
       'nick' => 'foo',
-      'channels' => channel_identifiers.join(' '),
+      'channels' => 'irc_test camel_case_channel',
       'since' => '2000-01-23',
       'until' => '2001-12-31',
       'page' => 12
@@ -109,12 +105,12 @@ class MessageSearchTest < ActiveSupport::TestCase
 
     @search.set_attributes_with_result_page_params(attributes)
 
-    assert_equal(attributes['q'], @search.query, 'query')
-    assert_equal(attributes['nick'], @search.nick, 'nick')
-    assert_equal(channel_identifiers, @search.channels, 'channel')
-    assert_equal(attributes['since'].to_date, @search.since, 'since')
-    assert_equal(attributes['until'].to_date, @search.until, 'until')
-    assert_equal(attributes['page'], @search.page, 'page')
+    assert_equal('test', @search.query, 'query')
+    assert_equal('foo', @search.nick, 'nick')
+    assert_equal(%w(irc_test camel_case_channel), @search.channels, 'channel')
+    assert_equal(Date.new(2000, 1, 23), @search.since, 'since')
+    assert_equal(Date.new(2001, 12, 31), @search.until, 'until')
+    assert_equal(12, @search.page, 'page')
   end
 
   def prepare_messages_for_search
