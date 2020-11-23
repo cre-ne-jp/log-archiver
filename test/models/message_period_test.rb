@@ -130,7 +130,27 @@ class MessagePeriodTest < ActiveSupport::TestCase
     assert_equal(5, ConversationMessage.count)
   end
 
-  test '開始日時を指定した場合の検索結果が正しい' do
+  test '開始日時を指定した場合の検索結果が正しい（ConversationMessage）' do
+    prepare_messages
+
+    @period.channels = []
+    @period.since = Time.new(2020, 3, 20, 12, 0, 0, '+09:00')
+    @period.until = nil
+    @period.page = 1
+
+    result = @period.result
+
+    # 日時の昇順
+    assert_equal(
+      [
+        @privmsg_toybox_channel_300_20200320210954,
+        @notice_toybox_channel_300_20200321000000,
+      ],
+      result.conversation_messages.to_a
+    )
+  end
+
+  test '開始日時を指定した場合の検索結果が正しい（Message）' do
     prepare_messages
 
     @period.channels = []
@@ -146,17 +166,9 @@ class MessagePeriodTest < ActiveSupport::TestCase
       ],
       result.messages.to_a
     )
-
-    assert_equal(
-      [
-        @privmsg_toybox_channel_300_20200320210954,
-        @notice_toybox_channel_300_20200321000000,
-      ],
-      result.conversation_messages.to_a
-    )
   end
 
-  test '終了日時を指定した場合の検索結果が正しい' do
+  test '終了日時を指定した場合の検索結果が正しい（ConversationMessage）' do
     prepare_messages
 
     @period.channels = []
@@ -166,16 +178,8 @@ class MessagePeriodTest < ActiveSupport::TestCase
 
     result = @period.result
 
-    assert_equal(
-      [
-        @join_role_channel_200_20200320023455,
-        @join_role_channel_100_20200320023455,
-        @nick_role_channel_200_20200320023501,
-        @nick_role_channel_100_20200320023501,
-      ],
-      result.messages.to_a
-    )
-
+    # 会話メッセージ
+    # 日時の昇順
     assert_equal(
       [
         @notice_toybox_channel_300_20200320000000,
@@ -186,7 +190,29 @@ class MessagePeriodTest < ActiveSupport::TestCase
     )
   end
 
-  test '開始日時と終了日時の両方を指定した場合の検索結果が正しい' do
+  test '終了日時を指定した場合の検索結果が正しい（Message）' do
+    prepare_messages
+
+    @period.channels = []
+    @period.since = nil
+    @period.until = Time.new(2020, 3, 20, 2, 36, 0, '+09:00')
+    @period.page = 1
+
+    result = @period.result
+
+    # （1）日時の昇順、（2）IDの昇順
+    assert_equal(
+      [
+        @join_role_channel_200_20200320023455,
+        @join_role_channel_100_20200320023455,
+        @nick_role_channel_200_20200320023501,
+        @nick_role_channel_100_20200320023501,
+      ],
+      result.messages.to_a
+    )
+  end
+
+  test '開始日時と終了日時の両方を指定した場合の検索結果が正しい（ConversationMessage）' do
     prepare_messages
 
     @period.channels = []
@@ -196,14 +222,7 @@ class MessagePeriodTest < ActiveSupport::TestCase
 
     result = @period.result
 
-    assert_equal(
-      [
-        @join_role_channel_200_20200320023455,
-        @join_role_channel_100_20200320023455,
-      ],
-      result.messages.to_a
-    )
-
+    # 日時の昇順
     assert_equal(
       [
         @privmsg_rgrb_channel_100_20200320012345,
@@ -213,7 +232,27 @@ class MessagePeriodTest < ActiveSupport::TestCase
     )
   end
 
-  test 'チャンネルを指定した場合の検索結果が正しい' do
+  test '開始日時と終了日時の両方を指定した場合の検索結果が正しい（Message）' do
+    prepare_messages
+
+    @period.channels = []
+    @period.since = Time.new(2020, 3, 20, 1, 0, 0, '+09:00')
+    @period.until = Time.new(2020, 3, 20, 2, 35, 0, '+09:00')
+    @period.page = 1
+
+    result = @period.result
+
+    # IDの昇順
+    assert_equal(
+      [
+        @join_role_channel_200_20200320023455,
+        @join_role_channel_100_20200320023455,
+      ],
+      result.messages.to_a
+    )
+  end
+
+  test 'チャンネルを指定した場合の検索結果が正しい（ConversationMessage）' do
     prepare_messages
 
     @period.channels = %w(channel_200 channel_300)
@@ -223,6 +262,28 @@ class MessagePeriodTest < ActiveSupport::TestCase
 
     result = @period.result
 
+    # 日時の昇順
+    assert_equal(
+      [
+        @notice_toybox_channel_300_20200320000000,
+        @privmsg_role_channel_200_20200320023456,
+        @notice_toybox_channel_300_20200321000000,
+      ],
+      result.conversation_messages.to_a
+    )
+  end
+
+  test 'チャンネルを指定した場合の検索結果が正しい（Message）' do
+    prepare_messages
+
+    @period.channels = %w(channel_200 channel_300)
+    @period.since = nil
+    @period.until = nil
+    @period.page = 1
+
+    result = @period.result
+
+    # 日時の昇順
     assert_equal(
       [
         @join_role_channel_200_20200320023455,
@@ -233,18 +294,9 @@ class MessagePeriodTest < ActiveSupport::TestCase
       ],
       result.messages.to_a
     )
-
-    assert_equal(
-      [
-        @notice_toybox_channel_300_20200320000000,
-        @privmsg_role_channel_200_20200320023456,
-        @notice_toybox_channel_300_20200321000000,
-      ],
-      result.conversation_messages.to_a
-    )
   end
 
-  test 'チャンネル、開始日時、終了日時を指定した場合の検索結果が正しい' do
+  test 'チャンネル、開始日時、終了日時を指定した場合の検索結果が正しい（ConversationMessage）' do
     prepare_messages
 
     @period.channels = %w(channel_200 channel_300)
@@ -254,20 +306,33 @@ class MessagePeriodTest < ActiveSupport::TestCase
 
     result = @period.result
 
-    assert_equal(
-      [
-        @join_role_channel_200_20200320023455,
-        @nick_role_channel_200_20200320023501,
-      ],
-      result.messages.to_a
-    )
-
+    # 日時の昇順
     assert_equal(
       [
         @notice_toybox_channel_300_20200320000000,
         @privmsg_role_channel_200_20200320023456,
       ],
       result.conversation_messages.to_a
+    )
+  end
+
+  test 'チャンネル、開始日時、終了日時を指定した場合の検索結果が正しい（Message）' do
+    prepare_messages
+
+    @period.channels = %w(channel_200 channel_300)
+    @period.since = Time.new(2020, 3, 20, 0, 0, 0, '+09:00')
+    @period.until = Time.new(2020, 3, 20, 2, 36, 0, '+09:00')
+    @period.page = 1
+
+    result = @period.result
+
+    # 日時の昇順
+    assert_equal(
+      [
+        @join_role_channel_200_20200320023455,
+        @nick_role_channel_200_20200320023501,
+      ],
+      result.messages.to_a
     )
   end
 end
