@@ -9,16 +9,16 @@ class MessagePeriod
   # チャンネル識別子
   #
   # パラメータ名の都合で名前がchannelsでも識別子を表すことに注意。
-  # @return [String]
+  # @return [Array<String>]
   attr_accessor :channels
-  # 開始日
+  # 開始日時
   # @return [Time, nil]
   #
   # 名称はGoogle検索に準拠している。
   #
   # セッターでは、Time 型に変換できないときは nil になる。
   attr_reader :since
-  # 終了日
+  # 終了日時
   # @return [Time, nil]
   #
   # 名称はGoogle検索に準拠している。
