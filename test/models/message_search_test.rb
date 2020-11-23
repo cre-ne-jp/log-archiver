@@ -124,7 +124,7 @@ class MessageSearchTest < ActiveSupport::TestCase
     @topic_toybox_20140320233223 = create(:topic_toybox_20140320233223)
     @topic_toybox_20140321134507 = create(:topic_toybox_20140321134507)
 
-    assert(6, ConversationMessage.count)
+    assert_equal(7, ConversationMessage.count)
   end
 
   test '検索文字列を指定した場合の検索結果が正しい' do
