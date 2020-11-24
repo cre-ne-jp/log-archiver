@@ -55,32 +55,11 @@
                       </td>
                     </tr>
                   <% end %>
-                  <tr class="message-visibility">
-                    <th scope="row">表示</th>
-                    <td>
-                      <form>
-                        <label class="checkbox-inline">
-                          <input type="checkbox" id="show-speeches" name="show-speeches" checked />
-                          発言
-                        </label>
-                        <label class="checkbox-inline">
-                          <input type="checkbox" id="show-nick" name="show-nick" checked />
-                          ニックネーム変更
-                        </label>
-                        <label class="checkbox-inline">
-                          <input type="checkbox" id="show-join-part" name="show-join-part" />
-                          参加・退出
-                        </label>
-                      </form>
-                    </td>
-                  </tr>
                 </tbody>
               </table>
             </div>
 
             <%= render('shared/message_list', messages: @messages, privmsg_keyword_relationships: @privmsg_keyword_relationships, show_channel: true, style: :normal) %>
-
-            <div class="alert alert-info no-message-to-show">表示するメッセージがありません。</div>
 
             <%= paginate(@conversation_messages, outer_window: 2) %>
           </article>
