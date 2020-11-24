@@ -59,7 +59,7 @@
               </table>
             </div>
 
-            <%= render('shared/message_list', messages: @messages, privmsg_keyword_relationships: @privmsg_keyword_relationships, show_channel: true, style: :normal) %>
+            <%= render('shared/message_with_datetime_list', messages: @messages, privmsg_keyword_relationships: @privmsg_keyword_relationships, show_channel: true, style: :normal) %>
 
             <%= paginate(@conversation_messages, outer_window: 2) %>
           </article>
