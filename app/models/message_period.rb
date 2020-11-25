@@ -41,6 +41,7 @@ class MessagePeriod
   )
 
   validate :until_must_not_be_less_than_since_if_both_exist
+  validate :until_set_now_datetime_if_not_exist
 
   before_validation :correct_page
 
@@ -199,5 +200,10 @@ class MessagePeriod
         )
       end
     end
+  end
+
+  # 終了日が設定されていないときは、現在日時を設定する
+  def until_set_now_datetime_if_not_exist
+    self.until = Time.now unless @until
   end
 end
