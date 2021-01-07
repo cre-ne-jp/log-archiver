@@ -63,7 +63,7 @@ gem 'redcarpet'
 
 # 自動リンク
 # スキーム付きのURLのみ有効にするために独自ブランチを使用する
-gem 'rinku', git: 'https://github.com/cre-ne-jp/rinku.git', branch: 'without-www'
+gem 'rinku', github: 'cre-ne-jp/rinku', branch: 'without-www'
 
 # ページネーション
 gem 'kaminari'
