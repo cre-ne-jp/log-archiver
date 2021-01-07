@@ -1,4 +1,14 @@
 GIT
+  remote: https://github.com/Sorcery/sorcery.git
+  revision: 443e614e3d2dfc9d7dd805c4a69f8e1c820c7e76
+  branch: master
+  specs:
+    sorcery (0.15.0)
+      bcrypt (~> 3.1)
+      oauth (~> 0.4, >= 0.4.4)
+      oauth2 (~> 1.0, >= 0.8.0)
+
+GIT
   remote: https://github.com/cre-ne-jp/rinku.git
   revision: 5da355a50ec64537a28f75b9cd76e9a0ad78616a
   branch: without-www
@@ -296,10 +306,6 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    sorcery (0.15.0)
-      bcrypt (~> 3.1)
-      oauth (~> 0.4, >= 0.4.4)
-      oauth2 (~> 1.0, >= 0.8.0)
     spring (2.1.1)
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
@@ -375,7 +381,7 @@ DEPENDENCIES
   simple_calendar (~> 2.0)
   simple_enum
   simplecov (~> 0.10, < 0.18)
-  sorcery
+  sorcery!
   spring
   sysexits
   uglifier (>= 1.3)

@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+git_source(:github) { |repo| "https://github.com/#{repo}.git" }
+
 # IRC framework
 gem 'mcinch'
 gem 'lumberjack'
@@ -73,7 +75,8 @@ gem 'friendly_id'
 gem 'simple_enum'
 
 # 認証
-gem 'sorcery'
+# @todo https://github.com/Sorcery/sorcery/pull/241 が取り込まれたらmasterを指定しない
+gem 'sorcery', github: 'Sorcery/sorcery', branch: 'master'
 
 # 並び替え
 gem 'ranked-model'
