@@ -1,10 +1,15 @@
 # メッセージのキーワード検索のモデル
-class MessagePeriod
-  include ActiveModel::Model
+class MessagePeriod < ApplicationModel
   include ActiveModel::Validations::Callbacks
 
   # メッセージ検索の結果
-  MessagePeriodResult = Struct.new(:channels, :conversation_messages, :messages)
+  MessagePeriodResult = Struct.new(
+      :channels,
+      :messages,
+      :conversation_messages_count,
+      :privmsg_keyword_relationships,
+      :keywords_privmsgs_for_header
+    )
 
   # チャンネル識別子
   #
@@ -26,23 +31,8 @@ class MessagePeriod
   # セッターでは、Time 型に変換できないときは nil になる。
   attr_reader :until
 
-  # ページ番号
-  # @return [Integer]
-  #
-  # セッターでは、1以上でないときは1になる。
-  attr_reader :page
-
-  validates(
-    :page,
-    numericality: {
-      only_integer: true,
-      greater_than_or_equal_to: 1
-    }
-  )
-
   validate :until_must_not_be_less_than_since_if_both_exist
-
-  before_validation :correct_page
+  validate :until_set_now_datetime_if_not_exist
 
   def initialize(*)
     @channels = []
@@ -73,27 +63,13 @@ class MessagePeriod
     end
   end
 
-  # ページ番号を設定する
-  #
-  # 1以上でないときは1になる
-  # @param [#to_i] value ページ番号
-  def page=(value)
-    begin
-      value_i = value.to_i
-      @page = (value_i >= 1) ? value_i : 1
-    rescue
-      @page = 1
-    end
-  end
-
   # 属性のハッシュを返す
   # @return [Hash]
   def attributes
     {
       'channels' => @channels,
       'since' => @since,
-      'until' => @until,
-      'page' => @page
+      'until' => @until
     }
   end
 
@@ -104,7 +80,6 @@ class MessagePeriod
     self.channels = hash['channels']
     self.since = hash['since']
     self.until = hash['until']
-    self.page = hash['page']
   end
 
   # 結果ページ向けの属性のハッシュを返す
@@ -113,8 +88,7 @@ class MessagePeriod
     {
       'channels' => @channels.join(' '),
       'since' => @since&.strftime('%F %T'),
-      'until' => @until&.strftime('%F %T'),
-      'page' => @page
+      'until' => @until&.strftime('%F %T')
     }
   end
 
@@ -125,7 +99,6 @@ class MessagePeriod
     self.channels = params['channels']&.split(' ') || []
     self.since = params['since']
     self.until = params['until']
-    self.page = params['page']
   end
 
   # 検索結果を返す
@@ -142,50 +115,45 @@ class MessagePeriod
       filter_by_since(@since).
       filter_by_until(@until).
       order(id: :asc, timestamp: :asc).
-      page(@page).
-      includes(:channel)
+      limit(5000).
+      includes(:channel, :irc_user)
 
-    next_page_first_conversation_message =
-      if conversation_messages.total_pages > 1
-        ConversationMessage.
-          filter_by_channels(channels).
-          filter_by_since(@since).
-          filter_by_until(@until).
-          select(:timestamp).
-          page(@page + 1).
-          first
-      else
-        conversation_messages.last
-      end
-
-    since_val, until_val =
-      if conversation_messages.empty?
-        [@since, @until]
-      elsif  conversation_messages.first_page?
-        [@since, nil]
-      elsif conversation_messages.last_page?
-        [nil, @until]
-      end
-    since_val ||= conversation_messages.first.timestamp
-    until_val ||= next_page_first_conversation_message.timestamp
+    if conversation_messages.count >= 5000
+      # ToDo: ビューに、取得制限に引っかかったアラートを出す
+      @until = conversation_messages.last.timestamp
+    end
 
     messages =
       Message.
         filter_by_channels(channels).
-        filter_by_since(since_val).
-        filter_by_until(until_val).
+        filter_by_since(@since).
+        filter_by_until(@until).
         order(id: :asc, timestamp: :asc).
-        includes(:channel)
+        includes(:channel, :irc_user)
 
-    MessagePeriodResult.new(channels, conversation_messages, messages)
+    privmsg_keyword_relationships =
+      privmsg_keyword_relationships_from(conversation_messages)
+    keywords_privmsgs_for_header =
+      privmsg_keyword_relationships.
+      sort_by { |r| r.privmsg.timestamp }.
+      group_by(&:keyword).
+      map { |keyword, relations| [keyword, relations.map(&:privmsg)] }
+
+    i = 0
+    result_messages =
+      (messages.to_a + conversation_messages.to_a).
+      sort_by { |m| [m.timestamp, i += 1] }
+
+    MessagePeriodResult.new(
+      channels,
+      result_messages,
+      conversation_messages.count,
+      privmsg_keyword_relationships,
+      keywords_privmsgs_for_header
+    )
   end
 
   private
-
-  # ページ番号を正しくする
-  def correct_page
-    @page = 1 if !@page || @page < 1
-  end
 
   # 開始日と終了日が共に指定されているときは、
   # 開始日が終了日より後になっていないことを確認する
@@ -199,5 +167,10 @@ class MessagePeriod
         )
       end
     end
+  end
+
+  # 終了日が設定されていないときは、現在日時を設定する
+  def until_set_now_datetime_if_not_exist
+    self.until = Time.now unless @until
   end
 end

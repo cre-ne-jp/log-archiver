@@ -16,10 +16,10 @@
             <div class="search-conditions well">
               <table class="day-summary">
                 <tbody>
-                  <% unless @result.channels.empty? %>
+                  <% unless @message_period_result.channels.empty? %>
                     <tr class="search-conditions-channels">
                       <th scope="raw">チャンネル</th>
-                      <td><%= raw(@result.channels.map{ |c| link_to(c&.name_with_prefix, channel_path(c)) }.join(', ')) %></td>
+                      <td><%= raw(@message_period_result.channels.map{ |c| link_to(c&.name_with_prefix, channel_path(c)) }.join(', ')) %></td>
                     </tr>
                   <% end %>
                   <% if @message_period.since.present? %>
@@ -36,14 +36,14 @@
                   <% end %>
                   <tr>
                     <th scope="row">発言数</th>
-                    <td><%= page_entries_info @conversation_messages %></td>
+                    <td><%= @message_period_result.conversation_messages_count %></td>
                   </tr>
-                  <% unless @privmsg_keyword_relationships.empty? %>
+                  <% unless @message_period_result.privmsg_keyword_relationships %>
                     <tr id="keyword-list">
                       <th scope="row">キーワード</th>
                       <td>
                         <ul class="list-unstyled">
-                          <% @keywords_privmsgs_for_header.each do |keyword, privmsgs| %>
+                          <% @message_period_result.keywords_privmsgs_for_header.each do |keyword, privmsgs| %>
                             <li>
                               <%= link_to(sanitize(keyword.display_title), keyword, class: 'channel-day-keyword-link') %>
                               <% privmsgs.each do |m| %>
@@ -59,9 +59,7 @@
               </table>
             </div>
 
-            <%= render('shared/message_with_datetime_list', messages: @messages, privmsg_keyword_relationships: @privmsg_keyword_relationships, show_channel: true, style: :normal) %>
-
-            <%= paginate(@conversation_messages, outer_window: 2) %>
+            <%= render('shared/message_with_datetime_list', messages: @message_period_result.messages, privmsg_keyword_relationships: @message_period_result.privmsg_keyword_relationships, show_channel: true, style: :normal) %>
           </article>
         </div>
       </div>

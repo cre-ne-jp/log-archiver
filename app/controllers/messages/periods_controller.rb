@@ -36,21 +36,7 @@ class Messages::PeriodsController < ApplicationController
     @message_period.set_attributes_with_result_page_params(params_for_show)
 
     if @message_period.valid?
-      @result = @message_period.result
-      @conversation_messages = @result.conversation_messages
-      @privmsg_keyword_relationships =
-        privmsg_keyword_relationships_from(@conversation_messages)
-      @keywords_privmsgs_for_header = @privmsg_keyword_relationships
-        .sort_by { |r| r.privmsg.timestamp }
-        .group_by(&:keyword)
-        .map { |keyword, relations| [keyword, relations.map(&:privmsg)] }
-
-      set_prev_link!(path_to_prev_page(@conversation_messages))
-      set_next_link!(path_to_next_page(@conversation_messages))
-
-      i = 0
-      @messages = (@result.messages.to_a + @conversation_messages.to_a).
-        sort_by { |m| [m.timestamp, i += 1] }
+      @message_period_result = @message_period.result
     else
       @invalid_model = :message_period
       @channel_browse = ChannelBrowse.new
@@ -77,6 +63,6 @@ class Messages::PeriodsController < ApplicationController
   # show で使用できるパラメータを返す
   # @return [ActionController::Parameters]
   def params_for_show
-    params.permit(:channels, :since, :until, :page)
+    params.permit(:channels, :since, :until)
   end
 end
