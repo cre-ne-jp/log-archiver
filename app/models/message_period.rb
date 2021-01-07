@@ -116,7 +116,7 @@ class MessagePeriod < ApplicationModel
       filter_by_until(@until).
       order(id: :asc, timestamp: :asc).
       limit(5000).
-      includes(:channel)
+      includes(:channel, :irc_user)
 
     if conversation_messages.count >= 5000
       # ToDo: ビューに、取得制限に引っかかったアラートを出す
@@ -129,7 +129,7 @@ class MessagePeriod < ApplicationModel
         filter_by_since(@since).
         filter_by_until(@until).
         order(id: :asc, timestamp: :asc).
-        includes(:channel)
+        includes(:channel, :irc_user)
 
     privmsg_keyword_relationships =
       privmsg_keyword_relationships_from(conversation_messages)
