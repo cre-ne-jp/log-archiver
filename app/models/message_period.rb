@@ -122,9 +122,7 @@ class MessagePeriod < ApplicationModel
       includes(:channel, :irc_user).
       to_a
 
-    if messages.count > ResultLimit
-      @until = messages.last.timestamp
-    end
+    @until = messages.last.timestamp if messages.count > ResultLimit
 
     conversation_messages = ConversationMessage.
       filter_by_channels(channels).
