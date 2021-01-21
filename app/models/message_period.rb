@@ -11,6 +11,9 @@ class MessagePeriod < ApplicationModel
       :keywords_privmsgs_for_header
     )
 
+  # 検索件数の最大数
+  ResultLimit = 5000
+
   # チャンネル識別子
   #
   # パラメータ名の都合で名前がchannelsでも識別子を表すことに注意。
@@ -110,44 +113,50 @@ class MessagePeriod < ApplicationModel
     channels = @channels.empty? ?
       [] : Channel.where(identifier: @channels.split).to_a
 
+    messages = Message.
+      filter_by_channels(channels).
+      filter_by_since(@since).
+      filter_by_until(@until).
+      order(timestamp: :asc, id: :asc).
+      limit(ResultLimit + 1).
+      includes(:channel, :irc_user).
+      to_a
+
+    if messages.count > ResultLimit
+      @until = messages.last.timestamp
+    end
+
     conversation_messages = ConversationMessage.
       filter_by_channels(channels).
       filter_by_since(@since).
       filter_by_until(@until).
-      order(id: :asc, timestamp: :asc).
-      limit(5000).
+      order(timestamp: :asc, id: :asc).
+      limit(ResultLimit).
       includes(:channel, :irc_user)
 
-    if conversation_messages.count >= 5000
-      # ToDo: ビューに、取得制限に引っかかったアラートを出す
-      @until = conversation_messages.last.timestamp
+    i = 0
+    result_messages =
+      (messages.to_a + conversation_messages.to_a).
+      sort_by { |m| [m.timestamp, i += 1] }.
+      first(ResultLimit)
+
+    # ソートしたメッセージから、ConversationMessage だけ抽出する
+    result_conversation_messages = result_messages.select do |m|
+      m.class.superclass == ConversationMessage
     end
 
-    messages =
-      Message.
-        filter_by_channels(channels).
-        filter_by_since(@since).
-        filter_by_until(@until).
-        order(id: :asc, timestamp: :asc).
-        includes(:channel, :irc_user)
-
     privmsg_keyword_relationships =
-      privmsg_keyword_relationships_from(conversation_messages)
+      privmsg_keyword_relationships_from(result_conversation_messages)
     keywords_privmsgs_for_header =
       privmsg_keyword_relationships.
       sort_by { |r| r.privmsg.timestamp }.
       group_by(&:keyword).
       map { |keyword, relations| [keyword, relations.map(&:privmsg)] }
 
-    i = 0
-    result_messages =
-      (messages.to_a + conversation_messages.to_a).
-      sort_by { |m| [m.timestamp, i += 1] }
-
     MessagePeriodResult.new(
       channels,
       result_messages,
-      conversation_messages.count,
+      result_conversation_messages.count,
       privmsg_keyword_relationships,
       keywords_privmsgs_for_header
     )
