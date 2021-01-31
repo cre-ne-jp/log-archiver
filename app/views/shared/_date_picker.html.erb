@@ -1,10 +1,10 @@
-<div class="input-group date datepicker">
+<div class="input-group flatpickr-date">
   <% if defined?(form) && form %>
-    <%= form.text_field(id, class: 'form-control') %>
+    <%= form.text_field(id, class: 'form-control', 'data-input' => true) %>
   <% else %>
-    <%= text_field_tag(id, '', class: 'form-control') %>
+    <%= text_field_tag(id, '', class: 'form-control', 'data-input' => true) %>
   <% end %>
-  <span class="input-group-addon">
+  <span class="input-group-addon btn" data-toggle>
     <%= fa_icon('calendar') %>
   </span>
 </div>

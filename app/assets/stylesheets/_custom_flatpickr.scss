@@ -1,0 +1,5 @@
+// Flatpickrを設定するとinputが灰色になって隣のボタンと区別がつきにくい
+// のを直す
+.form-group .flatpickr-input[readonly] {
+  background-color: inherit;
+}
