@@ -16,10 +16,6 @@
 //= require jquery-ui/effects/effect-highlight
 //= require bootstrap-sprockets
 //= require js.cookie
-//= require moment
-//= require moment/ja
-//= require bootstrap-datetimepicker
-//= require ./datetimepicker
 //= require Chart.min
 //= require log_archiver
 //= require message_list_style
