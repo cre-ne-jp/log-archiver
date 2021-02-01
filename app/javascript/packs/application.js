@@ -16,3 +16,32 @@
 // const imagePath = (name) => images(name, true)
 
 import "./use_flatpickr";
+
+const moduleFileMap = {
+  welcome: "welcome",
+};
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const bodyData = document.body.dataset;
+  const controller = bodyData.controller.replace(/\//, "_");
+  const action = bodyData.action;
+
+  const moduleFile = moduleFileMap[controller];
+  if (moduleFile === undefined) {
+    return;
+  }
+
+  let activeController = undefined;
+  try {
+    const module = await import(`./${moduleFile}.js`);
+    activeController = module.default;
+  } catch (e) {
+    console.log(`${controller}: ${e}`);
+    return;
+  }
+
+  const activeActionProc = activeController[action];
+  if (typeof activeActionProc === 'function') {
+    activeActionProc();
+  }
+});
