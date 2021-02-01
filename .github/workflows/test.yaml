@@ -41,6 +41,10 @@ jobs:
 
           # runs 'bundle install' and caches installed gems automatically
           bundler-cache: true
+      # 参考: https://igarashikuniaki.net/diary/20200210.html
+      - name: Install JavaScript packages
+        run: |
+          yarn install
       - name: Setup Code Climate Test Reporter
         run: |
           wget https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 -O ./cc-test-reporter
