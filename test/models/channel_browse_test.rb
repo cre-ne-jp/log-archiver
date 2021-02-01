@@ -21,17 +21,17 @@ class ChannelBrowseTest < ActiveSupport::TestCase
 
   test 'date_type に today を設定できる' do
     @browse.date_type = 'today'
-    assert(:today, @browse.date_type)
+    assert_equal(:today, @browse.date_type)
   end
 
   test 'date_type に yesterday を設定できる' do
     @browse.date_type = 'yesterday'
-    assert(:yesterday, @browse.date_type)
+    assert_equal(:yesterday, @browse.date_type)
   end
 
   test 'date_type に specify を設定できる' do
     @browse.date_type = 'specify'
-    assert(:specify, @browse.date_type)
+    assert_equal(:specify, @browse.date_type)
   end
 
   test 'date_type に無効な値を指定すると nil になる' do

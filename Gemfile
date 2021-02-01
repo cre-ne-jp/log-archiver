@@ -114,6 +114,8 @@ group :development, :test do
 end
 
 group :test do
+  gem 'test-unit-rails'
+
   gem 'rake'
   gem 'rubocop'
   gem 'rubocop-rails'

@@ -5,9 +5,8 @@ require File.expand_path('../../config/environment', __FILE__)
 # テスト前のデータベースの準備を行わないようにする
 ActiveRecord::Base.maintain_test_schema = false
 
-require 'rails/test_help'
-
-require 'minitest/mock'
+require 'test/unit/rails/test_help'
+require 'active_support/testing/time_helpers'
 
 require 'simplecov'
 # カバレッジ測定開始
@@ -16,8 +15,7 @@ SimpleCov.start do
   add_filter('/vendor/')
 end
 
-require 'minitest/reporters'
-Minitest::Reporters.use!
+require 'application_system_test_case'
 
 require 'factory_bot_rails'
 
@@ -27,6 +25,8 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
   include FactoryBot::Syntax::Methods
+
+  include ActiveSupport::Testing::TimeHelpers
 end
 
 class ActionDispatch::IntegrationTest

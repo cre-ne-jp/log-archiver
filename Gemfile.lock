@@ -218,6 +218,7 @@ GEM
     parallel (1.20.1)
     parser (3.0.0.0)
       ast (~> 2.4.1)
+    power_assert (2.0.0)
     pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -273,6 +274,7 @@ GEM
     redis (4.2.5)
     regexp_parser (2.0.3)
     rexml (3.2.4)
+    rr (1.2.1)
     rubocop (1.7.0)
       parallel (~> 1.10)
       parser (>= 2.7.1.5)
@@ -330,6 +332,24 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sysexits (1.2.0)
+    test-unit (3.4.0)
+      power_assert
+    test-unit-activesupport (1.0.9)
+      activesupport
+      test-unit
+    test-unit-capybara (1.0.9)
+      capybara (>= 2.1.0)
+      json
+      test-unit (>= 2.5.3)
+    test-unit-rails (6.1.0)
+      rails (>= 5.1.2)
+      test-unit (>= 3.1.7)
+      test-unit-activesupport (>= 1.0.8)
+      test-unit-capybara (>= 1.0.5)
+      test-unit-rr (>= 1.0.4)
+    test-unit-rr (1.0.5)
+      rr (>= 1.1.1)
+      test-unit (>= 2.5.2)
     thor (1.0.1)
     tilt (2.0.10)
     tzinfo (2.0.4)
@@ -411,6 +431,7 @@ DEPENDENCIES
   sorcery!
   spring
   sysexits
+  test-unit-rails
   uglifier (>= 1.3)
   unicorn
   unicorn-worker-killer
