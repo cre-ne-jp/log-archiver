@@ -8,35 +8,18 @@ class WelcomeIndexTest < ApplicationSystemTestCase
     create(:setting)
   end
 
-  test 'Flatpickr on #message_search_since should work' do
+  data(
+    'since' => 'message_search_since',
+    'until' => 'message_search_until',
+  )
+  test 'Flatpickr for message_search should work' do
+    target_id = data
+
     visit(root_url)
 
     click_link('検索')
     assert_selector('#search.active')
 
-    target_id = 'message_search_since'
-    assert_selector(css_id_selector(target_id))
-
-    execute_script(javascript_with_fp(target_id, <<~JS))
-      fp.setDate('2021-01-02', true);
-    JS
-
-    assert_equal('2021-01-02', find_by_id(target_id).value)
-
-    find_by_id(flatpickr_id(target_id, 'toggle')).click
-    assert(flatpickr_open?(target_id), 'カレンダーアイコンをクリックするとFlatpickrが開く')
-
-    find_by_id(flatpickr_id(target_id, 'toggle')).click
-    refute(flatpickr_open?(target_id), 'カレンダーアイコンをクリックするとFlatpickrが閉じる')
-  end
-
-  test 'Flatpickr on #message_search_until should work' do
-    visit(root_url)
-
-    click_link('検索')
-    assert_selector('#search.active')
-
-    target_id = 'message_search_until'
     assert_selector(css_id_selector(target_id))
 
     execute_script(javascript_with_fp(target_id, <<~JS))
