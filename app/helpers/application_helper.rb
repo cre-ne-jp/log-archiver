@@ -1,4 +1,6 @@
 module ApplicationHelper
+  include FlatpickrHelper
+
   # サイト名を返す
   def site_title
     @setting ||= Setting.get

@@ -1,15 +1,12 @@
 /* eslint no-console:0 */
 
-const flatpickrOf = (element) => element.parentElement._flatpickr;
+import { flatpickrFor } from "./flatpickr_helper";
 
 const index = () => {
   console.log("welcome/index");
 
-  const inputMessageSearchSince = document.getElementById("message_search_since");
-  const inputMessageSearchUntil = document.getElementById("message_search_until");
-
-  const flatpickrSince = flatpickrOf(inputMessageSearchSince);
-  const flatpickrUntil = flatpickrOf(inputMessageSearchUntil);
+  const flatpickrSince = flatpickrFor("message_search_since");
+  const flatpickrUntil = flatpickrFor("message_search_until");
 
   const dateFromArray = (dates) => (dates.length < 1) ? null : dates[0];
 

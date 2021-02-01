@@ -2,6 +2,8 @@ require 'test_helper'
 require 'application_system_test_case'
 
 class WelcomeIndexTest < ApplicationSystemTestCase
+  include FlatpickrHelper
+
   setup do
     create(:setting)
   end
@@ -84,10 +86,7 @@ class WelcomeIndexTest < ApplicationSystemTestCase
 
   def javascript_with_fp(element_id, code)
     <<~JS
-      let fp = document
-               .getElementById("#{element_id}")
-               .parentElement
-               ._flatpickr;
+      let fp = document.getElementById("#{flatpickr_id(element_id)}")._flatpickr;
       #{code}
     JS
   end
