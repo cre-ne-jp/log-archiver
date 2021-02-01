@@ -22,6 +22,12 @@ class WelcomeIndexTest < ApplicationSystemTestCase
     JS
 
     assert_equal('2021-01-02', find_by_id(target_id).value)
+
+    find_by_id(flatpickr_id(target_id, 'toggle')).click
+    assert(flatpickr_open?(target_id), 'カレンダーアイコンをクリックするとFlatpickrが開く')
+
+    find_by_id(flatpickr_id(target_id, 'toggle')).click
+    refute(flatpickr_open?(target_id), 'カレンダーアイコンをクリックするとFlatpickrが閉じる')
   end
 
   test 'Flatpickr on #message_search_until should work' do
@@ -38,6 +44,12 @@ class WelcomeIndexTest < ApplicationSystemTestCase
     JS
 
     assert_equal('2021-01-02', find_by_id(target_id).value)
+
+    find_by_id(flatpickr_id(target_id, 'toggle')).click
+    assert(flatpickr_open?(target_id), 'カレンダーアイコンをクリックするとFlatpickrが開く')
+
+    find_by_id(flatpickr_id(target_id, 'toggle')).click
+    refute(flatpickr_open?(target_id), 'カレンダーアイコンをクリックするとFlatpickrが閉じる')
   end
 
   test 'minDate of #message_search_until should be set' do
@@ -88,6 +100,12 @@ class WelcomeIndexTest < ApplicationSystemTestCase
     <<~JS
       let fp = document.getElementById("#{flatpickr_id(element_id)}")._flatpickr;
       #{code}
+    JS
+  end
+
+  def flatpickr_open?(element_id)
+    execute_script(javascript_with_fp(element_id, <<~JS))
+      return fp.isOpen;
     JS
   end
 end
