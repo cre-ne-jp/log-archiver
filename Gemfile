@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+git_source(:github) { |repo| "https://github.com/#{repo}.git" }
+
 # IRC framework
 gem 'mcinch'
 gem 'lumberjack'
@@ -61,7 +63,7 @@ gem 'redcarpet'
 
 # 自動リンク
 # スキーム付きのURLのみ有効にするために独自ブランチを使用する
-gem 'rinku', git: 'https://github.com/cre-ne-jp/rinku.git', branch: 'without-www'
+gem 'rinku', github: 'cre-ne-jp/rinku', branch: 'without-www'
 
 # ページネーション
 gem 'kaminari'
@@ -73,7 +75,8 @@ gem 'friendly_id'
 gem 'simple_enum'
 
 # 認証
-gem 'sorcery'
+# @todo https://github.com/Sorcery/sorcery/pull/241 が取り込まれたらmasterを指定しない
+gem 'sorcery', github: 'Sorcery/sorcery', branch: 'master'
 
 # 並び替え
 gem 'ranked-model'
@@ -89,6 +92,9 @@ gem 'pry-rails'
 
 # ナビゲーションの定義
 gem 'simple-navigation'
+
+# ActiveJob バックエンド
+gem 'sidekiq'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -108,9 +114,13 @@ end
 
 group :test do
   gem 'rake'
-  gem 'simplecov'
   gem 'rubocop'
   gem 'rubocop-rails'
+
+  # Workaround for cc-test-reporter with SimpleCov 0.18.
+  # Stop upgrading SimpleCov until the following issue will be resolved.
+  # https://github.com/codeclimate/test-reporter/issues/418
+  gem 'simplecov', '~> 0.10', '< 0.18'
 end
 
 group :development do

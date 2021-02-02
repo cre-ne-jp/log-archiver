@@ -36,8 +36,8 @@ ja:
     <<: activerecord
     models:
       channel_browse: チャンネル閲覧
-      message_search: メッセージ検索
-      message_period: メッセージ検索
+      message_search: メッセージ条件検索
+      message_period: メッセージ期間検索
     attributes:
       channel_browse:
         channel: チャンネル

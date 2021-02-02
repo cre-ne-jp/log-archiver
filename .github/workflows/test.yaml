@@ -1,0 +1,57 @@
+name: Test
+
+on:
+  push:
+    paths-ignore:
+      - doc/**
+      - README.md
+  pull_request: {}
+
+jobs:
+  test:
+    name: Test Log Archiver
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby:
+          - 2.5
+          - 2.6
+          - 2.7
+          - 3.0
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
+    env:
+      RAILS_ENV: test
+      TZ: Asia/Tokyo
+      CC_TEST_REPORTER_ID: 74e589ede57e23f089cbbd2eee75be23a93b5ace7b5cfce58213cd3f21447147
+    services:
+      db:
+        image: groonga/mroonga:latest
+        ports:
+          - 33060:3306
+      redis:
+        image: redis:6
+        ports:
+          - 6379:6379
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+
+          # runs 'bundle install' and caches installed gems automatically
+          bundler-cache: true
+      - name: Setup Code Climate Test Reporter
+        run: |
+          wget https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 -O ./cc-test-reporter
+          chmod +x ./cc-test-reporter
+      - name: Setup database
+        run: |
+          cp config/database.yml.github_actions config/database.yml
+          bin/rails db:create
+          bin/rails db:migrate
+      - name: Run tests and report the result to Code Climate
+        run: |
+          GIT_BRANCH=$GITHUB_REF GIT_COMMIT_SHA=$GITHUB_SHA ./cc-test-reporter before-build
+          bin/rails test
+          GIT_BRANCH=$GITHUB_REF GIT_COMMIT_SHA=$GITHUB_SHA ./cc-test-reporter after-build -t simplecov --exit-code $?

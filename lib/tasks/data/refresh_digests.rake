@@ -1,3 +1,5 @@
+require 'log_archiver/refresh_digests'
+
 namespace :data do
   namespace :refresh_digests do
     desc 'ConversationMessage のハッシュ値を更新する。batch_size で一度に処理する件数（既定値：10000）を指定する。'
@@ -27,18 +29,8 @@ namespace :data do
     # @param [Integer] batch_size 一度に処理する件数
     # @return [void]
     def refresh_digests(model, batch_size = 10000)
-      if batch_size < 1
-        raise ArgumentError, 'batch_size には1以上を設定してください'
-      end
-
-      n = 0
-      model.find_in_batches(batch_size: batch_size) do |data|
-        data.each(&:refresh_digest!)
-        model.import(data, on_duplicate_key_update: [:digest])
-
-        n += data.length
-        puts("#{model}: Updated #{n} records.")
-      end
+      rd = LogArchiver::RefreshDigests.new(:stdout)
+      rd.refresh_digests(model, batch_size)
     end
   end
 end

@@ -18,5 +18,13 @@ class Admin::StatusController < ApplicationController
     rescue => e
       @exception_on_fetching_irc_bot_status = e
     end
+
+    @sidekiq_stats = nil
+    @exception_on_fetching_sidekiq_stats = nil
+    begin
+      @sidekiq_stats = Sidekiq::Stats.new
+    rescue => e
+      @exception_on_fetching_sidekiq_stats = e
+    end
   end
 end

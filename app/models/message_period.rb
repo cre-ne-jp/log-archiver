@@ -1,10 +1,18 @@
 # メッセージのキーワード検索のモデル
-class MessagePeriod
-  include ActiveModel::Model
+class MessagePeriod < ApplicationModel
   include ActiveModel::Validations::Callbacks
 
   # メッセージ検索の結果
-  MessagePeriodResult = Struct.new(:channels, :conversation_messages, :messages)
+  MessagePeriodResult = Struct.new(
+      :channels,
+      :messages,
+      :conversation_messages_count,
+      :privmsg_keyword_relationships,
+      :keywords_privmsgs_for_header
+    )
+
+  # 検索件数の最大数
+  RESULT_LIMIT = 5000
 
   # チャンネル識別子
   #
@@ -26,23 +34,8 @@ class MessagePeriod
   # セッターでは、Time 型に変換できないときは nil になる。
   attr_reader :until
 
-  # ページ番号
-  # @return [Integer]
-  #
-  # セッターでは、1以上でないときは1になる。
-  attr_reader :page
-
-  validates(
-    :page,
-    numericality: {
-      only_integer: true,
-      greater_than_or_equal_to: 1
-    }
-  )
-
   validate :until_must_not_be_less_than_since_if_both_exist
-
-  before_validation :correct_page
+  validate :until_set_now_datetime_if_not_exist
 
   def initialize(*)
     @channels = []
@@ -73,27 +66,13 @@ class MessagePeriod
     end
   end
 
-  # ページ番号を設定する
-  #
-  # 1以上でないときは1になる
-  # @param [#to_i] value ページ番号
-  def page=(value)
-    begin
-      value_i = value.to_i
-      @page = (value_i >= 1) ? value_i : 1
-    rescue
-      @page = 1
-    end
-  end
-
   # 属性のハッシュを返す
   # @return [Hash]
   def attributes
     {
       'channels' => @channels,
       'since' => @since,
-      'until' => @until,
-      'page' => @page
+      'until' => @until
     }
   end
 
@@ -104,7 +83,6 @@ class MessagePeriod
     self.channels = hash['channels']
     self.since = hash['since']
     self.until = hash['until']
-    self.page = hash['page']
   end
 
   # 結果ページ向けの属性のハッシュを返す
@@ -113,8 +91,7 @@ class MessagePeriod
     {
       'channels' => @channels.join(' '),
       'since' => @since&.strftime('%F %T'),
-      'until' => @until&.strftime('%F %T'),
-      'page' => @page
+      'until' => @until&.strftime('%F %T')
     }
   end
 
@@ -125,7 +102,6 @@ class MessagePeriod
     self.channels = params['channels']&.split(' ') || []
     self.since = params['since']
     self.until = params['until']
-    self.page = params['page']
   end
 
   # 検索結果を返す
@@ -137,72 +113,69 @@ class MessagePeriod
     channels = @channels.empty? ?
       [] : Channel.where(identifier: @channels.split).to_a
 
+    prev_m = {}
+    messages = Message.
+      filter_by_channels(channels).
+      filter_by_since(@since).
+      filter_by_until(@until).
+      order(timestamp: :asc, id: :asc).
+      limit(RESULT_LIMIT + 1).
+      includes(:channel, :irc_user).
+      map do |m|
+        if(
+            [Quit, Nick].include?(m.class) &&
+            prev_m[:type] == m[:type] &&
+            prev_m[:timestamp] == m[:timestamp] &&
+            prev_m[:irc_user_id] == m[:irc_user_id] &&
+            prev_m[:nick] == m[:nick] &&
+            prev_m[:message] == m[:message]
+        )
+          prev_m = m
+          nil
+        else
+          prev_m = m
+          m
+        end
+      end.
+      compact
+
+    @until = messages.last.timestamp if messages.count > RESULT_LIMIT
+
     conversation_messages = ConversationMessage.
       filter_by_channels(channels).
       filter_by_since(@since).
       filter_by_until(@until).
-      order(id: :asc, timestamp: :asc).
-      page(@page).
-      includes(:channel)
+      order(timestamp: :asc, id: :asc).
+      limit(RESULT_LIMIT).
+      includes(:channel, :irc_user)
 
-    next_page_first_conversation_message =
-      if conversation_messages.total_pages > 1
-        ConversationMessage.
-          filter_by_channels(channels).
-          filter_by_since(@since).
-          filter_by_until(@until).
-          select(:timestamp).
-          page(@page + 1).
-          first
-      else
-        conversation_messages.last
-      end
+    i = 0
+    result_messages =
+      (messages.to_a + conversation_messages.to_a).
+      sort_by { |m| [m.timestamp, i += 1] }.
+      first(RESULT_LIMIT)
 
-    since_val, until_val =
-      if conversation_messages.empty?
-        [@since, @until]
-      elsif  conversation_messages.first_page?
-        [@since, nil]
-      elsif conversation_messages.last_page?
-        [nil, @until]
-      end
-    since_val ||= conversation_messages.first.timestamp
-    until_val ||= next_page_first_conversation_message.timestamp
+    # ソートしたメッセージから、ConversationMessage だけ抽出する
+    result_conversation_messages = result_messages.grep(ConversationMessage)
 
-    prev_m = {}
-    messages =
-      Message.
-        filter_by_channels(channels).
-        filter_by_since(since_val).
-        filter_by_until(until_val).
-        order(id: :asc, timestamp: :asc).
-        map do |m|
-          if(
-              [Quit, Nick].include?(m.class) &&
-              prev_m[:type] == m[:type] &&
-              prev_m[:timestamp] == m[:timestamp] &&
-              prev_m[:irc_user_id] == m[:irc_user_id] &&
-              prev_m[:nick] == m[:nick] &&
-              prev_m[:message] == m[:message]
-          )
-            prev_m = m
-            nil
-          else
-            prev_m = m
-            m
-          end
-        end.
-        compact
+    privmsg_keyword_relationships =
+      privmsg_keyword_relationships_from(result_conversation_messages)
+    keywords_privmsgs_for_header =
+      privmsg_keyword_relationships.
+      sort_by { |r| r.privmsg.timestamp }.
+      group_by(&:keyword).
+      map { |keyword, relations| [keyword, relations.map(&:privmsg)] }
 
-    MessagePeriodResult.new(channels, conversation_messages, messages)
+    MessagePeriodResult.new(
+      channels,
+      result_messages,
+      result_conversation_messages.count,
+      privmsg_keyword_relationships,
+      keywords_privmsgs_for_header
+    )
   end
 
   private
-
-  # ページ番号を正しくする
-  def correct_page
-    @page = 1 if !@page || @page < 1
-  end
 
   # 開始日と終了日が共に指定されているときは、
   # 開始日が終了日より後になっていないことを確認する
@@ -216,5 +189,10 @@ class MessagePeriod
         )
       end
     end
+  end
+
+  # 終了日が設定されていないときは、現在日時を設定する
+  def until_set_now_datetime_if_not_exist
+    self.until = Time.now unless @until
   end
 end

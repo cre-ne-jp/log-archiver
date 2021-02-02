@@ -69,8 +69,12 @@ module LogArchiver
       @start_time = start_time.dup.freeze
       @commit_id = commit_id.dup.freeze
 
-      @version_and_commit_id = commit_id.empty? ?
-        version : "#{version} (#{commit_id})"
+      @version_and_commit_id =
+        if commit_id.empty?
+          version
+        else
+          "#{version} (#{commit_id})".freeze
+        end
     end
 
     # アプリケーションの状態を表すHashを返す
