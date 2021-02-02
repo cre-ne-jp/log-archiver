@@ -12,7 +12,7 @@ class MessagePeriod < ApplicationModel
     )
 
   # 検索件数の最大数
-  ResultLimit = 5000
+  RESULT_LIMIT = 5000
 
   # チャンネル識別子
   #
@@ -118,30 +118,28 @@ class MessagePeriod < ApplicationModel
       filter_by_since(@since).
       filter_by_until(@until).
       order(timestamp: :asc, id: :asc).
-      limit(ResultLimit + 1).
+      limit(RESULT_LIMIT + 1).
       includes(:channel, :irc_user).
       to_a
 
-    @until = messages.last.timestamp if messages.count > ResultLimit
+    @until = messages.last.timestamp if messages.count > RESULT_LIMIT
 
     conversation_messages = ConversationMessage.
       filter_by_channels(channels).
       filter_by_since(@since).
       filter_by_until(@until).
       order(timestamp: :asc, id: :asc).
-      limit(ResultLimit).
+      limit(RESULT_LIMIT).
       includes(:channel, :irc_user)
 
     i = 0
     result_messages =
       (messages.to_a + conversation_messages.to_a).
       sort_by { |m| [m.timestamp, i += 1] }.
-      first(ResultLimit)
+      first(RESULT_LIMIT)
 
     # ソートしたメッセージから、ConversationMessage だけ抽出する
-    result_conversation_messages = result_messages.select do |m|
-      m.class.superclass == ConversationMessage
-    end
+    result_conversation_messages = result_messages.grep(ConversationMessage)
 
     privmsg_keyword_relationships =
       privmsg_keyword_relationships_from(result_conversation_messages)
