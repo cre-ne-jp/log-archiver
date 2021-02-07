@@ -59,6 +59,12 @@
               </table>
             </div>
 
+            <% if @message_period_result.num_of_messages_limited? %>
+              <div class="alert alert-info">
+                該当件数が多すぎるため、最初の <%= @message_period_result.messages.length %> 件を表示しています。
+              </div>
+            <% end %>
+
             <%= render('shared/message_with_datetime_list', messages: @message_period_result.messages, privmsg_keyword_relationships: @message_period_result.privmsg_keyword_relationships, show_channel: true, style: :normal) %>
           </article>
         </div>

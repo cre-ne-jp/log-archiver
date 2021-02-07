@@ -4,6 +4,9 @@
 class MessagePeriod < ApplicationModel
   include ActiveModel::Validations::Callbacks
 
+  # 検索件数の最大数
+  RESULT_LIMIT = 5000
+
   # メッセージ期間検索の結果
   MessagePeriodResult = Struct.new(
     :channels,
@@ -13,8 +16,12 @@ class MessagePeriod < ApplicationModel
     :keywords_privmsgs_for_header
   )
 
-  # 検索件数の最大数
-  RESULT_LIMIT = 5000
+  class MessagePeriodResult
+    # @return [Boolean] メッセージの件数が上限値に達したか
+    def num_of_messages_limited?
+      messages.length >= RESULT_LIMIT
+    end
+  end
 
   # チャンネル識別子
   #
