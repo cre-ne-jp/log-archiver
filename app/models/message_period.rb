@@ -1,15 +1,17 @@
-# メッセージのキーワード検索のモデル
+# frozen_string_literal: true
+
+# メッセージ期間検索のモデル
 class MessagePeriod < ApplicationModel
   include ActiveModel::Validations::Callbacks
 
-  # メッセージ検索の結果
+  # メッセージ期間検索の結果
   MessagePeriodResult = Struct.new(
-      :channels,
-      :messages,
-      :conversation_messages_count,
-      :privmsg_keyword_relationships,
-      :keywords_privmsgs_for_header
-    )
+    :channels,
+    :messages,
+    :conversation_messages_count,
+    :privmsg_keyword_relationships,
+    :keywords_privmsgs_for_header
+  )
 
   # 検索件数の最大数
   RESULT_LIMIT = 5000
