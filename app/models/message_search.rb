@@ -15,7 +15,7 @@ class MessageSearch
   # チャンネル識別子
   #
   # パラメータ名の都合で名前がchannelsでも識別子を表すことに注意。
-  # @return [String]
+  # @return [Array<String>]
   attr_accessor :channels
   # 開始日
   # @return [Date, nil]
