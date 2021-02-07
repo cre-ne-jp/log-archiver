@@ -19,7 +19,7 @@ class MessagePeriod < ApplicationModel
   # チャンネル識別子
   #
   # パラメータ名の都合で名前がchannelsでも識別子を表すことに注意。
-  # @return [String]
+  # @return [Array<String>]
   attr_accessor :channels
   # 開始日
   # @return [Time, nil]
@@ -36,8 +36,10 @@ class MessagePeriod < ApplicationModel
   # セッターでは、Time 型に変換できないときは nil になる。
   attr_reader :until
 
+  validates :channels, presence: true
+  validates :since_or_until, presence: true
+
   validate :until_must_not_be_less_than_since_if_both_exist
-  validate :until_set_now_datetime_if_not_exist
 
   def initialize(*)
     @channels = []
@@ -56,7 +58,7 @@ class MessagePeriod < ApplicationModel
     end
   end
 
-  # 終了日を設定する
+  # 終了日時を設定する
   #
   # Time 型に変換できないときは nil になる。
   # @param [#to_time] value 終了日時
@@ -162,8 +164,14 @@ class MessagePeriod < ApplicationModel
 
   private
 
-  # 開始日と終了日が共に指定されているときは、
-  # 開始日が終了日より後になっていないことを確認する
+  # 開始日時または終了日時が存在するか
+  # @return [Boolean]
+  def since_or_until
+    @since.presence || @until.presence
+  end
+
+  # 開始日時と終了日時が共に指定されているときは、
+  # 開始日時が終了日時より後になっていないことを確認する
   def until_must_not_be_less_than_since_if_both_exist
     if @since && @until
       if @since > @until
@@ -174,10 +182,5 @@ class MessagePeriod < ApplicationModel
         )
       end
     end
-  end
-
-  # 終了日が設定されていないときは、現在日時を設定する
-  def until_set_now_datetime_if_not_exist
-    self.until = Time.now unless @until
   end
 end
