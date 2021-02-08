@@ -45,6 +45,7 @@ gem 'meta-tags'
 
 # Use Puma as the app server
 gem 'puma'
+gem 'puma_worker_killer'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
