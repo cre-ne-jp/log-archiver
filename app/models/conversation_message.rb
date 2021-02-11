@@ -45,4 +45,9 @@ class ConversationMessage < ApplicationRecord
   def fragment_id
     "c#{digest_value}"
   end
+
+  # @return [Boolean] 参加中の全チャンネルに同時に送られるメッセージか？
+  def broadcast?
+    false
+  end
 end

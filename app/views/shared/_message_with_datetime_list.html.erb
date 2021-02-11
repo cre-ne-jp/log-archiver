@@ -11,6 +11,7 @@
   <tbody>
     <% privmsg_keyword_relationships ||= [] %>
     <% privmsg_id_keyword_map = privmsg_keyword_relationships.map { |r| [r.privmsg_id, r.keyword] }.to_h %>
-    <%= render(partial: 'shared/message_with_datetime', collection: messages, as: :m, locals: { privmsg_keyword_relationships: privmsg_keyword_relationships, privmsg_id_keyword_map: privmsg_id_keyword_map, show_channel: show_channel }) %>
+    <% period ||= false %>
+    <%= render(partial: 'shared/message_with_datetime', collection: messages, as: :m, locals: { privmsg_keyword_relationships: privmsg_keyword_relationships, privmsg_id_keyword_map: privmsg_id_keyword_map, show_channel: show_channel, period: period}) %>
   </tbody>
 </table>
