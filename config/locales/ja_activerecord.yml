@@ -53,6 +53,7 @@ ja:
         channels: チャンネル
         since: 開始日時
         until: 終了日時
+        since_or_until: 開始日時または終了日時
   enums:
     channel_browse_date_type:
       today: 今日

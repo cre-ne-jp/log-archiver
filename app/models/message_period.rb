@@ -1,23 +1,43 @@
-# メッセージのキーワード検索のモデル
+# frozen_string_literal: true
+
+# メッセージ期間検索のモデル
 class MessagePeriod < ApplicationModel
   include ActiveModel::Validations::Callbacks
-
-  # メッセージ検索の結果
-  MessagePeriodResult = Struct.new(
-      :channels,
-      :messages,
-      :conversation_messages_count,
-      :privmsg_keyword_relationships,
-      :keywords_privmsgs_for_header
-    )
 
   # 検索件数の最大数
   RESULT_LIMIT = 5000
 
+  # メッセージ期間検索の結果を表す構造体
+  # @!attribute channels
+  #   @return [Array<Channel>] 検索対象チャンネルの配列
+  # @!attribute messages
+  #   @return [Array<Message, ConversationMessage>] 該当メッセージの配列
+  # @!attribute conversation_messages_count
+  #   @return [Integer] 該当メッセージのうち発言の件数
+  # @!attribute privmsg_keyword_relationships
+  #   @return [Array<PrivmsgKeywordRelationship>] PRIVMSG-キーワード関連の配列
+  # @!attribute keywords_privmsgs_for_header
+  #   @return [Array<(Keyword, Privmsg)>] キーワード -> PRIVMSGの対応の配列
+  # @!attribute num_of_messages_limited
+  #   @return [Boolean] 該当件数が上限値に達したか
+  MessagePeriodResult = Struct.new(
+    :channels,
+    :messages,
+    :conversation_messages_count,
+    :privmsg_keyword_relationships,
+    :keywords_privmsgs_for_header,
+    :num_of_messages_limited,
+    keyword_init: true
+  )
+
+  class MessagePeriodResult
+    alias num_of_messages_limited? num_of_messages_limited
+  end
+
   # チャンネル識別子
   #
   # パラメータ名の都合で名前がchannelsでも識別子を表すことに注意。
-  # @return [String]
+  # @return [Array<String>]
   attr_accessor :channels
   # 開始日
   # @return [Time, nil]
@@ -34,8 +54,10 @@ class MessagePeriod < ApplicationModel
   # セッターでは、Time 型に変換できないときは nil になる。
   attr_reader :until
 
+  validates :channels, presence: true
+  validates :since_or_until, presence: true
+
   validate :until_must_not_be_less_than_since_if_both_exist
-  validate :until_set_now_datetime_if_not_exist
 
   def initialize(*)
     @channels = []
@@ -54,7 +76,7 @@ class MessagePeriod < ApplicationModel
     end
   end
 
-  # 終了日を設定する
+  # 終了日時を設定する
   #
   # Time 型に変換できないときは nil になる。
   # @param [#to_time] value 終了日時
@@ -134,11 +156,17 @@ class MessagePeriod < ApplicationModel
       limit(RESULT_LIMIT).
       includes(:channel, :irc_user)
 
+    # 上限値まで絞る前の該当件数
+    num_of_messages_before_limit = messages.length + conversation_messages.length
+
     i = 0
     result_messages =
       (messages.to_a + conversation_messages.to_a).
       sort_by { |m| [m.timestamp, i += 1] }.
       first(RESULT_LIMIT)
+
+    # 該当件数が上限値に達したか？
+    num_of_messages_limited = result_messages.length < num_of_messages_before_limit
 
     # ソートしたメッセージから、ConversationMessage だけ抽出する
     result_conversation_messages = result_messages.grep(ConversationMessage)
@@ -152,18 +180,25 @@ class MessagePeriod < ApplicationModel
       map { |keyword, relations| [keyword, relations.map(&:privmsg)] }
 
     MessagePeriodResult.new(
-      channels,
-      result_messages,
-      result_conversation_messages.count,
-      privmsg_keyword_relationships,
-      keywords_privmsgs_for_header
+      channels: channels,
+      messages: result_messages,
+      conversation_messages_count: result_conversation_messages.count,
+      privmsg_keyword_relationships: privmsg_keyword_relationships,
+      keywords_privmsgs_for_header: keywords_privmsgs_for_header,
+      num_of_messages_limited: num_of_messages_limited
     )
   end
 
   private
 
-  # 開始日と終了日が共に指定されているときは、
-  # 開始日が終了日より後になっていないことを確認する
+  # 開始日時または終了日時が存在するか
+  # @return [Boolean]
+  def since_or_until
+    @since.presence || @until.presence
+  end
+
+  # 開始日時と終了日時が共に指定されているときは、
+  # 開始日時が終了日時より後になっていないことを確認する
   def until_must_not_be_less_than_since_if_both_exist
     if @since && @until
       if @since > @until
