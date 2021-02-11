@@ -18,19 +18,20 @@ class MessagePeriod < ApplicationModel
   #   @return [Array<PrivmsgKeywordRelationship>] PRIVMSG-キーワード関連の配列
   # @!attribute keywords_privmsgs_for_header
   #   @return [Array<(Keyword, Privmsg)>] キーワード -> PRIVMSGの対応の配列
+  # @!attribute num_of_messages_limited
+  #   @return [Boolean] 該当件数が上限値に達したか
   MessagePeriodResult = Struct.new(
     :channels,
     :messages,
     :conversation_messages_count,
     :privmsg_keyword_relationships,
-    :keywords_privmsgs_for_header
+    :keywords_privmsgs_for_header,
+    :num_of_messages_limited,
+    keyword_init: true
   )
 
   class MessagePeriodResult
-    # @return [Boolean] メッセージの件数が上限値に達したか
-    def num_of_messages_limited?
-      messages.length >= RESULT_LIMIT
-    end
+    alias num_of_messages_limited? num_of_messages_limited
   end
 
   # チャンネル識別子
@@ -153,11 +154,17 @@ class MessagePeriod < ApplicationModel
       limit(RESULT_LIMIT).
       includes(:channel, :irc_user)
 
+    # 上限値まで絞る前の該当件数
+    num_of_messages_before_limit = messages.length + conversation_messages.length
+
     i = 0
     result_messages =
       (messages.to_a + conversation_messages.to_a).
       sort_by { |m| [m.timestamp, i += 1] }.
       first(RESULT_LIMIT)
+
+    # 該当件数が上限値に達したか？
+    num_of_messages_limited = result_messages.length < num_of_messages_before_limit
 
     # ソートしたメッセージから、ConversationMessage だけ抽出する
     result_conversation_messages = result_messages.grep(ConversationMessage)
@@ -171,11 +178,12 @@ class MessagePeriod < ApplicationModel
       map { |keyword, relations| [keyword, relations.map(&:privmsg)] }
 
     MessagePeriodResult.new(
-      channels,
-      result_messages,
-      result_conversation_messages.count,
-      privmsg_keyword_relationships,
-      keywords_privmsgs_for_header
+      channels: channels,
+      messages: result_messages,
+      conversation_messages_count: result_conversation_messages.count,
+      privmsg_keyword_relationships: privmsg_keyword_relationships,
+      keywords_privmsgs_for_header: keywords_privmsgs_for_header,
+      num_of_messages_limited: num_of_messages_limited
     )
   end
 
