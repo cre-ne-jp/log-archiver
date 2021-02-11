@@ -7,7 +7,17 @@ class MessagePeriod < ApplicationModel
   # 検索件数の最大数
   RESULT_LIMIT = 5000
 
-  # メッセージ期間検索の結果
+  # メッセージ期間検索の結果を表す構造体
+  # @!attribute channels
+  #   @return [Array<Channel>] 検索対象チャンネルの配列
+  # @!attribute messages
+  #   @return [Array<Message, ConversationMessage>] 該当メッセージの配列
+  # @!attribute conversation_messages_count
+  #   @return [Integer] 該当メッセージのうち発言の件数
+  # @!attribute privmsg_keyword_relationships
+  #   @return [Array<PrivmsgKeywordRelationship>] PRIVMSG-キーワード関連の配列
+  # @!attribute keywords_privmsgs_for_header
+  #   @return [Array<(Keyword, Privmsg)>] キーワード -> PRIVMSGの対応の配列
   MessagePeriodResult = Struct.new(
     :channels,
     :messages,
