@@ -124,8 +124,6 @@ GEM
       ruby2_keywords
     faraday-net_http (1.0.0)
     ffi (1.14.2)
-    font-awesome-rails (4.7.0.6)
-      railties (>= 3.2, < 6.2)
     formatador (0.2.5)
     friendly_id (5.4.1)
       activerecord (>= 4.0.0)
@@ -398,7 +396,6 @@ DEPENDENCIES
   cfnv
   chart-js-rails
   factory_bot_rails
-  font-awesome-rails
   friendly_id
   guard
   guard-minitest
@@ -442,4 +439,4 @@ DEPENDENCIES
   xmlrpc
 
 BUNDLED WITH
-   2.2.4
+   2.2.7

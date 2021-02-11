@@ -1,5 +1,6 @@
 module ApplicationHelper
   include FlatpickrHelper
+  include FontawesomeHelper
 
   # サイト名を返す
   def site_title

@@ -38,7 +38,6 @@ gem 'sdoc', '~> 1.0', group: :doc
 
 # デザイン
 gem 'bootstrap-sass', '>= 3.4.1'
-gem 'font-awesome-rails'
 
 # SEO
 gem 'meta-tags'
