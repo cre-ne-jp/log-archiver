@@ -113,31 +113,16 @@ class MessagePeriod < ApplicationModel
     channels = @channels.empty? ?
       [] : Channel.where(identifier: @channels.split).to_a
 
-    prev_m = {}
-    messages = Message.
-      filter_by_channels(channels).
-      filter_by_since(@since).
-      filter_by_until(@until).
-      order(timestamp: :asc, id: :asc).
-      limit(RESULT_LIMIT + 1).
-      includes(:channel, :irc_user).
-      map do |m|
-        if(
-            [Quit, Nick].include?(m.class) &&
-            prev_m[:type] == m[:type] &&
-            prev_m[:timestamp] == m[:timestamp] &&
-            prev_m[:irc_user_id] == m[:irc_user_id] &&
-            prev_m[:nick] == m[:nick] &&
-            prev_m[:message] == m[:message]
-        )
-          prev_m = m
-          nil
-        else
-          prev_m = m
-          m
-        end
-      end.
-      compact
+    messages = unite_broadcast_messages(
+      Message.
+        filter_by_channels(channels).
+        filter_by_since(@since).
+        filter_by_until(@until).
+        order(timestamp: :asc, id: :asc).
+        limit(RESULT_LIMIT + 1).
+        includes(:channel, :irc_user).
+        to_a
+    )
 
     @until = messages.last.timestamp if messages.count > RESULT_LIMIT
 
@@ -194,5 +179,29 @@ class MessagePeriod < ApplicationModel
   # 終了日が設定されていないときは、現在日時を設定する
   def until_set_now_datetime_if_not_exist
     self.until = Time.now unless @until
+  end
+
+  # 参加中の全チャンネルに同時に送られるメッセージ（Nick、Quit）をまとめる
+  # @param [Array<Message>] messages メッセージの配列
+  # @return [Array<Message>] まとめられたメッセージの配列
+  def unite_broadcast_messages(messages)
+    # 種類ごとに最後のメッセージを記録するためのハッシュ
+    last = {}
+
+    united_messages = messages.map do |m|
+      # 同時配信されないメッセージはそのまま残す
+      next m unless m.broadcast?
+
+      # 同じ同時配信メッセージと見られる場合は記録しない。
+      # そうでなければ残す。
+      m_now = m.same_broadcast_message?(last[m.class]) ? nil : m
+
+      # 調べたメッセージを最後のメッセージとして記録する
+      last[m.class] = m
+
+      m_now
+    end
+
+    united_messages.compact
   end
 end
