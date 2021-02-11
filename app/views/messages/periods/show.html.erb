@@ -47,7 +47,7 @@
                             <li>
                               <%= link_to(sanitize(keyword.display_title), keyword, class: 'channel-day-keyword-link') %>
                               <% privmsgs.each do |m| %>
-                                <%= link_to(m.timestamp.strftime('%T'), "##{m.fragment_id}", class: 'keyword-list-time') %>
+                                <%= link_to(m.timestamp.strftime('%F %T'), "##{m.fragment_id}", class: 'keyword-list-time') %>
                               <% end %>
                             </li>
                           <% end %>
