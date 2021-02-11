@@ -2,7 +2,7 @@
 class Messages::PeriodsController < ApplicationController
   # 前後の検索結果ページのパスの生成等に使用する
   include Kaminari::Helpers::HelperMethods
-  # ナビゲーション用のメタ情報を
+  # ナビゲーション用のメタ情報を設定できる
   include NavLinkSettable
 
   # 検索クエリを作成する
