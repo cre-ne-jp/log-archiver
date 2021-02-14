@@ -1,0 +1,10 @@
+<div class="input-group datetime datetimepicker">
+  <% if defined?(form) && form %>
+    <%= form.text_field(id, class: 'form-control') %>
+  <% else %>
+    <%= text_field_tag(id, '', class: 'form-control') %>
+  <% end %>
+  <span class="input-group-addon">
+    <%= fa_icon('calendar') %>
+  </span>
+</div>

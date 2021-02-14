@@ -1,7 +1,6 @@
 class BrowsesController < ApplicationController
   def create
     @channel_browse = ChannelBrowse.new(params_for_create)
-    @message_search = MessageSearch.new
 
     if @channel_browse.valid?
       browse_day = @channel_browse.to_channel_browse_day
@@ -9,6 +8,8 @@ class BrowsesController < ApplicationController
       redirect_to(browse_day.path)
     else
       @invalid_model = :channel_browse
+      @message_search = MessageSearch.new
+      @message_period = MessagePeriod.new
       render 'welcome/index'
     end
   end
