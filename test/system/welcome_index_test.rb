@@ -101,6 +101,71 @@ class WelcomeIndexTest < ApplicationSystemTestCase
     assert_equal(Time.new(2021, 1, 2, 0, 0, 0, '+09:00'), min_date)
   end
 
+  data(
+    'since' => 'message_period_since',
+    'until' => 'message_period_until',
+  )
+  test 'Flatpickr for message_period should work' do
+    target_id = data
+
+    visit(root_url)
+
+    click_link('期間')
+    assert_selector('#period.active')
+
+    assert_selector(css_id_selector(target_id))
+
+    execute_script(javascript_with_fp(target_id, <<~JS))
+      fp.setDate('2021-01-02T03:45:21T09:00', true);
+    JS
+
+    assert_equal('2021-01-02 03:45:21', find_by_id(target_id).value)
+
+    find_by_id(flatpickr_id(target_id, 'toggle')).click
+    assert(flatpickr_open?(target_id), 'カレンダーアイコンをクリックするとFlatpickrが開く')
+
+    find_by_id(flatpickr_id(target_id, 'toggle')).click
+    refute(flatpickr_open?(target_id), 'カレンダーアイコンをクリックするとFlatpickrが閉じる')
+  end
+
+  test 'minDate of #message_period_until should be set' do
+    visit(root_url)
+
+    click_link('期間')
+    assert_selector('#period.active')
+
+    assert_selector('#message_period_since')
+    assert_selector('#message_period_until')
+
+    execute_script(javascript_with_fp('message_period_since', <<~JS))
+      fp.setDate('2021-01-02T03:45:21T09:00', true);
+    JS
+
+    min_date = execute_script(javascript_with_fp('message_period_until', <<~JS))
+      return fp.config.minDate;
+    JS
+    assert_equal(Time.new(2021, 1, 2, 3, 45, 21, '+09:00'), min_date)
+  end
+
+  test 'maxDate of #message_period_since should be set' do
+    visit(root_url)
+
+    click_link('期間')
+    assert_selector('#period.active')
+
+    assert_selector('#message_period_since')
+    assert_selector('#message_period_until')
+
+    execute_script(javascript_with_fp('message_period_until', <<~JS))
+      fp.setDate('2021-01-02T03:45:21T09:00', true);
+    JS
+
+    min_date = execute_script(javascript_with_fp('message_period_since', <<~JS))
+      return fp.config.maxDate;
+    JS
+    assert_equal(Time.new(2021, 1, 2, 3, 45, 21, '+09:00'), min_date)
+  end
+
   private
 
   def css_id_selector(id)
