@@ -4,9 +4,6 @@
 class MessagePeriod < ApplicationModel
   include ActiveModel::Validations::Callbacks
 
-  # 検索件数の最大数
-  RESULT_LIMIT = 5000
-
   # メッセージ期間検索の結果を表す構造体
   # @!attribute channels
   #   @return [Array<Channel>] 検索対象チャンネルの配列
@@ -54,13 +51,24 @@ class MessagePeriod < ApplicationModel
   # セッターでは、Time 型に変換できないときは nil になる。
   attr_reader :until
 
+  # 検索件数の最大数
+  # @return [Integer]
+  #
+  # 既定では5000件。
+  attr_accessor :limit
+
   validates :channels, presence: true
   validates :since_or_until, presence: true
+  validates(:limit, numericality: {
+    only_integer: true,
+    greater_than_or_equal_to: 1
+  })
 
   validate :until_must_not_be_less_than_since_if_both_exist
 
   def initialize(*)
     @channels = []
+    @limit = 5000
     super
   end
 
@@ -141,19 +149,19 @@ class MessagePeriod < ApplicationModel
         filter_by_since(@since).
         filter_by_until(@until).
         order(timestamp: :asc, id: :asc).
-        limit(RESULT_LIMIT + 1).
+        limit(@limit + 1).
         includes(:channel, :irc_user).
         to_a
     )
 
-    @until = messages.last.timestamp if messages.count > RESULT_LIMIT
+    @until = messages.last.timestamp if messages.count > @limit
 
     conversation_messages = ConversationMessage.
       filter_by_channels(channels).
       filter_by_since(@since).
       filter_by_until(@until).
       order(timestamp: :asc, id: :asc).
-      limit(RESULT_LIMIT).
+      limit(@limit).
       includes(:channel, :irc_user)
 
     # 上限値まで絞る前の該当件数
@@ -163,7 +171,7 @@ class MessagePeriod < ApplicationModel
     result_messages =
       (messages.to_a + conversation_messages.to_a).
       sort_by { |m| [m.timestamp, i += 1] }.
-      first(RESULT_LIMIT)
+      first(@limit)
 
     # 該当件数が上限値に達したか？
     num_of_messages_limited = result_messages.length < num_of_messages_before_limit
