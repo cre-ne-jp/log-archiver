@@ -5,5 +5,7 @@ FactoryBot.define do
 
     # until はRubyの予約語なので、add_attribute で追加する
     add_attribute(:until) { Time.zone.local(2002, 3, 4, 5, 43, 21) }
+
+    limit { 5000 }
   end
 end
