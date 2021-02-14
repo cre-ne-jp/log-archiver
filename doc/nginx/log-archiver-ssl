@@ -1,7 +1,7 @@
 # vim: filetype=nginx
 
 upstream log-archiver {
-  #server unix:/home/log-archiver/log-archiver/tmp/sockets/unicorn.sock fail_timeout=0;
+  #server unix:/home/log-archiver/log-archiver/tmp/sockets/puma.sock fail_timeout=0;
   server 127.0.0.1:8081;
 }
 

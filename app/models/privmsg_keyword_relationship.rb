@@ -6,7 +6,7 @@ class PrivmsgKeywordRelationship < ApplicationRecord
   validates :keyword_id, presence: true
 
   scope :from_privmsgs, ->privmsgs {
-    includes(:keyword)
+    includes(:keyword, :privmsg)
       .where(privmsg: privmsgs)
   }
 end

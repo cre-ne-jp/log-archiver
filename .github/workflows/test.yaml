@@ -26,7 +26,7 @@ jobs:
       CC_TEST_REPORTER_ID: 74e589ede57e23f089cbbd2eee75be23a93b5ace7b5cfce58213cd3f21447147
     services:
       db:
-        image: groonga/mroonga:latest
+        image: groonga/mroonga:mysql5732_mroonga1010
         ports:
           - 33060:3306
       redis:

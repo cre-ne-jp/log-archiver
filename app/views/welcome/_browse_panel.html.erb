@@ -1,4 +1,4 @@
-<div role="tabpanel" class="<%= (@invalid_model == :message_search) ? 'tab-pane' : 'tab-pane active' %>" id="browse">
+<div role="tabpanel" class="<%= (@invalid_model.nil? || @invalid_model == :channel_browse) ? 'tab-pane active' : 'tab-pane' %>" id="browse">
   <% if @invalid_model == :channel_browse %>
     <%= render('shared/error_messages', target: @channel_browse) %>
   <% end %>
