@@ -222,4 +222,36 @@ class MessagePeriodTest < ActiveSupport::TestCase
       result.messages.to_a
     )
   end
+
+  test '該当件数が上限に達しなければnum_of_messages_limited?は偽' do
+    prepare_messages
+
+    @period.channels = %w(channel_100 channel_200 channel_300)
+    @period.since = Time.new(2020, 3, 20, 0, 0, 0, '+09:00')
+    @period.until = nil
+    @period.limit = 5000
+
+    assert(@period.valid?, '検索条件が有効')
+
+    result = @period.result
+
+    assert_equal(14, result.messages.length)
+    refute(result.num_of_messages_limited?)
+  end
+
+  test '該当件数が上限に達したならばnum_of_messages_limited?は真' do
+    prepare_messages
+
+    @period.channels = %w(channel_100 channel_200 channel_300)
+    @period.since = Time.new(2020, 3, 20, 0, 0, 0, '+09:00')
+    @period.until = nil
+    @period.limit = 10
+
+    assert(@period.valid?, '検索条件が有効')
+
+    result = @period.result
+
+    assert_equal(10, result.messages.length)
+    assert(result.num_of_messages_limited?)
+  end
 end
