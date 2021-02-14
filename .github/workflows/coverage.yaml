@@ -34,6 +34,10 @@ jobs:
 
           # runs 'bundle install' and caches installed gems automatically
           bundler-cache: true
+      # 参考: https://igarashikuniaki.net/diary/20200210.html
+      - name: Install JavaScript packages
+        run: |
+          yarn install
       - name: Setup database
         run: |
           cp config/database.yml.github_actions config/database.yml
