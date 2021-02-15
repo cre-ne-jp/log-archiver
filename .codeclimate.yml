@@ -29,3 +29,13 @@ exclude_patterns:
 - db/
 - test/
 - vendor/
+- config/
+- db/
+- "**/node_modules/"
+- "**/spec/"
+- "**/test/"
+- "**/tests/"
+- "**/vendor/"
+- "**/*.d.ts"
+- babel.config.js
+- postcss.config.js
