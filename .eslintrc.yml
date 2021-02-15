@@ -7,7 +7,7 @@ parserOptions:
 env:
   amd: true
   browser: true
-  es6: true
+  es2020: true
   jquery: true
   node: true
 
@@ -163,7 +163,7 @@ rules:
   capitalized-comments: off
   comma-dangle:
     - error
-    - never
+    - only-multiline
   comma-spacing: off
   comma-style: off
   computed-property-spacing: off

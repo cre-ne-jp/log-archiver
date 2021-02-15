@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  let onLoad = undefined;
+  let onLoad;
   try {
     const module = await import(`./${moduleFile}.js`);
     onLoad = module.default;
