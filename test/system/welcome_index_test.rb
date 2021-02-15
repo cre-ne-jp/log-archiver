@@ -32,6 +32,8 @@ class WelcomeIndexTest < ApplicationSystemTestCase
     find_by_id(flatpickr_id(target_id, 'toggle')).click
     assert(flatpickr_open?(target_id), 'カレンダーアイコンをクリックするとFlatpickrが開く')
 
+    sleep(0.5)
+
     find_by_id(flatpickr_id(target_id, 'toggle')).click
     refute(flatpickr_open?(target_id), 'カレンダーアイコンをクリックするとFlatpickrが閉じる')
   end
@@ -58,6 +60,8 @@ class WelcomeIndexTest < ApplicationSystemTestCase
 
     find_by_id(flatpickr_id(target_id, 'toggle')).click
     assert(flatpickr_open?(target_id), 'カレンダーアイコンをクリックするとFlatpickrが開く')
+
+    sleep(0.5)
 
     find_by_id(flatpickr_id(target_id, 'toggle')).click
     refute(flatpickr_open?(target_id), 'カレンダーアイコンをクリックするとFlatpickrが閉じる')
@@ -123,6 +127,8 @@ class WelcomeIndexTest < ApplicationSystemTestCase
 
     find_by_id(flatpickr_id(target_id, 'toggle')).click
     assert(flatpickr_open?(target_id), 'カレンダーアイコンをクリックするとFlatpickrが開く')
+
+    sleep(0.5)
 
     find_by_id(flatpickr_id(target_id, 'toggle')).click
     refute(flatpickr_open?(target_id), 'カレンダーアイコンをクリックするとFlatpickrが閉じる')
