@@ -197,6 +197,31 @@ class WelcomeIndexTest < ApplicationSystemTestCase
     assert_equal(Time.new(2021, 1, 2, 0, 0, 0, '+09:00'), min_date)
   end
 
+  test 'maxDate of #message_period_since should be set after error' do
+    visit(root_url)
+
+    click_link('期間')
+    assert_selector('#period.active')
+
+    click_button('検索')
+
+    # キーワードやニックネームを入力せずに検索するので、
+    # エラーが発生するはず
+    assert_selector('#error-explanation')
+
+    assert_selector('#message_period_since')
+    assert_selector('#message_period_until')
+
+    execute_script(javascript_with_fp('message_period_until', <<~JS))
+      fp.setDate('2021-01-02T03:45:21T09:00', true);
+    JS
+
+    min_date = execute_script(javascript_with_fp('message_period_since', <<~JS))
+      return fp.config.maxDate;
+    JS
+    assert_equal(Time.new(2021, 1, 2, 3, 45, 21, '+09:00'), min_date)
+  end
+
   private
 
   def css_id_selector(id)
