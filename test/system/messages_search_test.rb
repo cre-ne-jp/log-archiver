@@ -1,7 +1,10 @@
 require 'test_helper'
 require 'application_system_test_case'
+require_relative 'flatpickr_test_helper'
 
 class MessagesSearchTest < ApplicationSystemTestCase
+  include FlatpickrTestHelper
+
   setup do
     create(:setting)
 
@@ -37,5 +40,49 @@ class MessagesSearchTest < ApplicationSystemTestCase
     within('.main-panel') do
       assert_text('該当するメッセージは見つかりませんでした。')
     end
+  end
+
+  data(
+    'since' => 'message_search_since',
+    'until' => 'message_search_until',
+  )
+  test 'Flatpickrが動作する' do
+    target_id = data
+
+    visit(messages_search_url(q: 'メッセージ'))
+
+    assert_date_picker_work(target_id)
+  end
+
+  test '#message_search_untilのminDateが設定される' do
+    visit(messages_search_url(q: 'メッセージ'))
+
+    assert_selector('#message_search_since')
+    assert_selector('#message_search_until')
+
+    execute_script(javascript_with_fp('message_search_since', <<~JS))
+      fp.setDate('2021-01-02', true);
+    JS
+
+    min_date = execute_script(javascript_with_fp('message_search_until', <<~JS))
+      return fp.config.minDate;
+    JS
+    assert_equal(Time.new(2021, 1, 2, 0, 0, 0, '+09:00'), min_date)
+  end
+
+  test '#message_search_sinceのmaxDateが設定される' do
+    visit(messages_search_url(q: 'メッセージ'))
+
+    assert_selector('#message_search_since')
+    assert_selector('#message_search_until')
+
+    execute_script(javascript_with_fp('message_search_until', <<~JS))
+      fp.setDate('2021-01-02', true);
+    JS
+
+    min_date = execute_script(javascript_with_fp('message_search_since', <<~JS))
+      return fp.config.maxDate;
+    JS
+    assert_equal(Time.new(2021, 1, 2, 0, 0, 0, '+09:00'), min_date)
   end
 end
