@@ -437,7 +437,6 @@ DEPENDENCIES
   web-console (~> 4.0)
   webdrivers
   webpacker (~> 5.x)
-  webrick
   xmlrpc
 
 BUNDLED WITH
