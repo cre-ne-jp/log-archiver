@@ -1,8 +1,9 @@
 require 'test_helper'
 require 'application_system_test_case'
+require_relative 'flatpickr_test_helper'
 
 class WelcomeIndexTest < ApplicationSystemTestCase
-  include FlatpickrHelper
+  include FlatpickrTestHelper
 
   setup do
     create(:setting)
@@ -20,22 +21,7 @@ class WelcomeIndexTest < ApplicationSystemTestCase
       choose('指定')
     end
 
-    target_id = 'channel_browse_date'
-    assert_selector(css_id_selector(target_id))
-
-    execute_script(javascript_with_fp(target_id, <<~JS))
-      fp.setDate('2021-01-02', true);
-    JS
-
-    assert_equal('2021-01-02', find_by_id(target_id).value)
-
-    find_by_id(flatpickr_id(target_id, 'toggle')).click
-    assert(flatpickr_open?(target_id), 'カレンダーアイコンをクリックするとFlatpickrが開く')
-
-    sleep(0.5)
-
-    find_by_id(flatpickr_id(target_id, 'toggle')).click
-    refute(flatpickr_open?(target_id), 'カレンダーアイコンをクリックするとFlatpickrが閉じる')
+    assert_date_picker_work('channel_browse_date')
   end
 
   data(
@@ -50,21 +36,7 @@ class WelcomeIndexTest < ApplicationSystemTestCase
     click_link('検索')
     assert_selector('#search.active')
 
-    assert_selector(css_id_selector(target_id))
-
-    execute_script(javascript_with_fp(target_id, <<~JS))
-      fp.setDate('2021-01-02', true);
-    JS
-
-    assert_equal('2021-01-02', find_by_id(target_id).value)
-
-    find_by_id(flatpickr_id(target_id, 'toggle')).click
-    assert(flatpickr_open?(target_id), 'カレンダーアイコンをクリックするとFlatpickrが開く')
-
-    sleep(0.5)
-
-    find_by_id(flatpickr_id(target_id, 'toggle')).click
-    refute(flatpickr_open?(target_id), 'カレンダーアイコンをクリックするとFlatpickrが閉じる')
+    assert_date_picker_work(target_id)
   end
 
   test 'minDate of #message_search_until should be set' do
@@ -117,21 +89,7 @@ class WelcomeIndexTest < ApplicationSystemTestCase
     click_link('期間')
     assert_selector('#period.active')
 
-    assert_selector(css_id_selector(target_id))
-
-    execute_script(javascript_with_fp(target_id, <<~JS))
-      fp.setDate('2021-01-02T03:45:21T09:00', true);
-    JS
-
-    assert_equal('2021-01-02 03:45:21', find_by_id(target_id).value)
-
-    find_by_id(flatpickr_id(target_id, 'toggle')).click
-    assert(flatpickr_open?(target_id), 'カレンダーアイコンをクリックするとFlatpickrが開く')
-
-    sleep(0.5)
-
-    find_by_id(flatpickr_id(target_id, 'toggle')).click
-    refute(flatpickr_open?(target_id), 'カレンダーアイコンをクリックするとFlatpickrが閉じる')
+    assert_datetime_picker_work(target_id)
   end
 
   test 'minDate of #message_period_until should be set' do
@@ -220,24 +178,5 @@ class WelcomeIndexTest < ApplicationSystemTestCase
       return fp.config.maxDate;
     JS
     assert_equal(Time.new(2021, 1, 2, 3, 45, 21, '+09:00'), min_date)
-  end
-
-  private
-
-  def css_id_selector(id)
-    "##{id}"
-  end
-
-  def javascript_with_fp(element_id, code)
-    <<~JS
-      let fp = document.getElementById("#{flatpickr_id(element_id)}")._flatpickr;
-      #{code}
-    JS
-  end
-
-  def flatpickr_open?(element_id)
-    execute_script(javascript_with_fp(element_id, <<~JS))
-      return fp.isOpen;
-    JS
   end
 end
