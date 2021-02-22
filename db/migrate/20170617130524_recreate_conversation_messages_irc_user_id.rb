@@ -10,7 +10,11 @@ class RecreateConversationMessagesIrcUserId < ActiveRecord::Migration[4.2]
     end
 
     print_phase('外部キー制約の削除: channel_last_speeches -> conversation_messages')
-    remove_foreign_key :channel_last_speeches, :conversation_messages
+    if foreign_key_exists?(:channel_last_speeches, :conversation_messages)
+      remove_foreign_key :channel_last_speeches, :conversation_messages
+    else
+      puts('channel_last_speeches -> conversation_messages の外部キー制約は存在しません')
+    end
 
     print_phase('テーブルの変更')
     change_table :conversation_messages do |t|
