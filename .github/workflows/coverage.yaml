@@ -37,8 +37,7 @@ jobs:
       - name: Setup database
         run: |
           cp config/database.yml.github_actions config/database.yml
-          bin/rails db:create
-          bin/rails db:migrate
+          bin/rails db:setup
       - uses: paambaati/codeclimate-action@v2.7.5
         env:
           CC_TEST_REPORTER_ID: 74e589ede57e23f089cbbd2eee75be23a93b5ace7b5cfce58213cd3f21447147

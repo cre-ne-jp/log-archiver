@@ -42,7 +42,6 @@ jobs:
       - name: Setup database
         run: |
           cp config/database.yml.github_actions config/database.yml
-          bin/rails db:create
-          bin/rails db:migrate
+          bin/rails db:setup
       - name: Run tests
         run: bin/rails test
