@@ -17,6 +17,10 @@ jobs:
           - 2.5
           - 2.6
           - 2.7
+          - 3.0
+        mroonga:
+          - latest
+          - mysql80-latest
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
     env:
@@ -24,7 +28,7 @@ jobs:
       TZ: Asia/Tokyo
     services:
       db:
-        image: groonga/mroonga:latest
+        image: groonga/mroonga:${{ matrix.mroonga }}
         ports:
           - 33060:3306
       redis:
