@@ -19,7 +19,7 @@ jobs:
       TZ: Asia/Tokyo
     services:
       db:
-        image: groonga/mroonga:mysql5732_mroonga1010
+        image: groonga/mroonga:latest
         ports:
           - 33060:3306
       redis:
