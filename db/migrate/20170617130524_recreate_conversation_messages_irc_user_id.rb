@@ -9,6 +9,9 @@ class RecreateConversationMessagesIrcUserId < ActiveRecord::Migration[4.2]
       id_irc_user_id_pairs[cm.irc_user_id] << cm.id
     end
 
+    print_phase('外部キー制約の削除: channel_last_speeches -> conversation_messages')
+    remove_foreign_key :channel_last_speeches, :conversation_messages
+
     print_phase('テーブルの変更')
     change_table :conversation_messages do |t|
       t.remove :irc_user_id
@@ -22,6 +25,11 @@ class RecreateConversationMessagesIrcUserId < ActiveRecord::Migration[4.2]
 
     print_phase('irc_user_id のインデックスの再構築')
     add_index :conversation_messages, :irc_user_id
+
+    print_phase('外部キー制約の復元: channel_last_speeches -> conversation_messages')
+    add_foreign_key(:channel_last_speeches,
+                    :conversation_messages,
+                    name: 'conversation_message_id')
   end
 
   def down
