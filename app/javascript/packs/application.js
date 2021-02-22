@@ -19,6 +19,7 @@ import "./use_flatpickr";
 
 const moduleFileMap = {
   "messages/searches/show": "messages/searches/show",
+  "messages/periods/show": "messages/periods/show",
   "welcome/index": "welcome/index",
 };
 
