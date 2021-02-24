@@ -40,7 +40,7 @@ module FlatpickrTestHelper
 
   def javascript_with_fp(element_id, code)
     <<~JS
-      let fp = document.getElementById("#{flatpickr_id(element_id)}")._flatpickr;
+      const fp = document.getElementById("#{flatpickr_id(element_id)}")._flatpickr;
       #{code}
     JS
   end
