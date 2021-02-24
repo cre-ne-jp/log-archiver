@@ -18,15 +18,24 @@ module FlatpickrTestHelper
       fp.setDate("#{set_date_value}", true);
     JS
 
-    assert_equal(expected_text, find_by_id(target_id).value)
+    target_input = find_by_id(target_id)
+    assert_equal(expected_text, target_input.value, '値が設定される')
 
-    find_by_id(flatpickr_id(target_id, 'toggle')).click
+    toggle_button = find_by_id(flatpickr_id(target_id, 'toggle'))
+
+    toggle_button.click
     assert(flatpickr_open?(target_id), 'カレンダーアイコンをクリックするとFlatpickrが開く')
 
     sleep(0.5)
 
-    find_by_id(flatpickr_id(target_id, 'toggle')).click
+    toggle_button.click
     refute(flatpickr_open?(target_id), 'カレンダーアイコンをクリックするとFlatpickrが閉じる')
+
+    sleep(0.5)
+
+    clear_button = find_by_id(flatpickr_id(target_id, 'clear'))
+    clear_button.click
+    assert_equal('', target_input.value, '値がクリアされる')
   end
 
   def javascript_with_fp(element_id, code)
