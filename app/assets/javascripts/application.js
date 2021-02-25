@@ -21,7 +21,7 @@
 //= require message_list_style
 //= require_tree .
 
-/*global $, logArchiver */
+/*global logArchiver */
 
 /**
  * コントローラ名からオブジェクトを取得してフックを実行する。

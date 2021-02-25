@@ -15,8 +15,6 @@ SimpleCov.start do
   add_filter('/vendor/')
 end
 
-require 'application_system_test_case'
-
 require 'factory_bot_rails'
 
 class ActiveSupport::TestCase

@@ -4,4 +4,9 @@ class Quit < Message
   def to_tiarra_format
     "#{timestamp.strftime('%T')} ! #{nick} (#{message})"
   end
+
+  # @return [Boolean] 参加中の全チャンネルに同時に送られるメッセージか？
+  def broadcast?
+    true
+  end
 end

@@ -5,6 +5,7 @@
     "flatpickr": "^4.6.9"
   },
   "devDependencies": {
+    "eslint": "^7.20.0",
     "webpack-dev-server": "^3.11.2"
   }
 }

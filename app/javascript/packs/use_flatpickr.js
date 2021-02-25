@@ -10,4 +10,11 @@ document.addEventListener("DOMContentLoaded", () => {
   flatpickr(".flatpickr-date", {
     wrap: true
   });
+
+  flatpickr(".flatpickr-datetime", {
+    wrap: true,
+    enableTime: true,
+    enableSeconds: true,
+    dateFormat: "Y-m-d H:i:S",
+  });
 });

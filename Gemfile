@@ -45,9 +45,9 @@ gem 'meta-tags'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
-# Use Unicorn as the app server
-gem 'unicorn'
-gem 'unicorn-worker-killer'
+# Use Puma as the app server
+gem 'puma'
+gem 'puma_worker_killer'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -129,8 +129,6 @@ group :test do
   gem 'selenium-webdriver'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
-
-  gem 'webrick'
 end
 
 group :development do

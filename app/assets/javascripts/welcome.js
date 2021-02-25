@@ -1,4 +1,4 @@
-/*global $, logArchiver */
+/*global logArchiver */
 
 (function () {
   'use strict';

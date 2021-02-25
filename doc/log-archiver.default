@@ -6,34 +6,46 @@ RAILS_ENV=production
 # データベースのパスワード
 LOG_ARCHIVER_DATABASE_PASSWORD=
 
+# PORT
+# Puma が接続を待機するポート番号
+#PORT=8081
+
 # SECRET_KEY_BASE
 # セッションを安全に保つための鍵になる文字列です。
 # 以下のコマンドを実行することで生成できます。
 # bundle exec bin/rails secret
 SECRET_KEY_BASE=
 
-# UNICORN_AUTO_RESTART_VERBOSE
-# 以下の設定による自動再起動までのログを詳細に出力するかの設定
-# true にすると、詳細出力します。
-#UNICORN_AUTO_RESTART_VERBOSE=false
+# WEB_CONCURRENCY
+# Puma worker のプロセス数
+#WEB_CONCURRENCY=3
 
-# UNICORN_MAX_REQUESTS_MIN
-# UNICORN_MAX_REQUESTS_MAX
-# Unicorn プロセスを、リクエスト数により自動的に再起動する設定
+# RAILS_MIN_THREADS
+# RAILS_MAX_THREADS
+# Puma スレッドを用意する数
 # ランダムにプロセスを再起動する最小・最大回数を設定します。
-#UNICORN_MAX_REQUESTS_MIN=1024
-#UNICORN_MAX_REQUESTS_MAX=2048
+#RAILS_MIN_THREADS=5
+#RAILS_MAX_THREADS=5
 
-# UNICORN_OOM_MIN
-# UNICORN_OOM_MAX
-# Unicorn プロセスを、メモリ使用量によって自動的に再起動する設定
-# メモリを何メガバイト使用したときに再起動するかを設定します。
-#UNICORN_OOM_MIN=192
-#UNICORN_OOM_MAX=256
+# PUMA_WORKER_MEMORY_LIMIT
+# メモリの最大使用容量 (MB)
+#PUMA_WORKER_MEMORY_LIMIT=1024
 
-# UNICORN_OOM_CHECK_CYCLE
-# Oom の閾値に達しているかを何回のアクセスごとに調べるかを設定します。
-#UNICORN_OOM_CHECK_CYCLE=16
+# PUMA_WORKER_CHECK_FREQUENCY
+# メモリ使用量を何秒毎に確認するか
+#PUMA_WORKER_CHECK_FREQUENCY=5
+
+# PUMA_WORKER_PERCENT_USAGE
+# worker プロセスを再起動するメモリ使用量に対する割合の閾値
+#PUMA_WORKER_PERCENT_USAGE=0.65
+
+# PUMA_WORKER_RESTART_FREQUENCY
+# メモリ使用量にか変わりなく、順番に worker プロセスを再起動する頻度(秒数)
+#PUMA_WORKER_RESTART_FREQUENCY=$(( 24 * 3600 ))
+
+# PUMA_WORKER_REAPER_STATUS_LOGS
+# プロセス監視ログを出力するか
+#PUMA_WORKER_REAPER_STATUS_LOGS=false
 
 # REDIS_URL
 # バックグラウンドジョブの実行に必要な redis データベースへの接続設定

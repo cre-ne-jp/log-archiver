@@ -1,5 +1,5 @@
 <% whole_id = "#{form.object_name}_#{id}" %>
-<div id="<%= flatpickr_id(whole_id) %>" class="input-group flatpickr-date">
+<div id="<%= flatpickr_id(whole_id) %>" class="input-group flatpickr-datetime">
   <%= form.text_field(id, class: 'form-control', 'data-input' => true) %>
   <span id="<%= flatpickr_id(whole_id, 'toggle') %>" class="input-group-addon btn" data-toggle>
     <%= fa_icon('calendar') %>

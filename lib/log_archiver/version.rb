@@ -2,5 +2,5 @@
 
 module LogArchiver
   # Log Archiverのバージョン
-  Version = '1.1.1'
+  Version = '1.2.0'
 end

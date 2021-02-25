@@ -18,30 +18,31 @@
 import "./use_flatpickr";
 
 const moduleFileMap = {
-  welcome: "welcome",
+  "messages/searches/show": "messages/searches/show",
+  "messages/periods/show": "messages/periods/show",
+  "welcome/index": "welcome/index",
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const bodyData = document.body.dataset;
-  const controller = bodyData.controller.replace(/\//, "_");
-  const action = bodyData.action;
+  const view = document.body.dataset.view;
 
-  const moduleFile = moduleFileMap[controller];
+  const moduleFile = moduleFileMap[view];
   if (moduleFile === undefined) {
     return;
   }
 
-  let activeController = undefined;
+  let onLoad;
   try {
     const module = await import(`./${moduleFile}.js`);
-    activeController = module.default;
+    onLoad = module.default;
   } catch (e) {
-    console.log(`${controller}: ${e}`);
+    console.log(`${view}: ${e}`);
     return;
   }
 
-  const activeActionProc = activeController[action];
-  if (typeof activeActionProc === 'function') {
-    activeActionProc();
+  if (typeof onLoad === 'function') {
+    onLoad();
+  } else {
+    console.log(`${view}: onLoad is not a function`);
   }
 });
