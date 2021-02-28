@@ -2,7 +2,11 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.2",
     "@rails/webpacker": "5.2.1",
-    "flatpickr": "^4.6.9"
+    "bootstrap": "^4.6.0",
+    "bootswatch": "^4.6.0",
+    "flatpickr": "^4.6.9",
+    "jquery": "^3.5.1",
+    "popper.js": "^1.16.1"
   },
   "devDependencies": {
     "eslint": "^7.20.0",
