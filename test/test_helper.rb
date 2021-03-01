@@ -1,10 +1,6 @@
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 
-# CI環境では事前にテスト用データベースのマイグレーションを行うため
-# テスト前のデータベースの準備を行わないようにする
-ActiveRecord::Base.maintain_test_schema = false
-
 require 'test/unit/rails/test_help'
 require 'active_support/testing/time_helpers'
 
