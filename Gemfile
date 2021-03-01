@@ -23,6 +23,9 @@ gem 'uglifier', '>= 1.3'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
+# Use Webpack to manage app-like JavaScript modules in Rails
+gem 'webpacker', '~> 5.x'
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
@@ -55,8 +58,6 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 # カレンダー
 gem "simple_calendar", "~> 2.0"
-gem 'momentjs-rails', '~> 2.15'
-gem 'bootstrap3-datetimepicker-rails', '~> 4.17'
 
 # Markdown パーサ
 gem 'redcarpet'
@@ -113,6 +114,8 @@ group :development, :test do
 end
 
 group :test do
+  gem 'test-unit-rails'
+
   gem 'rake'
   gem 'rubocop'
   gem 'rubocop-rails'
@@ -121,6 +124,12 @@ group :test do
   # Stop upgrading SimpleCov until the following issue will be resolved.
   # https://github.com/codeclimate/test-reporter/issues/418
   gem 'simplecov', '~> 0.10', '< 0.18'
+
+  # Adds support for Capybara system testing and selenium driver
+  gem 'capybara', '>= 3.26'
+  gem 'selenium-webdriver'
+  # Easy installation and use of web drivers to run system tests with browsers
+  gem 'webdrivers'
 end
 
 group :development do

@@ -1,9 +1,8 @@
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 
-require 'rails/test_help'
-
-require 'minitest/mock'
+require 'test/unit/rails/test_help'
+require 'active_support/testing/time_helpers'
 
 require 'simplecov'
 # カバレッジ測定開始
@@ -11,9 +10,6 @@ SimpleCov.start do
   # ライブラリを無視する
   add_filter('/vendor/')
 end
-
-require 'minitest/reporters'
-Minitest::Reporters.use!
 
 require 'factory_bot_rails'
 
@@ -23,6 +19,8 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
   include FactoryBot::Syntax::Methods
+
+  include ActiveSupport::Testing::TimeHelpers
 end
 
 class ActionDispatch::IntegrationTest

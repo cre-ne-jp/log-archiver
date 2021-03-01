@@ -16,16 +16,12 @@
 //= require jquery-ui/effects/effect-highlight
 //= require bootstrap-sprockets
 //= require js.cookie
-//= require moment
-//= require moment/ja
-//= require bootstrap-datetimepicker
-//= require ./datetimepicker
 //= require Chart.min
 //= require log_archiver
 //= require message_list_style
 //= require_tree .
 
-/*global $, logArchiver */
+/*global logArchiver */
 
 /**
  * コントローラ名からオブジェクトを取得してフックを実行する。
