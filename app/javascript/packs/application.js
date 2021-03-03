@@ -27,7 +27,6 @@ application.load(definitionsFromContext(context));
 const moduleFileMap = {
   "messages/searches/show": "messages/searches/show",
   "messages/periods/show": "messages/periods/show",
-  "welcome/index": "welcome/index",
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
