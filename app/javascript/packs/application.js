@@ -17,6 +17,13 @@
 
 import "./use_flatpickr";
 
+import { Application } from "stimulus";
+import { definitionsFromContext } from "stimulus/webpack-helpers";
+
+const application = Application.start();
+const context = require.context("./controllers", true, /\.js$/);
+application.load(definitionsFromContext(context));
+
 const moduleFileMap = {
   "messages/searches/show": "messages/searches/show",
   "messages/periods/show": "messages/periods/show",
