@@ -5,9 +5,10 @@ $fa-font-path: '@fortawesome/fontawesome-free/webfonts';
 @import '@fortawesome/fontawesome-free/scss/solid';
 @import '@fortawesome/fontawesome-free/scss/brands';
 
-@import 'bootswatch/dist/flatly/variables';
-@import 'bootstrap/scss/bootstrap';
-@import 'bootswatch/dist/flatly/bootswatch';
+@import 'bootswatch/flatly/variables';
+//@import 'bootstrap/dist/css/bootstrap';
+@import 'bootswatch/flatly/bootstrap';
+@import 'bootswatch/flatly/bootswatch';
 
 @import "custom";
 @import "custom_flatpickr";
