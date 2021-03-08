@@ -23,30 +23,3 @@ import { definitionsFromContext } from "stimulus/webpack-helpers";
 const application = Application.start();
 const context = require.context("./controllers", true, /\.js$/);
 application.load(definitionsFromContext(context));
-
-const moduleFileMap = {
-};
-
-document.addEventListener("DOMContentLoaded", async () => {
-  const view = document.body.dataset.view;
-
-  const moduleFile = moduleFileMap[view];
-  if (moduleFile === undefined) {
-    return;
-  }
-
-  let onLoad;
-  try {
-    const module = await import(`./${moduleFile}.js`);
-    onLoad = module.default;
-  } catch (e) {
-    console.log(`${view}: ${e}`);
-    return;
-  }
-
-  if (typeof onLoad === 'function') {
-    onLoad();
-  } else {
-    console.log(`${view}: onLoad is not a function`);
-  }
-});
