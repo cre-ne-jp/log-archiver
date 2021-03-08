@@ -32,7 +32,7 @@ $(function () {
 
   var $body = $('body');
   var controller = $body.data('rails-controller').replace(/\//, '_');
-  var action = $body.data('action');
+  var action = $body.data('rails-action');
   var activeController = logArchiver[controller];
 
   if (activeController !== undefined) {
