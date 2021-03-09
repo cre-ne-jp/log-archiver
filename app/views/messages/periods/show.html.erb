@@ -79,7 +79,7 @@
         </div>
         <div class="panel-body">
           <% channel_option_tags = Channel.name_identifier_pairs %>
-          <%= form_for(@message_period, url: messages_period_path) do |f| %>
+          <%= form_for(@message_period, url: messages_period_path, html: { 'data-controller': 'message-period-form' }) do |f| %>
             <div class="form-group">
               <%= f.label(:channels) %>
               <%= f.select(:channels, channel_option_tags, {}, multiple: true, class: 'form-control', size: 5) %>

@@ -25,7 +25,6 @@ const context = require.context("./controllers", true, /\.js$/);
 application.load(definitionsFromContext(context));
 
 const moduleFileMap = {
-  "messages/periods/show": "messages/periods/show",
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
