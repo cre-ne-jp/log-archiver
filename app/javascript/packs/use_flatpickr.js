@@ -8,11 +8,13 @@ flatpickr.localize(flatpickrJa);
 
 document.addEventListener("DOMContentLoaded", () => {
   flatpickr(".flatpickr-date", {
-    wrap: true
+    wrap: true,
+    allowInput: true,
   });
 
   flatpickr(".flatpickr-datetime", {
     wrap: true,
+    allowInput: true,
     enableTime: true,
     enableSeconds: true,
     dateFormat: "Y-m-d H:i:S",
