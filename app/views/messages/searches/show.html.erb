@@ -1,4 +1,3 @@
-<% provide(:view, 'messages/searches/show') %>
 <% title_value = "検索結果：#{@message_search.query}" %>
 <% title(title_value) %>
 <div class="container main-container">
@@ -51,7 +50,7 @@
         </div>
         <div class="panel-body">
           <% channel_option_tags = Channel.name_identifier_pairs %>
-          <%= form_for(@message_search, url: messages_search_path) do |f| %>
+          <%= form_for(@message_search, url: messages_search_path, html: { 'data-controller': 'message-search-form' }) do |f| %>
             <div class="form-group">
               <%= f.label(:query) %>
               <%= f.search_field(:query, class: 'form-control') %>
