@@ -16,64 +16,73 @@
             <li class="active"><%= @date.day %>日</li>
           </ol>
 
-          <article data-controller="message-filter" data-message-filter-message-list-style-value="<%= @browse_day.style %>">
+          <article
+            <% if @num_of_messages > 0 %>
+              data-controller="message-filter" data-message-filter-message-list-style-value="<%= @browse_day.style %>"
+            <% end %>
+          >
+
             <div class="page-header">
               <h1><%= @channel.name_with_prefix %> <%= date_str %></h1>
             </div>
 
-            <div class="well">
-              <table class="day-summary">
-                <tbody>
-                  <tr class="day-summary-conversation-messages-count">
-                    <th scope="row">発言数</th>
-                    <td><%= @conversation_messages.length %></td>
-                  </tr>
-                  <% unless @privmsg_keyword_relationships.empty? %>
-                    <tr id="keyword-list" class="day-summary-keyword-list">
-                      <th scope="row">キーワード</th>
-                      <td>
-                        <ul class="list-unstyled">
-                          <% @keywords_privmsgs_for_header.each do |keyword, privmsgs| %>
-                            <li>
-                              <%= link_to(sanitize(keyword.display_title), keyword, class: 'channel-day-keyword-link') %>
-                              <% privmsgs.each do |m| %>
-                                <%= link_to(m.timestamp.strftime('%T'), "##{m.fragment_id}", class: 'keyword-list-time') %>
-                              <% end %>
-                            </li>
-                          <% end %>
-                        </ul>
-                      </td>
-                    </tr>
-                  <% end %>
-                  <%= render('shared/message_filter') %>
-                </tbody>
-              </table>
-            </div>
-
-            <% if @browse_prev_day || @browse_next_day %>
-              <div class="row">
-                <div class="col-xs-6">
-                  <%= render('prev_day') %>
-                </div>
-                <div class="col-xs-6">
-                  <%= render('next_day') %>
-                </div>
-              </div>
-            <% end %>
-
-            <ul class="nav nav-tabs">
-              <li role="presentation" id="message-list-style-normal-tab" class="<%= nav_tab_class(@browse_day.is_style_normal?) %>"><%= link_to('通常表示', @browse_day.is_style_normal? ? '#' : @browse_day_normal.path) %></li>
-              <li role="presentation" id="message-list-style-raw-tab" class="<%= nav_tab_class(@browse_day.is_style_raw?) %>"><%= link_to('生ログ', @browse_day.is_style_raw? ? '#' : @browse_day_raw.path) %></li>
-            </ul>
-
-            <% if @browse_day.is_style_raw? %>
-              <div class="raw-log message-list" data-message-filter-target="messageList">
-                <%= render(partial: 'raw_message', collection: @sorted_messages, as: :m) %>
-              </div>
+            <% if @num_of_messages <= 0 %>
+              <p>該当するメッセージは見つかりませんでした。</p>
             <% else %>
-              <%= render('shared/message_list', messages: @sorted_messages, privmsg_keyword_relationships: @privmsg_keyword_relationships, show_channel: false, style: :normal) %>
+              <div class="well">
+                <table class="day-summary">
+                  <tbody>
+                    <tr class="day-summary-conversation-messages-count">
+                      <th scope="row">発言数</th>
+                      <td><%= @conversation_messages.length %></td>
+                    </tr>
+                    <% unless @privmsg_keyword_relationships.empty? %>
+                      <tr id="keyword-list" class="day-summary-keyword-list">
+                        <th scope="row">キーワード</th>
+                        <td>
+                          <ul class="list-unstyled">
+                            <% @keywords_privmsgs_for_header.each do |keyword, privmsgs| %>
+                              <li>
+                                <%= link_to(sanitize(keyword.display_title), keyword, class: 'channel-day-keyword-link') %>
+                                <% privmsgs.each do |m| %>
+                                  <%= link_to(m.timestamp.strftime('%T'), "##{m.fragment_id}", class: 'keyword-list-time') %>
+                                <% end %>
+                              </li>
+                            <% end %>
+                          </ul>
+                        </td>
+                      </tr>
+                    <% end %>
+                    <%= render('shared/message_filter') %>
+                  </tbody>
+                </table>
+              </div>
 
-              <div class="alert alert-info no-message-to-show" data-message-filter-target="noMessageToShow">表示するメッセージがありません。</div>
+              <% if @browse_prev_day || @browse_next_day %>
+                <div class="row">
+                  <div class="col-xs-6">
+                    <%= render('prev_day') %>
+                  </div>
+                  <div class="col-xs-6">
+                    <%= render('next_day') %>
+                  </div>
+                </div>
+              <% end %>
+
+              <ul class="nav nav-tabs">
+                <li role="presentation" id="message-list-style-normal-tab" class="<%= nav_tab_class(@browse_day.is_style_normal?) %>"><%= link_to('通常表示', @browse_day.is_style_normal? ? '#' : @browse_day_normal.path) %></li>
+                <li role="presentation" id="message-list-style-raw-tab" class="<%= nav_tab_class(@browse_day.is_style_raw?) %>"><%= link_to('生ログ', @browse_day.is_style_raw? ? '#' : @browse_day_raw.path) %></li>
+              </ul>
+
+              <% if @browse_day.is_style_raw? %>
+                <div class="raw-log message-list" data-message-filter-target="messageList">
+                  <%= render(partial: 'raw_message', collection: @sorted_messages, as: :m) %>
+                </div>
+              <% else %>
+                <%= render('shared/message_list', messages: @sorted_messages, privmsg_keyword_relationships: @privmsg_keyword_relationships, show_channel: false, style: :normal) %>
+
+                <div class="alert alert-info no-message-to-show" data-message-filter-target="noMessageToShow">表示するメッセージがありません。</div>
+              <% end %>
             <% end %>
           </article>
 

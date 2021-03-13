@@ -210,13 +210,6 @@ class MessageFilterTest < ApplicationSystemTestCase
     end
   end
 
-  # ファクトリーからオブジェクトを作成する
-  # @param [Array<Symbol>] ids ファクトリーIDの配列
-  # @return [Array<Object>] 作成されたオブジェクトの配列
-  def create_with_factory_ids(*ids)
-    ids.map { |id| create(id) }
-  end
-
   # 発言のメッセージを作る
   #
   # NOTICE 1件、PRIVMSG 3件、TOPIC 1件。
