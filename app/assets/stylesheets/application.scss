@@ -1,8 +1,13 @@
 // "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
+$fa-font-path: '@fortawesome/fontawesome-free/webfonts';
+@import '@fortawesome/fontawesome-free/scss/fontawesome';
+@import '@fortawesome/fontawesome-free/scss/regular';
+@import '@fortawesome/fontawesome-free/scss/solid';
+@import '@fortawesome/fontawesome-free/scss/brands';
+
 @import "bootstrap-sprockets";
 @import "variables";
 @import "bootstrap";
 @import "bootswatch";
-@import "font-awesome";
 
 @import "custom";
