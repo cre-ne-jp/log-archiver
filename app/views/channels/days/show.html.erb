@@ -24,12 +24,12 @@
             <div class="well">
               <table class="day-summary">
                 <tbody>
-                  <tr>
+                  <tr class="day-summary-conversation-messages-count">
                     <th scope="row">発言数</th>
                     <td><%= @conversation_messages.length %></td>
                   </tr>
                   <% unless @privmsg_keyword_relationships.empty? %>
-                    <tr id="keyword-list">
+                    <tr id="keyword-list" class="day-summary-keyword-list">
                       <th scope="row">キーワード</th>
                       <td>
                         <ul class="list-unstyled">
