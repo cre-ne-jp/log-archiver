@@ -9,7 +9,7 @@ class MessageFilterTest < ApplicationSystemTestCase
     keyword_init: true
   )
 
-  CONTROLLER_CLASS = '.message-visibility'
+  CONTROLLER_CLASS = '.message-filter'
   MESSAGE_LIST_CLASS = '.message-list'
   NO_MESSAGE_TEXT = '表示するメッセージがありません。'
 
