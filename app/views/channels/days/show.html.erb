@@ -16,7 +16,7 @@
             <li class="active"><%= @date.day %>日</li>
           </ol>
 
-          <article>
+          <article data-controller="message-filter" data-message-filter-message-list-style-value="<%= @browse_day.style %>">
             <div class="page-header">
               <h1><%= @channel.name_with_prefix %> <%= date_str %></h1>
             </div>
@@ -67,14 +67,14 @@
             </ul>
 
             <% if @browse_day.is_style_raw? %>
-              <div class="raw-log message-list">
+              <div class="raw-log message-list" data-message-filter-target="messageList">
                 <%= render(partial: 'raw_message', collection: @sorted_messages, as: :m) %>
               </div>
             <% else %>
               <%= render('shared/message_list', messages: @sorted_messages, privmsg_keyword_relationships: @privmsg_keyword_relationships, show_channel: false, style: :normal) %>
-            <% end %>
 
-            <div class="alert alert-info no-message-to-show">表示するメッセージがありません。</div>
+              <div class="alert alert-info no-message-to-show" data-message-filter-target="noMessageToShow">表示するメッセージがありません。</div>
+            <% end %>
           </article>
 
           <% if @browse_prev_day || @browse_next_day %>

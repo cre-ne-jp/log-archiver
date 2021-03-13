@@ -1,4 +1,6 @@
 class Notice < ConversationMessage
+  include MessageStimulusTarget::Speech
+
   validates :message, length: { minimum: 1 }
 
   # Tiarra のログ形式の文字列を返す

@@ -3,15 +3,15 @@
   <td>
     <form>
       <label class="checkbox-inline">
-        <input type="checkbox" id="show-speeches" name="show-speeches" checked />
+        <input type="checkbox" id="show-speeches" name="show-speeches" data-message-filter-target="showSpeeches" data-action="message-filter#updateShowSpeeches" checked />
         発言
       </label>
       <label class="checkbox-inline">
-        <input type="checkbox" id="show-nick" name="show-nick" checked />
+        <input type="checkbox" id="show-nicks" name="show-nicks" data-message-filter-target="showNicks" data-action="message-filter#updateShowNicks" checked />
         ニックネーム変更
       </label>
       <label class="checkbox-inline">
-        <input type="checkbox" id="show-join-part" name="show-join-part" />
+        <input type="checkbox" id="show-joins-parts" name="show-joins-parts" data-message-filter-target="showJoinsParts" data-action="message-filter#updateShowJoinsParts" />
         参加・退出
       </label>
     </form>
