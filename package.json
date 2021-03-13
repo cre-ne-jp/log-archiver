@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.2",
     "@rails/webpacker": "5.2.1",
     "flatpickr": "^4.6.9",
     "stimulus": "^2.0.0"
