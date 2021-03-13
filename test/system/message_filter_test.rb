@@ -27,9 +27,8 @@ class MessageFilterTest < ApplicationSystemTestCase
     create_join_part_messages
 
     date = Date.new(2014, 3, 20)
-    @browse = ChannelBrowse::Day.new(channel: @channel,
-                                     date: date,
-                                     style: :normal)
+    @browse = ChannelBrowse::Day.new(channel: @channel, date: date, style: :normal)
+    @browse_raw = ChannelBrowse::Day.new(channel: @channel, date: date, style: :raw)
     @messages_period_path = messages_period_path(
       channels: 'irc_test',
       since: '2014-03-20 00:00:00',
@@ -46,6 +45,10 @@ class MessageFilterTest < ApplicationSystemTestCase
     test_message_filter(@browse.path)
   end
 
+  test '日付ページ（生ログ）でメッセージの表示・非表示を切り替えられる' do
+    test_message_filter(@browse_raw.path, show_no_message_text: false)
+  end
+
   test '日付ページでメッセージ一覧が縞々になっている' do
     test_messages_striped(@browse.path)
   end
@@ -59,7 +62,7 @@ class MessageFilterTest < ApplicationSystemTestCase
   # メッセージの表示・非表示処理をテストする
   # @param [String] path 訪問するパス
   # @return [void]
-  def test_message_filter(path)
+  def test_message_filter(path, show_no_message_text: true)
     visit(path)
 
     # すべてチェックする
@@ -138,8 +141,12 @@ class MessageFilterTest < ApplicationSystemTestCase
     end
 
     within('.main-panel') do
-      assert_no_selector(MESSAGE_LIST_CLASS)
-      assert_text(NO_MESSAGE_TEXT)
+      if show_no_message_text
+        assert_no_selector(MESSAGE_LIST_CLASS)
+        assert_text(NO_MESSAGE_TEXT)
+      else
+        assert_no_text(NO_MESSAGE_TEXT)
+      end
     end
   end
 
@@ -149,7 +156,7 @@ class MessageFilterTest < ApplicationSystemTestCase
   def assert_message_count(expected_count)
     within(MESSAGE_LIST_CLASS) do
       expected_count.each_pair do |category, count|
-        assert_selector("tr.message-type-#{category}", count: count || 0)
+        assert_selector(".message-type-#{category}", count: count || 0)
       end
     end
   end

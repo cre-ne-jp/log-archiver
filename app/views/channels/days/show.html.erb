@@ -67,7 +67,7 @@
             </ul>
 
             <% if @browse_day.is_style_raw? %>
-              <div class="raw-log">
+              <div class="raw-log message-list">
                 <%= render(partial: 'raw_message', collection: @sorted_messages, as: :m) %>
               </div>
             <% else %>
