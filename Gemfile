@@ -75,8 +75,7 @@ gem 'friendly_id'
 gem 'simple_enum'
 
 # 認証
-# @todo https://github.com/Sorcery/sorcery/pull/241 が取り込まれたらmasterを指定しない
-gem 'sorcery', github: 'Sorcery/sorcery', branch: 'master'
+gem 'sorcery'
 
 # 並び替え
 gem 'ranked-model'
