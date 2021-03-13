@@ -1,14 +1,4 @@
 GIT
-  remote: https://github.com/Sorcery/sorcery.git
-  revision: 43efa3329e61d3fff8a5233d9efdc90db6820362
-  branch: master
-  specs:
-    sorcery (0.16.0)
-      bcrypt (~> 3.1)
-      oauth (~> 0.4, >= 0.4.4)
-      oauth2 (~> 1.0, >= 0.8.0)
-
-GIT
   remote: https://github.com/cre-ne-jp/rinku.git
   revision: 5da355a50ec64537a28f75b9cd76e9a0ad78616a
   branch: without-www
@@ -322,6 +312,10 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
+    sorcery (0.16.0)
+      bcrypt (~> 3.1)
+      oauth (~> 0.4, >= 0.4.4)
+      oauth2 (~> 1.0, >= 0.8.0)
     spring (2.1.1)
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
@@ -423,7 +417,7 @@ DEPENDENCIES
   simple_calendar (~> 2.0)
   simple_enum
   simplecov (~> 0.10, < 0.18)
-  sorcery!
+  sorcery
   spring
   sysexits
   test-unit-rails
@@ -434,4 +428,4 @@ DEPENDENCIES
   xmlrpc
 
 BUNDLED WITH
-   2.2.11
+   2.2.14
