@@ -41,20 +41,23 @@ class MessageFilterTest < ApplicationSystemTestCase
     ConversationMessage.delete_all
   end
 
+  data(
+    '日付ページ' => [->_ { @browse.path }, true],
+    '日付ページ生ログ' => [->_ { @browse_raw.path }, false],
+    '期間指定検索結果' => [->_ { @messages_period_path }, true],
+  )
   test '日付ページでメッセージの表示・非表示を切り替えられる' do
-    test_message_filter(@browse.path)
+    path_proc, show_no_message_text = data
+    test_message_filter(instance_eval(&path_proc), show_no_message_text: show_no_message_text)
   end
 
-  test '日付ページ（生ログ）でメッセージの表示・非表示を切り替えられる' do
-    test_message_filter(@browse_raw.path, show_no_message_text: false)
-  end
-
-  test '日付ページでメッセージ一覧が縞々になっている' do
-    test_messages_striped(@browse.path)
-  end
-
-  test '期間指定検索ページでメッセージ一覧が縞々になっている' do
-    visit(@messages_period_path)
+  data(
+    '日付ページ' => ->_ { @browse.path },
+    '期間指定検索結果' => ->_ { @messages_period_path },
+  )
+  test 'メッセージ一覧が縞々になっている' do
+    path_proc = data
+    test_messages_striped(instance_eval(&path_proc))
   end
 
   private
