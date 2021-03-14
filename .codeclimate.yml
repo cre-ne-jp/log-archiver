@@ -17,9 +17,6 @@ plugins:
       - javascript
       - python
       - php
-  eslint:
-    enabled: true
-    channel: "eslint-7"
   fixme:
     enabled: true
   rubocop:
