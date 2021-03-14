@@ -10,7 +10,9 @@
 
           <article
             <% unless @message_period_result.messages.empty? %>
-              data-controller="message-filter" data-message-filter-message-list-style-value="normal"
+              data-controller="message-filter"
+              data-message-filter-message-list-style-value="normal"
+              data-message-filter-messages-visible-value="{ speeches: true, nicks: true, joinsParts: false }"
             <% end %>
           >
             <div class="page-header">

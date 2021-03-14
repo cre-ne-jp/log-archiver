@@ -18,7 +18,9 @@
 
           <article
             <% if @num_of_messages > 0 %>
-              data-controller="message-filter" data-message-filter-message-list-style-value="<%= @browse_day.style %>"
+              data-controller="message-filter"
+              data-message-filter-message-list-style-value="<%= @browse_day.style %>"
+              data-message-filter-messages-visible-value="{ speeches: true, nicks: true, joinsParts: false }"
             <% end %>
           >
 

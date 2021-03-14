@@ -6,12 +6,8 @@ class MessageFilterController extends Controller {
   static values = {
     // メッセージ一覧の表示スタイル
     messageListStyle: String,
-    // 発言を表示するか
-    showSpeeches: Boolean,
-    // ニックネーム変更を表示するか
-    showNicks: Boolean,
-    // 参加・退出を表示するか
-    showJoinsParts: Boolean,
+    // 各種類のメッセージの可視性
+    visible: Object,
   };
 
   static targets = [
@@ -38,62 +34,73 @@ class MessageFilterController extends Controller {
   connect() {
     this.initializing = true;
 
-    this.updateShowSpeeches();
-    this.updateShowNicks();
-    this.updateShowJoinsParts();
+    this.updateVisible();
 
     this.initializing = false;
   }
 
-  showSpeechesValueChanged() {
-    this.setMessagesVisibility(this.speechMessageTargets, this.showSpeechesValue);
+  visibleValueChanged() {
+    // this.initializingが未定義の場合も呼ばれるので、falseとの厳密な比較が必要
+    if (this.initializing !== false) {
+      return;
+    }
+
+    // [対象オブジェクトの配列, 可視性]
+    const targetsVisibilityPairs = [
+      [this.speechMessageTargets, this.visibleValue.speeches],
+      [this.nickMessageTargets, this.visibleValue.nicks],
+      [this.joinPartMessageTargets, this.visibleValue.joinsParts],
+    ];
+
+    // メッセージの種類ごとに可視性を更新する
+    targetsVisibilityPairs.forEach(([targets, visible]) => {
+      targets.forEach(m => {
+        m.hidden = !visible;
+      });
+    });
+
+    this.updateViews();
   }
 
-  showNicksValueChanged() {
-    this.setMessagesVisibility(this.nickMessageTargets, this.showNicksValue);
-  }
-
-  showJoinsPartsValueChanged() {
-    this.setMessagesVisibility(this.joinPartMessageTargets, this.showJoinsPartsValue);
+  /**
+   * チェックボックスの値に合わせてメッセージの表示を更新する。
+   */
+  updateVisible() {
+    this.visibleValue = {
+      speeches: this.showSpeechesTarget.checked,
+      nicks: this.showNicksTarget.checked,
+      joinsParts: this.showJoinsPartsTarget.checked,
+    };
   }
 
   /**
    * 「発言」チェックボックスの値に合わせてメッセージの表示を更新する。
    */
   updateShowSpeeches() {
-    this.showSpeechesValue = this.showSpeechesTarget.checked;
+    this.visibleValue = {
+      ...this.visibleValue,
+      speeches: this.showSpeechesTarget.checked,
+    };
   }
 
   /**
    * 「ニックネーム変更」チェックボックスの値に合わせてメッセージの表示を更新する。
    */
   updateShowNicks() {
-    this.showNicksValue = this.showNicksTarget.checked;
+    this.visibleValue = {
+      ...this.visibleValue,
+      nicks: this.showNicksTarget.checked,
+    };
   }
 
   /**
    * 「参加・退出」チェックボックスの値に合わせてメッセージの表示を更新する。
    */
   updateShowJoinsParts() {
-    this.showJoinsPartsValue = this.showJoinsPartsTarget.checked;
-  }
-
-  /**
-   * メッセージの表示・非表示を更新する。
-   * @param {HTMLElement[]} messages - メッセージ要素の配列。
-   * @param {boolean} visible - メッセージを表示するか。
-   */
-  setMessagesVisibility(messages, visible) {
-    // this.initializingが未定義の場合も呼ばれるので、falseとの厳密な比較が必要
-    if (this.initializing !== false) {
-      return;
-    }
-
-    messages.forEach(m => {
-      m.hidden = !visible;
-    });
-
-    this.updateViews();
+    this.visibleValue = {
+      ...this.visibleValue,
+      joinsParts: this.showJoinsPartsTarget.checked,
+    };
   }
 
   /**
