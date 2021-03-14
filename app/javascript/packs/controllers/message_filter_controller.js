@@ -107,7 +107,7 @@ class MessageFilterController extends Controller {
    * 表示更新処理。
    */
   updateViews() {
-    if (this.messageListStyleValue == "normal") {
+    if (this.messageListStyleValue === "normal") {
       this.updateNormalStyleViews();
     }
   }
