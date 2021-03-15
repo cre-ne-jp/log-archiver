@@ -6,6 +6,10 @@ FactoryBot.define do
     nick { 'rgrb' }
     message { 'Bye!' }
 
+    factory :quit_rgrb_20140320112233 do
+      timestamp { '2014-03-20 11:22:33 +0900' }
+    end
+
     factory :quit_rgrb_channel_100_20200321112233 do
       association :channel, factory: :channel_100
       timestamp { '2020-03-21 11:22:33 +0900' }

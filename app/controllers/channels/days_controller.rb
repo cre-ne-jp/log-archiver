@@ -113,6 +113,8 @@ class Channels::DaysController < ApplicationController
     set_prev_link!(@browse_prev_day)
     set_next_link!(@browse_next_day)
 
+    @num_of_messages = messages.length + @conversation_messages.length
+
     whole_messages =
       if @browse_day.is_style_raw?
         HourSeparator.for_day_browse(@date) + messages + @conversation_messages

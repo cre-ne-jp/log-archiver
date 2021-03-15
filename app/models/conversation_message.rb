@@ -3,6 +3,7 @@
 class ConversationMessage < ApplicationRecord
   include MessageDigest
   include MessageScope
+  include MessageStimulusTarget::Uncategorized
 
   before_save :refresh_digest!
 

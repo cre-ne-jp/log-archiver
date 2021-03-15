@@ -3,7 +3,7 @@
 <% when HourSeparator %>
   <div class="hour-separator"><%= link_to(m.timestamp.strftime('%Y/%m/%d %T'), "##{anchor}", id: anchor) %></div>
 <% when Message, ConversationMessage %>
-  <div class="message message-type-<%= m.type.downcase %>">
+  <div class="message message-type-<%= m.type.downcase %>" data-message-filter-target="message <%= m.stimulus_target %>">
     <span class="message-time"><%= link_to(m.timestamp.strftime('%T'), "##{anchor}", id: anchor) %></span>
     <% case m %>
     <% when Join %>

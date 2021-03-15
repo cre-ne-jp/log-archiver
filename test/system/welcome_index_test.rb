@@ -163,7 +163,7 @@ class WelcomeIndexTest < ApplicationSystemTestCase
 
     click_button('検索')
 
-    # キーワードやニックネームを入力せずに検索するので、
+    # チャンネルや期間を入力せずに検索するので、
     # エラーが発生するはず
     assert_selector('#error-explanation')
 
