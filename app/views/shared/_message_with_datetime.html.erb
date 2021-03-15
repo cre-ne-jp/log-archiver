@@ -1,6 +1,6 @@
 <% anchor = m.fragment_id %>
 <% browse_day = ChannelBrowse::Day.new(channel: m.channel, date: m.timestamp.to_date) %>
-<tr id="<%= anchor %>" class="message message-type-<%= m.type.downcase %>">
+<tr id="<%= anchor %>" class="message message-type-<%= m.type.downcase %>" data-message-filter-target="message <%= m.stimulus_target %>">
   <td class="message-datetime"><%= link_to(m.timestamp.strftime('%F %T'), browse_day.path(anchor: anchor)) %></td>
   <% if show_channel %>
     <td class="message-channel">

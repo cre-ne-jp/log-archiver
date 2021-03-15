@@ -6,6 +6,12 @@ FactoryBot.define do
     nick { 'rgrb' }
     message { 'Bye!' }
 
+    factory :part_role_20140320023601 do
+      association :irc_user, factory: :irc_user_role
+      timestamp { '2014-03-20 02:36:01 +0900' }
+      nick { 'Role' }
+    end
+
     # 期間指定用
     # 複数のチャンネルに送られ得る
     # => 同時刻でもまとめられない

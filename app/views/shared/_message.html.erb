@@ -1,6 +1,6 @@
 <% anchor = m.fragment_id %>
 <% browse_day = ChannelBrowse::Day.new(channel: m.channel, date: m.timestamp.to_date, style: style) %>
-<tr id="<%= anchor %>" class="message message-type-<%= m.type.downcase %><%= ' message-archived' if m.kind_of?(ArchivedConversationMessage) %>">
+<tr id="<%= anchor %>" class="message message-type-<%= m.type.downcase %><%= ' message-archived' if m.kind_of?(ArchivedConversationMessage) %>" data-message-filter-target="message <%= m.stimulus_target %>">
   <td class="message-time"><%= link_to(m.timestamp.strftime('%T'), browse_day.path(anchor: anchor)) %></td>
   <% if show_channel %>
     <td class="message-channel"><%= link_to(m.channel.name_with_prefix, m.channel) %></td>

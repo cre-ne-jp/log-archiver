@@ -1,4 +1,6 @@
 class Nick < Message
+  include MessageStimulusTarget::Nick
+
   validates :message, presence: true
 
   # 新しいニックネームを返す

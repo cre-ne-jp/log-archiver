@@ -1,4 +1,6 @@
 class Kick < Message
+  include MessageStimulusTarget::JoinPart
+
   validates :target, presence: true
 
   # Tiarra のログ形式の文字列を返す

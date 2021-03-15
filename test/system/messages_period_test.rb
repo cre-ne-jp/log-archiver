@@ -36,8 +36,19 @@ class MessagesPeriodTest < ApplicationSystemTestCase
     end
   end
 
-=begin
-  # TODO: このテストに合うように画面を作る
+  test '該当なしの場合に発言数および表示・非表示フィルタが表示されない' do
+    visit(
+      messages_period_url(channels: 'irc_test',
+                          since: '2000-04-01 00:00:00',
+                          until: '2000-04-02 00:00:00')
+    )
+
+    within('.main-panel') do
+      assert_no_selector('.day-summary-conversation-messages-count')
+      assert_no_selector('.message-filter')
+    end
+  end
+
   test '該当なしの場合にメッセージが表示される' do
     visit(
       messages_period_url(channels: 'irc_test',
@@ -49,7 +60,6 @@ class MessagesPeriodTest < ApplicationSystemTestCase
       assert_text('該当するメッセージは見つかりませんでした。')
     end
   end
-=end
 
   data(
     'since' => 'message_period_since',
