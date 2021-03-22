@@ -15,6 +15,15 @@
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
+// 新規に Turbolinks / webpacker 等を有効にして rails をインストールしたときに追加される
+//import Rails from "@rails/ujs"
+//import Turbolinks from "turbolinks"
+//import * as ActiveStorage from "@rails/activestorage"
+//import "channels"
+
+require("bootstrap");
+require("@fortawesome/fontawesome-free");
+
 import "./use_flatpickr";
 
 import { Application } from "stimulus";
@@ -23,3 +32,8 @@ import { definitionsFromContext } from "stimulus/webpack-helpers";
 const application = Application.start();
 const context = require.context("./controllers", true, /\.js$/);
 application.load(definitionsFromContext(context));
+
+// 新規に Turbolinks / webpacker 等を有効にして rails をインストールしたときに追加される
+//Rails.start()
+//Turbolinks.start()
+//ActiveStorage.start()

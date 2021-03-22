@@ -1,4 +1,9 @@
 /* vim: :set expandtab ts=2 sts=2 sw=2: */
+
+// cre追加分
+$jumbotron-link-color           : lighten($brand-warning, 10%);
+$jumbotron-bg-license-text-color: rgba(255, 255, 255, 0.4);
+
 body {
   padding-bottom: 60px;
 }
@@ -151,7 +156,7 @@ ul, ol {
   @media (min-width: $screen-sm-min) {
     .btn-responsible {
       // line-height: ensure proper height of button next to small input
-      @include button-size($padding-small-vertical, $padding-small-horizontal, $font-size-small, $line-height-small, $btn-border-radius-small);
+      //@include button-size($padding-small-vertical, $padding-small-horizontal, $font-size-small, $line-height-small, $btn-border-radius-small);
     }
   }
 }
