@@ -39,9 +39,9 @@
     <td class="message-detail">
       <% if MessageHelper::PossibleArchiveTypes.include?(m.type) %>
         <% if m.kind_of?(ArchivedConversationMessage) %>
-          <%= link_to(fa_icon('info-circle', text: '詳細'), admin_archived_conversation_message_path(m.id)) %>
+          <%= link_to(fa_icon('info-circle', title: '詳細'), admin_archived_conversation_message_path(m.id)) %>
         <% else %>
-          <%= link_to(fa_icon('info-circle', text: '詳細'), admin_conversation_message_path(m.id)) %>
+          <%= link_to(fa_icon('info-circle', title: '詳細'), admin_conversation_message_path(m.id)) %>
         <% end %>
       <% end %>
     </td>
