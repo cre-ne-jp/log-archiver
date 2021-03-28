@@ -67,7 +67,7 @@ class MessageListStyleTest < ApplicationSystemTestCase
       return document.cookie
                      .split("; ")
                      .find(row => row.startsWith("message_list_style"))
-                     .split("=")[1];
+                     ?.split("=")[1];
     JS
   end
 end
