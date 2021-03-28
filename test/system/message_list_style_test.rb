@@ -2,8 +2,11 @@
 
 require 'test_helper'
 require 'application_system_test_case'
+require_relative 'message_list_style_test_helper'
 
 class MessageListStyleTest < ApplicationSystemTestCase
+  include MessageListStyleTestHelper
+
   setup do
     create(:setting)
     create(:user)
@@ -50,24 +53,5 @@ class MessageListStyleTest < ApplicationSystemTestCase
 
     cookie_value = get_message_list_style_in_cookie
     assert_equal('normal', cookie_value)
-  end
-
-  private
-
-  def reset_message_list_style_in_cookie
-    # 参考：https://developer.mozilla.org/ja/docs/Web/API/Document/cookie#write_a_new_cookie
-    execute_script(<<~JS)
-      document.cookie = "message_list_style=; max-age=0";
-    JS
-  end
-
-  def get_message_list_style_in_cookie
-    # 参考：https://developer.mozilla.org/ja/docs/Web/API/Document/cookie#example_2_get_a_sample_cookie_named_test2
-    execute_script(<<~JS)
-      return document.cookie
-                     .split("; ")
-                     .find(row => row.startsWith("message_list_style"))
-                     ?.split("=")[1];
-    JS
   end
 end

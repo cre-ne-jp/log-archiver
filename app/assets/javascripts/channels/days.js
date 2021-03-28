@@ -105,10 +105,7 @@
 
           // YYYY-mm-ddの9文字目から→dd
           dayPath = document.location.pathname + '/' + dates[clicked._index].slice(8);
-
-          href = logArchiver.messageListStyle.get() === 'raw' ?
-            (dayPath + '/?style=raw') : dayPath;
-          document.location.href = href;
+          document.location.href = dayPath;
         }
       });
     }
