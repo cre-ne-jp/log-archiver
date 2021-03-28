@@ -4,27 +4,6 @@
   'use strict';
 
   logArchiver.channels_days = {
-    show: function show() {
-      // 生ログを表示しているか
-      var rawLog = ($('.raw-log').length > 0);
-
-      // 通常表示タブ
-      var $messageListStyleNormalTab = $('#message-list-style-normal-tab');
-      // 生ログタブ
-      var $messageListStyleRawTab = $('#message-list-style-raw-tab');
-
-      // メッセージ表示スタイルのタブをクリックしたときのハンドラを設定する
-      if (rawLog) {
-        $messageListStyleNormalTab.click(function () {
-          logArchiver.messageListStyle.setNormal();
-        });
-      } else {
-        $messageListStyleRawTab.click(function () {
-          logArchiver.messageListStyle.setRaw();
-        });
-      }
-    },
-
     index: function index() {
       var $dateListItems = $('#date-list > li');
       var $ctx = $('#speeches-chart');
