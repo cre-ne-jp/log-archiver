@@ -16,7 +16,7 @@
 // const imagePath = (name) => images(name, true)
 
 import "../use_flatpickr";
-import "./use_fontawesome";
+import "../use_fontawesome";
 
 import { Application } from "stimulus";
 import { definitionsFromContext } from "stimulus/webpack-helpers";
