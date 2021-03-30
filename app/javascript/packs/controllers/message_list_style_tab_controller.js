@@ -18,7 +18,7 @@ class MessageListStyleTabController extends Controller {
    * メッセージ一覧を標準スタイルに設定する。
    */
   setStyleToNormal() {
-    if (this.messageListStyleValue == "normal") {
+    if (this.messageListStyleValue === "normal") {
       // 既に標準スタイルならば何もしない
       return;
     }
@@ -30,7 +30,7 @@ class MessageListStyleTabController extends Controller {
    * メッセージ一覧を生ログスタイルに設定する。
    */
   setStyleToRaw() {
-    if (this.messageListStyleValue == "raw") {
+    if (this.messageListStyleValue === "raw") {
       // 既に生ログスタイルならば何もしない
       return;
     }
