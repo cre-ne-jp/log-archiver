@@ -1,6 +1,10 @@
 <% year_month_str = '%d-%02d' % [@year, @month] %>
 <% title([@channel.name_with_prefix, year_month_str]) %>
-<div class="container main-container">
+<div
+  class="container main-container"
+  data-controller="speeches-chart"
+  data-speeches-chart-link-class="chart-link"
+>
   <div class="row">
     <div class="col-xs-12 col-md-8">
       <div class="main-panel">
@@ -23,7 +27,14 @@
               <% @dates.each do |date| %>
                 <% browse_day = ChannelBrowse::Day.new(channel: @channel, date: date, style: message_list_style(cookies)) %>
                 <% num_of_speeches = @speech_count[date] || 0 %>
-                <li data-date="<%= date.strftime('%F') %>" data-day="<%= date.day %>" data-num-of-speeches="<%= num_of_speeches %>"><%= link_to(date.strftime('%F'), browse_day.path) %>（<%= num_of_speeches %> 発言）</li>
+                <li
+                  data-date="<%= date.strftime('%F') %>"
+                  data-day="<%= date.day %>"
+                  data-num-of-speeches="<%= num_of_speeches %>"
+                  data-speeches-chart-target="dateListItem"
+                >
+                  <%= link_to(date.strftime('%F'), browse_day.path) %>（<%= num_of_speeches %> 発言）
+                </li>
               <% end %>
             </ul>
           </article>
@@ -55,7 +66,13 @@
           </div>
 
           <div class="panel-body">
-            <canvas id="speeches-chart" width="400" height="300"></canvas>
+            <canvas
+              id="speeches-chart"
+              data-speeches-chart-target="chart"
+              data-action="click->speeches-chart#goToDayPage"
+              width="400"
+              height="300"
+            ></canvas>
           </div>
         </div>
       <% end %>
