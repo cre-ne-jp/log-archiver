@@ -1,7 +1,7 @@
 /* eslint no-console:0 */
 
 import { Controller } from "stimulus";
-import MessageListStyle from "../../message_list_style";
+import MessageListStyle from "../message_list_style";
 
 class MessageListStyleTabController extends Controller {
   static values = {

@@ -2,7 +2,7 @@
 
 import { Controller } from "stimulus";
 import Chart from "chart.js";
-import MessageListStyle from "../../message_list_style";
+import MessageListStyle from "../message_list_style";
 
 class SpeechesChartController extends Controller {
   static targets = [
