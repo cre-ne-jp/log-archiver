@@ -80,9 +80,6 @@ gem 'sorcery'
 # 並び替え
 gem 'ranked-model'
 
-# グラフ描画
-gem 'chart-js-rails'
-
 # 高速なハッシュ関数ライブラリ
 gem 'cfnv'
 

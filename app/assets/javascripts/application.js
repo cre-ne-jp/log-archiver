@@ -15,10 +15,7 @@
 //= require jquery-ui/widgets/sortable
 //= require jquery-ui/effects/effect-highlight
 //= require bootstrap-sprockets
-//= require js.cookie
-//= require Chart.min
 //= require log_archiver
-//= require message_list_style
 //= require_tree .
 
 /*global logArchiver */
