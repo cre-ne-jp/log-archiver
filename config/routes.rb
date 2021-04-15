@@ -1,5 +1,9 @@
-Rails.application.routes.draw do
+# frozen_string_literal: true
 
+require 'sidekiq/web'
+require 'log_archiver/auth_constraint'
+
+Rails.application.routes.draw do
   root 'welcome#index'
 
   resources :channels do
@@ -22,7 +26,10 @@ Rails.application.routes.draw do
 
   namespace :messages do
     resource :search, only: %i(create show)
+    resource :period, only: %i(create show)
   end
+
+  resources :keywords, only: %i(index show)
 
   resources :users
   resources :user_sessions, only: %i(create)
@@ -37,15 +44,32 @@ Rails.application.routes.draw do
   get 'admin' => 'admin#index', as: :admin
 
   namespace :admin do
+    mount Sidekiq::Web => 'sidekiq', constraints: LogArchiver::AuthConstraint.new
+
+    get 'status' => 'status#show', as: 'status'
+
     namespace :channels do
       get ':id/update-last-speech' => 'last_speech_updates#show',
         as: 'update_last_speech'
+      get ':id/:year/:month/:day/:conversation_message_id' => 'conversation_messages#show',
+        as: 'conversation_message',
+        year: /[1-9][0-9]{3}/, month: /0[1-9]|1[0-2]/, day: /0[1-9]|[12][0-9]|3[01]/,
+        conversation_message_id: /\d+/
     end
 
     get 'channels/:id' => 'channels#show', as: 'channel'
     get 'channels' => 'channels#index', as: 'channels'
 
     resource :channel_order, only: %i(show)
+
+    namespace :edit_messages do
+      resource :refresh_digests, only: %i(show)
+    end
+
+    get 'edit_messages' => 'edit_messages#index', as: 'edit_messages'
+
+    resources :archived_conversation_messages, only: %i(index show create edit update destroy)
+    resources :archive_reasons, only: %i(index new create show edit update)
   end
 
   namespace :api, {format: 'json'} do

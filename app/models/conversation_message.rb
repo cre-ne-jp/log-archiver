@@ -2,6 +2,8 @@
 
 class ConversationMessage < ApplicationRecord
   include MessageDigest
+  include MessageScope
+  include MessageStimulusTarget::Uncategorized
 
   before_save :refresh_digest!
 
@@ -14,30 +16,6 @@ class ConversationMessage < ApplicationRecord
     presence: true,
     length: { maximum: 64 }
   validates :message, length: { maximum: 512 }
-
-  # チャンネルで絞り込む
-  scope(
-    :filter_by_channels,
-    ->channels { channels.empty? ? all : where(channel: channels) }
-  )
-
-  # 開始日で絞り込む
-  scope(
-    :filter_by_since,
-    ->since { since.present? ? where('timestamp >= ?', since) : all }
-  )
-
-  # 終了日で絞り込む
-  scope(
-    :filter_by_until,
-    lambda { |until_date|
-      if until_date.present?
-        where('timestamp < ?', until_date.next_day)
-      else
-        all
-      end
-    }
-  )
 
   # ニックネームで絞り込む
   scope(
@@ -67,5 +45,10 @@ class ConversationMessage < ApplicationRecord
   # @return [String]
   def fragment_id
     "c#{digest_value}"
+  end
+
+  # @return [Boolean] 参加中の全チャンネルに同時に送られるメッセージか？
+  def broadcast?
+    false
   end
 end

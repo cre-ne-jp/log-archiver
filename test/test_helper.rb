@@ -1,13 +1,8 @@
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 
-# CI環境では事前にテスト用データベースのマイグレーションを行うため
-# テスト前のデータベースの準備を行わないようにする
-ActiveRecord::Base.maintain_test_schema = false
-
-require 'rails/test_help'
-
-require 'minitest/mock'
+require 'test/unit/rails/test_help'
+require 'active_support/testing/time_helpers'
 
 require 'simplecov'
 # カバレッジ測定開始
@@ -15,9 +10,6 @@ SimpleCov.start do
   # ライブラリを無視する
   add_filter('/vendor/')
 end
-
-require 'minitest/reporters'
-Minitest::Reporters.use!
 
 require 'factory_bot_rails'
 
@@ -27,6 +19,15 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
   include FactoryBot::Syntax::Methods
+
+  include ActiveSupport::Testing::TimeHelpers
+
+  # ファクトリーからオブジェクトを作成する
+  # @param [Array<Symbol>] ids ファクトリーIDの配列
+  # @return [Array<Object>] 作成されたオブジェクトの配列
+  def create_with_factory_ids(*ids)
+    ids.map { |id| create(id) }
+  end
 end
 
 class ActionDispatch::IntegrationTest

@@ -97,15 +97,21 @@ class ChannelTest < ActiveSupport::TestCase
   end
 
   test 'from_cinch_message: 該当するチャンネルが返る' do
-    cinch_channel = Minitest::Mock.new.expect(:name, '#irc_test')
-    cinch_message = Minitest::Mock.new.expect(:channel, cinch_channel)
+    cinch_channel = Object.new
+    cinch_message = Object.new
+
+    mock(cinch_channel).name { '#irc_test' }
+    mock(cinch_message).channel { cinch_channel }
 
     assert_equal(@channel, Channel.from_cinch_message(cinch_message))
   end
 
   test 'from_cinch_message: 登録されていないチャンネル名が指定された場合 nil が返る' do
-    cinch_channel = Minitest::Mock.new.expect(:name, '#not_registered')
-    cinch_message = Minitest::Mock.new.expect(:channel, cinch_channel)
+    cinch_channel = Object.new
+    cinch_message = Object.new
+
+    mock(cinch_channel).name { '#not_registered' }
+    mock(cinch_message).channel { cinch_channel }
 
     assert_nil(Channel.from_cinch_message(cinch_message))
   end

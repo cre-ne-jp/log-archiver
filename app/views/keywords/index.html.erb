@@ -1,0 +1,41 @@
+<% title('キーワード') %>
+<div class="container main-container">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="main-panel">
+        <div class="panel-body">
+          <%= render('shared/flash') %>
+
+          <div class="page-header">
+            <h1>キーワード</h1>
+          </div>
+
+          <% if @keyword_privmsg_counts.empty? %>
+            <div class="alert alert-info">キーワードが登録されていません。</div>
+          <% else %>
+            <p><%= page_entries_info(@keyword_privmsg_counts) %></p>
+
+            <table class="table table-striped keyword-list">
+              <thead>
+                <tr>
+                  <th class="keyword-keyword">キーワード</th>
+                  <th class="keyword-num-of-privmsgs">発言数</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @keyword_privmsg_counts.each do |keyword| %>
+                  <tr>
+                    <td class="keyword-keyword"><%= link_to(h(keyword.display_title), keyword) %></td>
+                    <td class="keyword-num-of-privmsgs"><%= keyword.privmsg_count %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+
+            <%= paginate(@keyword_privmsg_counts, outer_window: 2) %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

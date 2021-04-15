@@ -1,0 +1,10 @@
+test:
+  adapter: mysql2
+  host: 127.0.0.1
+  port: 33060
+  database: log_archiver_test
+  username: root
+  password: null
+  encoding: utf8mb4
+  charset: utf8mb4
+  collation: utf8mb4_general_ci

@@ -1,0 +1,26 @@
+<div role="tabpanel" class="<%= (@invalid_model == :message_period) ? 'tab-pane active' : 'tab-pane' %>" id="period">
+  <% if @invalid_model == :message_period %>
+    <%= render('shared/error_messages', target: @message_period) %>
+  <% end %>
+
+  <%= form_for(@message_period, url: messages_period_path, html: { 'data-controller': 'message-period-form' }) do |f| %>
+    <div class="form-group">
+      <%= f.label(:channels) %>
+      <%= f.select(:channels, channel_option_tags, {}, multiple: true, class: 'form-control', size: 5) %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label(:since) %>
+      <%= render('shared/datetime_picker', form: f, id: :since) %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label(:until) %>
+      <%= render('shared/datetime_picker', form: f, id: :until) %>
+    </div>
+
+    <div class="form-group text-right">
+      <%= f.button(fa_icon('search', text: '検索'), name: 'search', class: 'btn btn-success') %>
+    </div>
+  <% end %>
+</div>

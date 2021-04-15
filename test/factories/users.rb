@@ -5,6 +5,10 @@ FactoryBot.define do
     password { 'pa$$word' }
     password_confirmation { 'pa$$word' }
 
-    initialize_with { User.find_or_create_by(username: username) }
+    initialize_with {
+      User.find_or_initialize_by(username: username) do |new_user|
+        new_user.attributes = attributes
+      end
+    }
   end
 end

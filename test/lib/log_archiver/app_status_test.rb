@@ -18,12 +18,16 @@ module LogArchiver
     # ダミーの現在時刻2（12:23:34:45経過）
     DUMMY_CURRENT_TIME_2 = DUMMY_START_TIME + DUMMY_UPTIME_2
 
+    # ダミーのバージョン
+    DUMMY_VERSION = '1.2.3'
     # ダミーのコミットID
     DUMMY_COMMIT_ID = '0123456789abcdef0123456789abcdef01234567'
 
     setup do
-      @app_status = AppStatus.new(DUMMY_START_TIME, DUMMY_COMMIT_ID)
-      @app_status_without_commit_id = AppStatus.new(DUMMY_START_TIME, '')
+      @app_status =
+        AppStatus.new(DUMMY_VERSION, DUMMY_START_TIME, DUMMY_COMMIT_ID)
+      @app_status_without_commit_id =
+        AppStatus.new(DUMMY_VERSION, DUMMY_START_TIME, '')
 
       # Dir.chdir を書き換えるので、元のクラスメソッドを退避しておく
       Dir.singleton_class.class_eval do
@@ -38,6 +42,16 @@ module LogArchiver
       Dir.singleton_class.class_eval do
         alias :chdir :chdir_original
       end
+    end
+
+    def app_status_from_hash
+      hash = {
+        version: DUMMY_VERSION,
+        commit_id: DUMMY_COMMIT_ID,
+        start_time: DUMMY_START_TIME.to_f
+      }
+
+      AppStatus.from_hash(hash)
     end
 
     test '#start_time は起動時刻を返す' do
@@ -57,7 +71,7 @@ module LogArchiver
     end
 
     test '#version はバージョンを返す' do
-      assert_equal(Version, @app_status.version)
+      assert_equal(DUMMY_VERSION, @app_status.version)
     end
 
     test '#version はfreezeされている' do
@@ -65,12 +79,12 @@ module LogArchiver
     end
 
     test '#version_and_commit_id: バージョンとコミットIDを表す文字列を返す' do
-      assert_equal("#{Version} (#{DUMMY_COMMIT_ID})",
+      assert_equal("#{DUMMY_VERSION} (#{DUMMY_COMMIT_ID})",
                    @app_status.version_and_commit_id)
     end
 
     test '#version_and_commit_id: コミットIDがない場合、バージョンのみが含まれる文字列を返す' do
-      assert_equal(Version, @app_status_without_commit_id.version_and_commit_id)
+      assert_equal(DUMMY_VERSION, @app_status_without_commit_id.version_and_commit_id)
     end
 
     test '#version_and_commit_id: コミットIDがある場合、freezeされている' do
@@ -149,6 +163,36 @@ module LogArchiver
       end
 
       assert_equal('', AppStatus.get_commit_id)
+    end
+
+    test '#to_h: version が正しい' do
+      hash = @app_status.to_h
+      assert_equal(DUMMY_VERSION, hash.fetch(:version))
+    end
+
+    test '#to_h: commit_id が正しい' do
+      hash = @app_status.to_h
+      assert_equal(DUMMY_COMMIT_ID, hash.fetch(:commit_id))
+    end
+
+    test '#to_h: start_time が正しい' do
+      hash = @app_status.to_h
+      assert_equal(DUMMY_START_TIME.to_f, hash.fetch(:start_time))
+    end
+
+    test '.from_hash: #version が正しい' do
+      app_status = app_status_from_hash
+      assert_equal(DUMMY_VERSION, app_status.version)
+    end
+
+    test '.from_hash: commit_id が正しい' do
+      app_status = app_status_from_hash
+      assert_equal(DUMMY_COMMIT_ID, app_status.commit_id)
+    end
+
+    test '.from_hash: start_time が正しい' do
+      app_status = app_status_from_hash
+      assert_equal(DUMMY_START_TIME, app_status.start_time)
     end
   end
 end

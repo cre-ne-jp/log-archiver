@@ -6,8 +6,47 @@ RAILS_ENV=production
 # データベースのパスワード
 LOG_ARCHIVER_DATABASE_PASSWORD=
 
+# PORT
+# Puma が接続を待機するポート番号
+#PORT=8081
+
 # SECRET_KEY_BASE
 # セッションを安全に保つための鍵になる文字列です。
 # 以下のコマンドを実行することで生成できます。
 # bundle exec bin/rails secret
 SECRET_KEY_BASE=
+
+# WEB_CONCURRENCY
+# Puma worker のプロセス数
+#WEB_CONCURRENCY=3
+
+# RAILS_MIN_THREADS
+# RAILS_MAX_THREADS
+# Puma スレッドを用意する数
+# ランダムにプロセスを再起動する最小・最大回数を設定します。
+#RAILS_MIN_THREADS=5
+#RAILS_MAX_THREADS=5
+
+# PUMA_WORKER_MEMORY_LIMIT
+# メモリの最大使用容量 (MB)
+#PUMA_WORKER_MEMORY_LIMIT=1024
+
+# PUMA_WORKER_CHECK_FREQUENCY
+# メモリ使用量を何秒毎に確認するか
+#PUMA_WORKER_CHECK_FREQUENCY=5
+
+# PUMA_WORKER_PERCENT_USAGE
+# worker プロセスを再起動するメモリ使用量に対する割合の閾値
+#PUMA_WORKER_PERCENT_USAGE=0.65
+
+# PUMA_WORKER_RESTART_FREQUENCY
+# メモリ使用量にか変わりなく、順番に worker プロセスを再起動する頻度(秒数)
+#PUMA_WORKER_RESTART_FREQUENCY=$(( 24 * 3600 ))
+
+# PUMA_WORKER_REAPER_STATUS_LOGS
+# プロセス監視ログを出力するか
+#PUMA_WORKER_REAPER_STATUS_LOGS=false
+
+# REDIS_URL
+# バックグラウンドジョブの実行に必要な redis データベースへの接続設定
+#REDIS_URL='redis://localhost:6379/0'

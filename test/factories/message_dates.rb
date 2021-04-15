@@ -4,8 +4,16 @@ FactoryBot.define do
     date { '2016-08-16' }
 
     initialize_with {
-      MessageDate.find_or_create_by(channel: channel, date: date)
+      MessageDate.find_or_initialize_by(channel: channel, date: date)
     }
+
+    factory :message_date_20140320 do
+      date { '2014-03-20' }
+    end
+
+    factory :message_date_20140321 do
+      date { '2014-03-21' }
+    end
 
     factory :message_date_20150123 do
       date { '2015-01-23' }

@@ -1,4 +1,8 @@
+# frozen_string_literal: true
+
 require 'test_helper'
+require 'user_login_test_helper'
+require 'admin_nav_item_test_helper'
 
 class ChannelsEditTest < ActionDispatch::IntegrationTest
   setup do
@@ -7,6 +11,9 @@ class ChannelsEditTest < ActionDispatch::IntegrationTest
 
     Channel.delete_all
     @channel = create(:channel)
+    @path = edit_channel_path(@channel)
+
+    @login_helper = UserLoginTestHelper.new(self, @user, @path)
   end
 
   teardown do
@@ -14,19 +21,15 @@ class ChannelsEditTest < ActionDispatch::IntegrationTest
   end
 
   test 'ログインしている場合、表示される' do
-    login_user(@user)
-
-    get(edit_channel_path(@channel))
-
-    assert_response(:success)
+    @login_helper.assert_successful_login_and_get
   end
 
   test 'ログインしていない場合、ログインページにリダイレクトされる' do
-    logout_user
+    @login_helper.assert_redirected_to_login_on_logged_out
+  end
 
-    get(edit_channel_path(@channel))
-
-    assert_redirected_to(login_path, 'ログインページにリダイレクトされる')
-    refute_nil(flash[:warning], 'warningのflashが表示される')
+  test '正しい管理メニュー項目がハイライトされる' do
+    @login_helper.assert_successful_login_and_get
+    AdminNavItemTestHelper.assert_highlighted(self, :admin_nav_channels)
   end
 end

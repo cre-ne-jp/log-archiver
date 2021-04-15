@@ -1,7 +1,7 @@
 <% title('チャンネル情報') %>
 <div class="container main-container">
   <div class="row">
-    <%= render('shared/admin/nav_channels') %>
+    <%= render('shared/admin/navigation') %>
 
     <div class="col-xs-12 col-sm-9">
       <div class="main-panel">
@@ -9,7 +9,7 @@
           <%= render('shared/flash') %>
 
           <ol class="breadcrumb">
-            <li><%= link_to('管理', admin_path) %></li>
+            <li>管理</li>
             <li><%= link_to('チャンネル', admin_channels_path) %></li>
             <li class="active"><%= @channel.name_with_prefix %></li>
           </ol>
@@ -22,7 +22,7 @@
             <tbody>
               <tr>
                 <th scope="row" class="channel-name">チャンネル名</th>
-                <td class="channel-name"><%= @channel.name_with_prefix %></td>
+                <td class="channel-name"><%= link_to(@channel.name_with_prefix, channel_path(@channel)) %></td>
               </tr>
               <tr>
                 <th scope="row" class="channel-identifier">識別子</th>
@@ -36,14 +36,16 @@
                 <th scope="row" class="channel-canonical-site-template">正規 URL のテンプレート</th>
                 <td class="channel-canonical-site-template"><%= @channel.canonical_url_template? ? @channel.canonical_url_template : '無効' %></td>
               </tr>
-              <% if @channel.canonical_url_template? %><tr>
-                <th scope="row" class="channel-canonical-site-example">正規 URL の転送先例</th>
-                <td class="channel-canonical-site-example">
-                  <% today = Date.today %>
-                  <% url = @channel.canonical_url(year: today.year, month: today.month, day: today.day) %>
-                  <%= link_to(url, url) %>
-                </td>
-              </tr><% end %>
+              <% if @channel.canonical_url_template? %>
+                <tr>
+                  <th scope="row" class="channel-canonical-site-example">正規 URL の転送先例</th>
+                  <td class="channel-canonical-site-example">
+                    <% today = Date.today %>
+                    <% url = @channel.canonical_url(year: today.year, month: today.month, day: today.day) %>
+                    <%= link_to(url, url) %>
+                  </td>
+                </tr>
+              <% end %>
             </tbody>
           </table>
 

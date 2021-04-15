@@ -1,5 +1,10 @@
----
-engines:
+version: "2"
+checks:
+  method-lines:
+    enabled: true
+    config:
+      threshold: 50
+plugins:
   brakeman:
     enabled: true
   bundler-audit:
@@ -12,28 +17,22 @@ engines:
       - javascript
       - python
       - php
-  eslint:
-    enabled: true
   fixme:
     enabled: true
   rubocop:
     enabled: true
-ratings:
-  paths:
-  - Gemfile.lock
-  - "**.erb"
-  - "**.haml"
-  - "**.rb"
-  - "**.rhtml"
-  - "**.slim"
-  - "**.inc"
-  - "**.js"
-  - "**.jsx"
-  - "**.module"
-  - "**.php"
-  - "**.py"
-exclude_paths:
+exclude_patterns:
 - config/
 - db/
 - test/
 - vendor/
+- config/
+- db/
+- "**/node_modules/"
+- "**/spec/"
+- "**/test/"
+- "**/tests/"
+- "**/vendor/"
+- "**/*.d.ts"
+- babel.config.js
+- postcss.config.js

@@ -1,0 +1,49 @@
+name: Test and coverage measurement
+
+on:
+  push:
+    paths-ignore:
+      - doc/**
+      - README.md
+  pull_request: {}
+
+jobs:
+  test:
+    name: "Ruby 3.0: test and coverage measurement"
+    strategy:
+      fail-fast: false
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
+    env:
+      RAILS_ENV: test
+      TZ: Asia/Tokyo
+    services:
+      db:
+        image: groonga/mroonga:latest
+        ports:
+          - 33060:3306
+      redis:
+        image: redis:6
+        ports:
+          - 6379:6379
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0
+
+          # runs 'bundle install' and caches installed gems automatically
+          bundler-cache: true
+      # 参考: https://igarashikuniaki.net/diary/20200210.html
+      - name: Install JavaScript packages
+        run: |
+          yarn install
+      - name: Setup database
+        run: |
+          cp config/database.yml.github_actions config/database.yml
+          bin/rails db:setup
+      - uses: paambaati/codeclimate-action@v2.7.5
+        env:
+          CC_TEST_REPORTER_ID: 74e589ede57e23f089cbbd2eee75be23a93b5ace7b5cfce58213cd3f21447147
+        with:
+          coverageCommand: bin/rails test

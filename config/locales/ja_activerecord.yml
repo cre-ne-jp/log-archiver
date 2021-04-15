@@ -6,6 +6,9 @@ ja:
       channel: チャンネル
       user: 利用者
       setting: 設定
+      archived_conversation_message: メッセージ
+      archive_reason: 発言の非表示理由
+      keyword: キーワード
     attributes:
       channel:
         name: チャンネル名
@@ -20,12 +23,21 @@ ja:
       setting:
         site_title: サイト名
         text_on_homepage: ホームページに表示する文章
+      archive_reason:
+        reason: 理由
+      archived_conversation_message:
+        archive_reason: 非表示理由
+        archive_reason_id: 非表示理由
+      keyword:
+        title: 名前
+        display_title: 表示名
   # ActiveModel の翻訳は ActiveRecord のものを流用する
   activemodel:
     <<: activerecord
     models:
       channel_browse: チャンネル閲覧
-      message_search: メッセージ検索
+      message_search: メッセージ条件検索
+      message_period: メッセージ期間検索
     attributes:
       channel_browse:
         channel: チャンネル
@@ -37,6 +49,11 @@ ja:
         channels: チャンネル
         since: 開始日
         until: 終了日
+      message_period:
+        channels: チャンネル
+        since: 開始日時
+        until: 終了日時
+        since_or_until: 開始日時または終了日時
   enums:
     channel_browse_date_type:
       today: 今日

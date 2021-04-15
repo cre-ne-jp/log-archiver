@@ -1,0 +1,22 @@
+[Unit]
+Description=LogArchiver Rack Server (Puma) - IRC Log Save and Viewer
+Documentation=https://github.com/cre-ne-jp/log-archiver
+After=network.target, mysqld.service
+
+[Service]
+User=log-archiver
+Group=log-archiver
+EnvironmentFile=/etc/default/log-archiver
+SyslogIdentifier=log-archiver-puma
+Type=notify
+WatchdogSec=10
+PIDFile=/home/log-archiver/log-archiver/tmp/pids/puma.pid
+WorkingDirectory=/home/log-archiver/log-archiver
+Restart=always
+
+ExecStart=/usr/bin/bundle exec "puma -C config/puma.rb"
+ExecReload=/usr/bin/kill -USR2 $MAINPID
+ExecStop=/usr/bin/kill -TERM $MAINPID
+
+[Install]
+WantedBy=multi-user.target

@@ -13,18 +13,34 @@
 /config/ircbot.yml
 /config/unicorn.rb
 
-# Ignore db/schema.rb because automatically generated db/schema.rb will induce
-# database setup errors.
-/db/schema.rb
-
-# Ignore yarn and node file.
-/yarn.lock
-/node_modules/
-
 # Ignore all logfiles and tempfiles.
 /log/*
+/tmp/*
 !/log/.keep
-/tmp
+!/tmp/.keep
+
 *.swp
 /coverage
+
+# Ignore pidfiles, but keep the directory.
+/tmp/pids/*
+!/tmp/pids/
+!/tmp/pids/.keep
+
+# Ignore uploaded files in development.
+/storage/*
+!/storage/.keep
+
 /public/assets
+.byebug_history
+
+# Ignore master key for decrypting credentials and more.
+/config/master.key
+
+# Ignore yarn-related files.
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity

@@ -15,17 +15,10 @@
 //= require jquery-ui/widgets/sortable
 //= require jquery-ui/effects/effect-highlight
 //= require bootstrap-sprockets
-//= require js.cookie
-//= require moment
-//= require moment/ja
-//= require bootstrap-datetimepicker
-//= require ./datetimepicker
-//= require Chart.min
 //= require log_archiver
-//= require message_list_style
 //= require_tree .
 
-/*global $, logArchiver */
+/*global logArchiver */
 
 /**
  * コントローラ名からオブジェクトを取得してフックを実行する。
@@ -35,8 +28,8 @@ $(function () {
   'use strict';
 
   var $body = $('body');
-  var controller = $body.data('controller').replace(/\//, '_');
-  var action = $body.data('action');
+  var controller = $body.data('rails-controller').replace(/\//, '_');
+  var action = $body.data('rails-action');
   var activeController = logArchiver[controller];
 
   if (activeController !== undefined) {

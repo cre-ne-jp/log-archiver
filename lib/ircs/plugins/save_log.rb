@@ -21,6 +21,11 @@ module LogArchiver
       listen_to(:notice, method: :on_notice)
       listen_to(:privmsg, method: :on_privmsg)
 
+      def initialize(*args)
+        super
+        @extract_keyword = LogArchiver::ExtractKeyword.new
+      end
+
       # チャンネルに（自分を含む）誰かが JOIN したとき
       # @param [Cinch::Message] m メッセージ
       def on_join(m)
@@ -86,11 +91,11 @@ module LogArchiver
       # @param [Cinch::Message] m メッセージ
       def on_topic(m)
         record_message(m) do |channel, irc_user|
-          topic = channel.topics.create!(irc_user: irc_user,
-                                         timestamp: m.time,
-                                         nick: m.user.nick,
-                                         message: m.message)
-          update_last_speech!(channel, topic)
+          channel.topics.create!(irc_user: irc_user,
+                                 timestamp: m.time,
+                                 nick: m.user.nick,
+                                 message: m.message)
+          ChannelLastSpeech.refresh!(channel)
         end
       end
 
@@ -98,11 +103,11 @@ module LogArchiver
       # @param [Cinch::Message] m メッセージ
       def on_notice(m)
         record_message(m) do |channel, irc_user|
-          notice = channel.notices.create!(irc_user: irc_user,
-                                           timestamp: m.time,
-                                           nick: m.user.nick,
-                                           message: m.message)
-          update_last_speech!(channel, notice)
+          channel.notices.create!(irc_user: irc_user,
+                                  timestamp: m.time,
+                                  nick: m.user.nick,
+                                  message: m.message)
+          ChannelLastSpeech.refresh!(channel)
         end
       end
 
@@ -114,7 +119,10 @@ module LogArchiver
                                              timestamp: m.time,
                                              nick: m.user.nick,
                                              message: m.message)
-          update_last_speech!(channel, privmsg)
+          if privmsg.message.match?(/\A\.(k|a)[ 　]+.+\z/)
+            @extract_keyword.run(privmsg)
+          end
+          ChannelLastSpeech.refresh!(channel)
         end
       end
     end

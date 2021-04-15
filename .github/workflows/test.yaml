@@ -1,0 +1,55 @@
+name: Test
+
+on:
+  push:
+    paths-ignore:
+      - doc/**
+      - README.md
+  pull_request: {}
+
+jobs:
+  test:
+    name: Test Log Archiver
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby:
+          - 2.5
+          - 2.6
+          - 2.7
+          - 3.0
+        mroonga:
+          - latest
+          - mysql80-latest
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
+    env:
+      RAILS_ENV: test
+      TZ: Asia/Tokyo
+    services:
+      db:
+        image: groonga/mroonga:${{ matrix.mroonga }}
+        ports:
+          - 33060:3306
+      redis:
+        image: redis:6
+        ports:
+          - 6379:6379
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+
+          # runs 'bundle install' and caches installed gems automatically
+          bundler-cache: true
+      # 参考: https://igarashikuniaki.net/diary/20200210.html
+      - name: Install JavaScript packages
+        run: |
+          yarn install
+      - name: Setup database
+        run: |
+          cp config/database.yml.github_actions config/database.yml
+          bin/rails db:setup
+      - name: Run tests
+        run: bin/rails test

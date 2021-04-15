@@ -1,9 +1,9 @@
-<div role="tabpanel" class="<%= (@invalid_model == :message_search) ? 'tab-pane' : 'tab-pane active' %>" id="browse">
+<div role="tabpanel" class="<%= (@invalid_model.nil? || @invalid_model == :channel_browse) ? 'tab-pane active' : 'tab-pane' %>" id="browse">
   <% if @invalid_model == :channel_browse %>
     <%= render('shared/error_messages', target: @channel_browse) %>
   <% end %>
 
-  <%= form_for(@channel_browse, url: browse_path, html: { class: 'channel-browse-form' }) do |f| %>
+  <%= form_for(@channel_browse, url: browse_path, html: { class: 'channel-browse-form', 'data-controller': 'channel-browse-form' }) do |f| %>
     <div class="row">
       <div class="col-sm-6">
         <fieldset>
@@ -20,17 +20,17 @@
 
           <div id="channel_browse_date_type" class="form-group">
             <label class="radio-inline">
-              <%= f.radio_button(:date_type, 'today', class: 'date-type-radio') %> 今日
+              <%= f.radio_button(:date_type, 'today', class: 'date-type-radio', 'data-action': 'channel-browse-form#updateDateType') %> 今日
             </label>
             <label class="radio-inline">
-              <%= f.radio_button(:date_type, 'yesterday', class: 'date-type-radio') %> 昨日
+              <%= f.radio_button(:date_type, 'yesterday', class: 'date-type-radio', 'data-action': 'channel-browse-form#updateDateType') %> 昨日
             </label>
             <label class="radio-inline">
-              <%= f.radio_button(:date_type, 'specify', class: 'date-type-radio') %> 指定
+              <%= f.radio_button(:date_type, 'specify', class: 'date-type-radio', 'data-action': 'channel-browse-form#updateDateType') %> 指定
             </label>
           </div>
 
-          <div class="form-group by-channel-date">
+          <div class="form-group by-channel-date" data-channel-browse-form-target="datePicker">
             <%= render('shared/date_picker', form: f, id: :date) %>
           </div>
         </fieldset>

@@ -1,4 +1,6 @@
 class Nick < Message
+  include MessageStimulusTarget::Nick
+
   validates :message, presence: true
 
   # 新しいニックネームを返す
@@ -18,5 +20,10 @@ class Nick < Message
   # @return [String]
   def to_tiarra_format
     "#{timestamp.strftime('%T')} #{nick} -> #{new_nick}"
+  end
+
+  # @return [Boolean] 参加中の全チャンネルに同時に送られるメッセージか？
+  def broadcast?
+    true
   end
 end

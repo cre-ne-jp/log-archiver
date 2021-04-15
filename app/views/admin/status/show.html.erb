@@ -1,0 +1,113 @@
+<% title('現在の状態') %>
+<div class="container main-container">
+  <div class="row">
+    <%= render('shared/admin/navigation') %>
+
+    <div class="col-xs-12 col-sm-9">
+      <div class="main-panel">
+        <div class="panel-body">
+          <%= render('shared/flash') %>
+
+          <div class="page-header">
+            <h1>現在の状態</h1>
+          </div>
+
+          <section class="app-status">
+            <h2>Webアプリケーションの状態</h2>
+            <table class="table table-striped app-status-list">
+              <tbody>
+                <tr>
+                  <th class="app-status-version">バージョン</th>
+                  <td id="app-version" class="app-status-version"><%= @app_status.version %></td>
+                </tr>
+                <tr>
+                  <th class="app-status-commit-id">コミット ID</th>
+                  <td id="app-commit-id" class="app-status-commit-id"><%= format_commit_id(@app_status.commit_id) %></td>
+                </tr>
+                <tr>
+                  <th class="app-status-uptime">稼働時間</th>
+                  <td id="app-uptime" class="app-status-uptime"><%= @app_status.formatted_uptime %>（<%= @app_status.start_time.strftime('%F %T') %> に起動）</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="irc-bot-status">
+            <h2>IRCボットの状態</h2>
+            <% if @exception_on_fetching_irc_bot_status %>
+              <div class="alert alert-danger">
+                <p><%= fa_icon('exclamation-triangle') %> IRCボットの状態を取得できませんでした: <%= @exception_on_fetching_irc_bot_status.message %></p>
+                <p>IRCボットが起動されているか確認してください。</p>
+              </div>
+            <% else %>
+              <table class="table table-striped irc-bot-status-list">
+                <tbody>
+                  <tr>
+                    <th class="irc-bot-status-version">バージョン</th>
+                    <td id="irc-bot-version" class="irc-bot-status-version"><%= @irc_bot_status.version %></td>
+                  </tr>
+                  <tr>
+                    <th class="irc-bot-status-commit-id">コミット ID</th>
+                    <td id="irc-bot-commit-id" class="irc-bot-status-commit-id"><%= format_commit_id(@irc_bot_status.commit_id) %></td>
+                  </tr>
+                  <tr>
+                    <th class="irc-bot-status-uptime">稼働時間</th>
+                    <td id="irc-bot-uptime" class="irc-bot-status-uptime"><%= @irc_bot_status.formatted_uptime %>（<%= @irc_bot_status.start_time.strftime('%F %T') %> に起動）</td>
+                  </tr>
+                </tbody>
+              </table>
+            <% end %>
+          </section>
+
+          <section class="sidekiq-stats">
+            <h2>バックグラウンドジョブ統計</h2>
+            <% if @exception_on_fetching_sidekiq_stats %>
+              <div class="alert alert-danger">
+                <p><%= fa_icon('exclamation-triangle') %> バックグラウンドジョブ統計を取得できませんでした: <%= @exception_on_fetching_sidekiq_stats.message %></p>
+                <p>RedisサーバおよびSidekiqが起動されているか確認してください。</p>
+              </div>
+            <% else %>
+              <table class="table table-striped sidekiq-stats-list">
+                <tbody>
+                  <tr>
+                    <th class="sidekiq-stats-version">Sidekiq バージョン</th>
+                    <td id="sidekiq-version" class="sidekiq-stats-version"><%= Sidekiq::VERSION %></td>
+                  </tr>
+                  <tr>
+                    <th class="sidekiq-stats-processed">実行完了</th>
+                    <td id="sidekiq-processed" class="sidekiq-stats-processed"><%= @sidekiq_stats.processed %></td>
+                  </tr>
+                  <tr>
+                    <th class="sidekiq-stats-processes">実行中</th>
+                    <td id="sidekiq-processes" class="sidekiq-stats-processes"><%= @sidekiq_stats.processes_size %></td>
+                  </tr>
+                  <tr>
+                    <th class="sidekiq-stats-failed">失敗</th>
+                    <td id="sidekiq-failed" class="sidekiq-stats-failed"><%= @sidekiq_stats.failed %></td>
+                  </tr>
+                  <tr>
+                    <th class="sidekiq-stats-scheduled">予定キュー内</th>
+                    <td id="sidekiq-scheduled" class="sidekiq-stats-scheduled"><%= @sidekiq_stats.scheduled_size %></td>
+                  </tr>
+                  <tr>
+                    <th class="sidekiq-stats-retry">再試行キュー内</th>
+                    <td id="sidekiq-retry" class="sidekiq-stats-retry"><%= @sidekiq_stats.retry_size %></td>
+                  </tr>
+                  <tr>
+                    <th class="sidekiq-stats-dead">デッド状態</th>
+                    <td id="sidekiq-dead" class="sidekiq-stats-dead"><%= @sidekiq_stats.dead_size %></td>
+                  </tr>
+                  <tr>
+                    <th class="sidekiq-stats-workers">ワーカー</th>
+                    <td id="sidekiq-workers" class="sidekiq-stats-workers"><%= @sidekiq_stats.workers_size %></td>
+                  </tr>
+                </tbody>
+              </table>
+              <p><%= link_to('詳細を見る（Sidekiq Dashboard）', admin_sidekiq_web_path, class: 'btn btn-success') %></p>
+            <% end %>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

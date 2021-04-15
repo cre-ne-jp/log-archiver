@@ -1,0 +1,34 @@
+# frozen_string_literal: true
+
+require 'test_helper'
+require 'user_login_test_helper'
+require 'admin_nav_item_test_helper'
+
+class UsersEditTest < ActionDispatch::IntegrationTest
+  setup do
+    @setting = create(:setting)
+
+    User.delete_all
+    @user = create(:user)
+    @path = edit_user_path(@user)
+
+    @login_helper = UserLoginTestHelper.new(self, @user, @path)
+  end
+
+  teardown do
+    User.delete_all
+  end
+
+  test 'ログインしている場合、表示される' do
+    @login_helper.assert_successful_login_and_get
+  end
+
+  test 'ログインしていない場合、ログインページにリダイレクトされる' do
+    @login_helper.assert_redirected_to_login_on_logged_out
+  end
+
+  test '正しい管理メニュー項目がハイライトされる' do
+    @login_helper.assert_successful_login_and_get
+    AdminNavItemTestHelper.assert_highlighted(self, :admin_nav_users)
+  end
+end

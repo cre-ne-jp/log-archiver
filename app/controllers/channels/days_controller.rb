@@ -68,17 +68,35 @@ class Channels::DaysController < ApplicationController
 
     @calendar_start_date = (params[:start_date]&.to_date || @date) rescue @date
 
-    timestamp_range = @date...(@date.next_day)
+    @timestamp_range = @date...(@date.next_day)
     messages = Message.
       includes(:channel, :irc_user).
-      where(timestamp: timestamp_range, channel: @channel).
+      where(timestamp: @timestamp_range, channel: @channel).
       order(:timestamp, :id).
       to_a
     @conversation_messages = ConversationMessage.
       includes(:channel, :irc_user).
-      where(timestamp: timestamp_range, channel: @channel).
+      where(timestamp: @timestamp_range, channel: @channel).
       order(:timestamp, :id).
       to_a
+    archived_conversation_messages =
+      if current_user
+        ArchivedConversationMessage.
+          includes(:channel, :irc_user).
+          where(timestamp: @timestamp_range, channel: @channel).
+          order(:timestamp, :id).
+          to_a
+      else
+        []
+      end
+
+
+    @privmsg_keyword_relationships =
+      privmsg_keyword_relationships_from(@conversation_messages)
+    @keywords_privmsgs_for_header = @privmsg_keyword_relationships
+      .sort_by { |r| r.privmsg.timestamp }
+      .group_by(&:keyword)
+      .map { |keyword, relations| [keyword, relations.map(&:privmsg)] }
 
     @browse_day_normal = ChannelBrowse::Day.new(
       channel: @channel, date: @date, style: :normal
@@ -95,11 +113,13 @@ class Channels::DaysController < ApplicationController
     set_prev_link!(@browse_prev_day)
     set_next_link!(@browse_next_day)
 
+    @num_of_messages = messages.length + @conversation_messages.length
+
     whole_messages =
       if @browse_day.is_style_raw?
         HourSeparator.for_day_browse(@date) + messages + @conversation_messages
       else
-        messages + @conversation_messages
+        (messages + @conversation_messages + archived_conversation_messages).compact
       end
 
     # タイムスタンプによるソート

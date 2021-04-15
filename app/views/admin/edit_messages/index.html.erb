@@ -1,0 +1,29 @@
+<% title(['管理', 'メッセージ一括処理']) %>
+<div class="container main-container">
+  <div class="row">
+    <%= render('shared/admin/navigation') %>
+
+    <div class="col-xs-12 col-sm-9">
+      <div class="main-panel">
+        <div class="panel-body">
+          <%= render('shared/flash') %>
+
+          <ol class="breadcrumb visible-xs-block">
+            <li>管理</li>
+            <li class="active">メッセージ一括処理</li>
+          </ol>
+
+          <div class="page-header">
+            <h1>メッセージ一括処理</h1>
+          </div>
+
+          <p>全てのチャンネル・メッセージを対象として、一括処理を行ないます。</p>
+
+          <h2>フラグメント識別子の再設定</h2>
+          <p>全てのメッセージのフラグメント識別子を初期化し、再計算します。</p>
+          <p><%= link_to('フラグメント識別子を再設定する', admin_edit_messages_refresh_digests_path, class: 'btn btn-success') %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

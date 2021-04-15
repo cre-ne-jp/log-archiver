@@ -5,11 +5,15 @@
 log-archiver は、単独のサーバとして起動します。しかし、直接インターネットからアクセス出来るようにはしないでください(セキュリティ的・パフォーマンス的な問題があります)。
 nginx や Apache などのウェブサーバをリバースプロキシとして用意することを強く勧めます。
 
+Rails が、JavaScript ランタイムを必要とするエラーを出力することがあります。その場合は、`nodejs` パッケージをシステムにインストールするか、Gemfile に `therubyracer` を追加してください。
+
 log-archiver は、チャットログの保存先として、リレーショナルデータベース管理システムとして MySQL もしくは MariaDB と、全文検索エンジン Groonga 、RDBMS プラグインとして Groonga を使用するための Mroonga が必要です。
 これらのインストールは、[Mroonga 公式サイト](http://mroonga.org/ja/docs/install.html) を参照してください。
 
-log-archiver は Ruby で書かれています。
-対応しているバージョンの Ruby 実行環境をインストールし、ライブラリバージョン管理システム Bundler を使えるようにしてください。
+バックグラウンドジョブを実行する際に、ジョブ管理のため Redis データベースを必要とします。
+
+log-archiver は Ruby と JavaScript で書かれています。
+対応しているバージョンの Ruby 実行環境をインストールし、Ruby のライブラリバージョン管理システム Bundler と JavaScript のライブラリバージョン管理システム Yarn を使えるようにしてください。
 
 log-archiver はバージョン管理システム git で配信されています。git を使ってプログラムをダウンロードする場合は、これもインストールしてください。
 
@@ -26,6 +30,7 @@ cd log-archiver
 
 ```bash
 bundle install --deployment --path vendor/bundle
+yarn install
 ```
 
 ## データベースの設定
@@ -74,15 +79,13 @@ bin/rails db:migrate RAILS_ENV=production
 bin/rails db:seed RAILS_ENV=production
 ```
 
-**注意**：`bin/rails db:setup` でも同様にデータベースの準備を行いますが、Mroonga と相性が悪く、エラーが発生するようです。
+## Puma の設定
 
-## unicorn の設定
-
-log-archiver のウェブサーバである unicorn の設定です。
+log-archiver のウェブサーバである Puma の設定です。
 まず、設定ファイルを用意します。
 
 ```bash
-cp config/unicorn.rb.example config/unicorn.rb
+cp config/puma.rb.example config/puma.rb
 ```
 
 必要があれば書き換えてください。
@@ -121,15 +124,16 @@ systemd に登録します。
 
 ```bash
 cp doc/log-archiver_* .
-vi log-archiver_unicorn.service
+vi log-archiver_puma.service
 vi log-archiver_ircbot.service
+vi log-archiver_sidekiq.service
 ```
 
-ruby インタプリタや、log-archiver のパスを確認してください。
+Ruby インタプリタや、log-archiver のパスを確認してください。
 終わったら、設定ファイルをシステムに登録します。
 
 ```bash
-sudo mv log-archiver_unicorn.service log-archiver_ircbot.service /etc/systemd/system/
+sudo mv log-archiver_{puma,ircbot,sidekiq}.service /etc/systemd/system/
 sudo mv log-archiver.default /etc/default/log-archiver
 sudo systemctl daemon-reload
 ```
@@ -146,8 +150,8 @@ cp doc/nginx/log-archiver-ssl .
 vi log-archiver-ssl
 ```
 
-`upstream` の `server` に指定するのが、log-archiver の unicorn です。
-`config/unicorn.rb` に指定した値と同じになるように書き換えます。
+`upstream` の `server` に指定するのが、log-archiver の puma です。
+`config/puma.rb` に指定した値と同じになるように書き換えます。
 
 `YOUR_SERVER_FQDN` を、log-archiver の URL に書き換えてください。
 

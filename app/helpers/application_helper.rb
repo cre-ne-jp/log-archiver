@@ -1,4 +1,7 @@
 module ApplicationHelper
+  include FlatpickrHelper
+  include FontawesomeHelper
+
   # サイト名を返す
   def site_title
     @setting ||= Setting.get
@@ -74,5 +77,23 @@ module ApplicationHelper
   # @return [String]
   def nav_tab_class(cond)
     cond ? 'active' : ''
+  end
+
+  # PRIVMSGのキーワード部分にリンクを設定する
+  # @param [Privmsg] privmsg キーワードコマンドのPRIVMSG
+  # @param [Keyword] keyword 対応するキーワード
+  # @return [String]
+  def linkify_keyword(privmsg, keyword)
+    m = privmsg.message.match(/([ 　]+)/)
+    return sanitize(privmsg.message) unless m
+
+    command = m.pre_match
+    separator = m[1]
+    keyword_title = m.post_match
+
+    pre_keyword = sanitize("#{command}#{separator}")
+    link_to_keyword = link_to(sanitize(keyword_title), keyword_path(keyword))
+
+    raw("#{pre_keyword}#{link_to_keyword}")
   end
 end
