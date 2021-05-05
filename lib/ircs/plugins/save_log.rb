@@ -116,10 +116,12 @@ module LogArchiver
       def on_privmsg(m)
         pp convert_mirc_to_html(m.message)
         record_message(m) do |channel, irc_user|
-          privmsg = channel.privmsgs.create!(irc_user: irc_user,
-                                             timestamp: m.time,
-                                             nick: m.user.nick,
-                                             message: m.message)
+          privmsg = channel.privmsgs.create!(
+            irc_user: irc_user,
+            timestamp: m.time,
+            nick: m.user.nick,
+            message: convert_mirc_to_html(m.message)
+          )
           if privmsg.message.match?(/\A\.(k|a)[ 　]+.+\z/)
             @extract_keyword.run(privmsg)
           end
@@ -129,31 +131,8 @@ module LogArchiver
 
       private
 
-      # mIRC 制御文字による装飾を含むメッセージを、HTML に変換する
-      # @see https://www.mirc.co.uk/colors.html
-      # @see https://www.mirc.com/help/html/index.html?control_codes.html
-      # @see https://yoshino.tripod.com/73th/data/irccode.htm#ascii_controlcode
-      # @param [String] mirc mIRC 形式の制御文字を含みうるメッセージ
-      # @return [String]
       def convert_mirc_to_html(mirc)
-        decorate = []
-        splited = mirc.chars
-        splited.size.times do |n|
-          case splited[n]
-          when "\u0002"
-            # bold
-          when "\u001F"
-            # underline
-          when "\u0016"
-            # reverse (italic)
-          when "\u0003"
-            # color text,background
-          when "\u000F"
-            # clear
-          else
-          end
-        end
-        splited.join('')
+        MircToHtml.new(mirc).convert
       end
     end
   end
