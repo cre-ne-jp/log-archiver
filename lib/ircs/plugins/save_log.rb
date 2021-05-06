@@ -114,25 +114,16 @@ module LogArchiver
       # PRIVMSG を受信したとき
       # @param [Cinch::Message] m メッセージ
       def on_privmsg(m)
-        pp convert_mirc_to_html(m.message)
         record_message(m) do |channel, irc_user|
-          privmsg = channel.privmsgs.create!(
-            irc_user: irc_user,
-            timestamp: m.time,
-            nick: m.user.nick,
-            message: convert_mirc_to_html(m.message)
-          )
+          privmsg = channel.privmsgs.create!(irc_user: irc_user,
+                                             timestamp: m.time,
+                                             nick: m.user.nick,
+                                             message: m.message)
           if privmsg.message.match?(/\A\.(k|a)[ 　]+.+\z/)
             @extract_keyword.run(privmsg)
           end
           ChannelLastSpeech.refresh!(channel)
         end
-      end
-
-      private
-
-      def convert_mirc_to_html(mirc)
-        MircToHtml.new(mirc).convert
       end
     end
   end

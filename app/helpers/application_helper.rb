@@ -37,6 +37,13 @@ module ApplicationHelper
     Rinku.auto_link(h(s), :urls_without_www)
   end
 
+  # mIRC 装飾制御文字を HTML に変換する
+  # @param [String] mirc mIRC 装飾制御文字を含むメッセージ
+  # @return [String]
+  def convert_mirc_to_html(mirc)
+    MircToHtml.new(mirc).convert
+  end
+
   # Markdown ソースを HTML ソースに変換する
   # @param [String] source Markdown ソース
   # @return [String]

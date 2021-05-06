@@ -17,7 +17,7 @@
     <% if keyword = privmsg_id_keyword_map[m.id] %>
       <dd><%= linkify_keyword(m, keyword) %></dd>
     <% else %>
-      <dd><%= raw(linkify(m.message)) %></dd>
+      <dd><%= raw(convert_mirc_to_html(linkify(m.message))) %></dd>
     <% end %>
   </dl>
 <% when Notice, MessageHelper::IsArchived[:notice] %>
