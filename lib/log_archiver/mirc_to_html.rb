@@ -45,8 +45,9 @@ module LogArchiver
           boolean_option('bold')
         when "\u001F"
           boolean_option('underline')
-        #when "\u00xx"
+        #when "\u0009"
         #  boolean_option('italic')
+        # 制御文字自体が不明
         when "\u0016"
           reverse_option
         when "\u0003"
@@ -134,7 +135,7 @@ module LogArchiver
       keywords = {color: (text.nil? ? 'color99' : "color#{text}")}
       keywords[:bg] = (bg.nil? ? 'bg99' : "bg#{bg}") if bg
 
-      exist_keywords = keywords.map do |k, v|
+      exist_keywords = keywords.map do |k, _v|
         @decorate.select do |d|
           d[0, k.size] == k.to_s
         end
