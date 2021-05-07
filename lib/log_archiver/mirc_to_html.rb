@@ -108,23 +108,38 @@ module LogArchiver
     end
 
     # 文字色・背景色を反転させる
+    # @return [void]
     def reverse_option
+      keywords = {
+        'color' => '99',
+        'bg' => '99'
+      }
+
+      keywords.keys.map do |k|
+        key = @decorate.select do |d|
+          d[0, k.size] == k
+        end
+        keywords[key.first[0, k.size]] = key.first[-2..-1] if key.any?
+      end
+
+      color_option(keywords['bg'], keywords['color'])
     end
 
     # 文字色・背景色を処理する
     # 色番号 '99' はデフォルトの色(=色設定なし)
     # @param [String] text 文字色
     # @param [String] bg 背景色
+    # @return [void]
     def color_option(text, bg = nil)
-      keywords = {color: (text == '99' ? nil : "color#{text}")}
-      keywords[:bg] = (bg == '99' ? nil : "bg#{bg}") if bg
+      keywords = {color: (text.nil? ? 'color99' : "color#{text}")}
+      keywords[:bg] = (bg.nil? ? 'bg99' : "bg#{bg}") if bg
 
       exist_keywords = keywords.map do |k, v|
         @decorate.select do |d|
           d[0, k.size] == k.to_s
         end
       end
-      @decorate = @decorate - exist_keywords.flatten + keywords.values.compact
+      @decorate = @decorate - exist_keywords.flatten + keywords.values.compact - %w(color99 bg99)
 
       @converted.push(span_end)
       @converted.push(span_start)
