@@ -1,0 +1,40 @@
+$color-codes: (
+  "00": #FFFFFF,
+  "01": #000000,
+  "02": #00007F,
+  "03": #009300,
+  "04": #FF0000,
+  "05": #7F0000,
+  "06": #9C009C,
+  "07": #FC7C00,
+  "08": #FFFF00,
+  "09": #00FC00,
+  "10": #009393,
+  "11": #00FFFF,
+  "12": #0000FC,
+  "13": #FF00FF,
+  "14": #7F7F7F,
+  "15": #D2D2D2,
+  "99": auto
+);
+
+.message-content {
+  .mirc-decorate_bold {
+    font-weight: bold;
+  }
+  .mirc-decorate_underline {
+    text-decoration: underline;
+  }
+  .mirc-decorate_italic {
+    font-style: italic;
+  }
+
+  @each $code, $color in $color-codes {
+    .mirc-decorate_color#{$code} {
+      color: $color;
+    }
+    .mirc-decorate_bg#{$code} {
+      background-color: $color;
+    }
+  }
+}
