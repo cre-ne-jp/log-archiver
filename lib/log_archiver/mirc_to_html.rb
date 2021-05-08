@@ -6,6 +6,7 @@ module LogArchiver
     # @see https://www.mirc.co.uk/colors.html
     # @see https://www.mirc.com/help/html/index.html?control_codes.html
     # @see https://yoshino.tripod.com/73th/data/irccode.htm#ascii_controlcode
+    # @see https://en.wikichip.org/wiki/irc/colors
 
     # コンストラクタ
     # @param [String] mirc mIRC 形式の制御文字を含みうるメッセージ
@@ -45,9 +46,8 @@ module LogArchiver
           boolean_option('bold')
         when "\u001F"
           boolean_option('underline')
-        #when "\u0009"
-        #  boolean_option('italic')
-        # 制御文字自体が不明
+        when "\u001D"
+          boolean_option('italic')
         when "\u0016"
           reverse_option
         when "\u0003"
