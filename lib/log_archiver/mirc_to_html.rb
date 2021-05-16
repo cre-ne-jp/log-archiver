@@ -33,6 +33,9 @@ module LogArchiver
 
       # [Boolean]
       @decorated = false
+
+      # [Hash<String>] 16進表記の文字色・背景色
+      @hex_color = {color: nil, bg: nil}
     end
 
     # 変換を行なう
@@ -87,6 +90,20 @@ module LogArchiver
           # 文字色の直後に , があり、かつ背景色が設定されていない場合は
           # , が区切り文字として誤認識されて失われている
           @converted.push(',') if type == :bg && code[:bg].nil?
+        when "\u0004"
+          # hex color
+          if /^([a-fA-F\d]{6})(?:,([a-fA-F\d]{6}))?/ =~ @original[n + 1, 13].join
+            hex_color_option($1.upcase, bg = $2&.upcase)
+            if $2.nil?
+              # 文字色のみ設定した
+              @original[n + 1, 6] = nil
+            else
+              # 文字色・背景色の両方を設定した
+              @original[n + 1, 13] = nil
+            end
+          else
+            color_option(99, 99)
+          end
         when "\u000F"
           # clear
           @decorate = []
@@ -138,7 +155,7 @@ module LogArchiver
       color_option(keywords['bg'], keywords['color'])
     end
 
-    # 文字色・背景色を処理する
+    # 定数表記の文字色・背景色を処理する
     # 色番号 '99' はデフォルトの色(=色設定なし)
     # @param [String] text 文字色
     # @param [String] bg 背景色
@@ -146,14 +163,41 @@ module LogArchiver
     def color_option(text, bg = nil)
       keywords = {}
       keywords[:color] = 'color%02d' % (text.nil? ? 99 : text.to_i)
-      keywords[:bg] = 'bg%02d' % (bg.nil? ? 99 : bg.to_i)
+      keywords[:bg] = 'bg%02d' % bg.to_i if bg
 
       exist_keywords = keywords.map do |k, _v|
         @decorate.select do |d|
           d[0, k.size] == k.to_s
         end
       end
-      @decorate = @decorate - exist_keywords.flatten + keywords.values.compact - %w(color99 bg99)
+      exist_keywords.flatten!
+
+      @decorate = @decorate - exist_keywords + keywords.values - %w(color99 bg99)
+
+      @hex_color[:color] = nil if exist_keywords.include?('colorhex')
+      @hex_color[:bg] = nil if exist_keywords.include?('bghex')
+
+      decorate_separator
+    end
+
+    # 16進表記の文字色・背景色を処理する
+    # @param [String] text 文字色
+    # @param [String] bg 背景色
+    # @return [void]
+    def hex_color_option(text = nil, bg = nil)
+      keywords = {}
+
+      keywords[:color], @hex_color[:color] =
+        text.nil? ? ['color99', nil] : ['colorhex', text]
+      keywords[:bg], @hex_color[:bg] =
+        bg.nil? ? ['bg99', nil] : ['bghex', bg]
+
+      exist_keywords = keywords.map do |k, _v|
+        @decorate.select do |d|
+          d[0, k.size] == k.to_s
+        end
+      end
+      @decorate = (@decorate - exist_keywords.flatten + keywords.values - %w(color99 bg99)).uniq
 
       decorate_separator
     end
@@ -188,7 +232,18 @@ module LogArchiver
       class_name_with_header = @decorate.map do |d|
         "#{@html_class_header}#{d}"
       end
-      %Q(<span class="#{class_name_with_header.join(' ')}">)
+
+      hex_color_styles = []
+      unless @hex_color[:color].nil?
+        hex_color_styles.push("color: ##{@hex_color[:color]};")
+      end
+      unless @hex_color[:bg].nil?
+        hex_color_styles.push("background-color: ##{@hex_color[:bg]};")
+      end
+
+      %Q(<span class="#{class_name_with_header.join(' ')}"%s>) % (
+        hex_color_styles.empty? ? '' : %Q( style="#{hex_color_styles.join(' ')}")
+      )
     end
 
     # span の終了タグを返す
