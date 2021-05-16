@@ -56,21 +56,34 @@ module LogArchiver
           reverse_option
         when "\u0003"
           # color text[,background]
-          if @original[n + 3] == ','
-            # 背景色が設定されている
-            color_option(
-              @original[(n + 1)..(n + 2)].join,
-              @original[(n + 4)..(n + 5)].join
-            )
-            @original[(n + 1)..(n + 5)] = nil
-          else
-            color_option(@original[(n + 1)..(n + 2)].join)
-            @original[(n + 1)..(n + 2)] = nil
+          code = {}
+          type = nil
+
+          1.upto(5) do |i|
+            now = @original[n + i]
+
+            if ',' == now
+              if type == :fg
+                type = :bg
+                @original[n + i] = nil
+              else
+                break
+              end
+            elsif '0123456789'.include?(now)
+              type = :fg if type.nil?
+
+              code[type] = "#{code[type]}#{now}"
+              @original[n + i] = nil
+            else
+              break
+            end
           end
+
+          color_option(code[:fg], code[:bg])
         when "\u000F"
           # clear
           @decorate = []
-          @converted.push(span_end)
+          decorate_separator
         else
           @converted.push(now)
         end
@@ -97,19 +110,7 @@ module LogArchiver
         @decorate.push(decorating)
       end
 
-      if @decorated
-        # 一つ前の文字で何かしらの装飾がされているとき
-        if @decorate.empty?
-          # 今回の制御文字で全ての装飾がなくなるとき
-          @converted.push(span_end)
-        else
-          # 装飾が変更されるとき
-          @converted.push("#{span_end}#{span_start}")
-        end
-      else
-        # 一つ前の文字までは装飾がないとき
-        @converted.push(span_start)
-      end
+      decorate_separator
     end
 
     # 文字色・背景色を反転させる
@@ -136,8 +137,9 @@ module LogArchiver
     # @param [String] bg 背景色
     # @return [void]
     def color_option(text, bg = nil)
-      keywords = {color: (text.nil? ? 'color99' : "color#{text}")}
-      keywords[:bg] = (bg.nil? ? 'bg99' : "bg#{bg}") if bg
+      keywords = {}
+      keywords[:color] = 'color%02d' % (text.nil? ? 99 : text.to_i)
+      keywords[:bg] = 'bg%02d' % (bg.nil? ? 99 : bg.to_i)
 
       exist_keywords = keywords.map do |k, _v|
         @decorate.select do |d|
@@ -146,8 +148,25 @@ module LogArchiver
       end
       @decorate = @decorate - exist_keywords.flatten + keywords.values.compact - %w(color99 bg99)
 
-      @converted.push(span_end)
-      @converted.push(span_start)
+      decorate_separator
+    end
+
+    # 現在の装飾状態を確認し、必要な span タグを埋め込む
+    # @return [void]
+    def decorate_separator
+      if @decorated
+        # 一つ前の文字で何かしらの装飾がされているとき
+        if @decorate.empty?
+          # 今回の制御文字で全ての装飾がなくなるとき
+          @converted.push(span_end)
+        else
+          # 装飾が変更されるとき
+          @converted.push("#{span_end}#{span_start}")
+        end
+      else
+        # 一つ前の文字までは装飾がないとき
+        @converted.push(span_start)
+      end
     end
 
     # span の開始タグを返す
