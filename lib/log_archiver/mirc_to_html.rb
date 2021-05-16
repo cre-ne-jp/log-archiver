@@ -12,7 +12,7 @@ module LogArchiver
     # @param [String] mirc mIRC 形式の制御文字を含みうるメッセージ
     # @param [String] html_class_header HTMLタグに付加するクラスの接頭辞
     # @return [self]
-    def initialize(mirc, html_class_header = 'mirc-decorate_')
+    def initialize(mirc, html_class_header = 'mirc-')
       # [String] mIRC 形式の制御文字を含みうるメッセージ
       @mirc = mirc.freeze
 

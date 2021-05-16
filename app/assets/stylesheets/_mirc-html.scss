@@ -21,21 +21,21 @@ $color-codes: (
 );
 
 .message-content {
-  .mirc-decorate_bold {
+  .mirc-bold {
     font-weight: bold;
   }
-  .mirc-decorate_underline {
+  .mirc-underline {
     text-decoration: underline;
   }
-  .mirc-decorate_italic {
+  .mirc-italic {
     font-style: italic;
   }
 
   @each $code, $color in $color-codes {
-    .mirc-decorate_color#{$code} {
+    .mirc-color#{$code} {
       color: $color;
     }
-    .mirc-decorate_bg#{$code} {
+    .mirc-bg#{$code} {
       background-color: $color;
     }
   }
