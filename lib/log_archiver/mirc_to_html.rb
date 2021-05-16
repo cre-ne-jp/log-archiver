@@ -48,6 +48,10 @@ module LogArchiver
           boolean_option('underline')
         when "\u001D"
           boolean_option('italic')
+        when "\u001E"
+          boolean_option('strikethrough')
+        when "\u0011"
+          boolean_option('monospace')
         when "\u0016"
           reverse_option
         when "\u0003"

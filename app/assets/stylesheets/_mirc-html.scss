@@ -30,6 +30,12 @@ $color-codes: (
   .mirc-italic {
     font-style: italic;
   }
+  .mirc-strikethrough {
+    text-decoration: line-through;
+  }
+  .mirc-monospace {
+    font-family: monospace;
+  }
 
   @each $code, $color in $color-codes {
     .mirc-color#{$code} {
