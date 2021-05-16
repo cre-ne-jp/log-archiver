@@ -72,6 +72,9 @@ module LogArchiver
             elsif '0123456789'.include?(now)
               type = :fg if type.nil?
 
+              # 既に色番号が2桁になっていれば、それ以降は文字として出力する
+              break if code[type].to_s.size >= 2
+
               code[type] = "#{code[type]}#{now}"
               @original[n + i] = nil
             else
@@ -80,6 +83,10 @@ module LogArchiver
           end
 
           color_option(code[:fg], code[:bg])
+
+          # 文字色の直後に , があり、かつ背景色が設定されていない場合は
+          # , が区切り文字として誤認識されて失われている
+          @converted.push(',') if type == :bg && code[:bg].nil?
         when "\u000F"
           # clear
           @decorate = []
@@ -157,15 +164,19 @@ module LogArchiver
       if @decorated
         # 一つ前の文字で何かしらの装飾がされているとき
         if @decorate.empty?
-          # 今回の制御文字で全ての装飾がなくなるとき
+          # 今回の制御文字で全ての装飾がなくなる
           @converted.push(span_end)
         else
-          # 装飾が変更されるとき
+          # 装飾が変更される
           @converted.push("#{span_end}#{span_start}")
         end
       else
         # 一つ前の文字までは装飾がないとき
-        @converted.push(span_start)
+        if @decorate.empty?
+          # 設定すべき装飾がない
+        else
+          @converted.push(span_start)
+        end
       end
     end
 
