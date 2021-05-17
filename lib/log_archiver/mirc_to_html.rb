@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 
 module LogArchiver
+  # mIRC 制御文字による装飾を含むメッセージを、HTML に変換する
+  # @see https://www.mirc.co.uk/colors.html
+  # @see https://www.mirc.com/help/html/index.html?control_codes.html
+  # @see https://yoshino.tripod.com/73th/data/irccode.htm#ascii_controlcode
+  # @see https://en.wikichip.org/wiki/irc/colors
   class MircToHtml
-    # mIRC 制御文字による装飾を含むメッセージを、HTML に変換する
-    # @see https://www.mirc.co.uk/colors.html
-    # @see https://www.mirc.com/help/html/index.html?control_codes.html
-    # @see https://yoshino.tripod.com/73th/data/irccode.htm#ascii_controlcode
-    # @see https://en.wikichip.org/wiki/irc/colors
-
     # コンストラクタ
     # @param [String] mirc mIRC 形式の制御文字を含みうるメッセージ
     # @param [String] html_class_header HTMLタグに付加するクラスの接頭辞
