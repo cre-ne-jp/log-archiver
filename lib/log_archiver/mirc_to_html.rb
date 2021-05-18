@@ -59,48 +59,17 @@ module LogArchiver
           reverse_option
         when "\u0003"
           # color text[,background]
-          code = {}
-          type = nil
-
-          1.upto(5) do |i|
-            now = @original[n + i]
-
-            if ',' == now
-              if type == :fg
-                type = :bg
-                @original[n + i] = nil
-              else
-                break
-              end
-            elsif '0123456789'.include?(now)
-              type = :fg if type.nil?
-
-              # 既に色番号が2桁になっていれば、それ以降は文字として出力する
-              break if code[type].to_s.size >= 2
-
-              code[type] = "#{code[type]}#{now}"
-              @original[n + i] = nil
-            else
-              break
-            end
+          if /^(\d{1,2})(?:,(\d{1,2}))?/ =~ @original[n + 1, 5].join
+            color_option($1, $2)
+            @original[n + 1, $&.size] = nil
+          else
+            color_option(99, 99)
           end
-
-          color_option(code[:fg], code[:bg])
-
-          # 文字色の直後に , があり、かつ背景色が設定されていない場合は
-          # , が区切り文字として誤認識されて失われている
-          @converted.push(',') if type == :bg && code[:bg].nil?
         when "\u0004"
           # hex color
           if /^([a-fA-F\d]{6})(?:,([a-fA-F\d]{6}))?/ =~ @original[n + 1, 13].join
-            hex_color_option($1.upcase, bg = $2&.upcase)
-            if $2.nil?
-              # 文字色のみ設定した
-              @original[n + 1, 6] = nil
-            else
-              # 文字色・背景色の両方を設定した
-              @original[n + 1, 13] = nil
-            end
+            hex_color_option($1.upcase, $2&.upcase)
+            @original[n + 1, $&.size] = nil
           else
             color_option(99, 99)
           end
