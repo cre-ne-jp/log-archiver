@@ -101,7 +101,7 @@ module LogArchiver
 
     data '色指定: 背景色を維持して文字色のみ変更', [
       "ここから\x0300,01文字白色, 背景黒色\x0315, 文字明るいグレー, 背景黒色",
-      'ここから<span class="mirc-color00 mirc-bg01">文字白色, 背景黒色</span><span class="mirc-color15 mirc-bg01">, 文字明るいグレー, 背景黒色</span>'
+      'ここから<span class="mirc-color00 mirc-bg01">文字白色, 背景黒色</span><span class="mirc-bg01 mirc-color15">, 文字明るいグレー, 背景黒色</span>'
     ]
 
     data 'IRC Formatting Example 1', [
