@@ -118,7 +118,7 @@ module LogArchiver
         key = @decorate.select do |d|
           d[0, k.size] == k
         end
-        keywords[key.first[0, k.size]] = key.first[-2..-1] if key.any?
+        keywords[k] = key.first[-2..-1] if key.any?
       end
 
       color_option(keywords['bg'], keywords['color'])
@@ -158,8 +158,7 @@ module LogArchiver
 
       keywords[:color], @hex_color[:color] =
         text.nil? ? ['color99', nil] : ['colorhex', text]
-      keywords[:bg], @hex_color[:bg] =
-        bg.nil? ? ['bg99', nil] : ['bghex', bg]
+      keywords[:bg], @hex_color[:bg] = ['bghex', bg] if bg
 
       exist_keywords = keywords.map do |k, _v|
         @decorate.select do |d|
