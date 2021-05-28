@@ -39,69 +39,122 @@ module LogArchiver
       '重ねて装飾: <span class="mirc-bold">太字 </span><span class="mirc-bold mirc-italic">斜体 </span><span class="mirc-bold mirc-italic mirc-underline">下線 </span>まとめてリセット'
     ]
 
-    data '色指定: リセット', [
+    data '2桁色設定: リセット', [
       "制御文字\x03のみでリセット",
       '制御文字のみでリセット',
     ]
 
-    data '色指定: 文字色1桁', [
+    data '2桁色設定: 文字色1桁', [
       "これは \x030白色\x03 です。",
       'これは <span class="mirc-color00">白色</span> です。'
     ]
 
-    data '色指定: 文字色2桁', [
+    data '2桁色設定: 文字色2桁', [
       "これは \x0301黒色\x03 です。",
       'これは <span class="mirc-color01">黒色</span> です。'
     ]
 
-    data '色指定: 文字色2桁、その後すぐ数字', [
+    data '2桁色設定: 文字色2桁、その後すぐ数字', [
       "これは \x030123黒色\x03 です。",
       'これは <span class="mirc-color01">23黒色</span> です。'
     ]
 
-    data '色指定: カンマのみ', [
+    data '2桁色設定: カンマのみ', [
       "制御文字後\x03, カンマのみはリセット",
       '制御文字後, カンマのみはリセット'
     ]
 
-    data '色指定: 文字色1桁の後カンマ', [
+    data '2桁色設定: 文字色1桁の後カンマ', [
       "これは\x030,白色\x03です。",
       'これは<span class="mirc-color00">,白色</span>です。'
     ]
 
-    data '色指定: 文字色2桁の後カンマ', [
+    data '2桁色設定: 文字色2桁の後カンマ', [
       "これは\x0301,黒色\x03です。",
       'これは<span class="mirc-color01">,黒色</span>です。'
     ]
 
-    data '色指定: 文字色1桁、背景色1桁', [
+    data '2桁色設定: 文字色1桁、背景色1桁', [
       "これは \x030,1文字白色, 背景黒色\x03 です。",
       'これは <span class="mirc-color00 mirc-bg01">文字白色, 背景黒色</span> です。'
     ]
 
-    data '色指定: 文字色1桁、背景色2桁', [
+    data '2桁色設定: 文字色1桁、背景色2桁', [
       "これは \x031,00文字黒色, 背景白色\x03 です。",
       'これは <span class="mirc-color01 mirc-bg00">文字黒色, 背景白色</span> です。'
     ]
 
-    data '色指定: 文字色2桁、背景色1桁', [
+    data '2桁色設定: 文字色2桁、背景色1桁', [
       "これは \x0300,1文字白色, 背景黒色\x03 です。",
       'これは <span class="mirc-color00 mirc-bg01">文字白色, 背景黒色</span> です。'
     ]
 
-    data '色指定: 文字色2桁、背景色2桁', [
+    data '2桁色設定: 文字色2桁、背景色2桁', [
       "これは \x0301,00文字黒色, 背景白色\x03 です。",
       'これは <span class="mirc-color01 mirc-bg00">文字黒色, 背景白色</span> です。'
     ]
 
-    data '制御文字後にカンマ数字はリセット', [
+    data '2桁色設定: 制御文字後にカンマ数字はリセット', [
       "背景色が\x0300,01設定されそうで\x03,02されない",
       '背景色が<span class="mirc-color00 mirc-bg01">設定されそうで</span>,02されない'
     ]
 
-    data '色指定: 背景色を維持して文字色のみ変更', [
+    data '2桁色設定: 背景色を維持して文字色のみ変更', [
       "ここから\x0300,01文字白色, 背景黒色\x0315, 文字明るいグレー, 背景黒色",
-      'ここから<span class="mirc-color00 mirc-bg01">文字白色, 背景黒色</span><span class="mirc-bg01 mirc-color15">, 文字明るいグレー, 背景黒色</span>'
+      'ここから<span class="mirc-color00 mirc-bg01">文字白色, 背景黒色</span><span class="mirc-color15 mirc-bg01">, 文字明るいグレー, 背景黒色</span>'
+    ]
+
+    data '2桁色設定: 色反転', [
+      "これは \x030,1文字白色, 背景黒色, \x16文字黒色, 背景白色, \x16文字白色, 背景黒色\x03 です。",
+      'これは ' \
+      '<span class="mirc-color00 mirc-bg01">文字白色, 背景黒色, </span>' \
+      '<span class="mirc-color01 mirc-bg00">文字黒色, 背景白色, </span>' \
+      '<span class="mirc-color00 mirc-bg01">文字白色, 背景黒色</span>' \
+      ' です。'
+    ]
+
+    data '16進色設定: リセット', [
+      "制御文字\x04のみでリセット",
+      '制御文字のみでリセット',
+    ]
+
+    data '16進色設定: 文字色', [
+      "これは \x04010203ほぼ黒色\x04 です。",
+      'これは <span style="color: #010203;">ほぼ黒色</span> です。'
+    ]
+
+    data '16進色設定: 文字色の後すぐ数字', [
+      "これは \x0401020304ほぼ黒色\x04 です。",
+      'これは <span style="color: #010203;">04ほぼ黒色</span> です。'
+    ]
+
+    data '16進色設定: カンマのみ', [
+      "制御文字後\x04, カンマのみはリセット",
+      '制御文字後, カンマのみはリセット'
+    ]
+
+    data '16進色設定: 文字色の後カンマ', [
+      "これは \x04010203,ほぼ黒色\x04 です。",
+      'これは <span style="color: #010203;">,ほぼ黒色</span> です。'
+    ]
+
+    data '16進色設定: 文字色と背景色', [
+      "これは \x04010203,FFFEFD文字ほぼ黒色, 背景ほぼ白色\x04 です。",
+      'これは <span style="color: #010203; background-color: #FFFEFD;">文字ほぼ黒色, 背景ほぼ白色</span> です。'
+    ]
+
+    data '16進色設定: 制御文字後にカンマ数字はリセット', [
+      "背景色が\x04010203,FFFEFD設定されそうで\x04,FFFEFDされない",
+      '背景色が<span style="color: #010203; background-color: #FFFEFD;">設定されそうで</span>,FFFEFDされない'
+    ]
+
+    data '16進色設定: 色反転', [
+      "これは \x04FFFEFD,010203文字ほぼ白色, 背景ほぼ黒色, \x16文字ほぼ黒色, 背景ほぼ白色, \x16文字ほぼ白色, 背景ほぼ黒色\x04 です。",
+      'これは ' \
+      '<span style="color: #FFFEFD; background-color: #010203;">文字ほぼ白色, 背景ほぼ黒色, </span>' \
+      '<span style="color: #010203; background-color: #FFFEFD;">文字ほぼ黒色, 背景ほぼ白色, </span>' \
+      '<span style="color: #FFFEFD; background-color: #010203;">文字ほぼ白色, 背景ほぼ黒色</span>' \
+      ' です。'
     ]
 
     data 'IRC Formatting Example 1', [
@@ -132,7 +185,7 @@ module LogArchiver
     test 'mIRC制御文字が正しくHTMLに変換される' do
       text_with_mirc_codes, expected = data
 
-      html = MircToHtml.new(text_with_mirc_codes).convert
+      html = MircToHtml.new(text_with_mirc_codes).parse.render
       assert_equal(expected, html)
     end
   end

@@ -41,7 +41,7 @@ module ApplicationHelper
   # @param [String] mirc mIRC 装飾制御文字を含むメッセージ
   # @return [String]
   def convert_mirc_to_html(mirc)
-    LogArchiver::MircToHtml.new(mirc).convert
+    LogArchiver::MircToHtml.new(mirc).parse.render
   end
 
   # Markdown ソースを HTML ソースに変換する
