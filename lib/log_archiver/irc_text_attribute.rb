@@ -19,13 +19,13 @@ module LogArchiver
     # @return [Boolean] 文字色と背景色を反転するか
     attr_reader :reverse
     # @return [String] 文字色
-    attr_accessor :text_color
+    attr_reader :text_color
     # @return [String] 背景色
-    attr_accessor :bg_color
+    attr_reader :bg_color
     # @return [String] 16進表記の文字色
-    attr_accessor :text_hex_color
+    attr_reader :text_hex_color
     # @return [String] 16進表記の背景色
-    attr_accessor :bg_hex_color
+    attr_reader :bg_hex_color
 
     # 既定の色のコード
     DEFAULT_COLOR_CODE = 99
@@ -56,6 +56,46 @@ module LogArchiver
         other.bg_color == @bg_color &&
         other.text_hex_color == @text_hex_color &&
         other.bg_hex_color == @bg_hex_color
+    end
+
+    # 2桁表記で文字色を設定する
+    #
+    # 16進表記の文字色はクリアされる。
+    #
+    # @param [Integer] value 新しい文字色
+    def text_color=(value)
+      @text_color = value
+      @text_hex_color = nil
+    end
+
+    # 2桁表記で背景色を設定する
+    #
+    # 16進表記の背景色はクリアされる。
+    #
+    # @param [Integer] value 新しい背景色
+    def bg_color=(value)
+      @bg_color = value
+      @bg_hex_color = nil
+    end
+
+    # 16進表記で文字色を設定する
+    #
+    # 2桁表記の文字色はクリアされる。
+    #
+    # @param [String] value 新しい文字色
+    def text_hex_color=(value)
+      @text_hex_color = value
+      @text_color = DEFAULT_COLOR_CODE
+    end
+
+    # 16進表記で背景色を設定する
+    #
+    # 2桁表記の背景色はクリアされる。
+    #
+    # @param [String] value 新しい背景色
+    def bg_hex_color=(value)
+      @bg_hex_color = value
+      @bg_color = DEFAULT_COLOR_CODE
     end
 
     # 太字設定を切り替える
@@ -105,13 +145,6 @@ module LogArchiver
     def reset_colors!
       @text_color = DEFAULT_COLOR_CODE
       @bg_color = DEFAULT_COLOR_CODE
-
-      self
-    end
-
-    # 16進指定の文字色および背景色をリセットする
-    # @return [self]
-    def reset_hex_colors!
       @text_hex_color = nil
       @bg_hex_color = nil
 
@@ -138,22 +171,22 @@ module LogArchiver
       @reverse ? @text_hex_color : @bg_hex_color
     end
 
-    # `span` 開始タグに変換する
+    # `span` タグを生成する
     #
-    # 既定の属性だった場合は空文字列を返す。
-    # 変更点があった場合は、それがクラスや `style` 属性に設定された
-    # `span` 開始タグを返す。
+    # 既定の属性の場合は text をそのまま返す。
+    # 変更点があった場合は、対応する `span` タグで text を包んで返す。
     #
-    # @return [String] `span` 開始タグ
-    def span_start_tag
+    # @param [String] text `span` タグで包むテキスト
+    # @return [String] `span` タグで包まれたテキスト
+    def span_tag(text)
       classes = [
         @bold ? 'mirc-bold' : nil,
         @italic ? 'mirc-italic' : nil,
         @underline ? 'mirc-underline' : nil,
         @strikethrough ? 'mirc-strikethrough' : nil,
         @monospace ? 'mirc-monospace' : nil,
-        color_class('mirc-color', current_text_color, current_text_hex_color),
-        color_class('mirc-bg', current_bg_color, current_bg_hex_color),
+        color_class('mirc-color', current_text_color),
+        color_class('mirc-bg', current_bg_color),
       ].compact
 
       styles = [
@@ -162,9 +195,9 @@ module LogArchiver
       ].compact
 
       if classes.empty? && styles.empty?
-        ''
+        text
       else
-        "<span#{span_class(classes)}#{span_style(styles)}>"
+        "<span#{span_class(classes)}#{span_style(styles)}>#{text}</span>"
       end
     end
 
@@ -172,10 +205,9 @@ module LogArchiver
 
     # @param [String] prefix クラスの接頭辞
     # @param [Integer] color 2桁の色コード
-    # @param [String] hex_color 16進の色コード
     # @return [String] 色設定のクラス名
-    def color_class(prefix, color, hex_color)
-      if hex_color || color == DEFAULT_COLOR_CODE
+    def color_class(prefix, color)
+      if color == DEFAULT_COLOR_CODE
         nil
       else
         "#{prefix}%02d" % color
