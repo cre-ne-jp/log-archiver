@@ -42,11 +42,12 @@ module LogArchiver
 
       @chunks = [chunk]
 
-      # メッセージの各文字についての外部イテレータ
-      it = @message.each_char.with_index
-      loop do
-        c, i = it.next
-
+      # メッセージの文字数
+      n = @message.length
+      # 文字カウンタ
+      i = 0
+      while i < n
+        c = @message[i]
         case c
         when "\x0F"
           # リセット
@@ -79,11 +80,11 @@ module LogArchiver
         when "\x03"
           # 2桁表記の色設定
           next_attr_touched = true
-          parse_color(i, it, next_attr)
+          i += parse_color(i, next_attr)
         when "\x04"
           # 16進表記の色設定
           next_attr_touched = true
-          parse_hex_color(i, it, next_attr)
+          i += parse_hex_color(i, next_attr)
         else
           if !next_attr_touched || next_attr == current_attr
             # 属性が同じならば、現在の部分に文字を追加する
@@ -99,6 +100,8 @@ module LogArchiver
 
           next_attr_touched = false
         end
+
+        i += 1
       end
 
       self
@@ -115,16 +118,15 @@ module LogArchiver
 
     # 2桁色設定を解析する
     # @param [Integer] i 文字カウンタ
-    # @param [Enumerator] it 解析対象文字列の外部イテレータ
     # @param [IrcTextAttribute] next_attr 次に設定する属性
-    # @return [void]
-    def parse_color(i, it, next_attr)
+    # @return [Integer] 消費した文字数
+    def parse_color(i, next_attr)
       color_code_part = @message[i + 1, 5]
       m = color_code_part.match(/\A(\d{1,2})(?:,(\d{1,2}))?/)
 
       unless m
         next_attr.reset_colors!
-        return
+        return 0
       end
 
       text_color_str = m[1]
@@ -136,23 +138,20 @@ module LogArchiver
         next_attr.bg_color = bg_color_str.to_i
       end
 
-      m[0].length.times do
-        it.next
-      end
+      return m[0].length
     end
 
     # 16進色設定を解析する
     # @param [Integer] i 文字カウンタ
-    # @param [Enumerator] it 解析対象文字列の外部イテレータ
     # @param [IrcTextAttribute] next_attr 次に設定する属性
-    # @return [void]
-    def parse_hex_color(i, it, next_attr)
+    # @return [Integer] 消費した文字数
+    def parse_hex_color(i, next_attr)
       color_code_part = @message[i + 1, 13]
       m = color_code_part.match(/\A([a-fA-F\d]{6})(?:,([a-fA-F\d]{6}))?/)
 
       unless m
         next_attr.reset_colors!
-        return
+        return 0
       end
 
       text_hex_color = m[1]
@@ -164,9 +163,7 @@ module LogArchiver
         next_attr.bg_hex_color = bg_hex_color
       end
 
-      m[0].length.times do
-        it.next
-      end
+      return m[0].length
     end
   end
 end
