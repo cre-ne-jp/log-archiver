@@ -212,7 +212,7 @@ module LogArchiver
       # シグナルを捕捉し、ボットを終了させる処理
       %i(SIGINT SIGTERM).each do |signal|
         Signal.trap(signal) do
-          bot.quit(@quit_message.empty? ? "Caught #{sig}" : @quit_message)
+          bot.quit(@quit_message.empty? ? "Caught #{signal}" : @quit_message)
           status_server_signal_io_w.write('q')
         end
       end
