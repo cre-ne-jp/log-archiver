@@ -186,7 +186,9 @@ module LogArchiver
         @strikethrough ? 'mirc-strikethrough' : nil,
         @monospace ? 'mirc-monospace' : nil,
         color_class('mirc-color', current_text_color),
+        current_text_hex_color ? 'mirc-color-hex' : nil,
         color_class('mirc-bg', current_bg_color),
+        current_bg_hex_color ? 'mirc-bg-hex' : nil,
       ].compact
 
       styles = [

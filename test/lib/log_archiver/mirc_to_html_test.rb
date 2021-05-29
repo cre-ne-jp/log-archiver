@@ -120,12 +120,12 @@ module LogArchiver
 
     data '16進色設定: 文字色', [
       "これは \x04010203ほぼ黒色\x04 です。",
-      'これは <span style="color: #010203;">ほぼ黒色</span> です。'
+      'これは <span class="mirc-color-hex" style="color: #010203;">ほぼ黒色</span> です。'
     ]
 
     data '16進色設定: 文字色の後すぐ数字', [
       "これは \x0401020304ほぼ黒色\x04 です。",
-      'これは <span style="color: #010203;">04ほぼ黒色</span> です。'
+      'これは <span class="mirc-color-hex" style="color: #010203;">04ほぼ黒色</span> です。'
     ]
 
     data '16進色設定: カンマのみ', [
@@ -135,25 +135,25 @@ module LogArchiver
 
     data '16進色設定: 文字色の後カンマ', [
       "これは \x04010203,ほぼ黒色\x04 です。",
-      'これは <span style="color: #010203;">,ほぼ黒色</span> です。'
+      'これは <span class="mirc-color-hex" style="color: #010203;">,ほぼ黒色</span> です。'
     ]
 
     data '16進色設定: 文字色と背景色', [
       "これは \x04010203,FFFEFD文字ほぼ黒色, 背景ほぼ白色\x04 です。",
-      'これは <span style="color: #010203; background-color: #FFFEFD;">文字ほぼ黒色, 背景ほぼ白色</span> です。'
+      'これは <span class="mirc-color-hex mirc-bg-hex" style="color: #010203; background-color: #FFFEFD;">文字ほぼ黒色, 背景ほぼ白色</span> です。'
     ]
 
     data '16進色設定: 制御文字後にカンマ数字はリセット', [
       "背景色が\x04010203,FFFEFD設定されそうで\x04,FFFEFDされない",
-      '背景色が<span style="color: #010203; background-color: #FFFEFD;">設定されそうで</span>,FFFEFDされない'
+      '背景色が<span class="mirc-color-hex mirc-bg-hex" style="color: #010203; background-color: #FFFEFD;">設定されそうで</span>,FFFEFDされない'
     ]
 
     data '16進色設定: 色反転', [
       "これは \x04FFFEFD,010203文字ほぼ白色, 背景ほぼ黒色, \x16文字ほぼ黒色, 背景ほぼ白色, \x16文字ほぼ白色, 背景ほぼ黒色\x04 です。",
       'これは ' \
-      '<span style="color: #FFFEFD; background-color: #010203;">文字ほぼ白色, 背景ほぼ黒色, </span>' \
-      '<span style="color: #010203; background-color: #FFFEFD;">文字ほぼ黒色, 背景ほぼ白色, </span>' \
-      '<span style="color: #FFFEFD; background-color: #010203;">文字ほぼ白色, 背景ほぼ黒色</span>' \
+      '<span class="mirc-color-hex mirc-bg-hex" style="color: #FFFEFD; background-color: #010203;">文字ほぼ白色, 背景ほぼ黒色, </span>' \
+      '<span class="mirc-color-hex mirc-bg-hex" style="color: #010203; background-color: #FFFEFD;">文字ほぼ黒色, 背景ほぼ白色, </span>' \
+      '<span class="mirc-color-hex mirc-bg-hex" style="color: #FFFEFD; background-color: #010203;">文字ほぼ白色, 背景ほぼ黒色</span>' \
       ' です。'
     ]
 
@@ -164,137 +164,137 @@ module LogArchiver
 
     data "2桁文字色＋2桁背景色設定済み: 非反転: 16進文字色のみ", [
       "\x0304,08初期状態\x04010203設定後",
-      "<span class=\"mirc-color04 mirc-bg08\">初期状態</span><span class=\"mirc-bg08\" style=\"color: #010203;\">設定後</span>"
+      "<span class=\"mirc-color04 mirc-bg08\">初期状態</span><span class=\"mirc-color-hex mirc-bg08\" style=\"color: #010203;\">設定後</span>"
     ]
 
     data "2桁文字色＋2桁背景色設定済み: 非反転: 16進文字色と16進背景色", [
       "\x0304,08初期状態\x04010203,FFFEFD設定後",
-      "<span class=\"mirc-color04 mirc-bg08\">初期状態</span><span style=\"color: #010203; background-color: #FFFEFD;\">設定後</span>"
+      "<span class=\"mirc-color04 mirc-bg08\">初期状態</span><span class=\"mirc-color-hex mirc-bg-hex\" style=\"color: #010203; background-color: #FFFEFD;\">設定後</span>"
     ]
 
     data "2桁文字色＋2桁背景色設定済み: 反転: 16進文字色と16進背景色", [
       "\x16\x0304,08初期状態\x04010203,FFFEFD設定後",
-      "<span class=\"mirc-color08 mirc-bg04\">初期状態</span><span style=\"color: #FFFEFD; background-color: #010203;\">設定後</span>"
+      "<span class=\"mirc-color08 mirc-bg04\">初期状態</span><span class=\"mirc-color-hex mirc-bg-hex\" style=\"color: #FFFEFD; background-color: #010203;\">設定後</span>"
     ]
 
     data "2桁文字色＋16進背景色設定済み: 非反転: 2桁表記リセット", [
       "\x04000000,EFED00\x0304初期状態\x03設定後",
-      "<span class=\"mirc-color04\" style=\"background-color: #EFED00;\">初期状態</span>設定後"
+      "<span class=\"mirc-color04 mirc-bg-hex\" style=\"background-color: #EFED00;\">初期状態</span>設定後"
     ]
 
     data "2桁文字色＋16進背景色設定済み: 非反転: 文字色のみ", [
       "\x04000000,EFED00\x0304初期状態\x0300設定後",
-      "<span class=\"mirc-color04\" style=\"background-color: #EFED00;\">初期状態</span><span class=\"mirc-color00\" style=\"background-color: #EFED00;\">設定後</span>"
+      "<span class=\"mirc-color04 mirc-bg-hex\" style=\"background-color: #EFED00;\">初期状態</span><span class=\"mirc-color00 mirc-bg-hex\" style=\"background-color: #EFED00;\">設定後</span>"
     ]
 
     data "2桁文字色＋16進背景色設定済み: 非反転: 文字色と背景色", [
       "\x04000000,EFED00\x0304初期状態\x0300,01設定後",
-      "<span class=\"mirc-color04\" style=\"background-color: #EFED00;\">初期状態</span><span class=\"mirc-color00 mirc-bg01\">設定後</span>"
+      "<span class=\"mirc-color04 mirc-bg-hex\" style=\"background-color: #EFED00;\">初期状態</span><span class=\"mirc-color00 mirc-bg01\">設定後</span>"
     ]
 
     data "2桁文字色＋16進背景色設定済み: 非反転: 16進表記リセット", [
       "\x04000000,EFED00\x0304初期状態\x04設定後",
-      "<span class=\"mirc-color04\" style=\"background-color: #EFED00;\">初期状態</span>設定後"
+      "<span class=\"mirc-color04 mirc-bg-hex\" style=\"background-color: #EFED00;\">初期状態</span>設定後"
     ]
 
     data "2桁文字色＋16進背景色設定済み: 非反転: 16進文字色のみ", [
       "\x04000000,EFED00\x0304初期状態\x04010203設定後",
-      "<span class=\"mirc-color04\" style=\"background-color: #EFED00;\">初期状態</span><span style=\"color: #010203; background-color: #EFED00;\">設定後</span>"
+      "<span class=\"mirc-color04 mirc-bg-hex\" style=\"background-color: #EFED00;\">初期状態</span><span class=\"mirc-color-hex mirc-bg-hex\" style=\"color: #010203; background-color: #EFED00;\">設定後</span>"
     ]
 
     data "2桁文字色＋16進背景色設定済み: 非反転: 16進文字色と16進背景色", [
       "\x04000000,EFED00\x0304初期状態\x04010203,FFFEFD設定後",
-      "<span class=\"mirc-color04\" style=\"background-color: #EFED00;\">初期状態</span><span style=\"color: #010203; background-color: #FFFEFD;\">設定後</span>"
+      "<span class=\"mirc-color04 mirc-bg-hex\" style=\"background-color: #EFED00;\">初期状態</span><span class=\"mirc-color-hex mirc-bg-hex\" style=\"color: #010203; background-color: #FFFEFD;\">設定後</span>"
     ]
 
     data "2桁文字色＋16進背景色設定済み: 反転: 文字色のみ", [
       "\x16\x04000000,EFED00\x0304初期状態\x0300設定後",
-      "<span class=\"mirc-bg04\" style=\"color: #EFED00;\">初期状態</span><span class=\"mirc-bg00\" style=\"color: #EFED00;\">設定後</span>"
+      "<span class=\"mirc-color-hex mirc-bg04\" style=\"color: #EFED00;\">初期状態</span><span class=\"mirc-color-hex mirc-bg00\" style=\"color: #EFED00;\">設定後</span>"
     ]
 
     data "2桁文字色＋16進背景色設定済み: 反転: 文字色と背景色", [
       "\x16\x04000000,EFED00\x0304初期状態\x0300,01設定後",
-      "<span class=\"mirc-bg04\" style=\"color: #EFED00;\">初期状態</span><span class=\"mirc-color01 mirc-bg00\">設定後</span>"
+      "<span class=\"mirc-color-hex mirc-bg04\" style=\"color: #EFED00;\">初期状態</span><span class=\"mirc-color01 mirc-bg00\">設定後</span>"
     ]
 
     data "2桁文字色＋16進背景色設定済み: 反転: 16進文字色のみ", [
       "\x16\x04000000,EFED00\x0304初期状態\x04010203設定後",
-      "<span class=\"mirc-bg04\" style=\"color: #EFED00;\">初期状態</span><span style=\"color: #EFED00; background-color: #010203;\">設定後</span>"
+      "<span class=\"mirc-color-hex mirc-bg04\" style=\"color: #EFED00;\">初期状態</span><span class=\"mirc-color-hex mirc-bg-hex\" style=\"color: #EFED00; background-color: #010203;\">設定後</span>"
     ]
 
     data "2桁文字色＋16進背景色設定済み: 反転: 16進文字色と16進背景色", [
       "\x16\x04000000,EFED00\x0304初期状態\x04010203,FFFEFD設定後",
-      "<span class=\"mirc-bg04\" style=\"color: #EFED00;\">初期状態</span><span style=\"color: #FFFEFD; background-color: #010203;\">設定後</span>"
+      "<span class=\"mirc-color-hex mirc-bg04\" style=\"color: #EFED00;\">初期状態</span><span class=\"mirc-color-hex mirc-bg-hex\" style=\"color: #FFFEFD; background-color: #010203;\">設定後</span>"
     ]
 
     data "16進文字色＋16進背景色設定済み: 非反転: 2桁表記リセット", [
       "\x04FE0102,EFED00初期状態\x03設定後",
-      "<span style=\"color: #FE0102; background-color: #EFED00;\">初期状態</span>設定後"
+      "<span class=\"mirc-color-hex mirc-bg-hex\" style=\"color: #FE0102; background-color: #EFED00;\">初期状態</span>設定後"
     ]
 
     data "16進文字色＋16進背景色設定済み: 非反転: 文字色のみ", [
       "\x04FE0102,EFED00初期状態\x0300設定後",
-      "<span style=\"color: #FE0102; background-color: #EFED00;\">初期状態</span><span class=\"mirc-color00\" style=\"background-color: #EFED00;\">設定後</span>"
+      "<span class=\"mirc-color-hex mirc-bg-hex\" style=\"color: #FE0102; background-color: #EFED00;\">初期状態</span><span class=\"mirc-color00 mirc-bg-hex\" style=\"background-color: #EFED00;\">設定後</span>"
     ]
 
     data "16進文字色＋16進背景色設定済み: 非反転: 文字色と背景色", [
       "\x04FE0102,EFED00初期状態\x0300,01設定後",
-      "<span style=\"color: #FE0102; background-color: #EFED00;\">初期状態</span><span class=\"mirc-color00 mirc-bg01\">設定後</span>"
+      "<span class=\"mirc-color-hex mirc-bg-hex\" style=\"color: #FE0102; background-color: #EFED00;\">初期状態</span><span class=\"mirc-color00 mirc-bg01\">設定後</span>"
     ]
 
     data "16進文字色＋16進背景色設定済み: 反転: 文字色と背景色", [
       "\x16\x04FE0102,EFED00初期状態\x0300,01設定後",
-      "<span style=\"color: #EFED00; background-color: #FE0102;\">初期状態</span><span class=\"mirc-color01 mirc-bg00\">設定後</span>"
+      "<span class=\"mirc-color-hex mirc-bg-hex\" style=\"color: #EFED00; background-color: #FE0102;\">初期状態</span><span class=\"mirc-color01 mirc-bg00\">設定後</span>"
     ]
 
     data "16進文字色＋2桁背景色設定済み: 非反転: 2桁表記リセット", [
       "\x0399,08\x04FE0102初期状態\x03設定後",
-      "<span class=\"mirc-bg08\" style=\"color: #FE0102;\">初期状態</span>設定後"
+      "<span class=\"mirc-color-hex mirc-bg08\" style=\"color: #FE0102;\">初期状態</span>設定後"
     ]
 
     data "16進文字色＋2桁背景色設定済み: 非反転: 文字色のみ", [
       "\x0399,08\x04FE0102初期状態\x0300設定後",
-      "<span class=\"mirc-bg08\" style=\"color: #FE0102;\">初期状態</span><span class=\"mirc-color00 mirc-bg08\">設定後</span>"
+      "<span class=\"mirc-color-hex mirc-bg08\" style=\"color: #FE0102;\">初期状態</span><span class=\"mirc-color00 mirc-bg08\">設定後</span>"
     ]
 
     data "16進文字色＋2桁背景色設定済み: 非反転: 文字色と背景色", [
       "\x0399,08\x04FE0102初期状態\x0300,01設定後",
-      "<span class=\"mirc-bg08\" style=\"color: #FE0102;\">初期状態</span><span class=\"mirc-color00 mirc-bg01\">設定後</span>"
+      "<span class=\"mirc-color-hex mirc-bg08\" style=\"color: #FE0102;\">初期状態</span><span class=\"mirc-color00 mirc-bg01\">設定後</span>"
     ]
 
     data "16進文字色＋2桁背景色設定済み: 非反転: 16進表記リセット", [
       "\x0399,08\x04FE0102初期状態\x04設定後",
-      "<span class=\"mirc-bg08\" style=\"color: #FE0102;\">初期状態</span>設定後"
+      "<span class=\"mirc-color-hex mirc-bg08\" style=\"color: #FE0102;\">初期状態</span>設定後"
     ]
 
     data "16進文字色＋2桁背景色設定済み: 非反転: 16進文字色のみ", [
       "\x0399,08\x04FE0102初期状態\x04010203設定後",
-      "<span class=\"mirc-bg08\" style=\"color: #FE0102;\">初期状態</span><span class=\"mirc-bg08\" style=\"color: #010203;\">設定後</span>"
+      "<span class=\"mirc-color-hex mirc-bg08\" style=\"color: #FE0102;\">初期状態</span><span class=\"mirc-color-hex mirc-bg08\" style=\"color: #010203;\">設定後</span>"
     ]
 
     data "16進文字色＋2桁背景色設定済み: 非反転: 16進文字色と16進背景色", [
       "\x0399,08\x04FE0102初期状態\x04010203,FFFEFD設定後",
-      "<span class=\"mirc-bg08\" style=\"color: #FE0102;\">初期状態</span><span style=\"color: #010203; background-color: #FFFEFD;\">設定後</span>"
+      "<span class=\"mirc-color-hex mirc-bg08\" style=\"color: #FE0102;\">初期状態</span><span class=\"mirc-color-hex mirc-bg-hex\" style=\"color: #010203; background-color: #FFFEFD;\">設定後</span>"
     ]
 
     data "16進文字色＋2桁背景色設定済み: 反転: 文字色のみ", [
       "\x16\x0399,08\x04FE0102初期状態\x0300設定後",
-      "<span class=\"mirc-color08\" style=\"background-color: #FE0102;\">初期状態</span><span class=\"mirc-color08 mirc-bg00\">設定後</span>"
+      "<span class=\"mirc-color08 mirc-bg-hex\" style=\"background-color: #FE0102;\">初期状態</span><span class=\"mirc-color08 mirc-bg00\">設定後</span>"
     ]
 
     data "16進文字色＋2桁背景色設定済み: 反転: 文字色と背景色", [
       "\x16\x0399,08\x04FE0102初期状態\x0300,01設定後",
-      "<span class=\"mirc-color08\" style=\"background-color: #FE0102;\">初期状態</span><span class=\"mirc-color01 mirc-bg00\">設定後</span>"
+      "<span class=\"mirc-color08 mirc-bg-hex\" style=\"background-color: #FE0102;\">初期状態</span><span class=\"mirc-color01 mirc-bg00\">設定後</span>"
     ]
 
     data "16進文字色＋2桁背景色設定済み: 反転: 16進文字色のみ", [
       "\x16\x0399,08\x04FE0102初期状態\x04010203設定後",
-      "<span class=\"mirc-color08\" style=\"background-color: #FE0102;\">初期状態</span><span class=\"mirc-color08\" style=\"background-color: #010203;\">設定後</span>"
+      "<span class=\"mirc-color08 mirc-bg-hex\" style=\"background-color: #FE0102;\">初期状態</span><span class=\"mirc-color08 mirc-bg-hex\" style=\"background-color: #010203;\">設定後</span>"
     ]
 
     data "16進文字色＋2桁背景色設定済み: 反転: 16進文字色と16進背景色", [
       "\x16\x0399,08\x04FE0102初期状態\x04010203,FFFEFD設定後",
-      "<span class=\"mirc-color08\" style=\"background-color: #FE0102;\">初期状態</span><span style=\"color: #FFFEFD; background-color: #010203;\">設定後</span>"
+      "<span class=\"mirc-color08 mirc-bg-hex\" style=\"background-color: #FE0102;\">初期状態</span><span class=\"mirc-color-hex mirc-bg-hex\" style=\"color: #FFFEFD; background-color: #010203;\">設定後</span>"
     ]
 
     data 'IRC Formatting Example 1', [
