@@ -1,224 +1,179 @@
 # frozen_string_literal: true
 
 module LogArchiver
+  # mIRC 制御文字による装飾を含むメッセージを、HTML に変換する
+  # @see https://www.mirc.co.uk/colors.html
+  # @see https://www.mirc.com/help/html/index.html?control_codes.html
+  # @see https://yoshino.tripod.com/73th/data/irccode.htm#ascii_controlcode
+  # @see https://en.wikichip.org/wiki/irc/colors
   class MircToHtml
-    # mIRC 制御文字による装飾を含むメッセージを、HTML に変換する
-    # @see https://www.mirc.co.uk/colors.html
-    # @see https://www.mirc.com/help/html/index.html?control_codes.html
-    # @see https://yoshino.tripod.com/73th/data/irccode.htm#ascii_controlcode
-    # @see https://en.wikichip.org/wiki/irc/colors
+    # 装飾された部分を表す構造体
+    # @!attribute text
+    #   @return [String] その部分に含まれる文章
+    # @!attribute attribute
+    #   @return [IrcTextAttribute] 設定されている属性
+    DecoratedChunk = Struct.new(:text, :attribute)
 
     # コンストラクタ
-    # @param [String] mirc mIRC 形式の制御文字を含みうるメッセージ
-    # @param [String] html_class_header HTMLタグに付加するクラスの接頭辞
+    # @param [String] message mIRC 形式の制御文字を含みうるメッセージ
     # @return [self]
-    def initialize(mirc, html_class_header = 'mirc-')
-      # [String] mIRC 形式の制御文字を含みうるメッセージ
-      @mirc = mirc.freeze
+    def initialize(message)
+      # mIRC 形式の制御文字を含みうるメッセージ
+      # @type [String]
+      @message = message
 
-      # [String]
-      @html_class_header = html_class_header.freeze
-
-      # [String]
-      @html = ''
-
-      # [Array<String>]
-      @original = mirc.chars
-
-      # [Array<String>]
-      @converted = []
-
-      # [Array] 一つ前の文字までに適用されている装飾
-      @decorate = []
-
-      # [Boolean]
-      @decorated = false
-
-      # [Hash<String>] 16進表記の文字色・背景色
-      @hex_color = {color: nil, bg: nil}
+      # 同じ属性が設定されている部分の配列
+      # @type [Array<DecoratedChunk>]
+      @chunks = []
     end
 
-    # 変換を行なう
-    # @return [String]
-    def convert
-      @original.size.times do |n|
-        now = @original[n]
+    # mIRC制御文字を含むメッセージを構文解析する
+    # @return [self]
+    def parse
+      # 現在設定されている属性
+      current_attr = IrcTextAttribute.new
+      # 次の文字から設定される属性
+      next_attr = IrcTextAttribute.new
+      # 次の文字から設定される属性が更新されたか
+      next_attr_touched = false
 
-        case now
-        when "\u0002"
-          boolean_option('bold')
-        when "\u001F"
-          boolean_option('underline')
-        when "\u001D"
-          boolean_option('italic')
-        when "\u001E"
-          boolean_option('strikethrough')
-        when "\u0011"
-          boolean_option('monospace')
-        when "\u0016"
-          reverse_option
-        when "\u0003"
-          # color text[,background]
-          if /^(\d{1,2})(?:,(\d{1,2}))?/ =~ @original[n + 1, 5].join
-            color_option($1, $2)
-            @original[n + 1, $&.size] = nil
-          else
-            color_option(99, 99)
-          end
-        when "\u0004"
-          # hex color
-          if /^([a-fA-F\d]{6})(?:,([a-fA-F\d]{6}))?/ =~ @original[n + 1, 13].join
-            hex_color_option($1.upcase, $2&.upcase)
-            @original[n + 1, $&.size] = nil
-          else
-            color_option(99, 99)
-          end
-        when "\u000F"
-          # clear
-          @decorate = []
-          decorate_separator
+      # 現在の属性が適用される部分
+      chunk = DecoratedChunk.new(+"", current_attr)
+
+      @chunks = [chunk]
+
+      # メッセージの文字数
+      n = @message.length
+      # 文字カウンタ
+      i = 0
+      while i < n
+        # 文字
+        c = @message[i]
+        # 文字コード
+        c_code = c.ord
+
+        case c_code
+        when 0x0F
+          # リセット
+          next_attr_touched = true
+          next_attr = IrcTextAttribute.new
+        when 0x02
+          # 太字
+          next_attr_touched = true
+          next_attr.toggle_bold!
+        when 0x1D
+          # 斜体
+          next_attr_touched = true
+          next_attr.toggle_italic!
+        when 0x1F
+          # 下線
+          next_attr_touched = true
+          next_attr.toggle_underline!
+        when 0x1E
+          # 打消し線
+          next_attr_touched = true
+          next_attr.toggle_strikethrough!
+        when 0x11
+          # 等幅フォント
+          next_attr_touched = true
+          next_attr.toggle_monospace!
+        when 0x16
+          # 色反転
+          next_attr_touched = true
+          next_attr.toggle_reverse!
+        when 0x03
+          # 2桁表記の色設定
+          next_attr_touched = true
+          i += parse_color(i, next_attr)
+        when 0x04
+          # 16進表記の色設定
+          next_attr_touched = true
+          i += parse_hex_color(i, next_attr)
         else
-          @converted.push(now)
+          # 制御文字を読み飛ばす
+          #
+          # ActiveSupport::CompareWithRange が非常に遅いので（使うだけで
+          # 3倍くらい遅くなる）、Rangeを使わず通常の比較で書く
+          unless 0x00 <= c_code && c_code < 0x20
+            if !next_attr_touched || next_attr == current_attr
+              # 属性が同じならば、現在の部分に文字を追加する
+              chunk.text << c
+            else
+              # 属性が異なれば、新しい部分を作る
+              current_attr = next_attr
+              next_attr = current_attr.dup
+
+              chunk = DecoratedChunk.new(c, current_attr)
+              @chunks << chunk
+            end
+
+            next_attr_touched = false
+          end
         end
+
+        i += 1
       end
 
-      if @decorated
-        # 行末に装飾終了コードが欠けていたら補完する
-        @converted.push(span_end)
-      end
+      self
+    end
 
-      @html = @converted.compact.flatten.join
+    # 構文解析したメッセージをHTMLとして出力する
+    # @return [String] HTMLに変換されたメッセージ
+    def render
+      @chunks.map { |c| c.attribute.span_tag(c.text) }
+             .join
     end
 
     private
 
-    # 有効か無効かしか選択肢がない装飾を処理する
-    # bold, underline, italic
-    # @param [String]
-    # @return [void]
-    def boolean_option(decorating)
-      if @decorate.include?(decorating)
-        @decorate.delete(decorating)
-      else
-        @decorate.push(decorating)
+    # 2桁色設定を解析する
+    # @param [Integer] i 文字カウンタ
+    # @param [IrcTextAttribute] next_attr 次に設定する属性
+    # @return [Integer] 消費した文字数
+    def parse_color(i, next_attr)
+      color_code_part = @message[i + 1, 5]
+      m = color_code_part.match(/\A(\d{1,2})(?:,(\d{1,2}))?/)
+
+      unless m
+        next_attr.reset_colors!
+        return 0
       end
 
-      decorate_separator
+      text_color_str = m[1]
+      bg_color_str = m[2]
+
+      next_attr.text_color = text_color_str.to_i
+
+      if bg_color_str
+        next_attr.bg_color = bg_color_str.to_i
+      end
+
+      return m[0].length
     end
 
-    # 文字色・背景色を反転させる
-    # @return [void]
-    def reverse_option
-      keywords = {
-        'color' => '99',
-        'bg' => '99'
-      }
+    # 16進色設定を解析する
+    # @param [Integer] i 文字カウンタ
+    # @param [IrcTextAttribute] next_attr 次に設定する属性
+    # @return [Integer] 消費した文字数
+    def parse_hex_color(i, next_attr)
+      color_code_part = @message[i + 1, 13]
+      m = color_code_part.match(/\A([a-fA-F\d]{6})(?:,([a-fA-F\d]{6}))?/)
 
-      keywords.keys.map do |k|
-        key = @decorate.select do |d|
-          d[0, k.size] == k
-        end
-        keywords[k] = key.first[-2..-1] if key.any?
+      unless m
+        next_attr.reset_colors!
+        return 0
       end
 
-      color_option(keywords['bg'], keywords['color'])
-    end
+      text_hex_color = m[1]
+      bg_hex_color = m[2]
 
-    # 定数表記の文字色・背景色を処理する
-    # 色番号 '99' はデフォルトの色(=色設定なし)
-    # @param [String] text 文字色
-    # @param [String] bg 背景色
-    # @return [void]
-    def color_option(text, bg = nil)
-      keywords = {}
-      keywords[:color] = 'color%02d' % (text.nil? ? 99 : text.to_i)
-      keywords[:bg] = 'bg%02d' % bg.to_i if bg
+      next_attr.text_hex_color = text_hex_color
 
-      exist_keywords = keywords.map do |k, _v|
-        @decorate.select do |d|
-          d[0, k.size] == k.to_s
-        end
-      end
-      exist_keywords.flatten!
-
-      @decorate = @decorate - exist_keywords + keywords.values - %w(color99 bg99)
-
-      @hex_color[:color] = nil if exist_keywords.include?('colorhex')
-      @hex_color[:bg] = nil if exist_keywords.include?('bghex')
-
-      decorate_separator
-    end
-
-    # 16進表記の文字色・背景色を処理する
-    # @param [String] text 文字色
-    # @param [String] bg 背景色
-    # @return [void]
-    def hex_color_option(text = nil, bg = nil)
-      keywords = {}
-
-      keywords[:color], @hex_color[:color] =
-        text.nil? ? ['color99', nil] : ['colorhex', text]
-      keywords[:bg], @hex_color[:bg] = ['bghex', bg] if bg
-
-      exist_keywords = keywords.map do |k, _v|
-        @decorate.select do |d|
-          d[0, k.size] == k.to_s
-        end
-      end
-      @decorate = (@decorate - exist_keywords.flatten + keywords.values - %w(color99 bg99)).uniq
-
-      decorate_separator
-    end
-
-    # 現在の装飾状態を確認し、必要な span タグを埋め込む
-    # @return [void]
-    def decorate_separator
-      if @decorated
-        # 一つ前の文字で何かしらの装飾がされているとき
-        if @decorate.empty?
-          # 今回の制御文字で全ての装飾がなくなる
-          @converted.push(span_end)
-        else
-          # 装飾が変更される
-          @converted.push("#{span_end}#{span_start}")
-        end
-      else
-        # 一つ前の文字までは装飾がないとき
-        if @decorate.empty?
-          # 設定すべき装飾がない
-        else
-          @converted.push(span_start)
-        end
-      end
-    end
-
-    # span の開始タグを返す
-    # @return [String]
-    def span_start
-      @decorated = true
-
-      class_name_with_header = @decorate.map do |d|
-        "#{@html_class_header}#{d}"
+      if bg_hex_color
+        next_attr.bg_hex_color = bg_hex_color
       end
 
-      hex_color_styles = []
-      unless @hex_color[:color].nil?
-        hex_color_styles.push("color: ##{@hex_color[:color]};")
-      end
-      unless @hex_color[:bg].nil?
-        hex_color_styles.push("background-color: ##{@hex_color[:bg]};")
-      end
-
-      %Q(<span class="#{class_name_with_header.join(' ')}"%s>) % (
-        hex_color_styles.empty? ? '' : %Q( style="#{hex_color_styles.join(' ')}")
-      )
-    end
-
-    # span の終了タグを返す
-    # @return [String]
-    def span_end
-      @decorated = false
-      '</span>'
+      return m[0].length
     end
   end
 end
