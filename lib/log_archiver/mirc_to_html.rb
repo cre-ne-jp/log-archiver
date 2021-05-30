@@ -47,58 +47,68 @@ module LogArchiver
       # 文字カウンタ
       i = 0
       while i < n
+        # 文字
         c = @message[i]
-        case c
-        when "\x0F"
+        # 文字コード
+        c_code = c.ord
+
+        case c_code
+        when 0x0F
           # リセット
           next_attr_touched = true
           next_attr = IrcTextAttribute.new
-        when "\x02"
+        when 0x02
           # 太字
           next_attr_touched = true
           next_attr.toggle_bold!
-        when "\x1D"
+        when 0x1D
           # 斜体
           next_attr_touched = true
           next_attr.toggle_italic!
-        when "\x1F"
+        when 0x1F
           # 下線
           next_attr_touched = true
           next_attr.toggle_underline!
-        when "\x1E"
+        when 0x1E
           # 打消し線
           next_attr_touched = true
           next_attr.toggle_strikethrough!
-        when "\x11"
+        when 0x11
           # 等幅フォント
           next_attr_touched = true
           next_attr.toggle_monospace!
-        when "\x16"
+        when 0x16
           # 色反転
           next_attr_touched = true
           next_attr.toggle_reverse!
-        when "\x03"
+        when 0x03
           # 2桁表記の色設定
           next_attr_touched = true
           i += parse_color(i, next_attr)
-        when "\x04"
+        when 0x04
           # 16進表記の色設定
           next_attr_touched = true
           i += parse_hex_color(i, next_attr)
         else
-          if !next_attr_touched || next_attr == current_attr
-            # 属性が同じならば、現在の部分に文字を追加する
-            chunk.text << c
-          else
-            # 属性が異なれば、新しい部分を作る
-            current_attr = next_attr
-            next_attr = current_attr.dup
+          # 制御文字を読み飛ばす
+          #
+          # ActiveSupport::CompareWithRange が非常に遅いので（使うだけで
+          # 3倍くらい遅くなる）、Rangeを使わず通常の比較で書く
+          unless 0x00 <= c_code && c_code < 0x20
+            if !next_attr_touched || next_attr == current_attr
+              # 属性が同じならば、現在の部分に文字を追加する
+              chunk.text << c
+            else
+              # 属性が異なれば、新しい部分を作る
+              current_attr = next_attr
+              next_attr = current_attr.dup
 
-            chunk = DecoratedChunk.new(c, current_attr)
-            @chunks << chunk
+              chunk = DecoratedChunk.new(c, current_attr)
+              @chunks << chunk
+            end
+
+            next_attr_touched = false
           end
-
-          next_attr_touched = false
         end
 
         i += 1
