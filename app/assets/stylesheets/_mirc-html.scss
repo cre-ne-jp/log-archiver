@@ -1,23 +1,24 @@
 // 下記の色指定は mIRC のヘルプページを参考にした (2021-05-08参照)
 // @see: https://www.mirc.com/help/html/index.html?control_codes.html
+// @see: https://material.io/design/color/the-color-system.html#tools-for-picking-colors
 // @see: https://modern.ircdocs.horse/formatting.html#colors-16-98
 $color-codes: (
   "00": #FFFFFF,  // white
   "01": #000000,  // black
-  "02": #00007F,  // blue
-  "03": #009300,  // green
-  "04": #FF0000,  // red
-  "05": #7F0000,  // brown
-  "06": #9C009C,  // purple (magenta)
-  "07": #FC7C00,  // orange
-  "08": #FFFF00,  // yellow
-  "09": #00FC00,  // light green
-  "10": #009393,  // cyan
-  "11": #00FFFF,  // light cyan
-  "12": #0000FC,  // light blue
-  "13": #FF00FF,  // pink
-  "14": #7F7F7F,  // grey
-  "15": #D2D2D2,  // light grey
+  "02": #283593,  // blue -> Indigo 800
+  "03": #43A047,  // green -> Green 600
+  "04": #FF3D00,  // red -> Deep Orange A400
+  "05": #6D4C41,  // brown -> Brown 600
+  "06": #8E24AA,  // purple (magenta) -> Purple 600
+  "07": #FB8C00,  // orange -> Orange 600
+  "08": #FFEB3B,  // yellow -> Yellow 500
+  "09": #76FF03,  // light green -> Light Green A400
+  "10": #009688,  // cyan -> Teal 500
+  "11": #18FFFF,  // light cyan -> Cyan A200
+  "12": #304FFE,  // light blue -> Indigo A700
+  "13": #FF4081,  // pink -> Pink A200
+  "14": #757575,  // grey -> Grey 600
+  "15": #BDBDBD,  // light grey -> Grey 400
 
   "16": #470000,
   "17": #472100,
