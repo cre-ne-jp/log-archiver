@@ -66,6 +66,7 @@ module LogArchiver
     def text_color=(value)
       @text_color = value
       @text_hex_color = nil
+      @reverse = false
     end
 
     # 2桁表記で背景色を設定する
@@ -76,6 +77,7 @@ module LogArchiver
     def bg_color=(value)
       @bg_color = value
       @bg_hex_color = nil
+      @reverse = false
     end
 
     # 16進表記で文字色を設定する
@@ -86,6 +88,7 @@ module LogArchiver
     def text_hex_color=(value)
       @text_hex_color = value
       @text_color = DEFAULT_COLOR_CODE
+      @reverse = false
     end
 
     # 16進表記で背景色を設定する
@@ -96,6 +99,7 @@ module LogArchiver
     def bg_hex_color=(value)
       @bg_hex_color = value
       @bg_color = DEFAULT_COLOR_CODE
+      @reverse = false
     end
 
     # 太字設定を切り替える
