@@ -48,9 +48,9 @@ module LogArchiver
             content = m[2]
 
             case section_level
-            when 2
+            when 1
               section = content
-            when 3
+            when 2
               subsection = content
             end
           when /\A初期設定コマンド：(?:`([^`]+)`)?/
