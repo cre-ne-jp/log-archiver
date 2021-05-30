@@ -39,6 +39,11 @@ module LogArchiver
       '重ねて装飾: <span class="mirc-bold">太字 </span><span class="mirc-bold mirc-italic">斜体 </span><span class="mirc-bold mirc-italic mirc-underline">下線 </span>まとめてリセット'
     ]
 
+    data '文字色・背景色を設定せず色反転する', [
+      "次から \x16色反転\x16 終了",
+      '次から 色反転 終了'
+    ]
+
     data '2桁色設定: リセット', [
       "制御文字\x03のみでリセット",
       '制御文字のみでリセット',
