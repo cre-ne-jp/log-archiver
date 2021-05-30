@@ -230,9 +230,9 @@ table.message-list {
   }
 }
 
-table {
+table.message-list {
   .odd {
-    background-color: $table-bg-accent;
+    background-color: lighten($table-bg-accent, 5%);
   }
 }
 
