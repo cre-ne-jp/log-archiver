@@ -118,6 +118,14 @@ module LogArchiver
       ' です。'
     ]
 
+    data '2桁色設定: 色反転: 色設定後に反転解除', [
+      "これは \x030,1\x16文字黒色, 背景白色, \x033,4文字青色, 背景赤色\x03 です。",
+      'これは ' \
+      '<span class="mirc-color01 mirc-bg00">文字黒色, 背景白色, </span>' \
+      '<span class="mirc-color03 mirc-bg04">文字青色, 背景赤色</span>' \
+      ' です。'
+    ]
+
     data '16進色設定: リセット', [
       "制御文字\x04のみでリセット",
       '制御文字のみでリセット',
@@ -159,6 +167,14 @@ module LogArchiver
       '<span class="mirc-color-hex mirc-bg-hex" style="color: #FFFEFD; background-color: #010203;">文字ほぼ白色, 背景ほぼ黒色, </span>' \
       '<span class="mirc-color-hex mirc-bg-hex" style="color: #010203; background-color: #FFFEFD;">文字ほぼ黒色, 背景ほぼ白色, </span>' \
       '<span class="mirc-color-hex mirc-bg-hex" style="color: #FFFEFD; background-color: #010203;">文字ほぼ白色, 背景ほぼ黒色</span>' \
+      ' です。'
+    ]
+
+    data '16進色設定: 色反転: 色設定後の反転解除', [
+      "これは \x04FFFEFD,010203\x16文字ほぼ黒色, 背景ほぼ白色, \x040000FF,FF0000文字青色, 背景赤色\x04 です。",
+      'これは ' \
+      '<span class="mirc-color-hex mirc-bg-hex" style="color: #010203; background-color: #FFFEFD;">文字ほぼ黒色, 背景ほぼ白色, </span>' \
+      '<span class="mirc-color-hex mirc-bg-hex" style="color: #0000FF; background-color: #FF0000;">文字青色, 背景赤色</span>' \
       ' です。'
     ]
 
