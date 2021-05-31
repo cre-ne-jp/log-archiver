@@ -9,7 +9,7 @@ IRC ボットを常駐させることでチャットログをチャンネル単�
 ## 動作環境
 
 * Linux または OSX
-* Ruby 2.3.0 以降
+* Ruby 2.7.0 以降
 * MySQL または MariaDB
 * Redis
 
