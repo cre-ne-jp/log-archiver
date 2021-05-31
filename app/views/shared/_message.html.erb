@@ -6,34 +6,7 @@
     <td class="message-channel"><%= link_to(m.channel.name_with_prefix, m.channel) %></td>
   <% end %>
   <td class="message-content">
-    <% case m %>
-    <% when Join %>
-      <b class="nickname"><%= m.nick %></b><%= m.irc_user ? " (#{m.irc_user.user_host})" : '' %> が <b class="channel"><%= m.channel.name_with_prefix %></b> に参加しました。
-    <% when Part %>
-      <b class="nickname"><%= m.nick %></b> が <b class="channel"><%= m.channel.name_with_prefix %></b> から退出しました<%= message_or_period(m) %>
-    <% when Quit %>
-      <b class="nickname"><%= m.nick %></b> が切断されました<%= message_or_period(m) %>
-    <% when Nick %>
-      <b class="nickname old-nickname"><%= m.nick %></b> &rarr; <b class="nickname new-nickname"><%= m.new_nick %></b>
-    <% when Kick %>
-      <b class="nickname kick-by"><%= m.nick %></b> が <b class="channel"><%= m.channel.name_with_prefix %></b> から <b class="nickname kick-target"><%= m.target %></b> を退出させました<%= message_or_period(m) %>
-    <% when Topic %>
-      <b class="nickname"><%= m.nick %></b> が <b class="channel"><%= m.channel.name_with_prefix %></b> のトピックを設定しました：<%= raw(linkify(m.message)) %>
-    <% when Privmsg, MessageHelper::IsArchived[:privmsg] %>
-      <dl class="message">
-        <dt><b class="nickname message-privmsg"><%= m.nick %></b></dt>
-        <% if keyword = privmsg_id_keyword_map[m.id] %>
-          <dd><%= linkify_keyword(m, keyword) %></dd>
-        <% else %>
-          <dd><%= raw(linkify(m.message)) %></dd>
-        <% end %>
-      </dl>
-    <% when Notice, MessageHelper::IsArchived[:notice] %>
-      <dl class="message">
-        <dt><b class="nickname"><%= m.nick %></b></dt>
-        <dd><%= raw(linkify(m.message)) %></dd>
-      </dl>
-    <% end %>
+    <%= render(partial: 'shared/message_content', locals: {m: m, privmsg_id_keyword_map: privmsg_id_keyword_map}) %>
   </td>
   <% if current_user %>
     <td class="message-detail">
