@@ -32,7 +32,7 @@ cd log-archiver
 bundle install --deployment --path vendor/bundle
 ```
 
-## アセットとのプリコンパイル
+## アセットとプリコンパイル
 
 アセット(JavaScript/CSS)のプリコンパイルを行ないます。
 同時に、依存する JavaScript ライブラリのインストール (yarn install) が実施されます。
