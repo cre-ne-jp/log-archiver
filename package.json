@@ -7,7 +7,10 @@
     "chart.js": "^2.9.4",
     "flatpickr": "^4.6.9",
     "js-cookie": "^2.2.1",
-    "stimulus": "^2.0.0"
+    "stimulus": "^2.0.0",
+
+    "postcss": "^8.2.10",
+    "ws": "^7.4.6"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.13.10",
