@@ -126,6 +126,7 @@ ActiveRecord::Schema.define(version: 2021_02_22_045931) do
     t.text "text_on_homepage", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "amazon_affiliate_tag"
   end
 
   create_table "users", id: :integer, charset: "utf8mb4", force: :cascade do |t|
