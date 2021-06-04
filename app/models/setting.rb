@@ -1,5 +1,12 @@
 class Setting < ApplicationRecord
-  before_save { nick_target_affiliate_message_by.downcase! }
+  before_save {
+    self.nick_target_affiliate_message_by =
+      delete_empty_line(nick_target_affiliate_message_by).downcase
+  }
+  before_save {
+    self.target_amazon_affiliate_tag =
+      delete_empty_line(target_amazon_affiliate_tag)
+  }
 
   validates(
     :site_title,
@@ -27,5 +34,14 @@ class Setting < ApplicationRecord
   # @return [Array<String>]
   def nicks_target_affiliate_message_by
     nick_target_affiliate_message_by.lines(chomp: true)
+  end
+
+  private
+
+  # 空行を削除する
+  # @param [String] str
+  # @return [String]
+  def delete_empty_line(str)
+    str.lines(chomp: true).delete_if{|s| s.empty? }.join("\n")
   end
 end
