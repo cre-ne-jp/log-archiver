@@ -24,6 +24,6 @@ class SettingsController < ApplicationController
   def setting_params
     params.
       require(:setting).
-      permit(:site_title, :text_on_homepage)
+      permit(:site_title, :text_on_homepage, :amazon_affiliate_tag, :target_amazon_affiliate_tag, :nick_target_affiliate_message_by)
   end
 end

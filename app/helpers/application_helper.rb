@@ -103,4 +103,18 @@ module ApplicationHelper
 
     raw("#{pre_keyword}#{link_to_keyword}")
   end
+
+  # キーワードコマンド .a で出力された Amazon.co.jp 商品リンクに含まれる
+  # アフィリエイトタグを、設定されたタグに差し替える
+  # @param [ConversationMessage] m
+  # @return [String]
+  def replace_amazon_affiliate_tag(m)
+    settings = Setting.get
+    old_affiliate_tags = settings.target_amazon_affiliate_tags
+    new_affiliate_tag = settings.amazon_affiliate_tag
+    return m.message if old_affiliate_tags.empty? || new_affiliate_tag.blank?
+    return m.message unless settings.nicks_target_affiliate_message_by.include?(m.nick.downcase)
+
+    m.message.gsub(/(#{old_affiliate_tags.join('|')})/, new_affiliate_tag)
+  end
 end

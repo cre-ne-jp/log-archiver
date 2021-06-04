@@ -23,6 +23,9 @@ ja:
       setting:
         site_title: サイト名
         text_on_homepage: ホームページに表示する文章
+        target_amazon_affiliate_tag: メッセージに含まれる Amazon アフィリエイトタグ
+        amazon_affiliate_tag: 表示する Amazon アフィリエイトタグ
+        nick_target_affiliate_message_by: アフィリエイトタグを置換する発言者のニックネーム
       archive_reason:
         reason: 理由
       archived_conversation_message:
