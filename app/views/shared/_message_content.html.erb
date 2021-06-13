@@ -23,6 +23,6 @@
 <% when Notice, MessageHelper::IsArchived[:notice] %>
   <dl class="message">
     <dt><b class="nickname"><%= m.nick %></b></dt>
-    <dd><%= raw(convert_mirc_to_html(linkify(m.message))) %></dd>
+    <dd><%= raw(convert_mirc_to_html(linkify(replace_amazon_affiliate_tag(m)))) %></dd>
   </dl>
 <% end %>
