@@ -27,6 +27,8 @@ jobs:
     services:
       db:
         image: groonga/mroonga:${{ matrix.mroonga }}
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: 1
         ports:
           - 33060:3306
       redis:
