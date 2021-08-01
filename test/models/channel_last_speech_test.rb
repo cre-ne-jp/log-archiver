@@ -37,17 +37,19 @@ class ChannelLastSpeechTest < ActiveSupport::TestCase
       privmsg_a = create(:privmsg_keyword_sw_a)
       create(:privmsg_keyword_sw_k)
 
-      ChannelLastSpeech.refresh!(@channel)
+      channel_last_speech = ChannelLastSpeech.refresh!(@channel)
 
       assert_equal(privmsg_a, @channel.last_speech)
+      refute_nil(channel_last_speech)
     end
 
     test 'チャンネル所属メッセージが存在しない場合、削除される' do
       @channel.conversation_messages.delete_all
 
-      ChannelLastSpeech.refresh!(@channel)
+      channel_last_speech = ChannelLastSpeech.refresh!(@channel)
 
       assert_nil(@channel.last_speech)
+      assert_nil(channel_last_speech)
     end
   end
 end
