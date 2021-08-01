@@ -12,36 +12,37 @@ class ConversationMessageArchiver
   # @option [String] :archive_reason 非表示理由
   # @return [ArchivedConversationMessage]
   def archive!(params)
-    old_id = params[:old_id].to_i
-    unless cm = ConversationMessage.find(old_id)
+    cm = ConversationMessage.find(params[:old_id].to_i)
+    unless cm
       raise(ArgumentError, 'old_id is required.')
     end
-    archive_reason = params[:archive_reason_id].to_i
-    unless reason = ArchiveReason.find(archive_reason)
-      raise(ArgumentError, 'archive_reason is required.')
+
+    archive_reason = ArchiveReason.find(params[:archive_reason_id].to_i)
+    unless archive_reason
+      raise(ArgumentError, 'archive_reason_id is required.')
     end
 
     am = ArchivedConversationMessage.from_conversation_message(cm)
-    am.archive_reason = reason
+    am.archive_reason = archive_reason
 
     # Mroonga ストレージモードはトランザクション非対応
     ApplicationRecord.transaction do
-      ChannelLastSpeech.refresh!(cm.channel) do
-        am.save!
-        cm.destroy!
-      end
+      am.save!
+      cm.destroy!
+
+      ChannelLastSpeech.refresh!(cm.channel)
     end
 
     am
   end
 
   # Archived -> ConversationMessage
-  # @param [Integer/String] old_id ArchivedConversationMessage.id
-  # @option [String] :id 元の ArchivedConversationMessage.old_id
+  # @param [Integer] archived_conversation_message_id
   # @return [ConversationMessage]
-  def reconstitute!(old_id)
-    unless am = ArchivedConversationMessage.find(old_id.to_i)
-      raise(ArgumentError, 'old_id is required.')
+  def reconstitute!(archived_conversation_message_id)
+    am = ArchivedConversationMessage.find(archived_conversation_message_id)
+    unless am
+      raise(ArgumentError, 'archived_conversation_message_id is required.')
     end
 
     cm = ConversationMessage.new

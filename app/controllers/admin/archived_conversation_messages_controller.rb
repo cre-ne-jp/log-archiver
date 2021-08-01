@@ -49,7 +49,7 @@ class Admin::ArchivedConversationMessagesController < ApplicationController
   def destroy
     archiver = ConversationMessageArchiver.new
 
-    if cm = archiver.reconstitute!(params[:id])
+    if cm = archiver.reconstitute!(params[:id].to_i)
       flash[:success] = t('views.flash.deleted_archived_conversation_message')
       redirect_to(admin_conversation_message_path(cm))
     else
