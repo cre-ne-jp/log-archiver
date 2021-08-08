@@ -71,7 +71,6 @@ GEM
       zeitwerk (~> 2.3)
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
-    ansi (1.5.0)
     ast (2.4.2)
     autoprefixer-rails (10.2.5.1)
       execjs (> 0)
@@ -188,11 +187,6 @@ GEM
     method_source (1.0.0)
     mini_mime (1.1.0)
     minitest (5.14.4)
-    minitest-reporters (1.4.3)
-      ansi
-      builder
-      minitest (>= 5.0)
-      ruby-progressbar
     msgpack (1.4.2)
     multi_json (1.15.0)
     multi_xml (0.6.0)
@@ -411,7 +405,6 @@ DEPENDENCIES
   lumberjack
   mcinch
   meta-tags
-  minitest-reporters
   mysql2 (~> 0.5)
   pry-rails
   puma
