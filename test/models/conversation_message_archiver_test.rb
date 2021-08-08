@@ -1,16 +1,6 @@
 require 'test_helper'
 
 class ConversationMessageArchiverTest < ActiveSupport::TestCase
-  setup do
-    ArchivedConversationMessage.delete_all
-    ConversationMessage.delete_all
-  end
-
-  teardown do
-    ArchivedConversationMessage.delete_all
-    ConversationMessage.delete_all
-  end
-
   sub_test_case 'archive!' do
     test '発言をアーカイブする（複数発言存在時）' do
       privmsg1 = create(:privmsg_rgrb_20140320012345)

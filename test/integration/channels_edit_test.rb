@@ -9,15 +9,10 @@ class ChannelsEditTest < ActionDispatch::IntegrationTest
     @setting = create(:setting)
     @user = create(:user)
 
-    Channel.delete_all
     @channel = create(:channel)
     @path = edit_channel_path(@channel)
 
     @login_helper = UserLoginTestHelper.new(self, @user, @path)
-  end
-
-  teardown do
-    Channel.delete_all
   end
 
   test 'ログインしている場合、表示される' do

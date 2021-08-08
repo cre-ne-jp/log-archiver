@@ -3,12 +3,6 @@ require 'test_helper'
 class MessageSearchTest < ActiveSupport::TestCase
   setup do
     @search = build(:message_search)
-
-    ConversationMessage.delete_all
-  end
-
-  teardown do
-    ConversationMessage.delete_all
   end
 
   test '有効である' do

@@ -2,6 +2,7 @@ require 'test_helper'
 
 class ChannelBrowse::YearTest < ActiveSupport::TestCase
   setup do
+    create(:channel)
     @year = build(:channel_browse_year)
   end
 
@@ -55,8 +56,6 @@ class ChannelBrowse::YearTest < ActiveSupport::TestCase
   end
 
   def prepare_message_dates
-    MessageDate.delete_all
-
     @message_date_20150123 = create(:message_date_20150123)
     @message_date_20161231 = create(:message_date_20161231)
     @message_date_20170401 = create(:message_date_20170401)
@@ -69,7 +68,9 @@ class ChannelBrowse::YearTest < ActiveSupport::TestCase
     @year.year = date.year
 
     prev_date = @message_date_20150123.date
+
     prev_year = @year.prev_year
+    refute_nil(prev_year)
 
     assert_equal(@year.channel, prev_year.channel, 'チャンネルが正しい')
     assert_equal(prev_date.year, prev_year.year, '年が正しい')
@@ -92,7 +93,9 @@ class ChannelBrowse::YearTest < ActiveSupport::TestCase
     @year.year = date.year
 
     next_date = @message_date_20170401.date
+
     next_year = @year.next_year
+    refute_nil(next_year)
 
     assert_equal(@year.channel, next_year.channel, 'チャンネルが正しい')
     assert_equal(next_date.year, next_year.year, '年が正しい')

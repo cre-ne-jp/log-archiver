@@ -7,13 +7,7 @@ class MessagesPeriodTest < ApplicationSystemTestCase
 
   setup do
     create(:setting)
-
-    ConversationMessage.delete_all
     @privmsg = create(:privmsg)
-  end
-
-  teardown do
-    ConversationMessage.delete_all
   end
 
   test '検索結果が正しく表示される' do

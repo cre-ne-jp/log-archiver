@@ -137,8 +137,6 @@ class ChannelBrowse::DayTest < ActiveSupport::TestCase
   end
 
   def prepare_message_dates
-    MessageDate.delete_all
-
     @message_date_20160816 = create(:message_date)
     @message_date_20161231 = create(:message_date_20161231)
     @message_date_20170401 = create(:message_date_20170401)

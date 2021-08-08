@@ -31,8 +31,6 @@ class ChannelLastSpeechTest < ActiveSupport::TestCase
 
   sub_test_case 'refresh!' do
     test 'チャンネル所属メッセージが複数ある場合、最新のメッセージが選ばれる' do
-      @channel.conversation_messages.delete_all
-
       create(:privmsg)
       privmsg_a = create(:privmsg_keyword_sw_a)
       create(:privmsg_keyword_sw_k)
@@ -44,7 +42,7 @@ class ChannelLastSpeechTest < ActiveSupport::TestCase
     end
 
     test 'チャンネル所属メッセージが存在しない場合、削除される' do
-      @channel.conversation_messages.delete_all
+      ConversationMessage.destroy_all
 
       channel_last_speech = ChannelLastSpeech.refresh!(@channel)
 

@@ -2,12 +2,7 @@ require 'test_helper'
 
 class Channels::YesterdayControllerTest < ActionController::TestCase
   setup do
-    Channel.delete_all
     @channel = create(:channel)
-  end
-
-  teardown do
-    Channel.delete_all
   end
 
   test '昨日のページにリダイレクトされる' do

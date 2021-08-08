@@ -13,20 +13,12 @@ class MessageListStyleTest < ApplicationSystemTestCase
 
     @channel = create(:channel)
 
-    MessageDate.delete_all
-    ConversationMessage.delete_all
-
     create(:privmsg_rgrb_20140320012345)
     create(:message_date_20140320)
 
     date = Date.new(2014, 3, 20)
     @browse = ChannelBrowse::Day.new(channel: @channel, date: date, style: :normal)
     @browse_raw = ChannelBrowse::Day.new(channel: @channel, date: date, style: :raw)
-  end
-
-  teardown do
-    MessageDate.delete_all
-    ConversationMessage.delete_all
   end
 
   test '通常表示のとき「生ログ」を押すとCookieが正しく設定される' do

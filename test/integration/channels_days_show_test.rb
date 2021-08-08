@@ -4,11 +4,6 @@ class ChannelsDaysShowTest < ActionDispatch::IntegrationTest
   setup do
     create(:setting)
     create(:user)
-
-    MessageDate.delete_all
-    Message.delete_all
-    ConversationMessage.delete_all
-
     @channel = create(:channel)
 
     # NICK 1件
@@ -43,12 +38,6 @@ class ChannelsDaysShowTest < ActionDispatch::IntegrationTest
     @browse = ChannelBrowse::Day.new(channel: @channel,
                                      date: date,
                                      style: :normal)
-  end
-
-  teardown do
-    MessageDate.delete_all
-    Message.delete_all
-    ConversationMessage.delete_all
   end
 
   test 'メッセージの一覧が正しく表示される' do

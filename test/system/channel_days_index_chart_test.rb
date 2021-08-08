@@ -13,9 +13,6 @@ class ChannelDaysIndexChartTest < ApplicationSystemTestCase
 
     @channel = create(:channel)
 
-    MessageDate.delete_all
-    ConversationMessage.delete_all
-
     create(:privmsg_rgrb_20140320012345)
     create(:message_date_20140320)
 
@@ -26,11 +23,6 @@ class ChannelDaysIndexChartTest < ApplicationSystemTestCase
     @browse_month = ChannelBrowse::Month.new(
       channel: @channel, year: date.year, month: date.month
     )
-  end
-
-  teardown do
-    MessageDate.delete_all
-    ConversationMessage.delete_all
   end
 
   test '月のページにおいてグラフが描画されている' do

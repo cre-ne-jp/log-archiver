@@ -2,6 +2,7 @@ require 'test_helper'
 
 class ChannelBrowse::MonthTest < ActiveSupport::TestCase
   setup do
+    create(:channel)
     @month = build(:channel_browse_month)
   end
 
@@ -82,8 +83,6 @@ class ChannelBrowse::MonthTest < ActiveSupport::TestCase
   end
 
   def prepare_message_dates
-    MessageDate.delete_all
-
     @message_date_20160816 = create(:message_date)
     @message_date_20161231 = create(:message_date_20161231)
     @message_date_20170401 = create(:message_date_20170401)
@@ -97,7 +96,9 @@ class ChannelBrowse::MonthTest < ActiveSupport::TestCase
     @month.month = date.month
 
     prev_date = @message_date_20160816.date
+
     prev_month = @month.prev_month
+    refute_nil(prev_month)
 
     assert_equal(@month.channel, prev_month.channel, 'チャンネルが正しい')
     assert_equal(prev_date.year, prev_month.year, '年が正しい')
@@ -123,7 +124,9 @@ class ChannelBrowse::MonthTest < ActiveSupport::TestCase
     @month.month = date.month
 
     next_date = @message_date_20170401.date
+
     next_month = @month.next_month
+    refute_nil(next_month)
 
     assert_equal(@month.channel, next_month.channel, 'チャンネルが正しい')
     assert_equal(next_date.year, next_month.year, '年が正しい')
