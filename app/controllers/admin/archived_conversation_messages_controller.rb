@@ -21,7 +21,8 @@ class Admin::ArchivedConversationMessagesController < ApplicationController
   def create
     archiver = ConversationMessageArchiver.new
 
-    if am = archiver.archive!(archived_conversation_message_params_for_create)
+    am = archiver.archive!(archived_conversation_message_params_for_create)
+    if am
       flash[:success] = t('views.flash.added_archived_conversation_message')
       redirect_to(admin_archived_conversation_message_path(am.id))
     else
@@ -49,7 +50,8 @@ class Admin::ArchivedConversationMessagesController < ApplicationController
   def destroy
     archiver = ConversationMessageArchiver.new
 
-    if cm = archiver.reconstitute!(params[:id].to_i)
+    cm = archiver.reconstitute!(params[:id].to_i)
+    if cm
       flash[:success] = t('views.flash.deleted_archived_conversation_message')
       redirect_to(admin_conversation_message_path(cm))
     else
