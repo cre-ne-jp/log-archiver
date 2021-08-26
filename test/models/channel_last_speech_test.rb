@@ -28,4 +28,26 @@ class ChannelLastSpeechTest < ActiveSupport::TestCase
     @channel_last_speech.conversation_message = nil
     refute(@channel_last_speech.valid?)
   end
+
+  sub_test_case 'refresh!' do
+    test 'チャンネル所属メッセージが複数ある場合、最新のメッセージが選ばれる' do
+      create(:privmsg)
+      privmsg_a = create(:privmsg_keyword_sw_a)
+      create(:privmsg_keyword_sw_k)
+
+      channel_last_speech = ChannelLastSpeech.refresh!(@channel)
+
+      assert_equal(privmsg_a, @channel.last_speech)
+      refute_nil(channel_last_speech)
+    end
+
+    test 'チャンネル所属メッセージが存在しない場合、削除される' do
+      ConversationMessage.destroy_all
+
+      channel_last_speech = ChannelLastSpeech.refresh!(@channel)
+
+      assert_nil(@channel.last_speech)
+      assert_nil(channel_last_speech)
+    end
+  end
 end

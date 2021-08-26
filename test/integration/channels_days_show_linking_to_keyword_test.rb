@@ -7,12 +7,6 @@ class ChannelsDaysShowLinkingToKeywordTest < ActionDispatch::IntegrationTest
     create(:setting)
     create(:user)
     @channel = create(:channel)
-
-    PrivmsgKeywordRelationship.delete_all
-    Message.delete_all
-    ConversationMessage.delete_all
-    Keyword.delete_all
-
     @keyword = create(:keyword)
 
     # メッセージの準備
@@ -24,13 +18,6 @@ class ChannelsDaysShowLinkingToKeywordTest < ActionDispatch::IntegrationTest
       :privmsg_keyword_sw_zenkaku
     ]
     @privmsgs = privmsg_factory_ids.map { |id| create(id) }
-  end
-
-  teardown do
-    PrivmsgKeywordRelationship.delete_all
-    Message.delete_all
-    ConversationMessage.delete_all
-    Keyword.delete_all
   end
 
   test 'キーワードのリンク先および表記が正しい' do

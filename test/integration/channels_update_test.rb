@@ -7,16 +7,10 @@ class ChannelsUpdateTest < ActionDispatch::IntegrationTest
   setup do
     @setting = create(:setting)
     @user = create(:user)
-
-    Channel.delete_all
     @channel = create(:channel)
     @path = channel_path(@channel)
 
     @login_helper = UserLoginTestHelper.new(self, @user, @path)
-  end
-
-  teardown do
-    Channel.delete_all
   end
 
   test 'ログインしていない場合、ログインページにリダイレクトされる' do

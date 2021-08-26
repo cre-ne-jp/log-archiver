@@ -8,13 +8,7 @@ class ChannelsCreateTest < ActionDispatch::IntegrationTest
     @setting = create(:setting)
     @user = create(:user)
 
-    Channel.delete_all
-
     @login_helper = UserLoginTestHelper.new(self, @user, channels_path)
-  end
-
-  teardown do
-    Channel.delete_all
   end
 
   test 'ログインしていない場合、ログインページにリダイレクトされる' do

@@ -11,17 +11,19 @@ class ChannelLastSpeech < ApplicationRecord
 
   # チャンネルの最終発言を更新する
   # @param [Channel] channel 更新対象のチャンネル
-  # @return [self]
+  # @return [ChannelLastSpeech, nil] 更新後の最終発言データ
   def self.refresh!(channel)
-    last_speech = channel.channel_last_speech || new(channel: channel)
+    current_last_speech = channel.current_last_speech
+    unless current_last_speech
+      where(channel: channel)
+        .delete_all
 
-    self.transaction do
-      last_speech.conversation_message = nil
+      return nil
+    end
 
-      yield if block_given?
-
-      last_speech.conversation_message = channel.current_last_speech
-      last_speech.save!
+    find_or_initialize_by(channel: channel).tap do |s|
+      s.conversation_message = current_last_speech
+      s.save!
     end
   end
 end

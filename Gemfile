@@ -96,8 +96,6 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
 
-  gem 'minitest-reporters'
-
   gem 'guard'
   gem 'guard-minitest'
 
@@ -110,6 +108,8 @@ end
 
 group :test do
   gem 'test-unit-rails'
+
+  gem 'database_cleaner-active_record'
 
   gem 'rake'
   gem 'rubocop'

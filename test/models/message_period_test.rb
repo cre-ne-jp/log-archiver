@@ -3,14 +3,6 @@ require 'test_helper'
 class MessagePeriodTest < ActiveSupport::TestCase
   setup do
     @period = build(:message_period)
-
-    Message.delete_all
-    ConversationMessage.delete_all
-  end
-
-  teardown do
-    Message.delete_all
-    ConversationMessage.delete_all
   end
 
   test '有効である' do

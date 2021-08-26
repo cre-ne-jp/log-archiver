@@ -13,14 +13,25 @@ end
 
 require 'factory_bot_rails'
 
-class ActiveSupport::TestCase
-  # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
-  fixtures :all
+require 'database_cleaner/active_record'
 
+DatabaseCleaner.strategy = :truncation
+
+class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
   include FactoryBot::Syntax::Methods
 
   include ActiveSupport::Testing::TimeHelpers
+
+  self.use_transactional_tests = false
+
+  setup do
+    DatabaseCleaner.start
+  end
+
+  teardown do
+    DatabaseCleaner.clean
+  end
 
   # ファクトリーからオブジェクトを作成する
   # @param [Array<Symbol>] ids ファクトリーIDの配列

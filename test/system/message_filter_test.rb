@@ -17,9 +17,6 @@ class MessageFilterTest < ApplicationSystemTestCase
     create(:setting)
     create(:user)
 
-    Message.delete_all
-    ConversationMessage.delete_all
-
     @channel = create(:channel)
 
     create_speeches
@@ -34,11 +31,6 @@ class MessageFilterTest < ApplicationSystemTestCase
       since: '2014-03-20 00:00:00',
       until: '2014-03-21 00:00:00'
     )
-  end
-
-  teardown do
-    Message.delete_all
-    ConversationMessage.delete_all
   end
 
   data(

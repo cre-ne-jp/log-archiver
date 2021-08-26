@@ -105,15 +105,6 @@ module LogArchiver
           end
         end
       end
-
-      # [DEPRECATED] チャンネルごとの最終発言を更新する
-      # @param [::Channel] チャンネル
-      # @param [::ConversationMessage] 発言のメッセージ
-      # @return [::ChannelLastSpeech]
-      def update_last_speech!(channel, message)
-        ChannelLastSpeech.refresh!(channel)
-        @logger.warn('このメソッドは廃止予定です。ChannelLastSpeech.refresh! を使ってください')
-      end
     end
   end
 end

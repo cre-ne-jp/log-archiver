@@ -118,10 +118,9 @@ class Channel < ApplicationRecord
   # 現在の（キャッシュされていない）最終発言を求める
   # @return [ConversationMessage]
   def current_last_speech
-    conversation_messages.
-      order(timestamp: :desc).
-      limit(1).
-      first
+    conversation_messages
+      .order(timestamp: :desc)
+      .first
   end
 
   # canonical 属性の URL テンプレートを、日付を入れた URL にして返す

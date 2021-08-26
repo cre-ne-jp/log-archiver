@@ -4,12 +4,6 @@ class KeywordsShowTest < ActionDispatch::IntegrationTest
   setup do
     create(:setting)
     create(:user)
-
-    PrivmsgKeywordRelationship.delete_all
-    Message.delete_all
-    ConversationMessage.delete_all
-    Keyword.delete_all
-
     @keyword = create(:keyword)
 
     # メッセージの準備
@@ -21,13 +15,6 @@ class KeywordsShowTest < ActionDispatch::IntegrationTest
       :privmsg_keyword_sw_zenkaku
     ]
     @privmsgs = privmsg_factory_ids.map { |id| create(id) }
-  end
-
-  teardown do
-    PrivmsgKeywordRelationship.delete_all
-    Message.delete_all
-    ConversationMessage.delete_all
-    Keyword.delete_all
   end
 
   test 'キーワードを含む日が1つにまとめられる' do

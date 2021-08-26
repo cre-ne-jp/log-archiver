@@ -6,16 +6,10 @@ require 'user_login_test_helper'
 class UsersUpdateTest < ActionDispatch::IntegrationTest
   setup do
     @setting = create(:setting)
-
-    User.delete_all
     @user = create(:user)
     @path = user_path(@user)
 
     @login_helper = UserLoginTestHelper.new(self, @user, @path)
-  end
-
-  teardown do
-    User.delete_all
   end
 
   test 'ログインしていない場合、ログインページにリダイレクトされる' do
