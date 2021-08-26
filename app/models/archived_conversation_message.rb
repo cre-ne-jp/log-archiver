@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ArchivedConversationMessage < ApplicationRecord
+  include MessageStimulusTarget::Speech
   include MessageDigest
 
   self.inheritance_column = :_type_disabled
