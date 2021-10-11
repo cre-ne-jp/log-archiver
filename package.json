@@ -7,13 +7,9 @@
     "chart.js": "^2.9.4",
     "flatpickr": "^4.6.9",
     "js-cookie": "^2.2.1",
-    "normalize-url": "^4.5.1",
-    "postcss": "^8.2.10",
     "stimulus": "^2.0.0",
-    "trim-newlines": "^3.0.1",
     "webpack": "^4.46.0",
-    "webpack-cli": "^3.3.12",
-    "ws": "^7.4.6"
+    "webpack-cli": "^3.3.12"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.13.10",
