@@ -412,7 +412,7 @@ DEPENDENCIES
   pry-rails
   puma
   puma_worker_killer
-  rails (~> 6.0)
+  rails (~> 6.1)
   rails-controller-testing
   rake
   ranked-model
