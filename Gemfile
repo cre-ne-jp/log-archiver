@@ -9,7 +9,9 @@ gem 'sysexits'
 gem 'xmlrpc'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0'
+gem 'rails', '~> 7.0'
+# rails 7.0 移行では sprockets が必須でなくなったため
+gem 'sprockets-rails'
 # Use mysql as the database for Active Record
 gem 'mysql2', '~> 0.5'
 
