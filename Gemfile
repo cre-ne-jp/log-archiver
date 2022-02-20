@@ -13,6 +13,10 @@ gem 'rails', '~> 6.0'
 # Use mysql as the database for Active Record
 gem 'mysql2', '~> 0.5'
 
+# メールクライアント
+# Ruby 3.1 系列から標準ライブラリでなくなった
+gem 'net-smtp'
+
 # バルクアップデートに使う
 gem 'activerecord-import'
 
