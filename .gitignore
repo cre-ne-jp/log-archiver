@@ -12,6 +12,7 @@
 /config/database.yml
 /config/ircbot.yml
 /config/unicorn.rb
+/.ruby-version
 
 # Ignore all logfiles and tempfiles.
 /log/*
