@@ -46,7 +46,7 @@ stdout_redirect(
 pidfile File.expand_path('../../tmp/pids/puma.pid', __FILE__)
 
 # Specifies the number of `workers` to boot in clustered mode.
-# Workers are forked webserver processes. If using threads and workers together
+# Workers are forked web server processes. If using threads and workers together
 # the concurrency of the application would be max `threads` * `workers`.
 # Workers do not work on JRuby or Windows (both of which do not support
 # processes).
@@ -87,6 +87,7 @@ end
 # option, you will want to use this block to reconnect to any threads
 # or connections that may have been created at application boot, as Ruby
 # cannot share connections between processes.
+# process behavior so workers use less memory.
 #
 on_worker_boot do
   ActiveRecord::Base.establish_connection if defined?(ActiveRecord)
