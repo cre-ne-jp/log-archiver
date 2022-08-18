@@ -15,6 +15,10 @@ gem 'sprockets-rails'
 # Use mysql as the database for Active Record
 gem 'mysql2', '~> 0.5'
 
+# メールクライアント
+# Ruby 3.1 系列から標準ライブラリでなくなった
+gem 'net-smtp'
+
 # バルクアップデートに使う
 gem 'activerecord-import'
 
@@ -55,7 +59,7 @@ gem 'puma_worker_killer'
 # gem 'capistrano-rails', group: :development
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.1.0', require: false
+gem 'bootsnap', '>= 1.1.0', '< 1.10', require: false
 
 # カレンダー
 gem "simple_calendar", "~> 2.0"

@@ -1,5 +1,7 @@
 # This file is used by Rack-based servers to start the application.
 
+require_relative "config/environment"
+
 if defined?(Unicorn)
   require 'unicorn/worker_killer'
 
@@ -20,5 +22,6 @@ if defined?(Unicorn)
   use Unicorn::WorkerKiller::Oom, oom[:min], oom[:max], oom[:check_cycle], auto_restart_verbose
 end
 
-require ::File.expand_path('../config/environment', __FILE__)
+require_relative 'config/environment'
 run Rails.application
+Rails.application.load_server
