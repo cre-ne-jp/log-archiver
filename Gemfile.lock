@@ -54,7 +54,7 @@ GEM
     activerecord (6.1.7)
       activemodel (= 6.1.7)
       activesupport (= 6.1.7)
-    activerecord-import (1.4.0)
+    activerecord-import (1.4.1)
       activerecord (>= 4.2)
     activestorage (6.1.7)
       actionpack (= 6.1.7)
@@ -110,10 +110,10 @@ GEM
     factory_bot_rails (6.2.0)
       factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
-    faraday (2.5.2)
+    faraday (2.6.0)
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
-    faraday-net_http (3.0.0)
+    faraday-net_http (3.0.1)
     ffi (1.15.5)
     formatador (1.1.0)
     friendly_id (5.4.2)
@@ -179,7 +179,6 @@ GEM
     mini_mime (1.1.2)
     minitest (5.16.3)
     msgpack (1.6.0)
-    multi_json (1.15.0)
     multi_xml (0.6.0)
     mysql2 (0.5.4)
     nenv (0.3.0)
@@ -188,9 +187,9 @@ GEM
     net-smtp (0.3.2)
       net-protocol
     nio4r (2.5.8)
-    nokogiri (1.13.8-x86_64-darwin)
+    nokogiri (1.13.9-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.13.8-x86_64-linux)
+    nokogiri (1.13.9-x86_64-linux)
       racc (~> 1.4)
     notiffany (0.1.3)
       nenv (~> 0.1)
@@ -198,16 +197,17 @@ GEM
     oauth (0.6.2)
       snaky_hash (~> 2.0)
       version_gem (~> 1.1)
-    oauth2 (1.4.11)
+    oauth2 (2.0.9)
       faraday (>= 0.17.3, < 3.0)
       jwt (>= 1.0, < 3.0)
-      multi_json (~> 1.3)
       multi_xml (~> 0.5)
       rack (>= 1.2, < 4)
+      snaky_hash (~> 2.0)
+      version_gem (~> 1.1)
     parallel (1.22.1)
     parser (3.1.2.1)
       ast (~> 2.4.1)
-    power_assert (2.0.1)
+    power_assert (2.0.2)
     pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -271,19 +271,19 @@ GEM
     regexp_parser (2.6.0)
     rexml (3.2.5)
     rr (3.1.0)
-    rubocop (1.36.0)
+    rubocop (1.37.1)
       json (~> 2.3)
       parallel (~> 1.10)
       parser (>= 3.1.2.1)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 1.8, < 3.0)
       rexml (>= 3.2.5, < 4.0)
-      rubocop-ast (>= 1.20.1, < 2.0)
+      rubocop-ast (>= 1.23.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 3.0)
-    rubocop-ast (1.21.0)
+    rubocop-ast (1.23.0)
       parser (>= 3.1.1.0)
-    rubocop-rails (2.16.1)
+    rubocop-rails (2.17.1)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
@@ -325,10 +325,10 @@ GEM
     snaky_hash (2.0.1)
       hashie
       version_gem (~> 1.1, >= 1.1.1)
-    sorcery (0.16.3)
+    sorcery (0.16.4)
       bcrypt (~> 3.1)
       oauth (~> 0.5, >= 0.5.5)
-      oauth2 (~> 1.0, >= 0.8.0)
+      oauth2 (~> 2.0)
     spring (4.1.0)
     sprockets (4.1.1)
       concurrent-ruby (~> 1.0)
@@ -339,7 +339,7 @@ GEM
       sprockets (>= 3.0.0)
     stringio (3.0.2)
     sysexits (1.2.0)
-    test-unit (3.5.3)
+    test-unit (3.5.5)
       power_assert
     test-unit-activesupport (1.1.1)
       activesupport
@@ -389,7 +389,7 @@ GEM
       webrick
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.6.0)
+    zeitwerk (2.6.1)
 
 PLATFORMS
   x86_64-darwin-20
@@ -417,7 +417,7 @@ DEPENDENCIES
   mysql2 (~> 0.5)
   net-smtp
   pry-rails
-  puma
+  puma (< 6.0)
   puma_worker_killer
   rails (~> 6.1)
   rails-controller-testing
@@ -446,4 +446,4 @@ DEPENDENCIES
   xmlrpc
 
 BUNDLED WITH
-   2.3.22
+   2.3.24
