@@ -275,8 +275,7 @@ GEM
     rdoc (6.4.0)
       psych (>= 4.0.0)
     redcarpet (3.5.1)
-    redis-client (0.11.2)
-      connection_pool
+    redis (4.8.0)
     regexp_parser (2.6.1)
     rexml (3.2.5)
     rr (3.1.0)
@@ -315,11 +314,10 @@ GEM
       websocket (~> 1.0)
     semantic_range (3.0.0)
     shellany (0.0.1)
-    sidekiq (7.0.2)
-      concurrent-ruby (< 2)
-      connection_pool (>= 2.3.0)
-      rack (>= 2.2.4)
-      redis-client (>= 0.11.0)
+    sidekiq (6.5.8)
+      connection_pool (>= 2.2.5, < 3)
+      rack (~> 2.0)
+      redis (>= 4.5.0, < 5)
     simple-navigation (4.4.0)
       activesupport (>= 2.3.2)
     simple_calendar (2.4.3)
@@ -439,7 +437,7 @@ DEPENDENCIES
   sassc-rails (>= 2.1)
   sdoc (~> 1.0)
   selenium-webdriver
-  sidekiq
+  sidekiq (< 7)
   simple-navigation
   simple_calendar (~> 2.0)
   simple_enum
