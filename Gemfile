@@ -52,7 +52,7 @@ gem 'meta-tags'
 # gem 'bcrypt', '~> 3.1.7'
 
 # Use Puma as the app server
-gem 'puma'
+gem 'puma', '< 7'
 gem 'puma_worker_killer'
 
 # Use Capistrano for deployment
@@ -96,7 +96,7 @@ gem 'pry-rails'
 gem 'simple-navigation'
 
 # ActiveJob バックエンド
-gem 'sidekiq'
+gem 'sidekiq', '< 7'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
