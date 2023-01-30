@@ -6,9 +6,11 @@
     "chart.js": "^2.9.4",
     "esbuild": "^0.17.5",
     "flatpickr": "^4.6.9",
-    "js-cookie": "^2.2.1"
+    "js-cookie": "^2.2.1",
+    "sass": "^1.57.1"
   },
   "scripts": {
-    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=assets"
+    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=assets",
+    "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules"
   }
 }
