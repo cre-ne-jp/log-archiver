@@ -1,6 +1,6 @@
 /* eslint no-console:0 */
 
-import { Controller } from "stimulus";
+import { Controller } from "@hotwired/stimulus";
 
 import {
   flatpickrFor,

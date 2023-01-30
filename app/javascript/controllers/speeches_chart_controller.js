@@ -1,6 +1,6 @@
 /* eslint no-console:0 */
 
-import { Controller } from "stimulus";
+import { Controller } from "@hotwired/stimulus";
 import Chart from "chart.js";
 import MessageListStyle from "../message_list_style";
 
