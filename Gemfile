@@ -23,7 +23,7 @@ gem 'net-smtp'
 gem 'activerecord-import'
 
 # Use SCSS for stylesheets
-gem 'sassc-rails', '>= 2.1'
+#gem 'sassc-rails', '>= 2.1'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
