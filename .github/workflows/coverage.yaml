@@ -44,6 +44,11 @@ jobs:
         run: |
           cp config/database.yml.github_actions config/database.yml
           bin/rails db:setup
+      - name: Prepare assets
+        run: |
+          bin/rails assets:clobber
+          rm -vrf app/assets/build/*
+          bin/rails assets:precompile
       - uses: paambaati/codeclimate-action@v2.7.5
         env:
           CC_TEST_REPORTER_ID: 74e589ede57e23f089cbbd2eee75be23a93b5ace7b5cfce58213cd3f21447147
