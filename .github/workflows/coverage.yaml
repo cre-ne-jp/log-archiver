@@ -9,7 +9,7 @@ on:
 
 jobs:
   test:
-    name: "Ruby 3.1: test and coverage measurement"
+    name: "Ruby 3.2: test and coverage measurement"
     strategy:
       fail-fast: false
     runs-on: ubuntu-latest
@@ -32,7 +32,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.1
+          ruby-version: '3.2'
 
           # runs 'bundle install' and caches installed gems automatically
           bundler-cache: true
