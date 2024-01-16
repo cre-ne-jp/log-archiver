@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_18_084342) do
+ActiveRecord::Schema.define(version: 2021_10_25_152805) do
+
   create_table "active_storage_attachments", charset: "utf8mb4", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
-    t.datetime "created_at", precision: nil, null: false
+    t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -26,9 +27,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_18_084342) do
     t.string "filename", null: false
     t.string "content_type"
     t.text "metadata"
+    t.string "service_name", null: false
     t.bigint "byte_size", null: false
-    t.string "checksum"
-    t.datetime "created_at", precision: nil, null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
@@ -40,29 +42,29 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_18_084342) do
 
   create_table "archive_reasons", charset: "utf8mb4", force: :cascade do |t|
     t.string "reason", default: "", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "archived_conversation_messages", charset: "utf8mb4", options: "ENGINE=Mroonga", force: :cascade do |t|
     t.integer "old_id", default: 0, null: false
     t.integer "channel_id"
-    t.datetime "timestamp", precision: nil, null: false
+    t.datetime "timestamp", null: false
     t.string "nick", limit: 64, default: "", null: false
     t.text "message"
     t.string "type", null: false
     t.integer "irc_user_id", default: 1, null: false
     t.string "digest", default: "", null: false
     t.integer "archive_reason_id", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "channel_last_speeches", id: :integer, charset: "utf8mb4", options: "ENGINE=Mroonga", force: :cascade do |t|
     t.integer "channel_id"
     t.integer "conversation_message_id"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["channel_id"], name: "index_channel_last_speeches_on_channel_id"
     t.index ["conversation_message_id"], name: "index_channel_last_speeches_on_conversation_message_id"
   end
@@ -71,8 +73,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_18_084342) do
     t.string "name", default: "", null: false
     t.string "identifier", default: "", null: false
     t.boolean "logging_enabled", default: true, null: false
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer "row_order"
     t.string "canonical_url_template", default: ""
     t.index ["identifier"], name: "index_channels_on_identifier"
@@ -81,11 +83,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_18_084342) do
 
   create_table "conversation_messages", id: :integer, charset: "utf8mb4", options: "ENGINE=Mroonga", force: :cascade do |t|
     t.integer "channel_id"
-    t.datetime "timestamp", precision: nil, null: false
+    t.datetime "timestamp", null: false
     t.string "nick", limit: 64, default: "", null: false
     t.text "message"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "type"
     t.integer "irc_user_id", default: 1, null: false
     t.string "digest", default: "", null: false
@@ -100,15 +102,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_18_084342) do
   create_table "irc_users", id: :integer, charset: "utf8mb4", options: "ENGINE=Mroonga", force: :cascade do |t|
     t.string "user", limit: 64, default: "", null: false
     t.string "host", default: "", null: false
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "keywords", charset: "utf8mb4", options: "ENGINE=Mroonga", force: :cascade do |t|
     t.string "title", default: "", null: false
     t.string "display_title", default: "", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["display_title"], name: "index_keywords_on_display_title", type: :fulltext
     t.index ["title"], name: "index_keywords_on_title", unique: true
   end
@@ -116,8 +118,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_18_084342) do
   create_table "message_dates", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.integer "channel_id"
     t.date "date"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["channel_id", "date"], name: "index_message_dates_on_channel_id_and_date"
     t.index ["channel_id"], name: "index_message_dates_on_channel_id"
     t.index ["date"], name: "index_message_dates_on_date"
@@ -127,12 +129,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_18_084342) do
     t.integer "channel_id"
     t.integer "irc_user_id", default: 1, null: false
     t.string "type"
-    t.datetime "timestamp", precision: nil, null: false
+    t.datetime "timestamp", null: false
     t.string "nick", limit: 64, default: "", null: false
     t.text "message"
     t.string "target", limit: 64
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string "digest", default: "", null: false
     t.index ["timestamp", "channel_id"], name: "index_messages_on_timestamp_and_channel_id"
   end
@@ -140,8 +142,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_18_084342) do
   create_table "privmsg_keyword_relationships", charset: "utf8mb4", force: :cascade do |t|
     t.integer "privmsg_id"
     t.integer "keyword_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["keyword_id"], name: "index_privmsg_keyword_relationships_on_keyword_id"
     t.index ["privmsg_id", "keyword_id"], name: "index_rel_on_privmsg_id_and_keyword_id", unique: true
     t.index ["privmsg_id"], name: "index_privmsg_keyword_relationships_on_privmsg_id"
@@ -150,8 +152,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_18_084342) do
   create_table "settings", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.string "site_title", default: "IRC ログアーカイブ", null: false
     t.text "text_on_homepage", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", id: :integer, charset: "utf8mb4", force: :cascade do |t|
@@ -159,8 +161,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_18_084342) do
     t.string "email", default: "", null: false
     t.string "crypted_password"
     t.string "salt"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
