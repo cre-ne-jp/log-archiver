@@ -53,7 +53,7 @@ jobs:
         run: |
           cp config/database.yml.github_actions config/database.yml
           bin/rails db:setup
-      - name: Compile JS (webpack)
-        run: bin/yarn webpack
+      - name: Compile JavaScripts (webpack)
+        run: NODE_ENV=production bin/yarn webpack
       - name: Run tests
         run: bin/rails test

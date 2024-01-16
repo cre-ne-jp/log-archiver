@@ -13,7 +13,7 @@ module.exports = {
     application: path.resolve(__dirname, "app/javascript/packs/application.js"),
   },
   output: {
-    filename: isProd ? "[name]-[hash].js" : "[name].js",
+    filename: isProd ? "[name]-[contenthash].js" : "[name].js",
     path: path.resolve(__dirname, "public/packs"),
     publicPath: isProd ? "/packs/" : "//localhost:8080/packs/",
   },
@@ -40,7 +40,7 @@ module.exports = {
   plugins: [
     new CaseSensitivePathsPlugin(),
     new MiniCssExtractPlugin({
-      filename: isProd ? "[name]-[hash].css" : "[name].css",
+      filename: isProd ? "[name]-[contenthash].css" : "[name].css",
     }),
     new WebpackAssetsManifest({
       entrypoints: true,
