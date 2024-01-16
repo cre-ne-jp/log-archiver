@@ -27,8 +27,8 @@ gem 'uglifier', '>= 1.3'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
-# Use Webpack to manage app-like JavaScript modules in Rails
-gem 'webpacker', '~> 5.x'
+# webpack 用のヘルパーを提供する
+gem 'simpacker'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

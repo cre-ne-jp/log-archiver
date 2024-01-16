@@ -231,8 +231,6 @@ GEM
       puma (>= 2.7)
     racc (1.7.3)
     rack (2.2.8)
-    rack-proxy (0.7.4)
-      rack
     rack-test (2.1.0)
       rack (>= 1.3)
     rails (6.1.7.6)
@@ -314,12 +312,13 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
-    semantic_range (3.0.0)
     shellany (0.0.1)
     sidekiq (6.5.8)
       connection_pool (>= 2.2.5, < 3)
       rack (~> 2.0)
       redis (>= 4.5.0, < 5)
+    simpacker (1.3.0)
+      railties (>= 4.2)
     simple-navigation (4.4.0)
       activesupport (>= 2.3.2)
     simple_calendar (2.4.3)
@@ -380,11 +379,6 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
-    webpacker (5.4.3)
-      activesupport (>= 5.2)
-      rack-proxy (>= 0.6.1)
-      railties (>= 5.2)
-      semantic_range (>= 2.3.0)
     webrick (1.7.0)
     websocket (1.2.10)
     websocket-driver (0.7.6)
@@ -436,6 +430,7 @@ DEPENDENCIES
   sdoc (~> 1.0)
   selenium-webdriver
   sidekiq (< 7)
+  simpacker
   simple-navigation
   simple_calendar (~> 2.0)
   simple_enum
@@ -446,7 +441,6 @@ DEPENDENCIES
   test-unit-rails
   uglifier (>= 1.3)
   web-console (~> 4.0)
-  webpacker (~> 5.x)
   xmlrpc
 
 BUNDLED WITH
