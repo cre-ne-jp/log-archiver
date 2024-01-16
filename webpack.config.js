@@ -15,7 +15,7 @@ module.exports = {
   output: {
     filename: isProd ? "[name]-[hash].js" : "[name].js",
     path: path.resolve(__dirname, "public/packs"),
-    publicPath: isProd ? "/packs/" : "//localhost/8080/packs/",
+    publicPath: isProd ? "/packs/" : "//localhost:8080/packs/",
   },
   resolve: {
     extensions: [".js"],
@@ -49,4 +49,16 @@ module.exports = {
       output: "manifest.json",
     }),
   ],
+  devServer: {
+    host: "localhost",
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+    },
+    devMiddleware: {
+      publicPath: "/packs/",
+    },
+    static: {
+      directory: path.resolve(__dirname, "public/packs"),
+    },
+  },
 };

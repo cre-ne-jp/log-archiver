@@ -23,6 +23,6 @@
   },
   "scripts": {
     "dev": "webpack --progress --color --mode=development",
-    "watch": "webpack --progress --color --watch --mode=development"
+    "server": "webpack serve --color --mode=development"
   }
 }
