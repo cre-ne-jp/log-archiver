@@ -30,15 +30,16 @@ cd log-archiver
 
 ```bash
 bundle install --deployment --path vendor/bundle
+yarn install
 ```
 
 ## アセットとプリコンパイル
 
-アセット(JavaScript/CSS)のプリコンパイルを行ないます。
-同時に、依存する JavaScript ライブラリのインストール (yarn install) が実施されます。
+アセット(JavaScript/CSS)のプリコンパイルと、依存する JavaScript ライブラリのインストール (yarn install) を実施します。
 
 ```bash
-bin/rails assets:precompile RAILS_ENV=production
+RAILS_ENV=production bin/rails assets:precompile
+NODE_ENV=production yarn webpack
 ```
 
 ## データベースの設定

@@ -9,6 +9,7 @@ v1.2.0以前では、データベース構造の都合上、全文検索エン�
 以下のコマンドによりテストを実行します。
 
 ```sh
+NODE_ENV=test yarn webpack
 bin/rails test
 ```
 
