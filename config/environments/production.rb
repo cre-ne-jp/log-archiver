@@ -24,7 +24,8 @@ Rails.application.configure do
   # config.public_file_server.enabled = false
 
   # Compress CSS using a preprocessor.
-  config.assets.js_compressor = :uglifier
+  config.assets.js_compressor = :terser
+  config.assets.terser = { output: { ascii_only: false } }
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
