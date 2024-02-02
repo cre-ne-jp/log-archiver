@@ -42,7 +42,7 @@ gem 'jquery-ui-rails'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', '~> 1.0', group: :doc
+gem 'sdoc', '~> 2.6', group: :doc
 
 # デザイン
 gem 'bootstrap-sass', '>= 3.4.1'
@@ -61,10 +61,10 @@ gem 'puma_worker_killer'
 # gem 'capistrano-rails', group: :development
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.1.0', '< 1.10', require: false
+gem 'bootsnap', '~> 1.18', require: false
 
 # カレンダー
-gem "simple_calendar", "~> 2.0"
+gem "simple_calendar", "~> 3.0"
 
 # Markdown パーサ
 gem 'redcarpet'
@@ -126,7 +126,7 @@ group :test do
   # Workaround for cc-test-reporter with SimpleCov 0.18.
   # Stop upgrading SimpleCov until the following issue will be resolved.
   # https://github.com/codeclimate/test-reporter/issues/418
-  gem 'simplecov', '~> 0.10', '< 0.18'
+  gem 'simplecov', '~> 0.22'
 
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 3.26'
