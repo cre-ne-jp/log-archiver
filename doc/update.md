@@ -31,8 +31,8 @@ yarn install
 本番環境の場合
 
 ```bash
-# assets:precompile で、yarn install も実行されます
-bin/rails assets:{clean,precompile} RAILS_ENV=production
+RAILS_ENV=production bin/rails assets:{clean,precompile}
+NODE_ENV=production yarn webpack
 ```
 
 ### データベースのマイグレーション
