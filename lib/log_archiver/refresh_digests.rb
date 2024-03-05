@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'sidekiq/worker'
-include Sidekiq::Worker
+require 'sidekiq/job'
+include Sidekiq::Job
 
 module LogArchiver
   class RefreshDigests
