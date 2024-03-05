@@ -9,9 +9,11 @@ gem 'sysexits'
 gem 'xmlrpc'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 7.0'
-# rails 7.0 移行では sprockets が必須でなくなったため
-gem 'sprockets-rails'
+gem 'rails', '~> 7.1.0'
+
+# The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
+gem "sprockets-rails"
+
 # Use mysql as the database for Active Record
 gem 'mysql2', '~> 0.5'
 
@@ -24,13 +26,13 @@ gem 'activerecord-import'
 
 # Use SCSS for stylesheets
 gem 'sassc-rails', '>= 2.1'
-# Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3'
+# Use Terser as compressor for JavaScript assets
+gem 'terser'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
-# Use Webpack to manage app-like JavaScript modules in Rails
-gem 'webpacker', '~> 5.x'
+# webpack 用のヘルパーを提供する
+gem 'simpacker'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -40,7 +42,7 @@ gem 'jquery-ui-rails'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', '~> 1.0', group: :doc
+gem 'sdoc', '~> 2.6', group: :doc
 
 # デザイン
 gem 'bootstrap-sass', '>= 3.4.1'
@@ -59,10 +61,10 @@ gem 'puma_worker_killer'
 # gem 'capistrano-rails', group: :development
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.1.0', '< 1.10', require: false
+gem 'bootsnap', '~> 1.18', require: false
 
 # カレンダー
-gem "simple_calendar", "~> 2.0"
+gem "simple_calendar", "~> 3.0"
 
 # Markdown パーサ
 gem 'redcarpet'
@@ -96,7 +98,7 @@ gem 'pry-rails'
 gem 'simple-navigation'
 
 # ActiveJob バックエンド
-gem 'sidekiq', '< 7'
+gem 'sidekiq', '~> 6.5.12'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -124,19 +126,16 @@ group :test do
   # Workaround for cc-test-reporter with SimpleCov 0.18.
   # Stop upgrading SimpleCov until the following issue will be resolved.
   # https://github.com/codeclimate/test-reporter/issues/418
-  gem 'simplecov', '~> 0.10', '< 0.18'
+  gem 'simplecov', '~> 0.22'
 
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 3.26'
   gem 'selenium-webdriver'
   # Easy installation and use of web drivers to run system tests with browsers
-  gem 'webdrivers'
+  #gem 'webdrivers'
 end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 4.0'
-
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
 end
