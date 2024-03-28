@@ -16,8 +16,10 @@
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
+/app/assets/builds/*
 !/log/.keep
 !/tmp/.keep
+!/app/assets/builds/.keep
 
 *.swp
 /coverage
