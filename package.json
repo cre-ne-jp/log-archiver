@@ -1,25 +1,25 @@
 {
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.1.1",
-    "@fortawesome/free-brands-svg-icons": "^6.1.1",
-    "@fortawesome/free-solid-svg-icons": "^6.1.1",
+    "@fortawesome/fontawesome-svg-core": "^6.5.2",
+    "@fortawesome/free-brands-svg-icons": "^6.5.2",
+    "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
     "chart.js": "^2.9.4",
-    "css-loader": "^6.9.0",
-    "flatpickr": "^4.6.9",
+    "css-loader": "^6.11.0",
+    "flatpickr": "^4.6.13",
     "js-cookie": "^2.2.1",
-    "mini-css-extract-plugin": "^2.7.7",
-    "sass": "^1.69.7",
+    "mini-css-extract-plugin": "^2.8.1",
+    "sass": "^1.74.1",
     "sass-loader": "^13.3.3",
     "stimulus": "^2.0.0",
-    "webpack": "^5.89.0",
-    "webpack-assets-manifest": "^5.1.0",
+    "webpack": "^5.91.0",
+    "webpack-assets-manifest": "^5.2.1",
     "webpack-cli": "^5.1.4"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.13.10",
-    "eslint": "^7.22.0",
-    "webpack-dev-server": "^4.7.4"
+    "@babel/eslint-parser": "^7.24.1",
+    "eslint": "^7.32.0",
+    "webpack-dev-server": "^4.15.2"
   },
   "scripts": {
     "dev": "webpack --progress --color --mode=development",
