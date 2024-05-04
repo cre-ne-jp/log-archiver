@@ -21,17 +21,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/eslint-parser@npm:^7.24.1":
-  version: 7.24.1
-  resolution: "@babel/eslint-parser@npm:7.24.1"
+"@babel/eslint-parser@npm:^7.24.5":
+  version: 7.24.5
+  resolution: "@babel/eslint-parser@npm:7.24.5"
   dependencies:
     "@nicolo-ribaudo/eslint-scope-5-internals": 5.1.1-v1
     eslint-visitor-keys: ^2.1.0
     semver: ^6.3.1
   peerDependencies:
     "@babel/core": ^7.11.0
-    eslint: ^7.5.0 || ^8.0.0
-  checksum: 962ffa98629f76234d7fd75134848bea040137c8534c602c73ed9ad6bdd3be0d2e7eaebd2ad496e81ab87220176170fd805e6fdc98464af6907ac66e1da7fc9a
+    eslint: ^7.5.0 || ^8.0.0 || ^9.0.0
+  checksum: b9df1d0158ddca3d1f040b545e7d8ac529e17bd1c7a16f1382a4d6c24df4acd8942700249c5b7b4c0ea3c28dba8bdefc64124c4074c6db88d65480cd135a9e9c
   languageName: node
   linkType: hard
 
@@ -2821,15 +2821,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mini-css-extract-plugin@npm:^2.8.1":
-  version: 2.8.1
-  resolution: "mini-css-extract-plugin@npm:2.8.1"
+"mini-css-extract-plugin@npm:^2.9.0":
+  version: 2.9.0
+  resolution: "mini-css-extract-plugin@npm:2.9.0"
   dependencies:
     schema-utils: ^4.0.0
     tapable: ^2.2.1
   peerDependencies:
     webpack: ^5.0.0
-  checksum: 209f15a18cc304b0f12911927ea7e6ca4f0c3168dcc95d741811c933c4610fdb02a8486fc1a7782a6cde75c8e1880e175b7acf04e5ddfba2b8ed045d306ef04f
+  checksum: ae192c67ba85ac8bffeab66774635bf90181f00d5dd6cf95412426192599ddf5506fb4b1550acbd7a5476476e39db53c770dd40f8378f7baf5de96e3fec4e6e9
   languageName: node
   linkType: hard
 
@@ -3590,7 +3590,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
-    "@babel/eslint-parser": ^7.24.1
+    "@babel/eslint-parser": ^7.24.5
     "@fortawesome/fontawesome-svg-core": ^6.5.2
     "@fortawesome/free-brands-svg-icons": ^6.5.2
     "@fortawesome/free-solid-svg-icons": ^6.5.2
@@ -3600,8 +3600,8 @@ __metadata:
     eslint: ^7.32.0
     flatpickr: ^4.6.13
     js-cookie: ^2.2.1
-    mini-css-extract-plugin: ^2.8.1
-    sass: ^1.74.1
+    mini-css-extract-plugin: ^2.9.0
+    sass: ^1.76.0
     sass-loader: ^13.3.3
     stimulus: ^2.0.0
     webpack: ^5.91.0
@@ -3656,16 +3656,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass@npm:^1.74.1":
-  version: 1.74.1
-  resolution: "sass@npm:1.74.1"
+"sass@npm:^1.76.0":
+  version: 1.76.0
+  resolution: "sass@npm:1.76.0"
   dependencies:
     chokidar: ">=3.0.0 <4.0.0"
     immutable: ^4.0.0
     source-map-js: ">=0.6.2 <2.0.0"
   bin:
     sass: sass.js
-  checksum: 3cbcd73d91e65607f7987656b7f6b0c6143724304544768079ecbe95505f1ce71036916e0e02dcc9923551c3779863bcdd522732a8f4409e89205271966a36f4
+  checksum: 5f3fa7e7a1be09b7cea842a397fb07b9413fa9903bf82ead2ea059aa56faea534c2a84ede5a140103ee18a1dec9162b2fa1413fe71bbe8f8074712bf3bd3a8c7
   languageName: node
   linkType: hard
 
