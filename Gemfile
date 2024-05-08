@@ -84,6 +84,8 @@ gem 'simple_enum'
 
 # 認証
 gem 'sorcery'
+# sorcery に依存する multi_xml は 0.7.0 以降で ruby 3.0 系列をサポートしない
+gem 'multi_xml', '<=0.6'
 
 # 並び替え
 gem 'ranked-model'

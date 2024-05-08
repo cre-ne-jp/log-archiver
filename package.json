@@ -8,8 +8,8 @@
     "css-loader": "^6.11.0",
     "flatpickr": "^4.6.13",
     "js-cookie": "^2.2.1",
-    "mini-css-extract-plugin": "^2.8.1",
-    "sass": "^1.74.1",
+    "mini-css-extract-plugin": "^2.9.0",
+    "sass": "^1.76.0",
     "sass-loader": "^13.3.3",
     "stimulus": "^2.0.0",
     "webpack": "^5.91.0",
@@ -17,7 +17,7 @@
     "webpack-cli": "^5.1.4"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.24.1",
+    "@babel/eslint-parser": "^7.24.5",
     "eslint": "^7.32.0",
     "webpack-dev-server": "^4.15.2"
   },
