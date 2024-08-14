@@ -1,23 +1,23 @@
 {
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.5.2",
-    "@fortawesome/free-brands-svg-icons": "^6.5.2",
-    "@fortawesome/free-solid-svg-icons": "^6.5.2",
+    "@fortawesome/fontawesome-svg-core": "^6.6.0",
+    "@fortawesome/free-brands-svg-icons": "^6.6.0",
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
     "chart.js": "^2.9.4",
     "css-loader": "^6.11.0",
     "flatpickr": "^4.6.13",
     "js-cookie": "^2.2.1",
     "mini-css-extract-plugin": "^2.9.0",
-    "sass": "^1.77.6",
+    "sass": "^1.77.8",
     "sass-loader": "^13.3.3",
     "stimulus": "^2.0.0",
-    "webpack": "^5.92.1",
+    "webpack": "^5.93.0",
     "webpack-assets-manifest": "^5.2.1",
     "webpack-cli": "^5.1.4"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.24.7",
+    "@babel/eslint-parser": "^7.25.1",
     "eslint": "^7.32.0",
     "webpack-dev-server": "^4.15.2"
   },

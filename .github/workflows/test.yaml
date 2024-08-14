@@ -24,7 +24,7 @@ jobs:
       TZ: Asia/Tokyo
     services:
       db:
-        image: koichan779/mroonga:13.05
+        image: koichan779/mroonga:14.04
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: 1
         ports:
