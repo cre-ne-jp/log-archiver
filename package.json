@@ -12,7 +12,7 @@
     "sass": "^1.77.8",
     "sass-loader": "^13.3.3",
     "stimulus": "^2.0.0",
-    "webpack": "^5.93.0",
+    "webpack": "^5.94.0",
     "webpack-assets-manifest": "^5.2.1",
     "webpack-cli": "^5.1.4"
   },
