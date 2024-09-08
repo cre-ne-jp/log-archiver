@@ -1,3 +1,22 @@
+# This configuration file will be evaluated by Puma. The top-level methods that
+# are invoked here are part of Puma's configuration DSL. For more information
+# about methods provided by the DSL, see https://puma.io/puma/Puma/DSL.html.
+
+# Puma starts a configurable number of processes (workers) and each process
+# serves each request in a thread from an internal thread pool.
+#
+# The ideal number of threads per worker depends both on how much time the
+# application spends waiting for IO operations and on how much you wish to
+# to prioritize throughput over latency.
+#
+# As a rule of thumb, increasing the number of threads will increase how much
+# traffic a given process can handle (throughput), but due to CRuby's
+# Global VM Lock (GVL) it has diminishing returns and will degrade the
+# response time (latency) of the application.
+#
+# The default is set to 3 threads as it's deemed a decent compromise between
+# throughput and latency for the average Rails application.
+#
 # 参考: http://nekorails.hatenablog.com/entry/2018/10/12/101011
 
 # Rails のルートパス
@@ -11,13 +30,15 @@ directory rails_root
 # the maximum value specified for Puma. Default is set to 5 threads for minimum
 # and maximum; this matches the default thread size of Active Record.
 #
+# Any libraries that use a connection pool or another resource pool should
+# be configured to provide at least as many connections as the number of
+# threads. This includes Active Record's `pool` parameter in `database.yml`.
 max_threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }
 min_threads_count = ENV.fetch("RAILS_MIN_THREADS") { max_threads_count }
 threads min_threads_count, max_threads_count
 
 # Specifies the `worker_timeout` threshold that Puma will use to wait before
 # terminating a worker in development environments.
-#
 worker_timeout 3600 if ENV.fetch("RAILS_ENV", "development") == "development"
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
@@ -29,7 +50,6 @@ else
 end
 
 # Specifies the `environment` that Puma will run in.
-#
 environment ENV.fetch("RAILS_ENV") { "development" }
 
 # pumactl で操作する為に必要なファイル
@@ -42,7 +62,8 @@ stdout_redirect(
   true
 ) unless ENV.fetch("RAILS_ENV", "development") == "development"
 
-# pid ファイルのパス
+# Specify the PID file. Defaults to tmp/pids/server.pid in development.
+# In other environments, only set the PID file if requested.
 pidfile File.expand_path('../../tmp/pids/puma.pid', __FILE__)
 
 # Specifies the number of `workers` to boot in clustered mode.
@@ -59,7 +80,6 @@ workers ENV.fetch("WEB_CONCURRENCY") { 3 }
 # process behavior so workers use less memory. If you use this option
 # you need to make sure to reconnect any threads in the `on_worker_boot`
 # block.
-#
 preload_app!
 
 before_fork do
@@ -67,7 +87,6 @@ before_fork do
   # recommended that you close any connections to the database before workers
   # are forked to prevent connection leakage.
   ActiveRecord::Base.connection_pool.disconnect! if defined?(ActiveRecord)
-
   # 定期的に worker プロセスを KILL して、全体のメモリ使用量を減らす
   PumaWorkerKiller.config do |c|
     c.ram = ENV.fetch("PUMA_WORKER_MEMORY_LIMIT") { 1024 }
@@ -93,5 +112,5 @@ on_worker_boot do
   ActiveRecord::Base.establish_connection if defined?(ActiveRecord)
 end
 
-# Allow puma to be restarted by `rails restart` command.
+# Allow puma to be restarted by `bin/rails restart` command.
 plugin :tmp_restart
