@@ -8,21 +8,22 @@
     "css-loader": "^7.1.2",
     "flatpickr": "^4.6.13",
     "js-cookie": "^3.0.5",
-    "mini-css-extract-plugin": "^2.9.1",
-    "sass": "^1.79.4",
-    "sass-loader": "^16.0.2",
+    "mini-css-extract-plugin": "^2.9.2",
+    "sass": "^1.80.5",
+    "sass-loader": "^16.0.3",
     "stimulus": "^3.2.2",
-    "webpack": "^5.95.0",
+    "webpack": "^5.96.0",
     "webpack-assets-manifest": "^5.2.1",
     "webpack-cli": "^5.1.4"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.25.1",
-    "eslint": "^9.11.1",
+    "@babel/eslint-parser": "^7.25.9",
+    "eslint": "^9.13.0",
     "webpack-dev-server": "^5.1.0"
   },
   "scripts": {
     "dev": "webpack --progress --color --mode=development",
     "server": "webpack serve --color --mode=development"
-  }
+  },
+  "packageManager": "yarn@3.6.4+sha512.e70835d4d6d62c07be76b3c1529cb640c7443f0fe434ef4b6478a5a399218cbaf1511b396b3c56eb03bc86424cff2320f6167ad2fde273aa0df6e60b7754029f"
 }
