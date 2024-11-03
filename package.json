@@ -24,5 +24,6 @@
   "scripts": {
     "dev": "webpack --progress --color --mode=development",
     "server": "webpack serve --color --mode=development"
-  }
+  },
+  "packageManager": "yarn@4.5.1"
 }
