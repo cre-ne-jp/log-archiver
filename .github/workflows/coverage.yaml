@@ -50,7 +50,7 @@ jobs:
         run: |
           cp config/database.yml.github_actions config/database.yml
           bin/rails db:setup
-      - uses: paambaati/codeclimate-action@v6.0.0
+      - uses: paambaati/codeclimate-action@v9.0.0
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
