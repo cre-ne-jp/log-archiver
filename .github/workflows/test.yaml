@@ -41,6 +41,8 @@ jobs:
 
           # runs 'bundle install' and caches installed gems automatically
           bundler-cache: true
+      - name: 'Enable corepack'
+        run: corepack enable
       - uses: actions/setup-node@v4
         with:
           node-version: 'lts/hydrogen'
