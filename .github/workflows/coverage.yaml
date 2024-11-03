@@ -52,6 +52,6 @@ jobs:
           bin/rails db:setup
       - uses: paambaati/codeclimate-action@v6.0.0
         env:
-          CC_TEST_REPORTER_ID: 74e589ede57e23f089cbbd2eee75be23a93b5ace7b5cfce58213cd3f21447147
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
           coverageCommand: bin/rails test
