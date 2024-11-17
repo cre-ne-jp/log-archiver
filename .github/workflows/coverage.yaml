@@ -9,7 +9,7 @@ on:
 
 jobs:
   test:
-    name: "Ruby 3.2: test and coverage measurement"
+    name: "Ruby 3.3: test and coverage measurement"
     strategy:
       fail-fast: false
     runs-on: ubuntu-latest
@@ -32,21 +32,25 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2'
+          ruby-version: '3.3'
 
           # runs 'bundle install' and caches installed gems automatically
           bundler-cache: true
-      # 参考: https://igarashikuniaki.net/diary/20200210.html
-      - name: Install JavaScript packages
+      - name: 'Enable corepack'
+        run: corepack enable
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/hydrogen'
+          cache: 'yarn'
+      - name: Compile JavaScripts (webpack)
         run: |
           yarn install
+          NODE_ENV=production bin/yarn webpack
       - name: Setup database
         run: |
           cp config/database.yml.github_actions config/database.yml
           bin/rails db:setup
-      - name: Compile JavaScripts (webpack)
-        run: NODE_ENV=production bin/yarn webpack
-      - uses: paambaati/codeclimate-action@v6.0.0
+      - uses: paambaati/codeclimate-action@v9.0.0
         env:
           CC_TEST_REPORTER_ID: 74e589ede57e23f089cbbd2eee75be23a93b5ace7b5cfce58213cd3f21447147
         with:
