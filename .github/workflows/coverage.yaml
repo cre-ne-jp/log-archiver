@@ -29,7 +29,7 @@ jobs:
         ports:
           - 6379:6379
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.2'
@@ -46,7 +46,7 @@ jobs:
           bin/rails db:setup
       - name: Compile JavaScripts (webpack)
         run: NODE_ENV=production bin/yarn webpack
-      - uses: paambaati/codeclimate-action@v2.7.5
+      - uses: paambaati/codeclimate-action@v6.0.0
         env:
           CC_TEST_REPORTER_ID: 74e589ede57e23f089cbbd2eee75be23a93b5ace7b5cfce58213cd3f21447147
         with:
