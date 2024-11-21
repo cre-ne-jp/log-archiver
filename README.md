@@ -9,13 +9,14 @@ IRC ボットを常駐させることでチャットログをチャンネル単�
 ## 動作環境
 
 * Linux または OSX
-* Ruby 3.0.0 以降
-* MySQL または MariaDB
+* Ruby 3.2.0 以降
+* NodeJS 18.x 以降
+* MySQL または MariaDB と Mroonga プラグイン
 * Redis
 
 ## インストール
 
-[MySQL](https://www-jp.mysql.com/) もしくは [MariaDB](https://mariadb.org/) と、[Redis](https://redis.io/) をインストールしていない場合はインストールしてください。
+[MariaDB](https://mariadb.org/) もしくは [MySQL](https://www-jp.mysql.com/) と、[Redis](https://redis.io/) をインストールしていない場合はインストールしてください。
 
 全文検索機能を動作させるため、[Groonga](http://groonga.org/ja/) および [Mroonga](http://mroonga.org/ja/) のインストールが必要です。Mroonga 公式サイトより[インストール方法](http://mroonga.org/ja/docs/install.html)を参照してインストールを行ってください。
 
@@ -33,6 +34,7 @@ gem install bundler
 
 ```bash
 bundle install
+corepack enable
 yarn install
 ```
 
@@ -43,7 +45,7 @@ yarn install
 * gcc-c++
 * libicu-devel
 * zlib-devel
-* mariadb-devel
+* mariadb-devel (もしくは mysql-devel)
 
 具体的なインストール手順は [インストール](doc/install.md) を参照してください。
 

@@ -30,6 +30,7 @@ cd log-archiver
 
 ```bash
 bundle install --deployment --path vendor/bundle
+corepack enable
 yarn install
 ```
 
