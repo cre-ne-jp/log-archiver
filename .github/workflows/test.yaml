@@ -14,7 +14,6 @@ jobs:
       fail-fast: false
       matrix:
         ruby:
-          - '3.1'
           - '3.2'
           - '3.3'
     runs-on: ubuntu-latest
@@ -24,7 +23,7 @@ jobs:
       TZ: Asia/Tokyo
     services:
       db:
-        image: koichan779/mroonga:14.04
+        image: koichan779/mroonga:14.10-1
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: 1
         ports:
@@ -41,15 +40,19 @@ jobs:
 
           # runs 'bundle install' and caches installed gems automatically
           bundler-cache: true
-      # 参考: https://igarashikuniaki.net/diary/20200210.html
-      - name: Install JavaScript packages
+      - name: 'Enable corepack'
+        run: corepack enable
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/hydrogen'
+          cache: 'yarn'
+      - name: Compile JavaScripts (webpack)
         run: |
           yarn install
+          NODE_ENV=production bin/yarn webpack
       - name: Setup database
         run: |
           cp config/database.yml.github_actions config/database.yml
           bin/rails db:setup
-      - name: Compile JavaScripts (webpack)
-        run: NODE_ENV=production bin/yarn webpack
       - name: Run tests
         run: bin/rails test
