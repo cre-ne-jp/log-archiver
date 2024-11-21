@@ -15,6 +15,13 @@ Rails.application.configure do
   # Turn on fragment caching in view templates.
   config.action_controller.perform_caching = true
 
+  # Compress CSS using a preprocessor.
+  config.assets.js_compressor = :terser
+  config.assets.terser = { output: { ascii_only: false } }
+
+  # Do not fall back to assets pipeline if a precompiled asset is missed.
+  config.assets.compile = false
+
   # Cache assets for far-future expiry since they are all digest stamped.
   config.public_file_server.headers = { "cache-control" => "public, max-age=#{1.year.to_i}" }
 
@@ -70,7 +77,7 @@ Rails.application.configure do
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
-  config.i18n.fallbacks = true
+  #config.i18n.fallbacks = true
   config.i18n.fallbacks = [I18n.default_locale]
 
   # Do not dump schema after migrations.
