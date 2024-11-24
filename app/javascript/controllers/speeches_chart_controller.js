@@ -1,7 +1,7 @@
 /* eslint no-console:0 */
 
 import { Controller } from "stimulus";
-import Chart from "chart.js";
+import { Chart } from "chart.js/auto";
 import MessageListStyle from "../message_list_style";
 
 class SpeechesChartController extends Controller {
@@ -44,37 +44,37 @@ class SpeechesChartController extends Controller {
       data,
       options: {
         scales: {
-          yAxes: [{
-            ticks: { beginAtZero: true },
-          }]
-        },
-
-        legend: { display: false },
-
-        tooltips: {
-          callbacks: {
-            // SpeechesChartControllerのthisを使いたいため、アロー関数にする
-            title: (tooltipItems, _data) => {
-              const tooltipItem = tooltipItems[0];
-              return this.dates[tooltipItem.index];
-            },
+          y: {
+	    beginAtZero: true
           }
         },
 
-        hover: {
-          // SpeechesChartControllerのthisを使いたいため、アロー関数にする
-          onHover: (_e, elements) => {
-            const chartClassList = this.chartTarget.classList;
+        plugins: {
+          legend: { display: false },
 
-            if (elements[0] === undefined) {
-              chartClassList.remove(this.linkClass);
-            } else {
-              chartClassList.add(this.linkClass);
+          tooltip: {
+            callbacks: {
+              // SpeechesChartControllerのthisを使いたいため、アロー関数にする
+              title: (tooltipItems, _data) => {
+                const tooltipItem = tooltipItems[0];
+                return this.dates[tooltipItem.dataIndex];
+	      },
             }
+          },
+        },
+
+        // SpeechesChartControllerのthisを使いたいため、アロー関数にする
+        onHover: (_e, elements) => {
+          const chartClassList = this.chartTarget.classList;
+
+          if (elements[0] === undefined) {
+            chartClassList.remove(this.linkClass);
+          } else {
+            chartClassList.add(this.linkClass);
           }
         },
 
-        animation: { duration: 400 },
+        animation: { active: { duration: 400 } },
       },
     });
   }
@@ -84,14 +84,16 @@ class SpeechesChartController extends Controller {
    * @param {MouseEvent} e クリックに関するマウスイベント。
    */
   goToDayPage(e) {
-    const activePoints = this.chart.getElementsAtEvent(e);
+    const activePoints = this.chart.getElementsAtEventForMode(
+      e, 'index', { intersect: true }, false
+    );
     const clicked = activePoints[0];
     if (clicked === undefined) {
       return;
     }
 
     // YYYY-mm-ddの9文字目から→dd
-    const dd = this.dates[clicked._index].slice(8);
+    const dd = this.dates[clicked.index].slice(8);
     const dayPath = `${document.location.pathname}/${dd}`;
     const href = MessageListStyle.get() === "raw" ?
       `${dayPath}?style=raw` : dayPath;
