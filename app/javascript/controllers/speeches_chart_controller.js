@@ -45,7 +45,7 @@ class SpeechesChartController extends Controller {
       options: {
         scales: {
           y: {
-	    beginAtZero: true
+            beginAtZero: true
           }
         },
 
@@ -58,13 +58,13 @@ class SpeechesChartController extends Controller {
               title: (tooltipItems, _data) => {
                 const tooltipItem = tooltipItems[0];
                 return this.dates[tooltipItem.dataIndex];
-	      },
+              },
             }
           },
         },
 
         // SpeechesChartControllerのthisを使いたいため、アロー関数にする
-        onHover: (_e, elements) => {
+        onHover: (_e, elements, _c) => {
           const chartClassList = this.chartTarget.classList;
 
           if (elements[0] === undefined) {
@@ -74,9 +74,11 @@ class SpeechesChartController extends Controller {
           }
         },
 
-        animation: { active: { duration: 400 } },
+        animation: { duration: 400 },
       },
     });
+
+    this.chartTarget.classList.add("chartjs-render-monitor");
   }
 
   /**
