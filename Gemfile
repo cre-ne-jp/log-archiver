@@ -9,7 +9,7 @@ gem 'sysexits'
 gem 'xmlrpc'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 7.2.0'
+gem 'rails', '~> 8.0.0'
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
@@ -96,6 +96,10 @@ gem 'pry-rails'
 
 # ナビゲーションの定義
 gem 'simple-navigation'
+
+# 日本語変換ライブラリ
+# ruby 3.4.x から標準添付されなくなった
+gem 'nkf'
 
 # ActiveJob バックエンド
 gem 'sidekiq', '~> 7.0'
