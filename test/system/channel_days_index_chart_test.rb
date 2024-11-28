@@ -28,7 +28,7 @@ class ChannelDaysIndexChartTest < ApplicationSystemTestCase
   test '月のページにおいてグラフが描画されている' do
     visit(@browse_month.path)
 
-    sleep(0.1)
+    sleep(0.5)
 
     chart_canvas = find_chart_canvas
     assert do
@@ -43,7 +43,7 @@ class ChannelDaysIndexChartTest < ApplicationSystemTestCase
 
     visit(@browse_month.path)
 
-    sleep(0.1)
+    sleep(0.5)
 
     chart_canvas = find_chart_canvas
     chart_canvas.click
@@ -69,7 +69,7 @@ class ChannelDaysIndexChartTest < ApplicationSystemTestCase
 
     visit(@browse_month.path)
 
-    sleep(0.1)
+    sleep(0.5)
 
     chart_canvas = find_chart_canvas
     chart_canvas.click
