@@ -11,7 +11,7 @@
 # Ignore config file.
 /config/database.yml
 /config/ircbot.yml
-/config/unicorn.rb
+/config/puma.rb
 
 # Ignore all logfiles and tempfiles.
 /log/*
