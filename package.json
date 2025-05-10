@@ -4,26 +4,26 @@
     "@fortawesome/free-brands-svg-icons": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
-    "chart.js": "^4.4.8",
+    "chart.js": "^4.4.9",
     "css-loader": "^7.1.2",
     "flatpickr": "^4.6.13",
     "js-cookie": "^3.0.5",
     "mini-css-extract-plugin": "^2.9.2",
-    "sass": "^1.86.1",
+    "sass": "^1.87.0",
     "sass-loader": "^16.0.5",
     "stimulus": "^3.2.2",
-    "webpack": "^5.98.0",
+    "webpack": "^5.99.8",
     "webpack-assets-manifest": "^5.2.1",
     "webpack-cli": "^6.0.1"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.27.0",
-    "eslint": "^9.23.0",
+    "@babel/eslint-parser": "^7.27.1",
+    "eslint": "^9.26.0",
     "webpack-dev-server": "^5.2.1"
   },
   "scripts": {
     "dev": "webpack --progress --color --mode=development",
     "server": "webpack serve --color --mode=development"
   },
-  "packageManager": "yarn@4.6.0"
+  "packageManager": "yarn@4.9.1"
 }
