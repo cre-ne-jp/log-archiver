@@ -9,17 +9,17 @@
     "flatpickr": "^4.6.13",
     "js-cookie": "^3.0.5",
     "mini-css-extract-plugin": "^2.9.2",
-    "sass": "^1.87.0",
+    "sass": "^1.89.2",
     "sass-loader": "^16.0.5",
     "stimulus": "^3.2.2",
-    "webpack": "^5.99.8",
+    "webpack": "^5.99.9",
     "webpack-assets-manifest": "^5.2.1",
     "webpack-cli": "^6.0.1"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.27.1",
-    "eslint": "^9.26.0",
-    "webpack-dev-server": "^5.2.1"
+    "@babel/eslint-parser": "^7.27.5",
+    "eslint": "^9.28.0",
+    "webpack-dev-server": "^5.2.2"
   },
   "scripts": {
     "dev": "webpack --progress --color --mode=development",
