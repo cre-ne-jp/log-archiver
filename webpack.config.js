@@ -1,10 +1,17 @@
 const path = require("path");
-const WebpackAssetsManifest = require("webpack-assets-manifest");
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const { NODE_ENV } = process.env;
 const isProd = NODE_ENV === "production";
+//import { WebpackAssetsManifest } from Webpack-assets-manifest;
+//const { WebpackAssetsManifest };
+const WebpackAssetsManifest = require("webpack-assets-manifest");
+
+const WebpackAssetsManifestConstructor =
+  "WebpackAssetsManifest" in WebpackAssetsManifest
+  ? WebpackAssetsManifest.WebpackAssetsManifest
+  : WebpackAssetsManifest;
 
 module.exports = {
   mode: isProd ? "production" : "development",
@@ -42,7 +49,7 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: isProd ? "[name]-[contenthash].css" : "[name].css",
     }),
-    new WebpackAssetsManifest({
+    new WebpackAssetsManifestConstructor({
       entrypoints: true,
       writeToDisk: true,
       publicPath: true,
