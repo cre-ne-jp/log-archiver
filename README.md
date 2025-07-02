@@ -10,7 +10,7 @@ IRC ボットを常駐させることでチャットログをチャンネル単�
 
 * Linux または OSX
 * Ruby 3.2.0 以降
-* NodeJS 18.x 以降
+* NodeJS 20.10 以降
 * MySQL または MariaDB と Mroonga プラグイン
 * Redis
 
