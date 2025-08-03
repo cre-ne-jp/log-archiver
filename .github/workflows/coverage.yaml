@@ -7,6 +7,10 @@ on:
       - README.md
   pull_request: {}
 
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
   test:
     name: "Ruby 3.3: test and coverage measurement"
@@ -50,8 +54,7 @@ jobs:
         run: |
           cp config/database.yml.github_actions config/database.yml
           bin/rails db:setup
-      - uses: paambaati/codeclimate-action@v9.0.0
-        env:
-          CC_TEST_REPORTER_ID: 74e589ede57e23f089cbbd2eee75be23a93b5ace7b5cfce58213cd3f21447147
+      - uses: qltysh/qlty-action/coverage@v1
         with:
-          coverageCommand: bin/rails test
+          oidc: true
+          files: coverage/.resultset.json
