@@ -121,7 +121,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fortawesome/fontawesome-svg-core@npm:^7.0.0":
+"@fortawesome/fontawesome-svg-core@npm:^7.1.0":
   version: 7.1.0
   resolution: "@fortawesome/fontawesome-svg-core@npm:7.1.0"
   dependencies:
@@ -130,7 +130,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fortawesome/free-brands-svg-icons@npm:^7.0.0":
+"@fortawesome/free-brands-svg-icons@npm:^7.1.0":
   version: 7.1.0
   resolution: "@fortawesome/free-brands-svg-icons@npm:7.1.0"
   dependencies:
@@ -139,7 +139,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fortawesome/free-solid-svg-icons@npm:^7.0.0":
+"@fortawesome/free-solid-svg-icons@npm:^7.1.0":
   version: 7.1.0
   resolution: "@fortawesome/free-solid-svg-icons@npm:7.1.0"
   dependencies:
@@ -3746,9 +3746,9 @@ __metadata:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@babel/eslint-parser": "npm:^7.28.4"
-    "@fortawesome/fontawesome-svg-core": "npm:^7.0.0"
-    "@fortawesome/free-brands-svg-icons": "npm:^7.0.0"
-    "@fortawesome/free-solid-svg-icons": "npm:^7.0.0"
+    "@fortawesome/fontawesome-svg-core": "npm:^7.1.0"
+    "@fortawesome/free-brands-svg-icons": "npm:^7.1.0"
+    "@fortawesome/free-solid-svg-icons": "npm:^7.1.0"
     case-sensitive-paths-webpack-plugin: "npm:^2.4.0"
     chart.js: "npm:^4.5.0"
     css-loader: "npm:^7.1.2"
