@@ -97,6 +97,10 @@ gem 'pry-rails'
 # ナビゲーションの定義
 gem 'simple-navigation'
 
+# ruby 4.0.x から標準添付されなくなった
+# simple-navigation が依存する
+gem 'ostruct'
+
 # 日本語変換ライブラリ
 # ruby 3.4.x から標準添付されなくなった
 gem 'nkf'

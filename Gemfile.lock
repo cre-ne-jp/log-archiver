@@ -270,6 +270,7 @@ GEM
       rack (>= 1.2, < 4)
       snaky_hash (~> 2.0, >= 2.0.3)
       version_gem (~> 1.1, >= 1.1.9)
+    ostruct (0.6.3)
     parallel (1.27.0)
     parser (3.3.10.1)
       ast (~> 2.4.1)
@@ -520,6 +521,7 @@ DEPENDENCIES
   net-smtp
   nkf
   nokogiri
+  ostruct
   pry-rails
   puma (< 7)
   puma_worker_killer
