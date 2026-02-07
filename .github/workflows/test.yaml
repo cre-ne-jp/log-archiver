@@ -25,7 +25,7 @@ jobs:
       TZ: Asia/Tokyo
     services:
       db:
-        image: koichan779/mroonga:15.00
+        image: koichan779/mroonga:15.25
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: 1
         ports:
@@ -35,7 +35,7 @@ jobs:
         ports:
           - 6379:6379
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
@@ -44,9 +44,9 @@ jobs:
           bundler-cache: true
       - name: 'Enable corepack'
         run: corepack enable
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: 'lts/iron'
+          node-version: 'lts/jod'
           cache: 'yarn'
       - name: Compile JavaScripts (webpack)
         run: |
