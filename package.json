@@ -10,16 +10,16 @@
     "js-cookie": "^3.0.8",
     "mini-css-extract-plugin": "^2.10.2",
     "sass": "^1.104.0",
-    "sass-loader": "^16.0.8",
+    "sass-loader": "^17.0.1",
     "stimulus": "^3.2.2",
     "webpack": "^5.110.3",
     "webpack-assets-manifest": "^6.5.2",
-    "webpack-cli": "^6.0.1"
+    "webpack-cli": "^7.2.3"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.29.7",
     "eslint": "^9.39.5",
-    "webpack-dev-server": "^5.2.6"
+    "webpack-dev-server": "^6.0.0"
   },
   "scripts": {
     "dev": "webpack --progress --color --mode=development",
