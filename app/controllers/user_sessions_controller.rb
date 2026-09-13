@@ -8,7 +8,7 @@ class UserSessionsController < ApplicationController
   def create
     @user = login(params[:username], params[:password])
     if @user
-      redirect_back_or_to(root_path, success: t('views.flash.login_successful'))
+      redirect_to_before_login_path(root_path, success: t('views.flash.login_successful'))
     else
       flash.now[:danger] = t('views.flash.login_failed')
       render('new')

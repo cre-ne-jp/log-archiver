@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
+gem 'json', '<3'
+
 # IRC framework
 gem 'mcinch'
 gem 'lumberjack'
